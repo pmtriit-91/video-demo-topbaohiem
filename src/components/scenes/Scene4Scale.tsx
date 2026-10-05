@@ -4,7 +4,10 @@ import { Network, Users, TrendingUp, Handshake, CheckCircle, ShieldCheck } from 
 
 export const Scene4Scale: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, width, height } = useVideoConfig();
+
+  const is4K = width >= 3840;
+  const s = is4K ? 1 : width / 3840;
 
   // Entrance
   const sceneEntrance = spring({
@@ -43,8 +46,8 @@ export const Scene4Scale: React.FC = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
-        padding: "50px 80px",
+        justifyContent: "space-between",
+        padding: `${Math.round(35 * s)}px ${Math.round(60 * s)}px`,
         transform: `scale(${exitScale})`,
         opacity: exitOpacity,
         zIndex: 3,
@@ -56,9 +59,9 @@ export const Scene4Scale: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          marginBottom: "35px",
+          marginBottom: `${Math.round(18 * s)}px`,
           textAlign: "center",
-          transform: `translateY(${interpolate(sceneEntrance, [0, 1], [-40, 0])}px)`,
+          transform: `translateY(${interpolate(sceneEntrance, [0, 1], [-30 * s, 0])}px)`,
           opacity: sceneEntrance,
         }}
       >
@@ -66,24 +69,24 @@ export const Scene4Scale: React.FC = () => {
           style={{
             display: "inline-flex",
             alignItems: "center",
-            gap: "10px",
-            padding: "8px 26px",
+            gap: `${Math.round(8 * s)}px`,
+            padding: `${Math.round(6 * s)}px ${Math.round(20 * s)}px`,
             borderRadius: "999px",
             background: "rgba(59, 130, 246, 0.12)",
             border: "1px solid rgba(59, 130, 246, 0.4)",
             color: "#60a5fa",
-            fontSize: "20px",
+            fontSize: `${Math.max(10, Math.round(15 * s))}px`,
             fontWeight: 700,
             letterSpacing: "0.1em",
             textTransform: "uppercase",
-            marginBottom: "14px",
+            marginBottom: `${Math.round(8 * s)}px`,
           }}
         >
-          <Network size={22} /> TẦNG 3: CỖ MÁY BÙNG NỔ QUY MÔ & DOANH THU (SCALE ENGINE)
+          <Network size={Math.round(18 * s)} /> TẦNG 3: CỖ MÁY BÙNG NỔ QUY MÔ & DOANH THU (SCALE ENGINE)
         </div>
         <h2
           style={{
-            fontSize: "56px",
+            fontSize: `${Math.max(20, Math.round(42 * s))}px`,
             fontWeight: 800,
             color: "#ffffff",
             margin: 0,
@@ -94,15 +97,16 @@ export const Scene4Scale: React.FC = () => {
         </h2>
       </div>
 
-      {/* Bento Grid 2 Cột Sức Mạnh Đối Tác */}
+      {/* Grid 2 Cột Sức Mạnh Đối Tác */}
       <div
         style={{
           display: "grid",
           gridTemplateColumns: "1.2fr 1fr",
-          gap: "40px",
+          gap: `${Math.round(28 * s)}px`,
           width: "100%",
           maxWidth: "3400px",
-          height: "1250px",
+          flex: 1,
+          minHeight: 0,
         }}
       >
         {/* KHỐI 1: CÂY HỆ THỐNG PHÂN TẦNG HOA HỒNG KOL / CTV */}
@@ -111,10 +115,10 @@ export const Scene4Scale: React.FC = () => {
             position: "relative",
             background: "rgba(15, 23, 42, 0.88)",
             border: "2px solid rgba(0, 229, 255, 0.45)",
-            borderRadius: "28px",
+            borderRadius: `${Math.round(22 * s)}px`,
             overflow: "hidden",
             boxShadow: "0 25px 50px -12px rgba(0, 229, 255, 0.25)",
-            transform: `translateY(${interpolate(card1Spring, [0, 1], [60, 0])}px)`,
+            transform: `translateY(${interpolate(card1Spring, [0, 1], [60 * s, 0])}px)`,
             opacity: card1Spring,
             display: "flex",
             flexDirection: "column",
@@ -122,7 +126,7 @@ export const Scene4Scale: React.FC = () => {
         >
           <div
             style={{
-              padding: "20px 30px",
+              padding: `${Math.round(14 * s)}px ${Math.round(24 * s)}px`,
               background: "rgba(0, 229, 255, 0.12)",
               borderBottom: "1px solid rgba(0, 229, 255, 0.25)",
               display: "flex",
@@ -130,9 +134,9 @@ export const Scene4Scale: React.FC = () => {
               justifyContent: "space-between",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <Users color="#00e5ff" size={28} />
-              <span style={{ fontSize: "24px", fontWeight: 700, color: "#ffffff" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: `${Math.round(10 * s)}px` }}>
+              <Users color="#00e5ff" size={Math.round(22 * s)} />
+              <span style={{ fontSize: `${Math.max(12, Math.round(18 * s))}px`, fontWeight: 700, color: "#ffffff" }}>
                 Hệ Sinh Thái 75+ Đại Lý & KOL Affiliate
               </span>
             </div>
@@ -140,9 +144,9 @@ export const Scene4Scale: React.FC = () => {
               style={{
                 background: "#00e5ff",
                 color: "#070b14",
-                padding: "6px 16px",
+                padding: `${Math.round(4 * s)}px ${Math.round(12 * s)}px`,
                 borderRadius: "999px",
-                fontSize: "16px",
+                fontSize: `${Math.max(10, Math.round(12 * s))}px`,
                 fontWeight: 800,
               }}
             >
@@ -165,11 +169,11 @@ export const Scene4Scale: React.FC = () => {
             <div
               style={{
                 position: "absolute",
-                bottom: "35px",
-                left: "30px",
-                right: "30px",
-                padding: "22px 28px",
-                borderRadius: "20px",
+                bottom: `${Math.round(18 * s)}px`,
+                left: `${Math.round(18 * s)}px`,
+                right: `${Math.round(18 * s)}px`,
+                padding: `${Math.round(14 * s)}px ${Math.round(20 * s)}px`,
+                borderRadius: `${Math.round(16 * s)}px`,
                 background: "rgba(10, 15, 30, 0.95)",
                 border: "1px solid rgba(0, 229, 255, 0.5)",
                 display: "flex",
@@ -178,8 +182,8 @@ export const Scene4Scale: React.FC = () => {
               }}
             >
               <div>
-                <div style={{ fontSize: "16px", color: "#94a3b8" }}>Quản trị mã giới thiệu riêng (refCode):</div>
-                <div style={{ fontSize: "22px", color: "#ffffff", fontWeight: 700, marginTop: "4px" }}>
+                <div style={{ fontSize: `${Math.max(9, Math.round(12 * s))}px`, color: "#94a3b8" }}>Quản trị mã giới thiệu riêng (refCode):</div>
+                <div style={{ fontSize: `${Math.max(11, Math.round(16 * s))}px`, color: "#ffffff", fontWeight: 700, marginTop: "2px" }}>
                   Tự động phân chia hoa hồng đa cấp • Không lo sổ sách
                 </div>
               </div>
@@ -187,17 +191,17 @@ export const Scene4Scale: React.FC = () => {
                 style={{
                   background: "rgba(16, 185, 129, 0.15)",
                   border: "1px solid #10b981",
-                  borderRadius: "14px",
-                  padding: "10px 20px",
+                  borderRadius: `${Math.round(10 * s)}px`,
+                  padding: `${Math.round(6 * s)}px ${Math.round(14 * s)}px`,
                   color: "#10b981",
-                  fontSize: "18px",
+                  fontSize: `${Math.max(10, Math.round(13 * s))}px`,
                   fontWeight: 700,
                   display: "flex",
                   alignItems: "center",
-                  gap: "8px",
+                  gap: "6px",
                 }}
               >
-                <CheckCircle size={20} /> VẬN HÀNH 24/7
+                <CheckCircle size={Math.round(15 * s)} /> VẬN HÀNH 24/7
               </div>
             </div>
           </div>
@@ -209,10 +213,10 @@ export const Scene4Scale: React.FC = () => {
             position: "relative",
             background: "rgba(15, 23, 42, 0.88)",
             border: "2px solid rgba(59, 130, 246, 0.45)",
-            borderRadius: "28px",
+            borderRadius: `${Math.round(22 * s)}px`,
             overflow: "hidden",
             boxShadow: "0 25px 50px -12px rgba(59, 130, 246, 0.25)",
-            transform: `translateY(${interpolate(card2Spring, [0, 1], [60, 0])}px)`,
+            transform: `translateY(${interpolate(card2Spring, [0, 1], [60 * s, 0])}px)`,
             opacity: card2Spring,
             display: "flex",
             flexDirection: "column",
@@ -220,7 +224,7 @@ export const Scene4Scale: React.FC = () => {
         >
           <div
             style={{
-              padding: "20px 30px",
+              padding: `${Math.round(14 * s)}px ${Math.round(24 * s)}px`,
               background: "rgba(59, 130, 246, 0.12)",
               borderBottom: "1px solid rgba(59, 130, 246, 0.25)",
               display: "flex",
@@ -228,9 +232,9 @@ export const Scene4Scale: React.FC = () => {
               justifyContent: "space-between",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <Handshake color="#60a5fa" size={28} />
-              <span style={{ fontSize: "24px", fontWeight: 700, color: "#ffffff" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: `${Math.round(10 * s)}px` }}>
+              <Handshake color="#60a5fa" size={Math.round(22 * s)} />
+              <span style={{ fontSize: `${Math.max(12, Math.round(18 * s))}px`, fontWeight: 700, color: "#ffffff" }}>
                 Kết Nối Trực Tiếp API Nhà Bảo Hiểm
               </span>
             </div>
@@ -238,9 +242,9 @@ export const Scene4Scale: React.FC = () => {
               style={{
                 background: "#3b82f6",
                 color: "#ffffff",
-                padding: "6px 16px",
+                padding: `${Math.round(4 * s)}px ${Math.round(12 * s)}px`,
                 borderRadius: "999px",
-                fontSize: "16px",
+                fontSize: `${Math.max(10, Math.round(12 * s))}px`,
                 fontWeight: 800,
               }}
             >
@@ -263,26 +267,26 @@ export const Scene4Scale: React.FC = () => {
             <div
               style={{
                 position: "absolute",
-                bottom: "35px",
-                left: "30px",
-                right: "30px",
-                padding: "22px 28px",
-                borderRadius: "20px",
+                bottom: `${Math.round(18 * s)}px`,
+                left: `${Math.round(18 * s)}px`,
+                right: `${Math.round(18 * s)}px`,
+                padding: `${Math.round(14 * s)}px ${Math.round(20 * s)}px`,
+                borderRadius: `${Math.round(16 * s)}px`,
                 background: "rgba(10, 15, 30, 0.95)",
                 border: "1px solid rgba(59, 130, 246, 0.5)",
                 display: "flex",
                 flexDirection: "column",
-                gap: "10px",
+                gap: `${Math.round(6 * s)}px`,
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#60a5fa", fontSize: "16px", fontWeight: 700 }}>
-                <ShieldCheck size={20} />
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#60a5fa", fontSize: `${Math.max(10, Math.round(13 * s))}px`, fontWeight: 700 }}>
+                <ShieldCheck size={Math.round(16 * s)} />
                 ĐÃ LIÊN KẾT CHÍNH THỨC:
               </div>
-              <div style={{ fontSize: "20px", color: "#ffffff", fontWeight: 700 }}>
+              <div style={{ fontSize: `${Math.max(11, Math.round(16 * s))}px`, color: "#ffffff", fontWeight: 700 }}>
                 Bảo Việt • PVI • PTI • PJICO • Bảo Long • VNPAY
               </div>
-              <div style={{ fontSize: "15px", color: "#94a3b8" }}>
+              <div style={{ fontSize: `${Math.max(9, Math.round(12 * s))}px`, color: "#94a3b8" }}>
                 Tự động cập nhật biểu phí, đồng bộ điều khoản bồi thường theo thị trường.
               </div>
             </div>

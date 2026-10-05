@@ -5,7 +5,7 @@ node_modules/
 
 # Remotion Cache & Builds
 .remotion/
-out/*.mp4
+out/
 
 # Environment & logs
 .env

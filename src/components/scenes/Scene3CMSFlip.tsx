@@ -4,7 +4,10 @@ import { Database, CheckCircle2, ShieldAlert, Cpu, BarChart3, Clock, ArrowUpRigh
 
 export const Scene3CMSFlip: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, width, height } = useVideoConfig();
+
+  const is4K = width >= 3840;
+  const s = is4K ? 1 : width / 3840;
 
   // 3D Flip in từ góc xoay sau Scene 2 (frames 0 -> 40)
   const flipEntrance = spring({
@@ -20,7 +23,7 @@ export const Scene3CMSFlip: React.FC = () => {
   });
 
   // Camera lướt chậm trên bề mặt Dashboard Panorama (frames 0 -> 1200)
-  const panoramicScrollY = interpolate(frame, [0, 1200], [0, -350], {
+  const panoramicScrollY = interpolate(frame, [0, 1200], [0, -320 * s], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -66,8 +69,8 @@ export const Scene3CMSFlip: React.FC = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
-        padding: "50px 80px",
+        justifyContent: "space-between",
+        padding: `${Math.round(35 * s)}px ${Math.round(60 * s)}px`,
         transform: `perspective(1800px) rotateY(${sceneRotateY}deg) scale(${sceneScale * exitScale})`,
         opacity: sceneOpacity * exitOpacity,
         zIndex: 3,
@@ -79,7 +82,7 @@ export const Scene3CMSFlip: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          marginBottom: "35px",
+          marginBottom: `${Math.round(18 * s)}px`,
           textAlign: "center",
         }}
       >
@@ -87,24 +90,24 @@ export const Scene3CMSFlip: React.FC = () => {
           style={{
             display: "inline-flex",
             alignItems: "center",
-            gap: "10px",
-            padding: "8px 26px",
+            gap: `${Math.round(8 * s)}px`,
+            padding: `${Math.round(6 * s)}px ${Math.round(20 * s)}px`,
             borderRadius: "999px",
             background: "rgba(16, 185, 129, 0.12)",
             border: "1px solid rgba(16, 185, 129, 0.4)",
             color: "#10b981",
-            fontSize: "20px",
+            fontSize: `${Math.max(10, Math.round(15 * s))}px`,
             fontWeight: 700,
             letterSpacing: "0.1em",
             textTransform: "uppercase",
-            marginBottom: "14px",
+            marginBottom: `${Math.round(8 * s)}px`,
           }}
         >
-          <Cpu size={22} /> TẦNG 2: CỖ MÁY VẬN HÀNH NGẦM (CMS BACK-OFFICE)
+          <Cpu size={Math.round(18 * s)} /> TẦNG 2: CỖ MÁY VẬN HÀNH NGẦM (CMS BACK-OFFICE)
         </div>
         <h2
           style={{
-            fontSize: "56px",
+            fontSize: `${Math.max(20, Math.round(42 * s))}px`,
             fontWeight: 800,
             color: "#ffffff",
             margin: 0,
@@ -119,11 +122,12 @@ export const Scene3CMSFlip: React.FC = () => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1.6fr 1fr",
-          gap: "40px",
+          gridTemplateColumns: "1.55fr 1fr",
+          gap: `${Math.round(28 * s)}px`,
           width: "100%",
           maxWidth: "3400px",
-          height: "1280px",
+          flex: 1,
+          minHeight: 0,
         }}
       >
         {/* CỘT TRÁI: BỀ MẶT DASHBOARD NẰM NGHIÊNG 3D VỚI CAMERA TRƯỢT */}
@@ -132,7 +136,7 @@ export const Scene3CMSFlip: React.FC = () => {
             position: "relative",
             background: "rgba(10, 15, 29, 0.9)",
             border: "2px solid rgba(16, 185, 129, 0.4)",
-            borderRadius: "28px",
+            borderRadius: `${Math.round(22 * s)}px`,
             overflow: "hidden",
             boxShadow: "0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(16, 185, 129, 0.2)",
             display: "flex",
@@ -142,7 +146,7 @@ export const Scene3CMSFlip: React.FC = () => {
           {/* Top Bar giả lập Window Admin */}
           <div
             style={{
-              padding: "18px 28px",
+              padding: `${Math.round(12 * s)}px ${Math.round(20 * s)}px`,
               background: "rgba(15, 23, 42, 0.95)",
               borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
               display: "flex",
@@ -150,26 +154,26 @@ export const Scene3CMSFlip: React.FC = () => {
               justifyContent: "space-between",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-              <div style={{ display: "flex", gap: "8px" }}>
-                <div style={{ width: "14px", height: "14px", borderRadius: "50%", background: "#ef4444" }} />
-                <div style={{ width: "14px", height: "14px", borderRadius: "50%", background: "#f59e0b" }} />
-                <div style={{ width: "14px", height: "14px", borderRadius: "50%", background: "#10b981" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: `${Math.round(10 * s)}px` }}>
+              <div style={{ display: "flex", gap: "6px" }}>
+                <div style={{ width: `${Math.round(10 * s)}px`, height: `${Math.round(10 * s)}px`, borderRadius: "50%", background: "#ef4444" }} />
+                <div style={{ width: `${Math.round(10 * s)}px`, height: `${Math.round(10 * s)}px`, borderRadius: "50%", background: "#f59e0b" }} />
+                <div style={{ width: `${Math.round(10 * s)}px`, height: `${Math.round(10 * s)}px`, borderRadius: "50%", background: "#10b981" }} />
               </div>
-              <span style={{ fontSize: "18px", color: "#94a3b8", fontWeight: 600 }}>
+              <span style={{ fontSize: `${Math.max(11, Math.round(14 * s))}px`, color: "#94a3b8", fontWeight: 600 }}>
                 cms.topbaohiem.vn • Trung Tâm Chỉ Huy
               </span>
             </div>
 
             {/* 3 Thẻ Chỉ Số Nổi Nhanh */}
-            <div style={{ display: "flex", gap: "25px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <Clock size={18} color="#00e5ff" />
-                <span style={{ fontSize: "16px", color: "#e2e8f0" }}>Thời gian thực (Realtime)</span>
+            <div style={{ display: "flex", gap: `${Math.round(20 * s)}px` }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <Clock size={Math.round(15 * s)} color="#00e5ff" />
+                <span style={{ fontSize: `${Math.max(10, Math.round(13 * s))}px`, color: "#e2e8f0" }}>Thời gian thực (Realtime)</span>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <CheckCircle2 size={18} color="#10b981" />
-                <span style={{ fontSize: "16px", color: "#10b981", fontWeight: 700 }}>Hệ thống: SẴN SÀNG</span>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <CheckCircle2 size={Math.round(15 * s)} color="#10b981" />
+                <span style={{ fontSize: `${Math.max(10, Math.round(13 * s))}px`, color: "#10b981", fontWeight: 700 }}>Hệ thống: SẴN SÀNG</span>
               </div>
             </div>
           </div>
@@ -200,12 +204,12 @@ export const Scene3CMSFlip: React.FC = () => {
             <div
               style={{
                 position: "absolute",
-                top: "30px",
-                left: "30px",
-                right: "30px",
+                top: `${Math.round(20 * s)}px`,
+                left: `${Math.round(20 * s)}px`,
+                right: `${Math.round(20 * s)}px`,
                 display: "grid",
                 gridTemplateColumns: "repeat(3, 1fr)",
-                gap: "20px",
+                gap: `${Math.round(14 * s)}px`,
                 zIndex: 10,
               }}
             >
@@ -214,18 +218,18 @@ export const Scene3CMSFlip: React.FC = () => {
                 style={{
                   background: "rgba(10, 15, 30, 0.92)",
                   border: "1px solid rgba(0, 229, 255, 0.5)",
-                  borderRadius: "20px",
-                  padding: "20px",
+                  borderRadius: `${Math.round(16 * s)}px`,
+                  padding: `${Math.round(14 * s)}px`,
                   backdropFilter: "blur(14px)",
                   boxShadow: "0 10px 30px rgba(0, 229, 255, 0.2)",
                 }}
               >
-                <div style={{ fontSize: "16px", color: "#94a3b8", marginBottom: "6px" }}>Tổng Hợp Đồng Thực Tế</div>
-                <div className="font-mono-numbers" style={{ fontSize: "40px", fontWeight: 800, color: "#ffffff" }}>
+                <div style={{ fontSize: `${Math.max(9, Math.round(12 * s))}px`, color: "#94a3b8", marginBottom: "4px" }}>Tổng Hợp Đồng Thực Tế</div>
+                <div className="font-mono-numbers" style={{ fontSize: `${Math.max(16, Math.round(30 * s))}px`, fontWeight: 800, color: "#ffffff" }}>
                   {contractsCounter}+
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#10b981", fontSize: "15px", marginTop: "4px" }}>
-                  <ArrowUpRight size={16} /> +24% tháng này
+                <div style={{ display: "flex", alignItems: "center", gap: "4px", color: "#10b981", fontSize: `${Math.max(9, Math.round(12 * s))}px`, marginTop: "2px" }}>
+                  <ArrowUpRight size={Math.round(13 * s)} /> +24% tháng này
                 </div>
               </div>
 
@@ -234,17 +238,17 @@ export const Scene3CMSFlip: React.FC = () => {
                 style={{
                   background: "rgba(10, 15, 30, 0.92)",
                   border: "1px solid rgba(16, 185, 129, 0.5)",
-                  borderRadius: "20px",
-                  padding: "20px",
+                  borderRadius: `${Math.round(16 * s)}px`,
+                  padding: `${Math.round(14 * s)}px`,
                   backdropFilter: "blur(14px)",
                   boxShadow: "0 10px 30px rgba(16, 185, 129, 0.2)",
                 }}
               >
-                <div style={{ fontSize: "16px", color: "#94a3b8", marginBottom: "6px" }}>Tổng Doanh Thu Phí</div>
-                <div className="font-mono-numbers" style={{ fontSize: "36px", fontWeight: 800, color: "#10b981" }}>
+                <div style={{ fontSize: `${Math.max(9, Math.round(12 * s))}px`, color: "#94a3b8", marginBottom: "4px" }}>Tổng Doanh Thu Phí</div>
+                <div className="font-mono-numbers" style={{ fontSize: `${Math.max(14, Math.round(26 * s))}px`, fontWeight: 800, color: "#10b981" }}>
                   {Math.floor(revenueCounter).toLocaleString("vi-VN")} đ
                 </div>
-                <div style={{ color: "#94a3b8", fontSize: "14px", marginTop: "4px" }}>Cổng VNPAY ghi nhận tức thì</div>
+                <div style={{ color: "#94a3b8", fontSize: `${Math.max(8, Math.round(11 * s))}px`, marginTop: "2px" }}>Cổng VNPAY ghi nhận tức thì</div>
               </div>
 
               {/* KPI 3 */}
@@ -252,17 +256,17 @@ export const Scene3CMSFlip: React.FC = () => {
                 style={{
                   background: "rgba(10, 15, 30, 0.92)",
                   border: "1px solid rgba(251, 191, 36, 0.5)",
-                  borderRadius: "20px",
-                  padding: "20px",
+                  borderRadius: `${Math.round(16 * s)}px`,
+                  padding: `${Math.round(14 * s)}px`,
                   backdropFilter: "blur(14px)",
                   boxShadow: "0 10px 30px rgba(251, 191, 36, 0.2)",
                 }}
               >
-                <div style={{ fontSize: "16px", color: "#94a3b8", marginBottom: "6px" }}>Tốc Độ Cấp Ấn Chỉ</div>
-                <div className="font-mono-numbers" style={{ fontSize: "40px", fontWeight: 800, color: "#fbbf24" }}>
+                <div style={{ fontSize: `${Math.max(9, Math.round(12 * s))}px`, color: "#94a3b8", marginBottom: "4px" }}>Tốc Độ Cấp Ấn Chỉ</div>
+                <div className="font-mono-numbers" style={{ fontSize: `${Math.max(16, Math.round(30 * s))}px`, fontWeight: 800, color: "#fbbf24" }}>
                   03 GIÂY
                 </div>
-                <div style={{ color: "#10b981", fontSize: "15px", marginTop: "4px" }}>100% Không dùng giấy tờ</div>
+                <div style={{ color: "#10b981", fontSize: `${Math.max(8, Math.round(11 * s))}px`, marginTop: "2px" }}>100% Không dùng giấy tờ</div>
               </div>
             </div>
           </div>
@@ -273,7 +277,8 @@ export const Scene3CMSFlip: React.FC = () => {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "25px",
+            gap: `${Math.round(16 * s)}px`,
+            height: "100%",
           }}
         >
           {/* Card Phê Duyệt Tự Động */}
@@ -281,31 +286,31 @@ export const Scene3CMSFlip: React.FC = () => {
             style={{
               background: "rgba(15, 23, 42, 0.9)",
               border: `2px solid ${isApproved ? "#10b981" : "#f59e0b"}`,
-              borderRadius: "24px",
-              padding: "24px 30px",
+              borderRadius: `${Math.round(18 * s)}px`,
+              padding: `${Math.round(16 * s)}px ${Math.round(20 * s)}px`,
               boxShadow: `0 15px 35px ${isApproved ? "rgba(16, 185, 129, 0.25)" : "rgba(245, 158, 11, 0.2)"}`,
               transition: "border 0.4s ease, box-shadow 0.4s ease",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-              <span style={{ fontSize: "18px", color: "#94a3b8", fontWeight: 600 }}>TRẠNG THÁI XỬ LÝ ĐƠN HÀNG:</span>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: `${Math.round(8 * s)}px` }}>
+              <span style={{ fontSize: `${Math.max(10, Math.round(13 * s))}px`, color: "#94a3b8", fontWeight: 600 }}>TRẠNG THÁI XỬ LÝ ĐƠN HÀNG:</span>
               <span
                 style={{
                   background: isApproved ? "#10b981" : "#f59e0b",
                   color: "#070b14",
-                  padding: "6px 18px",
+                  padding: `${Math.round(4 * s)}px ${Math.round(12 * s)}px`,
                   borderRadius: "999px",
-                  fontSize: "16px",
+                  fontSize: `${Math.max(10, Math.round(12 * s))}px`,
                   fontWeight: 800,
                 }}
               >
                 {isApproved ? "✓ ĐÃ CẤP ẤN CHỈ" : "ĐANG ĐỐI SOÁT VNPAY"}
               </span>
             </div>
-            <div style={{ fontSize: "22px", color: "#ffffff", fontWeight: 700 }}>
+            <div style={{ fontSize: `${Math.max(13, Math.round(18 * s))}px`, color: "#ffffff", fontWeight: 700 }}>
               Mã HĐ: <span style={{ color: "#00e5ff" }}>HD-2026-XEMAY-8921</span>
             </div>
-            <div style={{ fontSize: "16px", color: "#94a3b8", marginTop: "6px" }}>
+            <div style={{ fontSize: `${Math.max(10, Math.round(13 * s))}px`, color: "#94a3b8", marginTop: "4px" }}>
               Khách hàng: Nguyễn Văn A • Gói: TNDS Bắt buộc PTI • Phí: 66.000đ
             </div>
           </div>
@@ -315,9 +320,10 @@ export const Scene3CMSFlip: React.FC = () => {
             style={{
               position: "relative",
               flex: 1,
+              minHeight: 0,
               background: "rgba(15, 23, 42, 0.9)",
               border: "1px solid rgba(255, 255, 255, 0.15)",
-              borderRadius: "24px",
+              borderRadius: `${Math.round(18 * s)}px`,
               overflow: "hidden",
               boxShadow: "0 25px 50px rgba(0, 0, 0, 0.7)",
               transform: `translateY(${interpolate(modalSpring, [0, 1], [60, 0])}px)`,
