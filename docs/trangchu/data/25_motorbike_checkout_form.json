@@ -1,0 +1,13 @@
+{
+  "idx": 25,
+  "name": "motorbike_checkout_form",
+  "group": "07_QuyTrinh_DatMua_ThanhToan",
+  "url": "https://topbaohiem.vn/motorbike-checkout",
+  "desc": "Checkout xe máy tích hợp tính năng AI OCR quét cà vẹt xe điền tự động",
+  "title": "Bảo hiểm TNDS Xe máy - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/25_motorbike_checkout_form_4k_viewport.png",
+  "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/25_motorbike_checkout_form_4k_fullpage.png",
+  "headings": [],
+  "key_features": []
+}

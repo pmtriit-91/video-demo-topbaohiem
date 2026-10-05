@@ -1,0 +1,64 @@
+{
+  "idx": 27,
+  "name": "car_material_checkout_form",
+  "group": "07_QuyTrinh_DatMua_ThanhToan",
+  "url": "https://topbaohiem.vn/car-material-checkout",
+  "desc": "Checkout bảo hiểm vật chất thân vỏ xe ô tô",
+  "title": "Bảo hiểm Vật chất xe ô tô - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/27_car_material_checkout_form_4k_viewport.png",
+  "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/27_car_material_checkout_form_4k_fullpage.png",
+  "headings": [
+    {
+      "tag": "H1",
+      "text": "Thanh toán"
+    },
+    {
+      "tag": "H2",
+      "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+    },
+    {
+      "tag": "H4",
+      "text": "Sản phẩm"
+    },
+    {
+      "tag": "H4",
+      "text": "Dịch vụ"
+    },
+    {
+      "tag": "H4",
+      "text": "Chính sách"
+    },
+    {
+      "tag": "H4",
+      "text": "Kết nối với chúng tôi"
+    }
+  ],
+  "key_features": [
+    "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+    "Mua bảo hiểm\nƯu đãi\nBlogs",
+    "Chụp giấy đăng kí xe để điền nhanh",
+    "hoặc điền thông tin bên dưới",
+    "Họ và tên chủ xe*(trên giấy đăng ký xe)\n\n​",
+    "Họ và tên chủ xe*(trên giấy đăng ký xe)",
+    "(trên giấy đăng ký xe)",
+    "Địa chỉ*\n\n​\n\nVui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới",
+    "​\n\nVui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới",
+    "Vui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới",
+    "Chuyển quyền thụ hưởng",
+    "Ngân hàng/Công ty tài chính*\n\n​",
+    "Ngân hàng/Công ty tài chính*",
+    "Thông tin phương tiện\n\nBiển số xe*\n\n​\n\nSố khung*\n\n​\n\nSố máy xe*\n\n​\n\nSố chỗ ngồi*\n\n​\n\nTrọng tải*\n\ntấn\n\n​",
+    "Thông tin phương tiện",
+    "Biển số xe*\n\n​\n\nSố khung*\n\n​\n\nSố máy xe*\n\n​\n\nSố chỗ ngồi*\n\n​\n\nTrọng tải*\n\ntấn\n\n​",
+    "Biển số xe*\n\n​\n\nSố khung*\n\n​",
+    "Số máy xe*\n\n​\n\nSố chỗ ngồi*\n\n​",
+    "Hình thức thanh toán\n\nThanh toán qua ví VNPay\n\nNgười giới thiệu\n\n​\n\nTự động tạo tài khoản\n\nSĐT của bạn sẽ được dùng để đăng nhập, giúp quản lý hợp đồng dễ dàng hơn.",
+    "Thanh toán qua ví VNPay\n\nNgười giới thiệu\n\n​\n\nTự động tạo tài khoản\n\nSĐT của bạn sẽ được dùng để đăng nhập, giúp quản lý hợp đồng dễ dàng hơn.",
+    "Thanh toán qua ví VNPay",
+    "Tự động tạo tài khoản\n\nSĐT của bạn sẽ được dùng để đăng nhập, giúp quản lý hợp đồng dễ dàng hơn.",
+    "Tự động tạo tài khoản",
+    "SĐT của bạn sẽ được dùng để đăng nhập, giúp quản lý hợp đồng dễ dàng hơn.",
+    "Thông tin nhận chứng nhận điện tử"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "idx": 40,
+  "name": "partner_insure_manager",
+  "group": "09_CongTacVien_KOL_DaiLy",
+  "url": "https://topbaohiem.vn/review/insure-manager",
+  "desc": "Dashboard quản lý doanh số, theo dõi trạng thái đơn và hoa hồng kinh doanh",
+  "title": "Quản lý phê duyệt hợp đồng - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/09_CongTacVien_KOL_DaiLy/40_partner_insure_manager_4k_viewport.png",
+  "fullpage_img": "screenshots/09_CongTacVien_KOL_DaiLy/40_partner_insure_manager_4k_fullpage.png",
+  "headings": [
+    {
+      "tag": "H2",
+      "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+    },
+    {
+      "tag": "H4",
+      "text": "Kết nối với chúng tôi"
+    }
+  ],
+  "key_features": [
+    "Hợp đồng bảo hiểm\n\nKhách hàng\nGói đăng ký\nMã hợp đồng\nNgày mua\nTrạng thái\nGiá trị (vnd)\nNo rows\n\n0–0 of 0",
+    "Khách hàng\nGói đăng ký\nMã hợp đồng\nNgày mua\nTrạng thái\nGiá trị (vnd)\nNo rows\n\n0–0 of 0",
+    "Khách hàng\nGói đăng ký\nMã hợp đồng\nNgày mua\nTrạng thái\nGiá trị (vnd)\nNo rows",
+    "Khách hàng\nGói đăng ký\nMã hợp đồng\nNgày mua\nTrạng thái\nGiá trị (vnd)",
+    "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam",
+    "Kết nối với chúng tôi",
+    "Copyright ©2024 TopBaoHiem all rights reserved"
+  ]
+}

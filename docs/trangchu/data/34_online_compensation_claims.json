@@ -1,0 +1,48 @@
+{
+  "idx": 34,
+  "name": "online_compensation_claims",
+  "group": "08_BoiThuong_CSKH_HoTro",
+  "url": "https://topbaohiem.vn/compensation",
+  "desc": "Trung tâm bồi thường trực tuyến: Quy trình nộp hồ sơ yêu cầu chi trả bồi thường",
+  "title": "Bồi thường - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/08_BoiThuong_CSKH_HoTro/34_online_compensation_claims_4k_viewport.png",
+  "fullpage_img": "screenshots/08_BoiThuong_CSKH_HoTro/34_online_compensation_claims_4k_fullpage.png",
+  "headings": [
+    {
+      "tag": "H1",
+      "text": "Bồi thường"
+    },
+    {
+      "tag": "H2",
+      "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+    },
+    {
+      "tag": "H4",
+      "text": "Sản phẩm"
+    },
+    {
+      "tag": "H4",
+      "text": "Dịch vụ"
+    },
+    {
+      "tag": "H4",
+      "text": "Chính sách"
+    },
+    {
+      "tag": "H4",
+      "text": "Kết nối với chúng tôi"
+    }
+  ],
+  "key_features": [
+    "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+    "Mua bảo hiểm\nƯu đãi\nBlogs",
+    "Bồi thường\n\nMã hợp đồng\n\n​\nTra cứu",
+    "Mã hợp đồng\n\n​\nTra cứu",
+    "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam",
+    "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc",
+    "Dịch vụ\nƯu đãi\nYêu cầu bồi thường",
+    "Kết nối với chúng tôi",
+    "Copyright ©2024 TopBaoHiem all rights reserved"
+  ]
+}

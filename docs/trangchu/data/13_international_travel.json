@@ -1,0 +1,464 @@
+{
+  "idx": 13,
+  "name": "international_travel",
+  "group": "04_BaoHiem_DuLich",
+  "url": "https://topbaohiem.vn/travel",
+  "desc": "Bảo hiểm Du lịch Quốc tế: Chuẩn xin visa Schengen, y tế khẩn cấp, bảo hiểm hoãn hủy chuyến",
+  "title": "Bảo hiểm Du lịch - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/04_BaoHiem_DuLich/13_international_travel_4k_viewport.png",
+  "fullpage_img": "screenshots/04_BaoHiem_DuLich/13_international_travel_4k_fullpage.png",
+  "headings": [
+    {
+      "tag": "H1",
+      "text": "BẢO HIỂM DU LỊCH"
+    },
+    {
+      "tag": "H1",
+      "text": "Bảo hiểm du lịch"
+    },
+    {
+      "tag": "H3",
+      "text": "Gợi ý cho bạn"
+    },
+    {
+      "tag": "H3",
+      "text": "CÁC GÓI BẢO HIỂM"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch quốc tế PTI - gói Gold - Bảo hiểm du lịch quốc tế PTI - Gói Gold"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch quốc tế PTI - gói Gold - Bảo hiểm du lịch quốc tế PTI - Gói  Gold"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch quốc tế PTI - Gói Silver - Bảo hiểm du lịch quốc tế PTI - Gói Silver"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch quốc tế PTI - Gói Silver - Bảo hiểm du lịch quốc tế PTI - Gói Silver"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch quốc tế PTI - Gói Platinum - Bảo hiểm du lịch quốc tế PTI - Gói Platinum"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch quốc tế PTI - Gói Platinum - Bảo hiểm du lịch quốc tế PTI - Gói Platinum"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch quốc tế PVI-Chương Trình 1 - Chương trình 1"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch quốc tế PVI-Chương Trình 1 - Chương trình 1"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch quốc tế PVI-Chương Trình 2 - Chương trình 2"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch quốc tế PVI-Chương Trình 2 - Chương trình 2"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 3 - Chương trình 3"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 3 - Chương trình 3"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 4 - Chương trình 4"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 4 - Chương trình 4"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 5 - Chương trình 5"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 5 - Chương trình 5"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 6 - Chương trình 6"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 6 - Chương trình 6"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch quốc tế Bảo Việt - Chương trình Bạc - Chương trình Bạc ( cá nhân) - ĐNÁ"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch quốc tế Bảo Việt - Chương trình Bạc - Chương trình Bạc ( cá nhân) - ĐNÁ"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Vàng - Chương trình vàng (cá nhân) - ĐNA"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Vàng - Chương trình vàng (cá nhân) - ĐNA"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Bạch kim - Chương trình Bạch kim ( cá nhân) - ĐNA"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Bạch kim - Chương trình Bạch kim ( cá nhân) - ĐNA"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Kim cương - Chương trình Kim cương (cá nhân) - ĐNA"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Kim cương - Chương trình Kim cương (cá nhân) - ĐNA"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Bạc - Chương trình Bạc ( cá nhân) - TCQG"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Bạc - Chương trình Bạc ( cá nhân) - TCQG"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Vàng - Chương trình vàng ( cá nhân) - TCQG"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Vàng - Chương trình vàng ( cá nhân) - TCQG"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Bạch kim - Chương trình Bạch kim ( cá nhân) - TCQG"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Bạch kim - Chương trình Bạch kim ( cá nhân) - TCQG"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Kim cương - Chương trình Kim cương ( cá nhân) - TCQG"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Kim cương - Chương trình Kim cương ( cá nhân) - TCQG"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc - Gói Bạc - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc  - Gói Bạc - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc - Gói Bạc - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc  - Gói Bạc - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc - Gói Bạc - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc  - Gói Bạc - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc - Gói Bạc - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc  - Gói Bạc - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc - Gói Bạc - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc  - Gói Bạc - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc - Gói Bạc - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc  - Gói Bạc - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc - Gói Bạc - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc  - Gói Bạc - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc - Gói Bạc - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc  - Gói Bạc - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng - Gói Vàng - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng  - Gói Vàng - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng - Gói Vàng - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng  - Gói Vàng - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng - Gói Bạc - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng  - Gói Bạc - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng - Gói Bạc - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng  - Gói Bạc - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng - Gói Vàng - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng  - Gói Vàng - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng - Gói Vàng - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng  - Gói Vàng - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng - Gói Vàng - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng  - Gói Vàng - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng - Gói Vàng - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng  - Gói Vàng - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương - Gói Kim Cương - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương  - Gói Kim Cương - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương - Gói Kim Cương - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương  - Gói Kim Cương - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương - Gói Kim Cương - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương  - Gói Kim Cương - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương - Gói Kim Cương - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương  - Gói Kim Cương - Cá nhân"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương - Gói Kim Cương - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương  - Gói Kim Cương - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương - Gói Kim Cương - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương  - Gói Kim Cương - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương - Gói Kim Cương - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương  - Gói Kim Cương - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương - Gói Kim Cương - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương  - Gói Kim Cương - Gia đình"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình A - Chương trình A"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình A - Chương trình A"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình B - Chương trình B"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình B - Chương trình B"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình C - Chương trình C"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình C - Chương trình C"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình D - Chương trình D"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình D - Chương trình D"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình E - Chương trình E"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình E - Chương trình E"
+    },
+    {
+      "tag": "H4",
+      "text": "Vì sao nên chọn bảo hiểm của TopBaoHiem!"
+    },
+    {
+      "tag": "H3",
+      "text": "Đa dạng nhà cung cấp"
+    },
+    {
+      "tag": "H3",
+      "text": "Đa dạng nhà cung cấp"
+    },
+    {
+      "tag": "H3",
+      "text": "Chứng nhận điện tử"
+    },
+    {
+      "tag": "H4",
+      "text": "Đối tác của chúng tôi"
+    },
+    {
+      "tag": "H2",
+      "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+    },
+    {
+      "tag": "H4",
+      "text": "Sản phẩm"
+    },
+    {
+      "tag": "H4",
+      "text": "Dịch vụ"
+    },
+    {
+      "tag": "H4",
+      "text": "Chính sách"
+    },
+    {
+      "tag": "H4",
+      "text": "Kết nối với chúng tôi"
+    }
+  ],
+  "key_features": [
+    "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+    "Mua bảo hiểm\nƯu đãi\nBlogs",
+    "BẢO HIỂM DU LỊCH\n\nAn tâm du lịch, vững vàng trước mọi rủi ro",
+    "An tâm du lịch, vững vàng trước mọi rủi ro",
+    "Bảo hiểm du lịchAn tâm du lịch, vững vàng trước mọi rủi ro",
+    "Điểm đến\n\nSingapore\n\nLịch trình\n\n23/09/2026 - 26/09/2026\n\nMua bảo hiểm cho\n\nCá nhân\nGia đình\nNhóm\n\nNgân sách\n\n60.000 - 13.380.000 đ\n\n60.000 đ\n\n13.380.000 đ\n\nBộ lọc\nLọc ngay",
+    "Lịch trình\n\n23/09/2026 - 26/09/2026",
+    "23/09/2026 - 26/09/2026",
+    "Mua bảo hiểm cho\n\nCá nhân\nGia đình\nNhóm",
+    "Cá nhân\nGia đình\nNhóm",
+    "Ngân sách\n\n60.000 - 13.380.000 đ\n\n60.000 đ\n\n13.380.000 đ",
+    "60.000 - 13.380.000 đ",
+    "60.000 đ\n\n13.380.000 đ",
+    "Gợi ý cho bạn\n\nChưa có kết quả phù hợp, bạn thử điều chỉnh điều kiện tìm kiếm nhé!",
+    "Chưa có kết quả phù hợp, bạn thử điều chỉnh điều kiện tìm kiếm nhé!",
+    "Chọn để so sánh\nBảo hiểm du lịch quốc tế PTI - gói Gold - Bảo hiểm du lịch quốc tế PTI - Gói Gold\n110.000đ/năm",
+    "Bảo hiểm du lịch quốc tế PTI - gói Gold - Bảo hiểm du lịch quốc tế PTI - Gói Gold",
+    "Chi phí y tế\n1.000 USD\nNội trú\n20.000 USD\nNgoại trú\n1.000 USD\nVận chuyển cấp cứu\n20.000 USD\nXem chi tiết\nMua ngay",
+    "Chi phí y tế\n1.000 USD\nNội trú\n20.000 USD\nNgoại trú\n1.000 USD\nVận chuyển cấp cứu\n20.000 USD",
+    "Chi phí y tế\n1.000 USD",
+    "Vận chuyển cấp cứu\n20.000 USD",
+    "Xem chi tiết\nMua ngay",
+    "Bảo hiểm du lịch quốc tế PTI - gói Gold - Bảo hiểm du lịch quốc tế PTI - Gói  Gold",
+    "Chi phí y tế1.000 USDNội trú 20.000 USDNgoại trú1.000 USDVận chuyển cấp cứu20.000 USD",
+    "Chi phí y tế1.000 USD"
+  ]
+}

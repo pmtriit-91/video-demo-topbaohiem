@@ -1,0 +1,13 @@
+{
+  "idx": 28,
+  "name": "health_checkout_form",
+  "group": "07_QuyTrinh_DatMua_ThanhToan",
+  "url": "https://topbaohiem.vn/health-checkout",
+  "desc": "Checkout và kê khai thông tin bảo hiểm sức khỏe",
+  "title": "Bảo hiểm Sức khoẻ - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/28_health_checkout_form_4k_viewport.png",
+  "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/28_health_checkout_form_4k_fullpage.png",
+  "headings": [],
+  "key_features": []
+}

@@ -1,0 +1,160 @@
+{
+  "idx": 23,
+  "name": "compare_matrix_engine",
+  "group": "06_SoSanh_BaoGia_ThongMinh",
+  "url": "https://topbaohiem.vn/insure-compare",
+  "desc": "Ma trận so sánh quyền lợi & chi phí đa hãng trực quan",
+  "title": "TopBaoHiem - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/06_SoSanh_BaoGia_ThongMinh/23_compare_matrix_engine_4k_viewport.png",
+  "fullpage_img": "screenshots/06_SoSanh_BaoGia_ThongMinh/23_compare_matrix_engine_4k_fullpage.png",
+  "headings": [
+    {
+      "tag": "H1",
+      "text": "So sánh bảo hiểm,\nchọn TOPbaohiem!"
+    },
+    {
+      "tag": "H1",
+      "text": "Bảo vệ tương lai  an tâm sống trọn!"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm"
+    },
+    {
+      "tag": "H4",
+      "text": "Sức khoẻ"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm"
+    },
+    {
+      "tag": "H4",
+      "text": "Cháy nổ"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm"
+    },
+    {
+      "tag": "H4",
+      "text": "Du lịch"
+    },
+    {
+      "tag": "H4",
+      "text": "Quy trình mua bảo hiểm\nchưa bao giờ dễ dàng đến thế"
+    },
+    {
+      "tag": "H4",
+      "text": "Vì sao chọn TOPbaohiem?"
+    },
+    {
+      "tag": "H3",
+      "text": "So sánh thông minh"
+    },
+    {
+      "tag": "H3",
+      "text": "Tiết kiệm tối đa"
+    },
+    {
+      "tag": "H3",
+      "text": "Quyền lợi rõ ràng"
+    },
+    {
+      "tag": "H3",
+      "text": "Hỗ trợ tận tâm"
+    },
+    {
+      "tag": "H4",
+      "text": "Đối tác và khách hàng nói về TOPbaohiem"
+    },
+    {
+      "tag": "H4",
+      "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "Đối tác của chúng tôi"
+    },
+    {
+      "tag": "H4",
+      "text": "Câu hỏi thường gặp"
+    },
+    {
+      "tag": "H2",
+      "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+    },
+    {
+      "tag": "H4",
+      "text": "Sản phẩm"
+    },
+    {
+      "tag": "H4",
+      "text": "Dịch vụ"
+    },
+    {
+      "tag": "H4",
+      "text": "Chính sách"
+    },
+    {
+      "tag": "H4",
+      "text": "Kết nối với chúng tôi"
+    }
+  ],
+  "key_features": [
+    "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+    "Mua bảo hiểm\nƯu đãi\nBlogs",
+    "NỀN TẢNG UY TÍN ĐÃ ĐƯỢC XÁC NHẬN BỞI BỘ CÔNG THƯƠNG",
+    "So sánh dễ dàng\n\nMinh bạch, nhanh chóng\n\nTiết kiệm chi phí\n\nTối ưu quyền lợi\n\nAn toàn bảo mật\n\nBảo vệ dữ liệu cá nhân",
+    "So sánh dễ dàng\n\nMinh bạch, nhanh chóng",
+    "Minh bạch, nhanh chóng",
+    "Tiết kiệm chi phí\n\nTối ưu quyền lợi",
+    "An toàn bảo mật\n\nBảo vệ dữ liệu cá nhân",
+    "Bảo vệ dữ liệu cá nhân",
+    "Nổi bật\nBảo hiểm\nSức khoẻ\nSo sánh ngay\nBảo hiểm\nCháy nổ\nSo sánh ngay\nBảo hiểm\nDu lịch\nSo sánh ngay",
+    "Nổi bật\nBảo hiểm\nSức khoẻ\nSo sánh ngay",
+    "Bảo hiểm\nSức khoẻ\nSo sánh ngay",
+    "Bảo hiểm\nCháy nổ\nSo sánh ngay",
+    "Bảo hiểm\nDu lịch\nSo sánh ngay",
+    "Quy trình mua bảo hiểm\nchưa bao giờ dễ dàng đến thế",
+    "Vì sao chọn TOPbaohiem?",
+    "So sánh thông minh\n\nCông cụ so sánh độc quyền,\nminh bạch, dễ hiểu",
+    "Công cụ so sánh độc quyền,\nminh bạch, dễ hiểu",
+    "Tiết kiệm tối đa\n\nNhiều lựa chọn phù hợp,\ngiá tốt nhất cho bạn",
+    "Nhiều lựa chọn phù hợp,\ngiá tốt nhất cho bạn",
+    "Quyền lợi rõ ràng\n\nThông tin đầy đủ,\ndễ dàng quyết định",
+    "Thông tin đầy đủ,\ndễ dàng quyết định",
+    "Hỗ trợ tận tâm\n\nĐội ngũ tư vấn chuyên nghiệp,\nluôn đồng hành cùng bạn",
+    "Đội ngũ tư vấn chuyên nghiệp,\nluôn đồng hành cùng bạn",
+    "Đối tác và khách hàng nói về TOPbaohiem"
+  ]
+}

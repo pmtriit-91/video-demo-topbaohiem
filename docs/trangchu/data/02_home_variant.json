@@ -1,0 +1,15 @@
+{
+  "index": 2,
+  "name": "home_variant",
+  "group": "01_TrangChu_Hero_Branding",
+  "url": "https://topbaohiem.vn/vi/home",
+  "description": "Trang chủ biến thể routing /vi/home",
+  "status": "success",
+  "title": "Trang chủ - Nền tảng so sánh bảo hiểm trực tuyến",
+  "headings": [],
+  "inputs": [],
+  "buttons": [],
+  "key_texts": [],
+  "viewport_img": "screenshots/01_TrangChu_Hero_Branding/02_home_variant_4k_viewport.png",
+  "fullpage_img": "screenshots/01_TrangChu_Hero_Branding/02_home_variant_4k_fullpage.png"
+}

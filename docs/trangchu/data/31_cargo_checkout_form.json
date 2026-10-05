@@ -1,0 +1,13 @@
+{
+  "idx": 31,
+  "name": "cargo_checkout_form",
+  "group": "07_QuyTrinh_DatMua_ThanhToan",
+  "url": "https://topbaohiem.vn/cargo-checkout",
+  "desc": "Checkout bảo hiểm vận chuyển hàng hóa",
+  "title": "Bảo hiểm TNDS Ô tô - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/31_cargo_checkout_form_4k_viewport.png",
+  "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/31_cargo_checkout_form_4k_fullpage.png",
+  "headings": [],
+  "key_features": []
+}

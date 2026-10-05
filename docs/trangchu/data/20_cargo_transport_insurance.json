@@ -1,0 +1,13 @@
+{
+  "idx": 20,
+  "name": "cargo_transport_insurance",
+  "group": "05_BaoHiem_TaiSan_DoanhNghiep",
+  "url": "https://topbaohiem.vn/cargo",
+  "desc": "Bảo hiểm hàng hóa vận chuyển nội địa và quốc tế",
+  "title": "Bảo hiểm Hàng hoá - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/20_cargo_transport_insurance_4k_viewport.png",
+  "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/20_cargo_transport_insurance_4k_fullpage.png",
+  "headings": [],
+  "key_features": []
+}

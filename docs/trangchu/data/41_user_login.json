@@ -1,0 +1,13 @@
+{
+  "idx": 41,
+  "name": "user_login",
+  "group": "10_QuanLy_HopDong_CaNhan",
+  "url": "https://topbaohiem.vn/login",
+  "desc": "Đăng nhập tài khoản khách hàng cá nhân",
+  "title": "Đăng nhập - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/10_QuanLy_HopDong_CaNhan/41_user_login_4k_viewport.png",
+  "fullpage_img": "screenshots/10_QuanLy_HopDong_CaNhan/41_user_login_4k_fullpage.png",
+  "headings": [],
+  "key_features": []
+}

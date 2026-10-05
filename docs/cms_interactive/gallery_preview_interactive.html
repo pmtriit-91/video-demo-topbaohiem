@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INSUREGO CMS TEST - Kho 95 Ảnh 4K Chi Tiết Từng Menu & Từng Button</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #06080e;
+      --bg-surface: rgba(13, 19, 33, 0.85);
+      --bg-surface-hover: rgba(22, 33, 56, 0.95);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(16, 185, 129, 0.5);
+      --accent-emerald: #10b981;
+      --accent-cyan: #06b6d4;
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-sub: #64748b;
+      --shadow-glow: 0 0 25px rgba(16, 185, 129, 0.25);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding-bottom: 80px;
+    }
+
+    /* Header */
+    header {
+      background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 70%),
+                  linear-gradient(180deg, rgba(13, 19, 33, 0.95) 0%, rgba(6, 8, 14, 0.98) 100%);
+      border-bottom: 1px solid var(--border-color);
+      padding: 32px 32px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+    }
+
+    .header-content {
+      max-width: 1800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .title-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .badge-insurtech {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2));
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: var(--accent-emerald);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stats-chips {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .chip strong {
+      color: var(--accent-cyan);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+    }
+
+    /* Filters Bar */
+    .controls-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 280px;
+      max-width: 450px;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 16px 12px 42px;
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent-emerald);
+      box-shadow: var(--shadow-glow);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .pill:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .pill.active {
+      background: var(--accent-emerald);
+      color: #06080e;
+      border-color: var(--accent-emerald);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    }
+
+    /* Grid */
+    .container {
+      max-width: 1800px;
+      margin: 32px auto 0;
+      padding: 0 32px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-focus);
+      box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.7), var(--shadow-glow);
+    }
+
+    .thumb-wrapper {
+      width: 100%;
+      height: 220px;
+      background: #020408;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .thumb-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover .thumb-wrapper img {
+      transform: scale(1.04);
+    }
+
+    .tag-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(8px);
+    }
+
+    .tag-default { background: rgba(59, 130, 246, 0.85); color: #fff; }
+    .tag-modal { background: rgba(16, 185, 129, 0.85); color: #fff; }
+    .tag-detail { background: rgba(139, 92, 246, 0.85); color: #fff; }
+    .tag-filter { background: rgba(245, 158, 11, 0.85); color: #fff; }
+    .tag-stats { background: rgba(6, 182, 212, 0.85); color: #fff; }
+
+    .card-body {
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .sec-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-sub);
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-copy {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-copy:hover {
+      background: var(--accent-emerald);
+      color: #06080e;
+      border-color: var(--accent-emerald);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Modal Viewer */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 5, 10, 0.96);
+      backdrop-filter: blur(24px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      width: 96vw;
+      max-width: 1700px;
+      height: 94vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.95);
+      position: relative;
+    }
+
+    .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      background: rgba(13, 19, 33, 0.95);
+    }
+
+    .modal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      overflow: hidden;
+    }
+
+    .modal-counter {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--accent-emerald);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .modal-header h3 {
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .modal-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .modal-close {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: var(--accent-rose);
+    }
+
+    .modal-body-container {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #020306;
+    }
+
+    .modal-img-wrap {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .modal-img-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Nút Mũi Tên Trái / Phải Điều Hướng */
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(13, 19, 33, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+      user-select: none;
+    }
+
+    .nav-arrow:hover {
+      background: var(--accent-emerald);
+      color: #06080e;
+      border-color: var(--accent-emerald);
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .nav-arrow-left { left: 24px; }
+    .nav-arrow-right { right: 24px; }
+
+    .nav-hint {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      padding: 4px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--text-muted);
+      pointer-events: none;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <div class="title-row">
+        <div class="title-left">
+          <span class="badge-insurtech">InsureGO Test CMS</span>
+          <h1>Kho Tư Liệu 95 Ảnh 4K Chi Tiết Từng Menu & Button</h1>
+        </div>
+        <div class="stats-chips">
+          <div class="chip">Tổng Ảnh 4K: <strong>95</strong></div>
+          <div class="chip">Giao Diện Mặc Định: <strong>59</strong></div>
+          <div class="chip">Modals, Drawers & Cây: <strong>34</strong></div>
+          <div class="chip">Độ Phân Giải: <strong>3840 x 2160 UHD</strong></div>
+        </div>
+      </div>
+
+      <div class="controls-row">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Tìm theo tên menu, modal, chức năng..." oninput="handleSearch()">
+        </div>
+
+        <div class="filter-pills" id="sectionPills">
+          <button class="pill active" onclick="filterBySection('ALL')">Tất Cả (95)</button>
+          <button class="pill" onclick="filterBySection('01_TrangChu')">01. Trang Chủ (4)</button>
+          <button class="pill" onclick="filterBySection('02_HopDong')">02. Hợp Đồng (30)</button>
+          <button class="pill" onclick="filterBySection('03_QuanLyTaiKhoan')">03. Tài Khoản & Đối Tác (12)</button>
+          <button class="pill" onclick="filterBySection('04_ThuongHieu_KhuVuc_Goi')">04. Thương Hiệu & Quyền Lợi (17)</button>
+          <button class="pill" onclick="filterBySection('05_ThongTinChung')">05. Thông Tin Chung (9)</button>
+          <button class="pill" onclick="filterBySection('06_TinTuc_KhuyenMai')">06. Tin Tức & Voucher (6)</button>
+          <button class="pill" onclick="filterBySection('07_ThongKe')">07. Thống Kê (9)</button>
+          <button class="pill" onclick="filterBySection('08_CaiDat')">08. Cài Đặt (8)</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="cards-grid" id="galleryGrid"></div>
+  </main>
+
+  <!-- Modal View Full 4K với Mũi Tên Trái / Phải & Copy Absolute Path -->
+  <div class="modal-overlay" id="imageModal" onclick="closeModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <span class="modal-counter" id="modalCounter">1 / 92</span>
+          <h3 id="modalTitle">Tiêu Đề Ảnh</h3>
+        </div>
+        <div class="modal-header-actions">
+          <button class="btn-copy" id="modalCopyBtn" onclick="copyCurrentModalPath()">
+            📋 Copy Đường Dẫn File Tuyệt Đối
+          </button>
+          <button class="modal-close" onclick="closeModal()" title="Đóng (ESC)">&times;</button>
+        </div>
+      </div>
+
+      <div class="modal-body-container">
+        <!-- Nút Trái / Phải -->
+        <button class="nav-arrow nav-arrow-left" onclick="navigateModal(-1)" title="Ảnh trước (Phím ⬅)">&#10094;</button>
+        
+        <div class="modal-img-wrap">
+          <img id="modalImg" src="" alt="4K Screenshot">
+        </div>
+
+        <button class="nav-arrow nav-arrow-right" onclick="navigateModal(1)" title="Ảnh tiếp theo (Phím ➡)">&#10095;</button>
+
+        <div class="nav-hint">Dùng phím mũi tên ⬅ ➡ để chuyển ảnh, ESC để đóng</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ABSOLUTE_BASE_DIR = "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/";
+    const allItems = [{"section_id": "01_TrangChu", "section_title": "01. Trang Chủ & Dashboard", "filename": "01_dashboard_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "01_TrangChu/01_dashboard_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/01_TrangChu/01_dashboard_01_default_view.png", "size_kb": 500.5}, {"section_id": "01_TrangChu", "section_title": "01. Trang Chủ & Dashboard", "filename": "01_dashboard_02_full_panoramic_4k.png", "action": "Giao diện chính (Default View)", "relative_path": "01_TrangChu/01_dashboard_02_full_panoramic_4k.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/01_TrangChu/01_dashboard_02_full_panoramic_4k.png", "size_kb": 697.6}, {"section_id": "01_TrangChu", "section_title": "01. Trang Chủ & Dashboard", "filename": "01_dashboard_03_time_filter_dropdown.png", "action": "Trạng Thái Mở Bộ Lọc Nâng Cao", "relative_path": "01_TrangChu/01_dashboard_03_time_filter_dropdown.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/01_TrangChu/01_dashboard_03_time_filter_dropdown.png", "size_kb": 506.9}, {"section_id": "01_TrangChu", "section_title": "01. Trang Chủ & Dashboard", "filename": "01_dashboard_04_recent_purchases_section.png", "action": "Giao diện chính (Default View)", "relative_path": "01_TrangChu/01_dashboard_04_recent_purchases_section.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/01_TrangChu/01_dashboard_04_recent_purchases_section.png", "size_kb": 501.8}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "02_contracts_all_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/02_contracts_all_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/02_contracts_all_01_default_view.png", "size_kb": 744.0}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "02_contracts_all_03_modal_detail_overview.png", "action": "Modal Xem Chi Tiết Dữ Liệu", "relative_path": "02_HopDong/02_contracts_all_03_modal_detail_overview.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/02_contracts_all_03_modal_detail_overview.png", "size_kb": 886.6}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "03_contracts_kols_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/03_contracts_kols_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/03_contracts_kols_01_default_view.png", "size_kb": 251.8}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "03_contracts_kols_03_modal_detail.png", "action": "Modal Xem Chi Tiết Dữ Liệu", "relative_path": "02_HopDong/03_contracts_kols_03_modal_detail.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/03_contracts_kols_03_modal_detail.png", "size_kb": 411.5}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "03_contracts_kols_03_modal_detail_tab2.png", "action": "Modal Xem Chi Tiết Dữ Liệu", "relative_path": "02_HopDong/03_contracts_kols_03_modal_detail_tab2.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/03_contracts_kols_03_modal_detail_tab2.png", "size_kb": 224.6}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "04_waiting_payment_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/04_waiting_payment_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/04_waiting_payment_01_default_view.png", "size_kb": 802.0}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "05_pending_approval_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/05_pending_approval_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/05_pending_approval_01_default_view.png", "size_kb": 745.0}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "06_waiting_certificate_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/06_waiting_certificate_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/06_waiting_certificate_01_default_view.png", "size_kb": 759.3}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "07_completed_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/07_completed_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/07_completed_01_default_view.png", "size_kb": 752.9}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "08_rejected_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/08_rejected_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/08_rejected_01_default_view.png", "size_kb": 692.7}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "09_renewal_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/09_renewal_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/09_renewal_01_default_view.png", "size_kb": 234.9}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "10_motorbike_insure_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/10_motorbike_insure_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/10_motorbike_insure_01_default_view.png", "size_kb": 535.6}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "10_motorbike_insure_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "02_HopDong/10_motorbike_insure_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/10_motorbike_insure_02_modal_create.png", "size_kb": 513.5}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "11_car_insure_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/11_car_insure_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/11_car_insure_01_default_view.png", "size_kb": 582.3}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "11_car_insure_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "02_HopDong/11_car_insure_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/11_car_insure_02_modal_create.png", "size_kb": 583.3}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "12_health_insure_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/12_health_insure_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/12_health_insure_01_default_view.png", "size_kb": 362.0}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "12_health_insure_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "02_HopDong/12_health_insure_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/12_health_insure_02_modal_create.png", "size_kb": 392.1}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "13_travel_insure_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/13_travel_insure_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/13_travel_insure_01_default_view.png", "size_kb": 547.5}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "13_travel_insure_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "02_HopDong/13_travel_insure_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/13_travel_insure_02_modal_create.png", "size_kb": 546.6}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "14_foreigner_insure_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/14_foreigner_insure_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/14_foreigner_insure_01_default_view.png", "size_kb": 387.1}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "14_foreigner_insure_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "02_HopDong/14_foreigner_insure_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/14_foreigner_insure_02_modal_create.png", "size_kb": 408.7}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "15_fire_insure_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/15_fire_insure_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/15_fire_insure_01_default_view.png", "size_kb": 249.4}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "15_fire_insure_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "02_HopDong/15_fire_insure_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/15_fire_insure_02_modal_create.png", "size_kb": 284.6}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "16_car_property_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/16_car_property_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/16_car_property_01_default_view.png", "size_kb": 249.0}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "16_car_property_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "02_HopDong/16_car_property_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/16_car_property_02_modal_create.png", "size_kb": 280.6}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "17_cargo_insure_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/17_cargo_insure_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/17_cargo_insure_01_default_view.png", "size_kb": 198.2}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "17_cargo_insure_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "02_HopDong/17_cargo_insure_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/17_cargo_insure_02_modal_create.png", "size_kb": 232.5}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "18_medical_insure_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/18_medical_insure_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/18_medical_insure_01_default_view.png", "size_kb": 205.5}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "18_medical_insure_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "02_HopDong/18_medical_insure_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/18_medical_insure_02_modal_create.png", "size_kb": 226.0}, {"section_id": "02_HopDong", "section_title": "02. Quản Lý Hợp Đồng & Gói Bảo Hiểm", "filename": "19_cart_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "02_HopDong/19_cart_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/02_HopDong/19_cart_01_default_view.png", "size_kb": 363.6}, {"section_id": "03_QuanLyTaiKhoan", "section_title": "03. Quản Lý Tài Khoản & Đối Tác", "filename": "20_users_list_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "03_QuanLyTaiKhoan/20_users_list_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/03_QuanLyTaiKhoan/20_users_list_01_default_view.png", "size_kb": 363.6}, {"section_id": "03_QuanLyTaiKhoan", "section_title": "03. Quản Lý Tài Khoản & Đối Tác", "filename": "20_users_list_03_modal_detail.png", "action": "Modal Xem Chi Tiết Dữ Liệu", "relative_path": "03_QuanLyTaiKhoan/20_users_list_03_modal_detail.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/03_QuanLyTaiKhoan/20_users_list_03_modal_detail.png", "size_kb": 410.0}, {"section_id": "03_QuanLyTaiKhoan", "section_title": "03. Quản Lý Tài Khoản & Đối Tác", "filename": "21_customers_by_kol_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "03_QuanLyTaiKhoan/21_customers_by_kol_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/03_QuanLyTaiKhoan/21_customers_by_kol_01_default_view.png", "size_kb": 200.4}, {"section_id": "03_QuanLyTaiKhoan", "section_title": "03. Quản Lý Tài Khoản & Đối Tác", "filename": "22_kols_management_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "03_QuanLyTaiKhoan/22_kols_management_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/03_QuanLyTaiKhoan/22_kols_management_01_default_view.png", "size_kb": 548.5}, {"section_id": "03_QuanLyTaiKhoan", "section_title": "03. Quản Lý Tài Khoản & Đối Tác", "filename": "22_kols_management_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "03_QuanLyTaiKhoan/22_kols_management_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/03_QuanLyTaiKhoan/22_kols_management_02_modal_create.png", "size_kb": 555.9}, {"section_id": "03_QuanLyTaiKhoan", "section_title": "03. Quản Lý Tài Khoản & Đối Tác", "filename": "23_partner_insurance_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "03_QuanLyTaiKhoan/23_partner_insurance_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/03_QuanLyTaiKhoan/23_partner_insurance_01_default_view.png", "size_kb": 235.9}, {"section_id": "03_QuanLyTaiKhoan", "section_title": "03. Quản Lý Tài Khoản & Đối Tác", "filename": "23_partner_insurance_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "03_QuanLyTaiKhoan/23_partner_insurance_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/03_QuanLyTaiKhoan/23_partner_insurance_02_modal_create.png", "size_kb": 265.9}, {"section_id": "03_QuanLyTaiKhoan", "section_title": "03. Quản Lý Tài Khoản & Đối Tác", "filename": "24_sale_partner_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "03_QuanLyTaiKhoan/24_sale_partner_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/03_QuanLyTaiKhoan/24_sale_partner_01_default_view.png", "size_kb": 282.3}, {"section_id": "03_QuanLyTaiKhoan", "section_title": "03. Quản Lý Tài Khoản & Đối Tác", "filename": "24_sale_partner_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "03_QuanLyTaiKhoan/24_sale_partner_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/03_QuanLyTaiKhoan/24_sale_partner_02_modal_create.png", "size_kb": 279.0}, {"section_id": "03_QuanLyTaiKhoan", "section_title": "03. Quản Lý Tài Khoản & Đối Tác", "filename": "25_manage_admin_profile_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "03_QuanLyTaiKhoan/25_manage_admin_profile_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/03_QuanLyTaiKhoan/25_manage_admin_profile_01_default_view.png", "size_kb": 413.0}, {"section_id": "03_QuanLyTaiKhoan", "section_title": "03. Quản Lý Tài Khoản & Đối Tác", "filename": "26_manage_admin_list_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "03_QuanLyTaiKhoan/26_manage_admin_list_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/03_QuanLyTaiKhoan/26_manage_admin_list_01_default_view.png", "size_kb": 282.0}, {"section_id": "03_QuanLyTaiKhoan", "section_title": "03. Quản Lý Tài Khoản & Đối Tác", "filename": "26_manage_admin_list_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "03_QuanLyTaiKhoan/26_manage_admin_list_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/03_QuanLyTaiKhoan/26_manage_admin_list_02_modal_create.png", "size_kb": 289.5}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "27_brands_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/27_brands_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/27_brands_01_default_view.png", "size_kb": 246.7}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "27_brands_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/27_brands_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/27_brands_02_modal_create.png", "size_kb": 250.7}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "28_area_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/28_area_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/28_area_01_default_view.png", "size_kb": 287.6}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "28_area_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/28_area_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/28_area_02_modal_create.png", "size_kb": 283.7}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "29_pkg_travel_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/29_pkg_travel_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/29_pkg_travel_01_default_view.png", "size_kb": 190.8}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "30_pkg_health_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/30_pkg_health_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/30_pkg_health_01_default_view.png", "size_kb": 186.2}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "31_pkg_fire_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/31_pkg_fire_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/31_pkg_fire_01_default_view.png", "size_kb": 255.0}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "31_pkg_fire_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/31_pkg_fire_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/31_pkg_fire_02_modal_create.png", "size_kb": 249.6}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "32_pkg_cargo_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/32_pkg_cargo_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/32_pkg_cargo_01_default_view.png", "size_kb": 239.8}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "32_pkg_cargo_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/32_pkg_cargo_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/32_pkg_cargo_02_modal_create.png", "size_kb": 235.3}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "33_benefit_travel_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/33_benefit_travel_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/33_benefit_travel_01_default_view.png", "size_kb": 195.5}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "34_benefit_foreigner_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/34_benefit_foreigner_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/34_benefit_foreigner_01_default_view.png", "size_kb": 198.9}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "35_benefit_health_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/35_benefit_health_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/35_benefit_health_01_default_view.png", "size_kb": 197.5}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "36_benefit_car_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/36_benefit_car_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/36_benefit_car_01_default_view.png", "size_kb": 195.7}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "37_benefit_motorbike_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/37_benefit_motorbike_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/37_benefit_motorbike_01_default_view.png", "size_kb": 197.6}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "38_benefit_fire_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/38_benefit_fire_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/38_benefit_fire_01_default_view.png", "size_kb": 194.8}, {"section_id": "04_ThuongHieu_KhuVuc_Goi", "section_title": "04. Thương Hiệu, Khu Vực & Gói Quyền Lợi", "filename": "39_benefit_car_property_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "04_ThuongHieu_KhuVuc_Goi/39_benefit_car_property_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/04_ThuongHieu_KhuVuc_Goi/39_benefit_car_property_01_default_view.png", "size_kb": 196.8}, {"section_id": "05_ThongTinChung", "section_title": "05. Thông Tin Chung & Phân Loại Xe", "filename": "40_more_info_insures_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "05_ThongTinChung/40_more_info_insures_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/05_ThongTinChung/40_more_info_insures_01_default_view.png", "size_kb": 164.4}, {"section_id": "05_ThongTinChung", "section_title": "05. Thông Tin Chung & Phân Loại Xe", "filename": "41_car_cat_parent_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "05_ThongTinChung/41_car_cat_parent_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/05_ThongTinChung/41_car_cat_parent_01_default_view.png", "size_kb": 316.2}, {"section_id": "05_ThongTinChung", "section_title": "05. Thông Tin Chung & Phân Loại Xe", "filename": "41_car_cat_parent_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "05_ThongTinChung/41_car_cat_parent_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/05_ThongTinChung/41_car_cat_parent_02_modal_create.png", "size_kb": 302.6}, {"section_id": "05_ThongTinChung", "section_title": "05. Thông Tin Chung & Phân Loại Xe", "filename": "42_car_cat_child_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "05_ThongTinChung/42_car_cat_child_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/05_ThongTinChung/42_car_cat_child_01_default_view.png", "size_kb": 193.7}, {"section_id": "05_ThongTinChung", "section_title": "05. Thông Tin Chung & Phân Loại Xe", "filename": "42_car_cat_child_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "05_ThongTinChung/42_car_cat_child_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/05_ThongTinChung/42_car_cat_child_02_modal_create.png", "size_kb": 192.4}, {"section_id": "05_ThongTinChung", "section_title": "05. Thông Tin Chung & Phân Loại Xe", "filename": "43_addon_car_property_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "05_ThongTinChung/43_addon_car_property_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/05_ThongTinChung/43_addon_car_property_01_default_view.png", "size_kb": 266.9}, {"section_id": "05_ThongTinChung", "section_title": "05. Thông Tin Chung & Phân Loại Xe", "filename": "43_addon_car_property_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "05_ThongTinChung/43_addon_car_property_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/05_ThongTinChung/43_addon_car_property_02_modal_create.png", "size_kb": 260.1}, {"section_id": "05_ThongTinChung", "section_title": "05. Thông Tin Chung & Phân Loại Xe", "filename": "44_events_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "05_ThongTinChung/44_events_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/05_ThongTinChung/44_events_01_default_view.png", "size_kb": 297.5}, {"section_id": "05_ThongTinChung", "section_title": "05. Thông Tin Chung & Phân Loại Xe", "filename": "44_events_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "05_ThongTinChung/44_events_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/05_ThongTinChung/44_events_02_modal_create.png", "size_kb": 275.1}, {"section_id": "06_TinTuc_KhuyenMai", "section_title": "06. Tin Tức, Banner & Quản Lý Ưu Đãi", "filename": "45_blog_list_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "06_TinTuc_KhuyenMai/45_blog_list_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/06_TinTuc_KhuyenMai/45_blog_list_01_default_view.png", "size_kb": 249.8}, {"section_id": "06_TinTuc_KhuyenMai", "section_title": "06. Tin Tức, Banner & Quản Lý Ưu Đãi", "filename": "45_blog_list_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "06_TinTuc_KhuyenMai/45_blog_list_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/06_TinTuc_KhuyenMai/45_blog_list_02_modal_create.png", "size_kb": 222.7}, {"section_id": "06_TinTuc_KhuyenMai", "section_title": "06. Tin Tức, Banner & Quản Lý Ưu Đãi", "filename": "46_banner_list_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "06_TinTuc_KhuyenMai/46_banner_list_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/06_TinTuc_KhuyenMai/46_banner_list_01_default_view.png", "size_kb": 180.4}, {"section_id": "06_TinTuc_KhuyenMai", "section_title": "06. Tin Tức, Banner & Quản Lý Ưu Đãi", "filename": "46_banner_list_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "06_TinTuc_KhuyenMai/46_banner_list_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/06_TinTuc_KhuyenMai/46_banner_list_02_modal_create.png", "size_kb": 182.5}, {"section_id": "06_TinTuc_KhuyenMai", "section_title": "06. Tin Tức, Banner & Quản Lý Ưu Đãi", "filename": "47_discount_list_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "06_TinTuc_KhuyenMai/47_discount_list_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/06_TinTuc_KhuyenMai/47_discount_list_01_default_view.png", "size_kb": 517.0}, {"section_id": "06_TinTuc_KhuyenMai", "section_title": "06. Tin Tức, Banner & Quản Lý Ưu Đãi", "filename": "47_discount_list_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "06_TinTuc_KhuyenMai/47_discount_list_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/06_TinTuc_KhuyenMai/47_discount_list_02_modal_create.png", "size_kb": 491.9}, {"section_id": "07_ThongKe", "section_title": "07. Thống Kê & Báo Cáo Hợp Đồng", "filename": "48_stats_01_tab_partner_table_view.png", "action": "Tab Con Trong Modal", "relative_path": "07_ThongKe/48_stats_01_tab_partner_table_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/07_ThongKe/48_stats_01_tab_partner_table_view.png", "size_kb": 299.2}, {"section_id": "07_ThongKe", "section_title": "07. Thống Kê & Báo Cáo Hợp Đồng", "filename": "48_stats_02_partner_analytics_personal.png", "action": "Giao diện chính (Default View)", "relative_path": "07_ThongKe/48_stats_02_partner_analytics_personal.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/07_ThongKe/48_stats_02_partner_analytics_personal.png", "size_kb": 355.3}, {"section_id": "07_ThongKe", "section_title": "07. Thống Kê & Báo Cáo Hợp Đồng", "filename": "48_stats_03_partner_analytics_branch.png", "action": "Giao diện chính (Default View)", "relative_path": "07_ThongKe/48_stats_03_partner_analytics_branch.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/07_ThongKe/48_stats_03_partner_analytics_branch.png", "size_kb": 358.4}, {"section_id": "07_ThongKe", "section_title": "07. Thống Kê & Báo Cáo Hợp Đồng", "filename": "48_stats_04_partner_analytics_filter.png", "action": "Trạng Thái Mở Bộ Lọc Nâng Cao", "relative_path": "07_ThongKe/48_stats_04_partner_analytics_filter.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/07_ThongKe/48_stats_04_partner_analytics_filter.png", "size_kb": 375.9}, {"section_id": "07_ThongKe", "section_title": "07. Thống Kê & Báo Cáo Hợp Đồng", "filename": "48_stats_05_partner_system_tree.png", "action": "Giao diện chính (Default View)", "relative_path": "07_ThongKe/48_stats_05_partner_system_tree.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/07_ThongKe/48_stats_05_partner_system_tree.png", "size_kb": 277.9}, {"section_id": "07_ThongKe", "section_title": "07. Thống Kê & Báo Cáo Hợp Đồng", "filename": "48_stats_06_tab_kols_table_view.png", "action": "Tab Con Trong Modal", "relative_path": "07_ThongKe/48_stats_06_tab_kols_table_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/07_ThongKe/48_stats_06_tab_kols_table_view.png", "size_kb": 477.8}, {"section_id": "07_ThongKe", "section_title": "07. Thống Kê & Báo Cáo Hợp Đồng", "filename": "48_stats_07_kol_analytics_personal.png", "action": "Giao diện chính (Default View)", "relative_path": "07_ThongKe/48_stats_07_kol_analytics_personal.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/07_ThongKe/48_stats_07_kol_analytics_personal.png", "size_kb": 418.0}, {"section_id": "07_ThongKe", "section_title": "07. Thống Kê & Báo Cáo Hợp Đồng", "filename": "48_stats_08_kol_analytics_branch.png", "action": "Giao diện chính (Default View)", "relative_path": "07_ThongKe/48_stats_08_kol_analytics_branch.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/07_ThongKe/48_stats_08_kol_analytics_branch.png", "size_kb": 418.0}, {"section_id": "07_ThongKe", "section_title": "07. Thống Kê & Báo Cáo Hợp Đồng", "filename": "48_stats_09_kol_system_tree.png", "action": "Giao diện chính (Default View)", "relative_path": "07_ThongKe/48_stats_09_kol_system_tree.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/07_ThongKe/48_stats_09_kol_system_tree.png", "size_kb": 364.2}, {"section_id": "08_CaiDat", "section_title": "08. Cài Đặt Hệ Thống & Chính Sách", "filename": "49_benefit_setting_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "08_CaiDat/49_benefit_setting_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/08_CaiDat/49_benefit_setting_01_default_view.png", "size_kb": 206.4}, {"section_id": "08_CaiDat", "section_title": "08. Cài Đặt Hệ Thống & Chính Sách", "filename": "49_benefit_setting_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "08_CaiDat/49_benefit_setting_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/08_CaiDat/49_benefit_setting_02_modal_create.png", "size_kb": 201.4}, {"section_id": "08_CaiDat", "section_title": "08. Cài Đặt Hệ Thống & Chính Sách", "filename": "50_reward_kols_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "08_CaiDat/50_reward_kols_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/08_CaiDat/50_reward_kols_01_default_view.png", "size_kb": 248.9}, {"section_id": "08_CaiDat", "section_title": "08. Cài Đặt Hệ Thống & Chính Sách", "filename": "50_reward_kols_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "08_CaiDat/50_reward_kols_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/08_CaiDat/50_reward_kols_02_modal_create.png", "size_kb": 290.6}, {"section_id": "08_CaiDat", "section_title": "08. Cài Đặt Hệ Thống & Chính Sách", "filename": "51_blog_type_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "08_CaiDat/51_blog_type_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/08_CaiDat/51_blog_type_01_default_view.png", "size_kb": 196.5}, {"section_id": "08_CaiDat", "section_title": "08. Cài Đặt Hệ Thống & Chính Sách", "filename": "51_blog_type_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "08_CaiDat/51_blog_type_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/08_CaiDat/51_blog_type_02_modal_create.png", "size_kb": 193.7}, {"section_id": "08_CaiDat", "section_title": "08. Cài Đặt Hệ Thống & Chính Sách", "filename": "52_policy_01_default_view.png", "action": "Giao diện chính (Default View)", "relative_path": "08_CaiDat/52_policy_01_default_view.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/08_CaiDat/52_policy_01_default_view.png", "size_kb": 924.6}, {"section_id": "08_CaiDat", "section_title": "08. Cài Đặt Hệ Thống & Chính Sách", "filename": "52_policy_02_modal_create.png", "action": "Modal Form Thêm Mới (+)", "relative_path": "08_CaiDat/52_policy_02_modal_create.png", "full_path": "/Users/phamminhtri/Desktop/train/crawl4ai/output/cms_interactive/08_CaiDat/52_policy_02_modal_create.png", "size_kb": 153.5}];
+    let currentFilteredList = [];
+    let currentModalIndex = 0;
+    let currentSection = 'ALL';
+    let searchQuery = '';
+
+    function renderGallery() {
+      const grid = document.getElementById('galleryGrid');
+      grid.innerHTML = '';
+
+      currentFilteredList = allItems.filter(item => {
+        const matchSec = currentSection === 'ALL' || item.section_id === currentSection;
+        const matchSearch = searchQuery === '' || 
+          item.filename.toLowerCase().includes(searchQuery) ||
+          item.action.toLowerCase().includes(searchQuery) ||
+          item.section_title.toLowerCase().includes(searchQuery);
+        return matchSec && matchSearch;
+      });
+
+      currentFilteredList.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.onclick = () => openModalByIndex(idx);
+
+        let badgeClass = 'tag-default';
+        if (item.action.includes('Tạo Mới') || item.action.includes('Thêm Mới')) badgeClass = 'tag-modal';
+        else if (item.action.includes('Chi Tiết')) badgeClass = 'tag-detail';
+        else if (item.action.includes('Bộ Lọc')) badgeClass = 'tag-filter';
+        else if (item.action.includes('Thống Kê') || item.action.includes('Drawer') || item.action.includes('Cây hệ thống')) badgeClass = 'tag-stats';
+
+        const absolutePath = ABSOLUTE_BASE_DIR + item.relative_path;
+
+        card.innerHTML = `
+          <div class="thumb-wrapper">
+            <span class="tag-badge ${badgeClass}">${item.action}</span>
+            <img src="${item.relative_path}" alt="${item.filename}" loading="lazy">
+          </div>
+          <div class="card-body">
+            <span class="sec-name">${item.section_title}</span>
+            <div class="card-title">${item.filename.replace('.png', '')}</div>
+            <div class="card-meta">
+              <span>${item.size_kb} KB (4K UHD)</span>
+              <button class="btn-copy" onclick="copyPath(event, '${absolutePath}')" title="Copy đường dẫn tuyệt đối đầy đủ">
+                📋 Copy Path
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterBySection(secId) {
+      currentSection = secId;
+      document.querySelectorAll('#sectionPills .pill').forEach(p => p.classList.remove('active'));
+      event.target.classList.add('active');
+      renderGallery();
+    }
+
+    function handleSearch() {
+      searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+      renderGallery();
+    }
+
+    function openModalByIndex(index) {
+      if (index < 0 || index >= currentFilteredList.length) return;
+      currentModalIndex = index;
+      const item = currentFilteredList[index];
+
+      document.getElementById('modalCounter').innerText = `${index + 1} / ${currentFilteredList.length}`;
+      document.getElementById('modalTitle').innerText = `${item.section_title} - ${item.action} (${item.filename})`;
+      document.getElementById('modalImg').src = item.relative_path;
+      document.getElementById('imageModal').classList.add('active');
+    }
+
+    function navigateModal(direction) {
+      let nextIndex = currentModalIndex + direction;
+      if (nextIndex < 0) nextIndex = currentFilteredList.length - 1; // Vòng lặp về cuối
+      else if (nextIndex >= currentFilteredList.length) nextIndex = 0; // Vòng lặp về đầu
+      openModalByIndex(nextIndex);
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').classList.remove('active');
+    }
+
+    function copyCurrentModalPath() {
+      const item = currentFilteredList[currentModalIndex];
+      if (!item) return;
+      const absolutePath = ABSOLUTE_BASE_DIR + item.relative_path;
+      const btn = document.getElementById('modalCopyBtn');
+      navigator.clipboard.writeText(absolutePath).then(() => {
+        const oldHtml = btn.innerHTML;
+        btn.innerHTML = '✅ Đã Copy Đường Dẫn Tuyệt Đối!';
+        btn.style.background = '#10b981';
+        btn.style.color = '#06080e';
+        setTimeout(() => {
+          btn.innerHTML = oldHtml;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 1600);
+      });
+    }
+
+    function copyPath(e, fullPath) {
+      e.stopPropagation();
+      navigator.clipboard.writeText(fullPath).then(() => {
+        const btn = e.target.closest('.btn-copy');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '✅ Copied!';
+        btn.style.background = '#10b981';
+        btn.style.color = '#06080e';
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 1500);
+      });
+    }
+
+    // Phím tắt điều hướng: Trái / Phải / Escape
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('imageModal');
+      if (!modal.classList.contains('active')) return;
+
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        navigateModal(-1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        navigateModal(1);
+      } else if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    renderGallery();
+  </script>
+</body>
+</html>

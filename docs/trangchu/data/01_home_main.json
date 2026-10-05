@@ -1,0 +1,13 @@
+{
+  "idx": 1,
+  "name": "home_main",
+  "group": "01_TrangChu_Hero_Branding",
+  "url": "https://topbaohiem.vn/",
+  "desc": "Trang chủ TopBaoHiem: Hero section, chứng nhận Bộ Công Thương, 3 trụ cột giá trị",
+  "title": "TopBaoHiem - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/01_TrangChu_Hero_Branding/01_home_main_4k_viewport.png",
+  "fullpage_img": "screenshots/01_TrangChu_Hero_Branding/01_home_main_4k_fullpage.png",
+  "headings": [],
+  "key_features": []
+}

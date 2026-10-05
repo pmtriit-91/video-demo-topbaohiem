@@ -1,0 +1,13 @@
+{
+  "idx": 5,
+  "name": "car_tnds",
+  "group": "02_BaoHiem_OTo_XeMay",
+  "url": "https://topbaohiem.vn/car",
+  "desc": "Bảo hiểm TNDS Bắt buộc Ô tô: Phân loại xe kinh doanh / không kinh doanh, số chỗ ngồi",
+  "title": "Bảo hiểm TNDS Ô tô - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/05_car_tnds_4k_viewport.png",
+  "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/05_car_tnds_4k_fullpage.png",
+  "headings": [],
+  "key_features": []
+}

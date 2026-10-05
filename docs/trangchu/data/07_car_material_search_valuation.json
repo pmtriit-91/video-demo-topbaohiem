@@ -1,0 +1,47 @@
+{
+  "idx": 7,
+  "name": "car_material_search_valuation",
+  "group": "02_BaoHiem_OTo_XeMay",
+  "url": "https://topbaohiem.vn/car-material/search",
+  "desc": "Công cụ tra cứu định giá thị trường xe ô tô tự động theo hãng, model, đời xe",
+  "title": "Bảo hiểm Vật chất xe ô tô - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/07_car_material_search_valuation_4k_viewport.png",
+  "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/07_car_material_search_valuation_4k_fullpage.png",
+  "headings": [
+    {
+      "tag": "H1",
+      "text": "Thông tin xe bảo hiểm"
+    },
+    {
+      "tag": "H2",
+      "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+    },
+    {
+      "tag": "H4",
+      "text": "Sản phẩm"
+    },
+    {
+      "tag": "H4",
+      "text": "Dịch vụ"
+    },
+    {
+      "tag": "H4",
+      "text": "Chính sách"
+    },
+    {
+      "tag": "H4",
+      "text": "Kết nối với chúng tôi"
+    }
+  ],
+  "key_features": [
+    "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+    "Mua bảo hiểm\nƯu đãi\nBlogs",
+    "Thông tin xe bảo hiểm\n\nHãng xe\n\n​",
+    "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam",
+    "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc",
+    "Dịch vụ\nƯu đãi\nYêu cầu bồi thường",
+    "Kết nối với chúng tôi",
+    "Copyright ©2024 TopBaoHiem all rights reserved"
+  ]
+}

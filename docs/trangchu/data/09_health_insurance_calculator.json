@@ -1,0 +1,13 @@
+{
+  "idx": 9,
+  "name": "health_insurance_calculator",
+  "group": "03_BaoHiem_SucKhoe_YTe",
+  "url": "https://topbaohiem.vn/health",
+  "desc": "Bảo hiểm Sức khỏe: Báo giá theo độ tuổi, quyền lợi nội trú, ngoại trú, nha khoa, thai sản",
+  "title": "Bảo hiểm Sức khoẻ - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/03_BaoHiem_SucKhoe_YTe/09_health_insurance_calculator_4k_viewport.png",
+  "fullpage_img": "screenshots/03_BaoHiem_SucKhoe_YTe/09_health_insurance_calculator_4k_fullpage.png",
+  "headings": [],
+  "key_features": []
+}

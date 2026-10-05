@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOPBAOHIEM.VN - Kho Tư Liệu Ảnh 4K UHD & Audit UI/UX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #0a0e17;
+      --bg-card: rgba(18, 24, 38, 0.75);
+      --bg-card-hover: rgba(28, 38, 60, 0.85);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(0, 212, 255, 0.4);
+      --accent-cyan: #00d4ff;
+      --accent-blue: #2563eb;
+      --accent-purple: #8b5cf6;
+      --accent-rose: #f43f5e;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-sub: #64748b;
+      --glass-gloss: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+      --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      --shadow-glow: 0 0 25px rgba(0, 212, 255, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 25%, rgba(139, 92, 246, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 50% 80%, rgba(0, 212, 255, 0.08) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    /* Header */
+    header {
+      padding: 2.5rem 2rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(10, 14, 23, 0.85);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      color: #000;
+      font-weight: 800;
+      font-size: 1.1rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 12px;
+      letter-spacing: -0.5px;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+    }
+
+    .brand-text h1 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #ffffff, #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-text p {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+    }
+
+    /* Stat Badges */
+    .stat-pills {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+    }
+
+    .stat-pill strong {
+      color: var(--accent-cyan);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Controls Bar */
+    .controls-bar {
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 420px;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.65rem 1rem 0.65rem 2.5rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 12px rgba(0, 212, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-sub);
+      pointer-events: none;
+    }
+
+    .view-mode-toggle {
+      display: flex;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .view-btn.active {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
+    }
+
+    /* Filter Tabs */
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.4rem;
+      scrollbar-width: thin;
+    }
+
+    .filter-tabs::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .filter-tabs::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.45rem 0.95rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .tab-btn.active {
+      background: var(--accent-cyan);
+      color: #000;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.35);
+      font-weight: 700;
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .group-section {
+      margin-bottom: 3.5rem;
+    }
+
+    .group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.75rem;
+    }
+
+    .group-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .group-index {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+
+    .group-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .group-hint {
+      font-size: 0.85rem;
+      color: var(--accent-amber);
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      padding: 0.35rem 0.85rem;
+      border-radius: 6px;
+      margin-top: 0.5rem;
+      display: inline-block;
+    }
+
+    .group-count {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+    }
+
+    /* Grid Layout */
+    .asset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 1400px) {
+      .asset-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Asset Card */
+    .asset-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .asset-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-card), var(--shadow-glow);
+    }
+
+    .card-thumb-wrap {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: #000;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .card-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      transition: transform 0.4s ease;
+    }
+
+    .asset-card:hover .card-thumb-wrap img {
+      transform: scale(1.03);
+    }
+
+    .resolution-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--accent-cyan);
+      font-size: 0.7rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .type-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(37, 99, 235, 0.85);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+    }
+
+    .card-body {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 0.65rem;
+    }
+
+    .card-idx-name {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-idx {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent-purple);
+      font-weight: 700;
+      background: rgba(139, 92, 246, 0.12);
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+    }
+
+    .card-url {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 200px;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.35;
+    }
+
+    .card-desc {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .card-footer {
+      padding: 0 1.25rem 1.25rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.775rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border-color);
+      flex: 1;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(37, 99, 235, 0.2));
+      color: var(--accent-cyan);
+      border-color: rgba(0, 212, 255, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.4), rgba(37, 99, 235, 0.4));
+      color: #fff;
+      border-color: var(--accent-cyan);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .btn-icon-only {
+      flex: 0 0 auto;
+      padding: 0.5rem;
+      width: 34px;
+      height: 34px;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(5, 7, 12, 0.92);
+      backdrop-filter: blur(20px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-container {
+      max-width: 95vw;
+      max-height: 95vh;
+      display: flex;
+      flex-direction: column;
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-header {
+      padding: 1rem 1.5rem;
+      background: rgba(30, 41, 59, 0.7);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title-info h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .modal-title-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .modal-body {
+      overflow: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background: #020617;
+    }
+
+    .modal-body img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .close-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .close-btn:hover {
+      background: var(--accent-rose);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #1e293b;
+      border: 1px solid var(--accent-cyan);
+      color: #fff;
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <div class="top-bar">
+        <div class="logo-area">
+          <div class="logo-badge">4K MEDIA</div>
+          <div class="brand-text">
+            <h1>TOPBAOHIEM.VN — Kho Tư Liệu Đồ Họa & Báo Cáo Audit UI/UX</h1>
+            <p>Hệ thống trích xuất toàn diện 51 trang chức năng phục vụ sản xuất Video Quảng Cáo chuẩn 2K/4K UHD</p>
+          </div>
+        </div>
+        <div class="stat-pills">
+          <div class="stat-pill"><span>Nhóm Chức Năng:</span> <strong>11 Groups</strong></div>
+          <div class="stat-pill"><span>Độ Phân Giải:</span> <strong>3840 x 2160 UHD</strong></div>
+          <div class="stat-pill"><span>Tỉ Lệ Khung Hình:</span> <strong>16:9 Cinema</strong></div>
+          <div class="stat-pill"><span>Tổng Số Items:</span> <strong id="total-count-badge">48 Screens</strong></div>
+        </div>
+      </div>
+
+      <div class="controls-bar">
+        <div class="search-box">
+          <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <input type="text" id="search-input" placeholder="Tìm kiếm trang, tính năng (VD: OCR, VNPAY, Du lịch, Viện phí...)">
+        </div>
+
+        <div class="view-mode-toggle">
+          <button class="view-btn active" id="btn-mode-vp" onclick="setViewMode('viewport')">Chế Độ Viewport 4K (16:9)</button>
+          <button class="view-btn" id="btn-mode-fp" onclick="setViewMode('fullpage')">Chế Độ Full-Page Scroll</button>
+        </div>
+      </div>
+
+      <div class="filter-tabs" id="filter-tabs">
+        <button class="tab-btn active" onclick="filterGroup('ALL')">Tất Cả (48)</button>
+        <button class="tab-btn" onclick="filterGroup('01_TrangChu_Hero_Branding')">01. Trang Chủ & Hero Branding (2)</button>
+        <button class="tab-btn" onclick="filterGroup('02_BaoHiem_OTo_XeMay')">02. Bảo Hiểm Xe Ô Tô & Xe Máy (6)</button>
+        <button class="tab-btn" onclick="filterGroup('03_BaoHiem_SucKhoe_YTe')">03. Sức Khỏe & Tra Cứu Y Tế (4)</button>
+        <button class="tab-btn" onclick="filterGroup('04_BaoHiem_DuLich')">04. Du Lịch Quốc Tế & Nội Địa (3)</button>
+        <button class="tab-btn" onclick="filterGroup('05_BaoHiem_TaiSan_DoanhNghiep')">05. Tài Sản & Cháy Nổ Doanh Nghiệp (7)</button>
+        <button class="tab-btn" onclick="filterGroup('06_SoSanh_BaoGia_ThongMinh')">06. Ma Trận So Sánh Đa Hãng (2)</button>
+        <button class="tab-btn" onclick="filterGroup('07_QuyTrinh_DatMua_ThanhToan')">07. Form Đặt Mua, AI OCR & Cổng TT (9)</button>
+        <button class="tab-btn" onclick="filterGroup('08_BoiThuong_CSKH_HoTro')">08. Tra Cứu Bồi Thường & CSKH (4)</button>
+        <button class="tab-btn" onclick="filterGroup('09_CongTacVien_KOL_DaiLy')">09. Kênh Đối Tác KOL & CTV Bán Hàng (3)</button>
+        <button class="tab-btn" onclick="filterGroup('10_QuanLy_HopDong_CaNhan')">10. Quản Lý Hợp Đồng & Cá Nhân (3)</button>
+        <button class="tab-btn" onclick="filterGroup('11_CamNang_PhapLy_ChinhSach')">11. Cẩm Nang Kiến Thức & Pháp Lý (5)</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="gallery-container">
+    <!-- Render dynamic group sections via JavaScript -->
+  </main>
+
+  <!-- Modal Preview 4K -->
+  <div class="modal-overlay" id="preview-modal" onclick="closeModal(event)">
+    <div class="modal-container" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-info">
+          <h3 id="modal-title">Tên Màn Hình</h3>
+          <p id="modal-sub">Độ phân giải: 3840 x 2160 UHD | 16:9 Cinema Aspect Ratio</p>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" id="modal-copy-btn" onclick="copyModalPath()">Sao Chép Đường Dẫn File</button>
+          <a class="btn btn-primary" id="modal-open-tab" href="#" target="_blank">Mở Tab Gốc 4K</a>
+          <button class="close-btn" onclick="closeModalDirect()">&times;</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <img id="modal-img" src="" alt="4K Preview">
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast-notify">Đã sao chép đường dẫn ảnh vào Clipboard!</div>
+
+  <script>
+    const itemsData = [{"idx": 1, "name": "home_main", "group": "01_TrangChu_Hero_Branding", "url": "https://topbaohiem.vn/", "desc": "Trang chủ TopBaoHiem: Hero section, chứng nhận Bộ Công Thương, 3 trụ cột giá trị", "title": "TopBaoHiem - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/01_TrangChu_Hero_Branding/01_home_main_4k_viewport.png", "fullpage_img": "screenshots/01_TrangChu_Hero_Branding/01_home_main_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 2, "name": "home_workflow_partners", "group": "01_TrangChu_Hero_Branding", "url": "https://topbaohiem.vn/", "desc": "Quy trình mua 4 bước, thẻ phân loại bảo hiểm và đối tác bảo hiểm liên kết", "title": "TopBaoHiem - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/01_TrangChu_Hero_Branding/02_home_workflow_partners_4k_viewport.png", "fullpage_img": "screenshots/01_TrangChu_Hero_Branding/02_home_workflow_partners_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 3, "name": "motorbike_listing", "group": "02_BaoHiem_OTo_XeMay", "url": "https://topbaohiem.vn/motorbike", "desc": "Bảo hiểm TNDS Xe máy: Bộ lọc tính phí, danh sách so sánh PTI, PVI, Bảo Việt, PJICO, Bảo Long", "title": "Bảo hiểm TNDS Xe máy - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/03_motorbike_listing_4k_viewport.png", "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/03_motorbike_listing_4k_fullpage.png", "headings": [{"tag": "H1", "text": "BẢO HIỂM TNDS XE MÁY"}, {"tag": "H1", "text": "Bảo Hiểm TNDS Xe Máy"}, {"tag": "H3", "text": "CÁC GÓI BẢO HIỂM"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PTI - Xe dưới 50cc/xe máy điện"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PTI - Xe dưới 50cc/xe máy điện"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PVI - xe dưới 50cc/ xe máy điện"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PVI - xe dưới 50cc/ xe máy điện"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy Bảo Việt - xe dưới 50cc/xe máy điện"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy Bảo Việt - xe dưới 50cc/xe máy điện"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PJICO - xe dưới 50cc/xe máy điện"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PJICO - xe dưới 50cc/xe máy điện"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy Bảo Long - xe dưới 50cc/xe máy điện"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy Bảo Long - xe dưới 50cc/xe máy điện"}, {"tag": "H4", "text": "Bảo hiểm TNDS Xe máy Bảo Việt - xe trên 50cc"}, {"tag": "H4", "text": "Bảo hiểm TNDS Xe máy Bảo Việt - xe trên 50cc"}, {"tag": "H4", "text": "Bảo hiểm TNDS Xe máy PTI - xe trên 50cc"}, {"tag": "H4", "text": "Bảo hiểm TNDS Xe máy PTI - xe trên 50cc"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PVI - xe trên 50cc"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PVI - xe trên 50cc"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PJICO - xe trên 50cc"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PJICO - xe trên 50cc"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy Bảo Long - xe trên 50cc"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy Bảo Long - xe trên 50cc"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PTI - Xe 3 bánh"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PTI - Xe 3 bánh"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PVI - Xe 3 bánh"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PVI - Xe 3 bánh"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy Bảo Việt - Xe 3 bánh"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy Bảo Việt - Xe 3 bánh"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PJICO - xe ba bánh"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy PJICO - xe ba bánh"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy Bảo Long - xe ba bánh"}, {"tag": "H4", "text": "Bảo hiểm TNDS xe máy Bảo Long - xe ba bánh"}, {"tag": "H4", "text": "Vì sao nên chọn bảo hiểm của TopBaoHiem!"}, {"tag": "H3", "text": "Đa dạng nhà cung cấp"}, {"tag": "H3", "text": "Đa dạng nhà cung cấp"}, {"tag": "H3", "text": "Chứng nhận điện tử"}, {"tag": "H4", "text": "Đối tác của chúng tôi"}, {"tag": "H2", "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"}, {"tag": "H4", "text": "Sản phẩm"}, {"tag": "H4", "text": "Dịch vụ"}, {"tag": "H4", "text": "Chính sách"}, {"tag": "H4", "text": "Kết nối với chúng tôi"}], "key_features": ["Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập", "Mua bảo hiểm\nƯu đãi\nBlogs", "BẢO HIỂM TNDS XE MÁY\n\nBảo vệ trách nhiệm tài chính khi xảy ra tai nạn", "Bảo vệ trách nhiệm tài chính khi xảy ra tai nạn", "Bảo Hiểm TNDS Xe MáyBảo vệ trách nhiệm tài chính khi xảy ra tai nạn", "Loại xe\n\nTất cả\n​\n\nThời hạn (năm)\n\n01\n​\nTNDS người ngồi trên xe\nSố người\n\nGiá dự kiến từ\n\n80.000 vnđ\n\nBộ lọc\nLọc ngay", "TNDS người ngồi trên xe\nSố người", "TNDS người ngồi trên xe", "Giá dự kiến từ\n\n80.000 vnđ", "Chọn để so sánh\nBảo hiểm TNDS xe máy PTI - Xe dưới 50cc/xe máy điện\n75.000đ/năm\nXem chi tiết\nMua ngay", "Bảo hiểm TNDS xe máy PTI - Xe dưới 50cc/xe máy điện", "Xem chi tiết\nMua ngay", "Bảo hiểm TNDS xe máy PTI - Xe dưới 50cc/xe máy điện75.000đ/nămChọn để so sánhXem chi tiếtMua ngay", "Chọn để so sánhXem chi tiếtMua ngay", "Chọn để so sánh\nBảo hiểm TNDS xe máy PVI - xe dưới 50cc/ xe máy điện\n75.000đ/năm\nXem chi tiết\nMua ngay", "Bảo hiểm TNDS xe máy PVI - xe dưới 50cc/ xe máy điện", "Bảo hiểm TNDS xe máy PVI - xe dưới 50cc/ xe máy điện75.000đ/nămChọn để so sánhXem chi tiếtMua ngay", "Chọn để so sánh\nBảo hiểm TNDS xe máy Bảo Việt - xe dưới 50cc/xe máy điện\n75.000đ/năm\nXem chi tiết\nMua ngay", "Bảo hiểm TNDS xe máy Bảo Việt - xe dưới 50cc/xe máy điện", "Bảo hiểm TNDS xe máy Bảo Việt - xe dưới 50cc/xe máy điện75.000đ/nămChọn để so sánhXem chi tiếtMua ngay", "Chọn để so sánh\nBảo hiểm TNDS xe máy PJICO - xe dưới 50cc/xe máy điện\n75.000đ/năm\nXem chi tiết\nMua ngay", "Bảo hiểm TNDS xe máy PJICO - xe dưới 50cc/xe máy điện", "Bảo hiểm TNDS xe máy PJICO - xe dưới 50cc/xe máy điện75.000đ/nămChọn để so sánhXem chi tiếtMua ngay", "Chọn để so sánh\nBảo hiểm TNDS xe máy Bảo Long - xe dưới 50cc/xe máy điện\n75.000đ/năm\nXem chi tiết\nMua ngay", "Bảo hiểm TNDS xe máy Bảo Long - xe dưới 50cc/xe máy điện"]}, {"idx": 4, "name": "motorbike_intro", "group": "02_BaoHiem_OTo_XeMay", "url": "https://topbaohiem.vn/motorbike/intro", "desc": "Giới thiệu quyền lợi & biểu phí chuẩn TNDS xe máy", "title": "Bảo hiểm Sức khoẻ - Giới thiệu - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/04_motorbike_intro_4k_viewport.png", "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/04_motorbike_intro_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 5, "name": "car_tnds", "group": "02_BaoHiem_OTo_XeMay", "url": "https://topbaohiem.vn/car", "desc": "Bảo hiểm TNDS Bắt buộc Ô tô: Phân loại xe kinh doanh / không kinh doanh, số chỗ ngồi", "title": "Bảo hiểm TNDS Ô tô - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/05_car_tnds_4k_viewport.png", "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/05_car_tnds_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 6, "name": "car_material_calculator", "group": "02_BaoHiem_OTo_XeMay", "url": "https://topbaohiem.vn/car-material", "desc": "Bảo hiểm Vật chất Xe hơi: Công cụ tính phí thân vỏ, khấu trừ, điều khoản mở rộng thủy kích", "title": "Bảo hiểm Vật chất xe ô tô - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/06_car_material_calculator_4k_viewport.png", "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/06_car_material_calculator_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 7, "name": "car_material_search_valuation", "group": "02_BaoHiem_OTo_XeMay", "url": "https://topbaohiem.vn/car-material/search", "desc": "Công cụ tra cứu định giá thị trường xe ô tô tự động theo hãng, model, đời xe", "title": "Bảo hiểm Vật chất xe ô tô - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/07_car_material_search_valuation_4k_viewport.png", "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/07_car_material_search_valuation_4k_fullpage.png", "headings": [{"tag": "H1", "text": "Thông tin xe bảo hiểm"}, {"tag": "H2", "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"}, {"tag": "H4", "text": "Sản phẩm"}, {"tag": "H4", "text": "Dịch vụ"}, {"tag": "H4", "text": "Chính sách"}, {"tag": "H4", "text": "Kết nối với chúng tôi"}], "key_features": ["Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập", "Mua bảo hiểm\nƯu đãi\nBlogs", "Thông tin xe bảo hiểm\n\nHãng xe\n\n​", "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam", "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc", "Dịch vụ\nƯu đãi\nYêu cầu bồi thường", "Kết nối với chúng tôi", "Copyright ©2024 TopBaoHiem all rights reserved"]}, {"idx": 8, "name": "car_material_intro", "group": "02_BaoHiem_OTo_XeMay", "url": "https://topbaohiem.vn/car-material/intro", "desc": "Quy tắc và quyền lợi chi tiết bảo hiểm vật chất xe cơ giới", "title": "Bảo hiểm Vật chất xe ô tô - Giới thiệu - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/08_car_material_intro_4k_viewport.png", "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/08_car_material_intro_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 9, "name": "health_insurance_calculator", "group": "03_BaoHiem_SucKhoe_YTe", "url": "https://topbaohiem.vn/health", "desc": "Bảo hiểm Sức khỏe: Báo giá theo độ tuổi, quyền lợi nội trú, ngoại trú, nha khoa, thai sản", "title": "Bảo hiểm Sức khoẻ - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/03_BaoHiem_SucKhoe_YTe/09_health_insurance_calculator_4k_viewport.png", "fullpage_img": "screenshots/03_BaoHiem_SucKhoe_YTe/09_health_insurance_calculator_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 10, "name": "health_intro", "group": "03_BaoHiem_SucKhoe_YTe", "url": "https://topbaohiem.vn/health/intro", "desc": "Giới thiệu gói chăm sóc sức khỏe gia đình và cá nhân", "title": "Bảo hiểm Sức khoẻ - Giới thiệu - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/03_BaoHiem_SucKhoe_YTe/10_health_intro_4k_viewport.png", "fullpage_img": "screenshots/03_BaoHiem_SucKhoe_YTe/10_health_intro_4k_fullpage.png", "headings": [{"tag": "H1", "text": "So sánh bảo hiểm,\nchọn TopBaoHiem!"}, {"tag": "H4", "text": "Bảo hiểm sức khỏe toàn diện"}, {"tag": "H4", "text": "Tại sao nên mua Bảo hiểm sức khoẻ toàn diện?"}, {"tag": "H4", "text": "Chọn TopBaoHiem khi mua bảo hiểm sức khoẻ"}, {"tag": "H4", "text": "Đối tác và khách hàng nói về TOPbaohiem"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "Có thể bạn cần biết"}, {"tag": "H3", "text": "Phân biệt bảo hiểm sức khoẻ và bảo hiển nhân thọ"}, {"tag": "H3", "text": "Phân biệt giữa quyền lợi bảo hiểm sức khỏe nội trú và ngoại trú"}, {"tag": "H3", "text": "Dùng thẻ bảo lãnh viện phí để được bảo hiểm chi trả viện phí như thế nào?"}, {"tag": "H3", "text": "Giải đáp về thời gian chờ khi mua bảo hiểm sức khỏe online hoặc trực tiếp"}, {"tag": "H3", "text": "Bảo hiểm sức khỏe gia đình và những lợi ích khi tham gia"}, {"tag": "H3", "text": "Hướng dẫn mua bảo hiểm sức khỏe thai sản trên TopBaoHiem"}, {"tag": "H4", "text": "Câu hỏi thường gặp"}, {"tag": "H2", "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"}, {"tag": "H4", "text": "Sản phẩm"}, {"tag": "H4", "text": "Dịch vụ"}, {"tag": "H4", "text": "Chính sách"}, {"tag": "H4", "text": "Kết nối với chúng tôi"}], "key_features": ["Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập", "Mua bảo hiểm\nƯu đãi\nBlogs", "So sánh bảo hiểm,\nchọn TopBaoHiem!\nSo sánh và cung cấp thông tin bảo hiểm bạn cần một cách nhanh nhất!\nMUA CHO CÁ NHÂN\nMUA CHO GIA ĐÌNH\nTRA CỨU BỆNH VIỆN BẢO LÃNH VIỆN PHÍ", "MUA CHO CÁ NHÂN\nMUA CHO GIA ĐÌNH\nTRA CỨU BỆNH VIỆN BẢO LÃNH VIỆN PHÍ", "MUA CHO CÁ NHÂN\nMUA CHO GIA ĐÌNH", "Dịch vụ bảo lãnh viện phí tiện lợi, khách hàng không phải thanh toán toàn bộ tiền khám chữa bệnh tại bệnh viện.", "Chi trả bồi thường nhanh chóng và minh bạch.", "Hỗ trợ thanh toán dịch vụ y tế chất lượng cao.", "dịch vụ y tế chất lượng cao.", "Không giới hạn danh sách bệnh viện khám theo tuyến.", "Dự phòng tài chính trước những bệnh lý nghiêm trọng.", "Cung cấp các dịch vụ y tế mở rộng (nha khoa, thai sản, v.v...).", "Thiết kế gói bảo hiểm phù hợp cho gia đình với chi phí tiết kiệm.", "Chọn TopBaoHiem khi mua bảo hiểm sức khoẻ", "Thao tác thuận tiện\nDễ dàng theo dõi và tra cứu hồ sơ bảo hiểm mọi lúc mọi nơi chỉ trên một ứng dụng duy nhất mà không mất thời gian điền vào các mẫu biểu giấy.", "Thủ tục đơn giản\nXuất hợp đồng điện tử chỉ trong vài phút.", "Ưu đãi hấp dẫn\nTiết kiệm chi phí với các chương trình ưu đãi khi mua bảo hiểm online.", "Đối tác và khách hàng nói về TOPbaohiem", "Anh Nguyễn Mạnh\n\nKhách hàng", "Anh Nguyễn Việt Thắng\n\nCông ty Sách Đông A", "Anh Nguyễn Việt Thắng", "Có thể bạn cần biết\nNhững bài viết tổng hợp kiến thức về kinh nghiệm mua bảo hiểm được chúng tôi cập nhật hàng ngày", "Những bài viết tổng hợp kiến thức về kinh nghiệm mua bảo hiểm được chúng tôi cập nhật hàng ngày", "Phân biệt bảo hiểm sức khoẻ và bảo hiển nhân thọ\n\nĐọc thêm", "Phân biệt giữa quyền lợi bảo hiểm sức khỏe nội trú và ngoại trú\n\nĐọc thêm"]}, {"idx": 11, "name": "voluntary_health", "group": "03_BaoHiem_SucKhoe_YTe", "url": "https://topbaohiem.vn/voluntary-health", "desc": "Bảo hiểm y tế tự nguyện bổ sung", "title": "Bảo hiểm y tế tự nguyện Việt Nam - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/03_BaoHiem_SucKhoe_YTe/11_voluntary_health_4k_viewport.png", "fullpage_img": "screenshots/03_BaoHiem_SucKhoe_YTe/11_voluntary_health_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 12, "name": "medical_network_search", "group": "03_BaoHiem_SucKhoe_YTe", "url": "https://topbaohiem.vn/medical-search", "desc": "Hệ thống tra cứu mạng lưới bệnh viện & phòng khám bảo lãnh viện phí", "title": "Tra cứu cơ sở y tế - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/03_BaoHiem_SucKhoe_YTe/12_medical_network_search_4k_viewport.png", "fullpage_img": "screenshots/03_BaoHiem_SucKhoe_YTe/12_medical_network_search_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 13, "name": "international_travel", "group": "04_BaoHiem_DuLich", "url": "https://topbaohiem.vn/travel", "desc": "Bảo hiểm Du lịch Quốc tế: Chuẩn xin visa Schengen, y tế khẩn cấp, bảo hiểm hoãn hủy chuyến", "title": "Bảo hiểm Du lịch - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/04_BaoHiem_DuLich/13_international_travel_4k_viewport.png", "fullpage_img": "screenshots/04_BaoHiem_DuLich/13_international_travel_4k_fullpage.png", "headings": [{"tag": "H1", "text": "BẢO HIỂM DU LỊCH"}, {"tag": "H1", "text": "Bảo hiểm du lịch"}, {"tag": "H3", "text": "Gợi ý cho bạn"}, {"tag": "H3", "text": "CÁC GÓI BẢO HIỂM"}, {"tag": "H4", "text": "Bảo hiểm du lịch quốc tế PTI - gói Gold - Bảo hiểm du lịch quốc tế PTI - Gói Gold"}, {"tag": "H4", "text": "Bảo hiểm du lịch quốc tế PTI - gói Gold - Bảo hiểm du lịch quốc tế PTI - Gói  Gold"}, {"tag": "H4", "text": "Bảo hiểm du lịch quốc tế PTI - Gói Silver - Bảo hiểm du lịch quốc tế PTI - Gói Silver"}, {"tag": "H4", "text": "Bảo hiểm du lịch quốc tế PTI - Gói Silver - Bảo hiểm du lịch quốc tế PTI - Gói Silver"}, {"tag": "H4", "text": "Bảo hiểm du lịch quốc tế PTI - Gói Platinum - Bảo hiểm du lịch quốc tế PTI - Gói Platinum"}, {"tag": "H4", "text": "Bảo hiểm du lịch quốc tế PTI - Gói Platinum - Bảo hiểm du lịch quốc tế PTI - Gói Platinum"}, {"tag": "H4", "text": "Bảo hiểm du lịch quốc tế PVI-Chương Trình 1 - Chương trình 1"}, {"tag": "H4", "text": "Bảo hiểm du lịch quốc tế PVI-Chương Trình 1 - Chương trình 1"}, {"tag": "H4", "text": "Bảo hiểm du lịch quốc tế PVI-Chương Trình 2 - Chương trình 2"}, {"tag": "H4", "text": "Bảo hiểm du lịch quốc tế PVI-Chương Trình 2 - Chương trình 2"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 3 - Chương trình 3"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 3 - Chương trình 3"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 4 - Chương trình 4"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 4 - Chương trình 4"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 5 - Chương trình 5"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 5 - Chương trình 5"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 6 - Chương trình 6"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế PVI-Chương trình 6 - Chương trình 6"}, {"tag": "H4", "text": "Bảo hiểm du lịch quốc tế Bảo Việt - Chương trình Bạc - Chương trình Bạc ( cá nhân) - ĐNÁ"}, {"tag": "H4", "text": "Bảo hiểm du lịch quốc tế Bảo Việt - Chương trình Bạc - Chương trình Bạc ( cá nhân) - ĐNÁ"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Vàng - Chương trình vàng (cá nhân) - ĐNA"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Vàng - Chương trình vàng (cá nhân) - ĐNA"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Bạch kim - Chương trình Bạch kim ( cá nhân) - ĐNA"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Bạch kim - Chương trình Bạch kim ( cá nhân) - ĐNA"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Kim cương - Chương trình Kim cương (cá nhân) - ĐNA"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Kim cương - Chương trình Kim cương (cá nhân) - ĐNA"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Bạc - Chương trình Bạc ( cá nhân) - TCQG"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Bạc - Chương trình Bạc ( cá nhân) - TCQG"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Vàng - Chương trình vàng ( cá nhân) - TCQG"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Vàng - Chương trình vàng ( cá nhân) - TCQG"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Bạch kim - Chương trình Bạch kim ( cá nhân) - TCQG"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Bạch kim - Chương trình Bạch kim ( cá nhân) - TCQG"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Kim cương - Chương trình Kim cương ( cá nhân) - TCQG"}, {"tag": "H4", "text": "Bảo hiểm Du lịch quốc tế Bảo Việt - Chương trình Kim cương - Chương trình Kim cương ( cá nhân) - TCQG"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc - Gói Bạc - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc  - Gói Bạc - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc - Gói Bạc - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc  - Gói Bạc - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc - Gói Bạc - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc  - Gói Bạc - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc - Gói Bạc - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói bạc  - Gói Bạc - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc - Gói Bạc - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc  - Gói Bạc - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc - Gói Bạc - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc  - Gói Bạc - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc - Gói Bạc - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc  - Gói Bạc - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc - Gói Bạc - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Bạc  - Gói Bạc - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng - Gói Vàng - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng  - Gói Vàng - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng - Gói Vàng - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng  - Gói Vàng - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng - Gói Bạc - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng  - Gói Bạc - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng - Gói Bạc - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói vàng  - Gói Bạc - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng - Gói Vàng - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng  - Gói Vàng - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng - Gói Vàng - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng  - Gói Vàng - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng - Gói Vàng - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng  - Gói Vàng - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng - Gói Vàng - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Vàng  - Gói Vàng - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương - Gói Kim Cương - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương  - Gói Kim Cương - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương - Gói Kim Cương - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương  - Gói Kim Cương - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương - Gói Kim Cương - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương  - Gói Kim Cương - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương - Gói Kim Cương - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói kim cương  - Gói Kim Cương - Cá nhân"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương - Gói Kim Cương - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương  - Gói Kim Cương - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương - Gói Kim Cương - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương  - Gói Kim Cương - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương - Gói Kim Cương - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương  - Gói Kim Cương - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương - Gói Kim Cương - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế Bảo Long - Gói Kim Cương  - Gói Kim Cương - Gia đình"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình A - Chương trình A"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình A - Chương trình A"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình B - Chương trình B"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình B - Chương trình B"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình C - Chương trình C"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình C - Chương trình C"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình D - Chương trình D"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình D - Chương trình D"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình E - Chương trình E"}, {"tag": "H4", "text": "Bảo hiểm du lịch Quốc tế BIC - Chương trình E - Chương trình E"}, {"tag": "H4", "text": "Vì sao nên chọn bảo hiểm của TopBaoHiem!"}, {"tag": "H3", "text": "Đa dạng nhà cung cấp"}, {"tag": "H3", "text": "Đa dạng nhà cung cấp"}, {"tag": "H3", "text": "Chứng nhận điện tử"}, {"tag": "H4", "text": "Đối tác của chúng tôi"}, {"tag": "H2", "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"}, {"tag": "H4", "text": "Sản phẩm"}, {"tag": "H4", "text": "Dịch vụ"}, {"tag": "H4", "text": "Chính sách"}, {"tag": "H4", "text": "Kết nối với chúng tôi"}], "key_features": ["Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập", "Mua bảo hiểm\nƯu đãi\nBlogs", "BẢO HIỂM DU LỊCH\n\nAn tâm du lịch, vững vàng trước mọi rủi ro", "An tâm du lịch, vững vàng trước mọi rủi ro", "Bảo hiểm du lịchAn tâm du lịch, vững vàng trước mọi rủi ro", "Điểm đến\n\nSingapore\n\nLịch trình\n\n23/09/2026 - 26/09/2026\n\nMua bảo hiểm cho\n\nCá nhân\nGia đình\nNhóm\n\nNgân sách\n\n60.000 - 13.380.000 đ\n\n60.000 đ\n\n13.380.000 đ\n\nBộ lọc\nLọc ngay", "Lịch trình\n\n23/09/2026 - 26/09/2026", "23/09/2026 - 26/09/2026", "Mua bảo hiểm cho\n\nCá nhân\nGia đình\nNhóm", "Cá nhân\nGia đình\nNhóm", "Ngân sách\n\n60.000 - 13.380.000 đ\n\n60.000 đ\n\n13.380.000 đ", "60.000 - 13.380.000 đ", "60.000 đ\n\n13.380.000 đ", "Gợi ý cho bạn\n\nChưa có kết quả phù hợp, bạn thử điều chỉnh điều kiện tìm kiếm nhé!", "Chưa có kết quả phù hợp, bạn thử điều chỉnh điều kiện tìm kiếm nhé!", "Chọn để so sánh\nBảo hiểm du lịch quốc tế PTI - gói Gold - Bảo hiểm du lịch quốc tế PTI - Gói Gold\n110.000đ/năm", "Bảo hiểm du lịch quốc tế PTI - gói Gold - Bảo hiểm du lịch quốc tế PTI - Gói Gold", "Chi phí y tế\n1.000 USD\nNội trú\n20.000 USD\nNgoại trú\n1.000 USD\nVận chuyển cấp cứu\n20.000 USD\nXem chi tiết\nMua ngay", "Chi phí y tế\n1.000 USD\nNội trú\n20.000 USD\nNgoại trú\n1.000 USD\nVận chuyển cấp cứu\n20.000 USD", "Chi phí y tế\n1.000 USD", "Vận chuyển cấp cứu\n20.000 USD", "Xem chi tiết\nMua ngay", "Bảo hiểm du lịch quốc tế PTI - gói Gold - Bảo hiểm du lịch quốc tế PTI - Gói  Gold", "Chi phí y tế1.000 USDNội trú 20.000 USDNgoại trú1.000 USDVận chuyển cấp cứu20.000 USD", "Chi phí y tế1.000 USD"]}, {"idx": 14, "name": "travel_intro", "group": "04_BaoHiem_DuLich", "url": "https://topbaohiem.vn/travel/intro", "desc": "Giới thiệu quyền lợi và mức bảo hiểm du lịch quốc tế", "title": "Bảo hiểm Du lịch quốc tế - Giới thiệu - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/04_BaoHiem_DuLich/14_travel_intro_4k_viewport.png", "fullpage_img": "screenshots/04_BaoHiem_DuLich/14_travel_intro_4k_fullpage.png", "headings": [{"tag": "H1", "text": "So sánh bảo hiểm,\nchọn TopBaoHiem!"}, {"tag": "H4", "text": "Bảo Hiểm Du Lịch Quốc Tế"}, {"tag": "H4", "text": "Tại sao nên mua Bảo hiểm cháy nổ bắt buộc?"}, {"tag": "H4", "text": "Chọn TopBaoHiem khi mua bảo hiểm cháy nổ"}, {"tag": "H4", "text": "Đối tác và khách hàng nói về TOPbaohiem"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "Câu hỏi thường gặp"}, {"tag": "H2", "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"}, {"tag": "H4", "text": "Sản phẩm"}, {"tag": "H4", "text": "Dịch vụ"}, {"tag": "H4", "text": "Chính sách"}, {"tag": "H4", "text": "Kết nối với chúng tôi"}], "key_features": ["Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập", "Mua bảo hiểm\nƯu đãi\nBlogs", "So sánh bảo hiểm,\nchọn TopBaoHiem!\nSo sánh và cung cấp thông tin bảo hiểm bạn cần một cách nhanh nhất!\nMUA BẢO HIỂM", "Bồi thường thiệt hại do cháy, nổ gây ra.", "Bảo vệ tài sản, nhà xưởng, máy móc, hàng hóa.", "Hồ sơ bảo hiểm đáp ứng yêu cầu kiểm tra PCCC.", "Thủ tục nhanh - tư vấn tận nơi.", "Phí bảo hiểm hợp lý - quyền lợi lớn.", "Cấp đơn nhanh, hỗ trợ đầy đủ hồ sơ pháp lý.", "👉\nLiên hệ 088.999.6688 ngay để được tư vấn và cấp bảo hiểm nhanh chóng.", "Chọn TopBaoHiem khi mua bảo hiểm cháy nổ", "Thao tác thuận tiện\nDễ dàng theo dõi và tra cứu hồ sơ bảo hiểm mọi lúc mọi nơi chỉ trên một ứng dụng duy nhất mà không mất thời gian điền vào các mẫu biểu giấy.", "Thủ tục đơn giản\nXuất hợp đồng điện tử chỉ trong vài phút.", "Ưu đãi hấp dẫn\nTiết kiệm chi phí với các chương trình ưu đãi khi mua bảo hiểm online.", "Đối tác và khách hàng nói về TOPbaohiem", "Anh Nguyễn Mạnh\n\nKhách hàng", "Anh Nguyễn Việt Thắng\n\nCông ty Sách Đông A", "Anh Nguyễn Việt Thắng", "Topbaohiem hoạt động như thế nào?", "Topbaohiem kiếm tiền bằng cách nào?", "Tôi sẽ ký hợp đồng bảo hiểm với ai?", "Topbaohiem bảo mật thông tin khách hàng như thế nào?", "Topbaohiem có được nhà nước cấp phép hoạt động không?", "Quy trình giải quyết bồi thường diễn ra như nào?\n\nNhập mã bảo hiểm vào danh mục bồi thường trên nền tảng Topbaohiem và làm theo hướng dẫn bên trong.", "Quy trình giải quyết bồi thường diễn ra như nào?"]}, {"idx": 15, "name": "domestic_travel", "group": "04_BaoHiem_DuLich", "url": "https://topbaohiem.vn/vietnam-travel", "desc": "Bảo hiểm Du lịch Nội địa Việt Nam: Bảo vệ chuyến đi cá nhân và đoàn du lịch", "title": "Bảo hiểm du lịch Việt Nam - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/04_BaoHiem_DuLich/15_domestic_travel_4k_viewport.png", "fullpage_img": "screenshots/04_BaoHiem_DuLich/15_domestic_travel_4k_fullpage.png", "headings": [{"tag": "H1", "text": "BẢO HIỂM DU LỊCH VIỆT NAM"}, {"tag": "H4", "text": "insureSuggest"}, {"tag": "H3", "text": "CÁC GÓI BẢO HIỂM"}, {"tag": "H4", "text": "Vì sao nên chọn bảo hiểm của TopBaoHiem!"}, {"tag": "H3", "text": "Đa dạng nhà cung cấp"}, {"tag": "H3", "text": "Đa dạng nhà cung cấp"}, {"tag": "H3", "text": "Chứng nhận điện tử"}, {"tag": "H4", "text": "Đối tác của chúng tôi"}, {"tag": "H2", "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"}, {"tag": "H4", "text": "Sản phẩm"}, {"tag": "H4", "text": "Dịch vụ"}, {"tag": "H4", "text": "Chính sách"}, {"tag": "H4", "text": "Kết nối với chúng tôi"}], "key_features": ["Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập", "Mua bảo hiểm\nƯu đãi\nBlogs", "(Dành cho khách nước ngoài)", "Chọn Gói Bảo hiểm phù hợp chỉ với một cú nhấp chuột", "23/09/2026 ⟶ 26/09/2026", "HÃNG BẢO HIỂM\nBảo hiểm Bảo Long\nBảo hiểm PTI\nBảo hiểm PVI\nBảo hiểm BIDV\nBảo Hiểm PJICO\nBảo hiểm Bảo Việt\nBảo hiểm MIC\nXoá tất cả lọc", "HÃNG BẢO HIỂM\nBảo hiểm Bảo Long\nBảo hiểm PTI\nBảo hiểm PVI\nBảo hiểm BIDV\nBảo Hiểm PJICO\nBảo hiểm Bảo Việt\nBảo hiểm MIC", "Bảo hiểm Bảo Long\nBảo hiểm PTI\nBảo hiểm PVI\nBảo hiểm BIDV\nBảo Hiểm PJICO\nBảo hiểm Bảo Việt\nBảo hiểm MIC", "01 người\n\n23/09/2026 ⟶ 26/09/2026\n\nThay đổi", "01 người\n\n23/09/2026 ⟶ 26/09/2026", "Mua nhiều nhất\nGiá tốt nhất\nĐền bù nhiều nhất", "Bảo hiểm du lịch Việt Nam cho người Nước ngoài\n\n5.000 vnđ\n\nSo sánh\n\nThêm vào giỏ\nMua ngay", "Bảo hiểm du lịch Việt Nam cho người Nước ngoài\n\n5.000 vnđ", "Bảo hiểm du lịch Việt Nam cho người Nước ngoài", "Thêm vào giỏ\nMua ngay", "Bảo hiểm du lịch Việt Nam cho người Nước ngoài\n\n25.000 vnđ\n\nSo sánh\n\nThêm vào giỏ\nMua ngay", "Bảo hiểm du lịch Việt Nam cho người Nước ngoài\n\n25.000 vnđ", "Bảo hiểm du lịch Việt Nam cho người Nước ngoài\n\n42.500 vnđ\n\nSo sánh\n\nThêm vào giỏ\nMua ngay", "Bảo hiểm du lịch Việt Nam cho người Nước ngoài\n\n42.500 vnđ", "Bảo hiểm du lịch Việt Nam cho người Nước ngoài\n\n500 vnđ\n\nSo sánh\n\nThêm vào giỏ\nMua ngay", "Bảo hiểm du lịch Việt Nam cho người Nước ngoài\n\n500 vnđ", "Bảo hiểm du lịch Việt Nam cho người Nước ngoài\n\n22.000 vnđ\n\nSo sánh\n\nThêm vào giỏ\nMua ngay", "Bảo hiểm du lịch Việt Nam cho người Nước ngoài\n\n22.000 vnđ", "Bảo hiểm du lịch Việt Nam cho người Nước ngoài\n\n2.000 vnđ\n\nSo sánh\n\nThêm vào giỏ\nMua ngay", "Bảo hiểm du lịch Việt Nam cho người Nước ngoài\n\n2.000 vnđ"]}, {"idx": 16, "name": "compulsory_fire_building", "group": "05_BaoHiem_TaiSan_DoanhNghiep", "url": "https://topbaohiem.vn/compulsory-fire", "desc": "Bảo hiểm Cháy nổ bắt buộc nhà xưởng, chung cư, kho bãi theo Nghị định 97/2021", "title": "Bảo hiểm Cháy nổ bắt buộc - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/16_compulsory_fire_building_4k_viewport.png", "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/16_compulsory_fire_building_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 17, "name": "compulsory_fire_intro", "group": "05_BaoHiem_TaiSan_DoanhNghiep", "url": "https://topbaohiem.vn/compulsory-fire/intro", "desc": "Hướng dẫn quy định và biểu phí bảo hiểm cháy nổ cơ sở nguy hiểm cháy nổ", "title": "Bảo hiểm Cháy nổ bắt buộc - Giới thiệu - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/17_compulsory_fire_intro_4k_viewport.png", "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/17_compulsory_fire_intro_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 18, "name": "compulsory_fire_survey_guide", "group": "05_BaoHiem_TaiSan_DoanhNghiep", "url": "https://topbaohiem.vn/compulsory-fire/survey-guide", "desc": "Hướng dẫn điền biểu mẫu khảo sát rủi ro PCCC công trình", "title": "Hướng dẫn chụp ảnh khảo sát - Bảo hiểm Cháy nổ bắt buộc - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/18_compulsory_fire_survey_guide_4k_viewport.png", "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/18_compulsory_fire_survey_guide_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 19, "name": "private_house_insurance", "group": "05_BaoHiem_TaiSan_DoanhNghiep", "url": "https://topbaohiem.vn/contact-house", "desc": "Bảo hiểm nhà tư nhân: Nhà phố và căn hộ chung cư", "title": "Bảo hiểm Nhà tư nhân - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/19_private_house_insurance_4k_viewport.png", "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/19_private_house_insurance_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 20, "name": "cargo_transport_insurance", "group": "05_BaoHiem_TaiSan_DoanhNghiep", "url": "https://topbaohiem.vn/cargo", "desc": "Bảo hiểm hàng hóa vận chuyển nội địa và quốc tế", "title": "Bảo hiểm Hàng hoá - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/20_cargo_transport_insurance_4k_viewport.png", "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/20_cargo_transport_insurance_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 21, "name": "commercial_credit_insurance", "group": "05_BaoHiem_TaiSan_DoanhNghiep", "url": "https://topbaohiem.vn/contact-commodity-credit", "desc": "Bảo hiểm tín dụng thương mại & bảo lãnh thanh toán", "title": "Bảo hiểm Tín dụng hàng hoá - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/21_commercial_credit_insurance_4k_viewport.png", "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/21_commercial_credit_insurance_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 22, "name": "mortgage_loan_insurance", "group": "05_BaoHiem_TaiSan_DoanhNghiep", "url": "https://topbaohiem.vn/contact-mortgage-loan", "desc": "Bảo hiểm khoản vay thế chấp ngân hàng", "title": "Bảo hiểm Khoản vay thế chấp - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/22_mortgage_loan_insurance_4k_viewport.png", "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/22_mortgage_loan_insurance_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 23, "name": "compare_matrix_engine", "group": "06_SoSanh_BaoGia_ThongMinh", "url": "https://topbaohiem.vn/insure-compare", "desc": "Ma trận so sánh quyền lợi & chi phí đa hãng trực quan", "title": "TopBaoHiem - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/06_SoSanh_BaoGia_ThongMinh/23_compare_matrix_engine_4k_viewport.png", "fullpage_img": "screenshots/06_SoSanh_BaoGia_ThongMinh/23_compare_matrix_engine_4k_fullpage.png", "headings": [{"tag": "H1", "text": "So sánh bảo hiểm,\nchọn TOPbaohiem!"}, {"tag": "H1", "text": "Bảo vệ tương lai  an tâm sống trọn!"}, {"tag": "H4", "text": "Bảo hiểm"}, {"tag": "H4", "text": "Sức khoẻ"}, {"tag": "H4", "text": "Bảo hiểm"}, {"tag": "H4", "text": "Cháy nổ"}, {"tag": "H4", "text": "Bảo hiểm"}, {"tag": "H4", "text": "Du lịch"}, {"tag": "H4", "text": "Quy trình mua bảo hiểm\nchưa bao giờ dễ dàng đến thế"}, {"tag": "H4", "text": "Vì sao chọn TOPbaohiem?"}, {"tag": "H3", "text": "So sánh thông minh"}, {"tag": "H3", "text": "Tiết kiệm tối đa"}, {"tag": "H3", "text": "Quyền lợi rõ ràng"}, {"tag": "H3", "text": "Hỗ trợ tận tâm"}, {"tag": "H4", "text": "Đối tác và khách hàng nói về TOPbaohiem"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"}, {"tag": "H4", "text": "Đối tác của chúng tôi"}, {"tag": "H4", "text": "Câu hỏi thường gặp"}, {"tag": "H2", "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"}, {"tag": "H4", "text": "Sản phẩm"}, {"tag": "H4", "text": "Dịch vụ"}, {"tag": "H4", "text": "Chính sách"}, {"tag": "H4", "text": "Kết nối với chúng tôi"}], "key_features": ["Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập", "Mua bảo hiểm\nƯu đãi\nBlogs", "NỀN TẢNG UY TÍN ĐÃ ĐƯỢC XÁC NHẬN BỞI BỘ CÔNG THƯƠNG", "So sánh dễ dàng\n\nMinh bạch, nhanh chóng\n\nTiết kiệm chi phí\n\nTối ưu quyền lợi\n\nAn toàn bảo mật\n\nBảo vệ dữ liệu cá nhân", "So sánh dễ dàng\n\nMinh bạch, nhanh chóng", "Minh bạch, nhanh chóng", "Tiết kiệm chi phí\n\nTối ưu quyền lợi", "An toàn bảo mật\n\nBảo vệ dữ liệu cá nhân", "Bảo vệ dữ liệu cá nhân", "Nổi bật\nBảo hiểm\nSức khoẻ\nSo sánh ngay\nBảo hiểm\nCháy nổ\nSo sánh ngay\nBảo hiểm\nDu lịch\nSo sánh ngay", "Nổi bật\nBảo hiểm\nSức khoẻ\nSo sánh ngay", "Bảo hiểm\nSức khoẻ\nSo sánh ngay", "Bảo hiểm\nCháy nổ\nSo sánh ngay", "Bảo hiểm\nDu lịch\nSo sánh ngay", "Quy trình mua bảo hiểm\nchưa bao giờ dễ dàng đến thế", "Vì sao chọn TOPbaohiem?", "So sánh thông minh\n\nCông cụ so sánh độc quyền,\nminh bạch, dễ hiểu", "Công cụ so sánh độc quyền,\nminh bạch, dễ hiểu", "Tiết kiệm tối đa\n\nNhiều lựa chọn phù hợp,\ngiá tốt nhất cho bạn", "Nhiều lựa chọn phù hợp,\ngiá tốt nhất cho bạn", "Quyền lợi rõ ràng\n\nThông tin đầy đủ,\ndễ dàng quyết định", "Thông tin đầy đủ,\ndễ dàng quyết định", "Hỗ trợ tận tâm\n\nĐội ngũ tư vấn chuyên nghiệp,\nluôn đồng hành cùng bạn", "Đội ngũ tư vấn chuyên nghiệp,\nluôn đồng hành cùng bạn", "Đối tác và khách hàng nói về TOPbaohiem"]}, {"idx": 24, "name": "discounts_vouchers", "group": "06_SoSanh_BaoGia_ThongMinh", "url": "https://topbaohiem.vn/discount", "desc": "Kho ưu đãi, mã giảm giá và voucher khuyến mãi", "title": "Ưu đãi - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/06_SoSanh_BaoGia_ThongMinh/24_discounts_vouchers_4k_viewport.png", "fullpage_img": "screenshots/06_SoSanh_BaoGia_ThongMinh/24_discounts_vouchers_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 25, "name": "motorbike_checkout_form", "group": "07_QuyTrinh_DatMua_ThanhToan", "url": "https://topbaohiem.vn/motorbike-checkout", "desc": "Checkout xe máy tích hợp tính năng AI OCR quét cà vẹt xe điền tự động", "title": "Bảo hiểm TNDS Xe máy - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/25_motorbike_checkout_form_4k_viewport.png", "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/25_motorbike_checkout_form_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 26, "name": "car_checkout_form", "group": "07_QuyTrinh_DatMua_ThanhToan", "url": "https://topbaohiem.vn/car-checkout", "desc": "Checkout TNDS ô tô, khai báo đăng kiểm và xuất hóa đơn VAT", "title": "Bảo hiểm TNDS Ô tô - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/26_car_checkout_form_4k_viewport.png", "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/26_car_checkout_form_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 27, "name": "car_material_checkout_form", "group": "07_QuyTrinh_DatMua_ThanhToan", "url": "https://topbaohiem.vn/car-material-checkout", "desc": "Checkout bảo hiểm vật chất thân vỏ xe ô tô", "title": "Bảo hiểm Vật chất xe ô tô - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/27_car_material_checkout_form_4k_viewport.png", "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/27_car_material_checkout_form_4k_fullpage.png", "headings": [{"tag": "H1", "text": "Thanh toán"}, {"tag": "H2", "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"}, {"tag": "H4", "text": "Sản phẩm"}, {"tag": "H4", "text": "Dịch vụ"}, {"tag": "H4", "text": "Chính sách"}, {"tag": "H4", "text": "Kết nối với chúng tôi"}], "key_features": ["Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập", "Mua bảo hiểm\nƯu đãi\nBlogs", "Chụp giấy đăng kí xe để điền nhanh", "hoặc điền thông tin bên dưới", "Họ và tên chủ xe*(trên giấy đăng ký xe)\n\n​", "Họ và tên chủ xe*(trên giấy đăng ký xe)", "(trên giấy đăng ký xe)", "Địa chỉ*\n\n​\n\nVui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới", "​\n\nVui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới", "Vui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới", "Chuyển quyền thụ hưởng", "Ngân hàng/Công ty tài chính*\n\n​", "Ngân hàng/Công ty tài chính*", "Thông tin phương tiện\n\nBiển số xe*\n\n​\n\nSố khung*\n\n​\n\nSố máy xe*\n\n​\n\nSố chỗ ngồi*\n\n​\n\nTrọng tải*\n\ntấn\n\n​", "Thông tin phương tiện", "Biển số xe*\n\n​\n\nSố khung*\n\n​\n\nSố máy xe*\n\n​\n\nSố chỗ ngồi*\n\n​\n\nTrọng tải*\n\ntấn\n\n​", "Biển số xe*\n\n​\n\nSố khung*\n\n​", "Số máy xe*\n\n​\n\nSố chỗ ngồi*\n\n​", "Hình thức thanh toán\n\nThanh toán qua ví VNPay\n\nNgười giới thiệu\n\n​\n\nTự động tạo tài khoản\n\nSĐT của bạn sẽ được dùng để đăng nhập, giúp quản lý hợp đồng dễ dàng hơn.", "Thanh toán qua ví VNPay\n\nNgười giới thiệu\n\n​\n\nTự động tạo tài khoản\n\nSĐT của bạn sẽ được dùng để đăng nhập, giúp quản lý hợp đồng dễ dàng hơn.", "Thanh toán qua ví VNPay", "Tự động tạo tài khoản\n\nSĐT của bạn sẽ được dùng để đăng nhập, giúp quản lý hợp đồng dễ dàng hơn.", "Tự động tạo tài khoản", "SĐT của bạn sẽ được dùng để đăng nhập, giúp quản lý hợp đồng dễ dàng hơn.", "Thông tin nhận chứng nhận điện tử"]}, {"idx": 28, "name": "health_checkout_form", "group": "07_QuyTrinh_DatMua_ThanhToan", "url": "https://topbaohiem.vn/health-checkout", "desc": "Checkout và kê khai thông tin bảo hiểm sức khỏe", "title": "Bảo hiểm Sức khoẻ - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/28_health_checkout_form_4k_viewport.png", "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/28_health_checkout_form_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 29, "name": "travel_checkout_form", "group": "07_QuyTrinh_DatMua_ThanhToan", "url": "https://topbaohiem.vn/travel-checkout", "desc": "Checkout bảo hiểm du lịch quốc tế, nhập danh sách người được bảo hiểm", "title": "Bảo hiểm Du lịch quốc tế - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/29_travel_checkout_form_4k_viewport.png", "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/29_travel_checkout_form_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 30, "name": "vietnam_travel_checkout_form", "group": "07_QuyTrinh_DatMua_ThanhToan", "url": "https://topbaohiem.vn/vietnam-travel-checkout", "desc": "Checkout bảo hiểm du lịch nội địa", "title": "Bảo hiểm du lịch Việt Nam - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/30_vietnam_travel_checkout_form_4k_viewport.png", "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/30_vietnam_travel_checkout_form_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 31, "name": "cargo_checkout_form", "group": "07_QuyTrinh_DatMua_ThanhToan", "url": "https://topbaohiem.vn/cargo-checkout", "desc": "Checkout bảo hiểm vận chuyển hàng hóa", "title": "Bảo hiểm TNDS Ô tô - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/31_cargo_checkout_form_4k_viewport.png", "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/31_cargo_checkout_form_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 32, "name": "fire_checkout_form", "group": "07_QuyTrinh_DatMua_ThanhToan", "url": "https://topbaohiem.vn/compulsory-fire-checkout", "desc": "Checkout bảo hiểm cháy nổ công trình", "title": "Bảo hiểm Cháy nổ bắt buộc - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/32_fire_checkout_form_4k_viewport.png", "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/32_fire_checkout_form_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 33, "name": "checkout_result_screen", "group": "07_QuyTrinh_DatMua_ThanhToan", "url": "https://topbaohiem.vn/checkout-result", "desc": "Màn hình cấp chứng nhận bảo hiểm điện tử tức thì", "title": "Kết quả thanh toán - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/33_checkout_result_screen_4k_viewport.png", "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/33_checkout_result_screen_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 34, "name": "online_compensation_claims", "group": "08_BoiThuong_CSKH_HoTro", "url": "https://topbaohiem.vn/compensation", "desc": "Trung tâm bồi thường trực tuyến: Quy trình nộp hồ sơ yêu cầu chi trả bồi thường", "title": "Bồi thường - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/08_BoiThuong_CSKH_HoTro/34_online_compensation_claims_4k_viewport.png", "fullpage_img": "screenshots/08_BoiThuong_CSKH_HoTro/34_online_compensation_claims_4k_fullpage.png", "headings": [{"tag": "H1", "text": "Bồi thường"}, {"tag": "H2", "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"}, {"tag": "H4", "text": "Sản phẩm"}, {"tag": "H4", "text": "Dịch vụ"}, {"tag": "H4", "text": "Chính sách"}, {"tag": "H4", "text": "Kết nối với chúng tôi"}], "key_features": ["Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập", "Mua bảo hiểm\nƯu đãi\nBlogs", "Bồi thường\n\nMã hợp đồng\n\n​\nTra cứu", "Mã hợp đồng\n\n​\nTra cứu", "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam", "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc", "Dịch vụ\nƯu đãi\nYêu cầu bồi thường", "Kết nối với chúng tôi", "Copyright ©2024 TopBaoHiem all rights reserved"]}, {"idx": 35, "name": "live_chat_support", "group": "08_BoiThuong_CSKH_HoTro", "url": "https://topbaohiem.vn/chat", "desc": "Trợ lý hỗ trợ và live chat tư vấn bảo hiểm", "title": "Hỗ trợ 27/7 - TopBaoHiem - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/08_BoiThuong_CSKH_HoTro/35_live_chat_support_4k_viewport.png", "fullpage_img": "screenshots/08_BoiThuong_CSKH_HoTro/35_live_chat_support_4k_fullpage.png", "headings": [], "key_features": ["Hello, how are you doing?\n\n08:15 AM", "Hello, how are you doing?", "Hoàng Thuỳ TrangNhân viên CSKH\n\nI'm doing well, thank you! How can I help you today?\n\n08:16 AM", "Hoàng Thuỳ TrangNhân viên CSKH", "I'm doing well, thank you! How can I help you today?", "I have a question about the return policy for a product I purchased.\n\nJust now", "I have a question about the return policy for a product I purchased."]}, {"idx": 36, "name": "policy_support", "group": "08_BoiThuong_CSKH_HoTro", "url": "https://topbaohiem.vn/policy-support", "desc": "Chính sách giải quyết khiếu nại và cam kết hỗ trợ khách hàng", "title": "Chính sách giải quyết bồi thường và hỗ trợ - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/08_BoiThuong_CSKH_HoTro/36_policy_support_4k_viewport.png", "fullpage_img": "screenshots/08_BoiThuong_CSKH_HoTro/36_policy_support_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 37, "name": "policy_delivery", "group": "08_BoiThuong_CSKH_HoTro", "url": "https://topbaohiem.vn/policy-delivery", "desc": "Chính sách phát hành chứng nhận điện tử và giao nhận ấn chỉ", "title": "Chính sách giao hàng - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/08_BoiThuong_CSKH_HoTro/37_policy_delivery_4k_viewport.png", "fullpage_img": "screenshots/08_BoiThuong_CSKH_HoTro/37_policy_delivery_4k_fullpage.png", "headings": [{"tag": "H1", "text": "CHÍNH SÁCH GIAO HÀNG"}, {"tag": "H2", "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"}, {"tag": "H4", "text": "Sản phẩm"}, {"tag": "H4", "text": "Dịch vụ"}, {"tag": "H4", "text": "Chính sách"}, {"tag": "H4", "text": "Kết nối với chúng tôi"}], "key_features": ["Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập", "Mua bảo hiểm\nƯu đãi\nBlogs", "1.Những trường hợp bên mua bảo hiểm (BMBH) không được yêu cầu hoàn huỷ", "Đối với hợp đồng Bảo hiểm Trách nhiệm dân sự bắt buộc cho xe cơ giới (xe máy, xe ô tô);", "Đối với hợp đồng Bảo hiểm du lịch đã bắt đầu chuyến đi;", "Nếu sự kiện bảo hiểm đã xảy ra, hợp đồng bảo hiểm đã phát sinh bồi thường và Doanh nghiệp bảo hiểm (DNBH) đã hoàn thành toàn bộ cam kết bồi thường hoặc trả tiền bảo hiểm.", "2. Những trường hợp DNBH có quyền đơn phương chấm dứt hợp đồng và hoàn lại phí theo tỷ lệ thời gian còn lại và/hoặc sau khi trừ chi phí phát sinh cần thiết", "BMBH không đóng đủ hoặc không đóng phí bảo hiểm theo thỏa thuận trong Hợp đồng bảo hiểm (HĐBH);", "BMBH không đóng đủ phí trong thời gian gia hạn đóng phí bảo hiểm;", "DNBH không chấp nhận yêu cầu về thay đổi mức độ rủi ro được bảo hiểm quy định tại Điều 23 của Luật Kinh Doanh bảo hiểm 2022;", "Người được bảo hiểm (NĐBH) không thực hiện các biện pháp bảo đảm an toàn cho đối tượng bảo hiểm quy định tại khoản 3 Điều 55 của Luật Kinh Doanh bảo hiểm 2022.", "3. Những trường hợp BMBH có quyền yêu cầu hoàn hủy, chấm dứt HĐBH", "BMBH không còn (đã mất) quyền lợi có thể được bảo hiểm;", "Trường hợp DNBH bị phá sản, danh mục HĐBH sẽ được chuyển giao cho DNBH khác. Nếu BMBH không đồng ý chuyển giao HĐBH cho DNBH khác, HĐBH sẽ chấm dứt;", "HĐBH được giao kết có điều khoản cho phép có thể được chấm dứt theo thỏa thuận giữa hai bên.", "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam", "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc", "Dịch vụ\nƯu đãi\nYêu cầu bồi thường", "Kết nối với chúng tôi", "Copyright ©2024 TopBaoHiem all rights reserved"]}, {"idx": 38, "name": "kol_partner_landing", "group": "09_CongTacVien_KOL_DaiLy", "url": "https://topbaohiem.vn/kol", "desc": "Cổng đối tác phát triển kinh doanh & KOL Affiliate: Giới thiệu mockups app, hoa hồng", "title": "Quản lý tài khoản Cộng tác viên - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/09_CongTacVien_KOL_DaiLy/38_kol_partner_landing_4k_viewport.png", "fullpage_img": "screenshots/09_CongTacVien_KOL_DaiLy/38_kol_partner_landing_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 39, "name": "kol_partner_login", "group": "09_CongTacVien_KOL_DaiLy", "url": "https://topbaohiem.vn/login-kol", "desc": "Cổng đăng nhập hệ thống đại lý & mạng lưới phân phối bảo hiểm", "title": "", "status": "error: Page.screenshot: Timeout 30000ms exceeded.\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n", "viewport_img": "screenshots/09_CongTacVien_KOL_DaiLy/39_kol_partner_login_4k_viewport.png", "fullpage_img": "screenshots/09_CongTacVien_KOL_DaiLy/39_kol_partner_login_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 40, "name": "partner_insure_manager", "group": "09_CongTacVien_KOL_DaiLy", "url": "https://topbaohiem.vn/review/insure-manager", "desc": "Dashboard quản lý doanh số, theo dõi trạng thái đơn và hoa hồng kinh doanh", "title": "Quản lý phê duyệt hợp đồng - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/09_CongTacVien_KOL_DaiLy/40_partner_insure_manager_4k_viewport.png", "fullpage_img": "screenshots/09_CongTacVien_KOL_DaiLy/40_partner_insure_manager_4k_fullpage.png", "headings": [{"tag": "H2", "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"}, {"tag": "H4", "text": "Kết nối với chúng tôi"}], "key_features": ["Hợp đồng bảo hiểm\n\nKhách hàng\nGói đăng ký\nMã hợp đồng\nNgày mua\nTrạng thái\nGiá trị (vnd)\nNo rows\n\n0–0 of 0", "Khách hàng\nGói đăng ký\nMã hợp đồng\nNgày mua\nTrạng thái\nGiá trị (vnd)\nNo rows\n\n0–0 of 0", "Khách hàng\nGói đăng ký\nMã hợp đồng\nNgày mua\nTrạng thái\nGiá trị (vnd)\nNo rows", "Khách hàng\nGói đăng ký\nMã hợp đồng\nNgày mua\nTrạng thái\nGiá trị (vnd)", "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam", "Kết nối với chúng tôi", "Copyright ©2024 TopBaoHiem all rights reserved"]}, {"idx": 41, "name": "user_login", "group": "10_QuanLy_HopDong_CaNhan", "url": "https://topbaohiem.vn/login", "desc": "Đăng nhập tài khoản khách hàng cá nhân", "title": "Đăng nhập - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/10_QuanLy_HopDong_CaNhan/41_user_login_4k_viewport.png", "fullpage_img": "screenshots/10_QuanLy_HopDong_CaNhan/41_user_login_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 42, "name": "user_profile_contracts", "group": "10_QuanLy_HopDong_CaNhan", "url": "https://topbaohiem.vn/profile", "desc": "Trang hồ sơ cá nhân và danh sách quản lý hợp đồng bảo hiểm trực tuyến", "title": "Quản lý tài khoản - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/10_QuanLy_HopDong_CaNhan/42_user_profile_contracts_4k_viewport.png", "fullpage_img": "screenshots/10_QuanLy_HopDong_CaNhan/42_user_profile_contracts_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 43, "name": "forgot_password", "group": "10_QuanLy_HopDong_CaNhan", "url": "https://topbaohiem.vn/forgot-password", "desc": "Màn hình khôi phục mật khẩu tài khoản", "title": "Quên mật khẩu - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/10_QuanLy_HopDong_CaNhan/43_forgot_password_4k_viewport.png", "fullpage_img": "screenshots/10_QuanLy_HopDong_CaNhan/43_forgot_password_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 44, "name": "blogs_knowledge_hub", "group": "11_CamNang_PhapLy_ChinhSach", "url": "https://topbaohiem.vn/blogs", "desc": "Trung tâm cẩm nang bảo hiểm, hướng dẫn luật và kinh nghiệm thực tế", "title": "Tin tức - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/11_CamNang_PhapLy_ChinhSach/44_blogs_knowledge_hub_4k_viewport.png", "fullpage_img": "screenshots/11_CamNang_PhapLy_ChinhSach/44_blogs_knowledge_hub_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 45, "name": "policy_terms", "group": "11_CamNang_PhapLy_ChinhSach", "url": "https://topbaohiem.vn/policy-terms", "desc": "Điều khoản và quy chế hoạt động của nền tảng", "title": "Điều khoản và điều kiện - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/11_CamNang_PhapLy_ChinhSach/45_policy_terms_4k_viewport.png", "fullpage_img": "screenshots/11_CamNang_PhapLy_ChinhSach/45_policy_terms_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 46, "name": "policy_payment_vnpay", "group": "11_CamNang_PhapLy_ChinhSach", "url": "https://topbaohiem.vn/policy-vnpay-payment", "desc": "Chính sách liên kết cổng thanh toán quốc gia VNPAY", "title": "Chính sách thanh toán VNPAY - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/11_CamNang_PhapLy_ChinhSach/46_policy_payment_vnpay_4k_viewport.png", "fullpage_img": "screenshots/11_CamNang_PhapLy_ChinhSach/46_policy_payment_vnpay_4k_fullpage.png", "headings": [{"tag": "H1", "text": "CHÍNH SÁCH THANH TOÁN VNPAY"}, {"tag": "H3", "text": "HƯỚNG DẪN THANH TOÁN VNPAY TRÊN WEBSITE"}, {"tag": "H2", "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"}, {"tag": "H4", "text": "Sản phẩm"}, {"tag": "H4", "text": "Dịch vụ"}, {"tag": "H4", "text": "Chính sách"}, {"tag": "H4", "text": "Kết nối với chúng tôi"}], "key_features": ["Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập", "Mua bảo hiểm\nƯu đãi\nBlogs", "CHÍNH SÁCH THANH TOÁN VNPAY", "HƯỚNG DẪN THANH TOÁN VNPAY TRÊN WEBSITE", "Quét mã VNPAY-QR trên 35+ Ứng dụng Mobile Banking và 15+ Ví điện tử liên kết", "40+ Thẻ ATM/nội địa/tài khoản ngân hàng", "4 Thẻ thanh toán quốc tế", "Các phương thức thanh toán qua VNPAY", "1. Phương thức thanh toán qua “Ứng dụng thanh toán hỗ trợ VNPAY-QR”", "Bước 1: Quý khách lựa chọn sản phẩm, dịch vụ và chọn Thanh toán ngay hoặc Đặt hàng", ": Quý khách lựa chọn sản phẩm, dịch vụ và chọn Thanh toán ngay hoặc Đặt hàng", "Tại trang thanh toán, vui lòng kiểm tra lại sản phẩm đã đặt, điền đầy đủ thông tin người nhận hàng, chọn phương thức thanh toán VNPAY và nhấn nút “Đặt hàng ngay”.", "Bước 2: Màn hình thanh toán chuyển sang giao diện cổng thanh toán VNPAY. Chọn phương thức  “Ứng dụng thanh toán hỗ trợ VNPAY-QR”", ": Màn hình thanh toán chuyển sang giao diện cổng thanh toán VNPAY. Chọn phương thức  “Ứng dụng thanh toán hỗ trợ VNPAY-QR”", ": Hệ thống hiển thị mã QR cùng với số tiền cần thanh toán, Quý khách kiểm tra lại số tiền này. Sử dụng ứng dụng ngân hàng (theo danh sách liệt kê), chọn", "và tiến hành quét mã QR trên màn hình thanh toán website", "*Lưu ý: Mã QR có hiệu lực trong 15 phút", "Bước 4: Kiểm tra thông tin, nhập mã giảm giá (nếu có) và hoàn tất thanh toán", ": Kiểm tra thông tin, nhập mã giảm giá (nếu có) và hoàn tất thanh toán", "Khi thực hiện thanh toán hoàn tất Quý khách sẽ nhận được thông báo xác nhận đơn hàng đặt hàng thành công tại website", "Hướng dẫn thanh toán qua tính năng QR Pay/VNPAY-QR", "2. Phương thức thanh toán qua “Thẻ nội địa và tài khoản ngân hàng”", ": Màn hình thanh toán chuyển sang giao diện cổng thanh toán VNPAY. Chọn phương thức  “Thẻ nội địa và tài khoản ngân hàng” và chọn ngân hàng muốn thanh toán thẻ trong danh sách", "Bước 3: Quý khách vui lòng thực hiện nhập các thông tin thẻ/tài khoản theo yêu cầu và chọn “Tiếp tục”. Mã OTP sẽ được gửi về điện thoại đăng ký, nhập mã OTP để hoàn tất giao dịch", ": Quý khách vui lòng thực hiện nhập các thông tin thẻ/tài khoản theo yêu cầu và chọn “Tiếp tục”. Mã OTP sẽ được gửi về điện thoại đăng ký, nhập mã OTP để hoàn tất giao dịch"]}, {"idx": 47, "name": "policy_refund", "group": "11_CamNang_PhapLy_ChinhSach", "url": "https://topbaohiem.vn/policy-refund", "desc": "Chính sách đổi trả, hủy hợp đồng và hoàn tiền bảo hiểm", "title": "Chính sách đổi, hủy, hoàn trả - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/11_CamNang_PhapLy_ChinhSach/47_policy_refund_4k_viewport.png", "fullpage_img": "screenshots/11_CamNang_PhapLy_ChinhSach/47_policy_refund_4k_fullpage.png", "headings": [], "key_features": []}, {"idx": 48, "name": "policy_information_security", "group": "11_CamNang_PhapLy_ChinhSach", "url": "https://topbaohiem.vn/policy-information-security", "desc": "Chính sách bảo mật an toàn thông tin khách hàng", "title": "Chính sách bảo mật thông tin - Nền tảng so sánh bảo hiểm trực tuyến", "status": "success", "viewport_img": "screenshots/11_CamNang_PhapLy_ChinhSach/48_policy_information_security_4k_viewport.png", "fullpage_img": "screenshots/11_CamNang_PhapLy_ChinhSach/48_policy_information_security_4k_fullpage.png", "headings": [], "key_features": []}];
+    const groupLabels = {"ALL": "Tất Cả (All Assets)", "01_TrangChu_Hero_Branding": "01. Trang Chủ & Hero Branding", "02_BaoHiem_OTo_XeMay": "02. Bảo Hiểm Xe Ô Tô & Xe Máy", "03_BaoHiem_SucKhoe_YTe": "03. Sức Khỏe & Tra Cứu Y Tế", "04_BaoHiem_DuLich": "04. Du Lịch Quốc Tế & Nội Địa", "05_BaoHiem_TaiSan_DoanhNghiep": "05. Tài Sản & Cháy Nổ Doanh Nghiệp", "06_SoSanh_BaoGia_ThongMinh": "06. Ma Trận So Sánh Đa Hãng", "07_QuyTrinh_DatMua_ThanhToan": "07. Form Đặt Mua, AI OCR & Cổng TT", "08_BoiThuong_CSKH_HoTro": "08. Tra Cứu Bồi Thường & CSKH", "09_CongTacVien_KOL_DaiLy": "09. Kênh Đối Tác KOL & CTV Bán Hàng", "10_QuanLy_HopDong_CaNhan": "10. Quản Lý Hợp Đồng & Cá Nhân", "11_CamNang_PhapLy_ChinhSach": "11. Cẩm Nang Kiến Thức & Pháp Lý"};
+    const mediaHints = {"01_TrangChu_Hero_Branding": "Hook mở đầu: Camera pan mượt từ logo sang khẩu hiệu 'Bảo hiểm siêu tốc - So sánh minh bạch'. Phù hợp làm Opening cảnh 1-5s.", "02_BaoHiem_OTo_XeMay": "Highlight tính năng: Đổi loại xe, trượt chọn gói PTI/PVI/Bảo Việt, hiệu ứng pop-up giá tự động nhảy số. Góc máy cận bảng phí.", "03_BaoHiem_SucKhoe_YTe": "Visual giải pháp: Lưới bệnh viện bảo lãnh viện phí và bảng quyền lợi nội trú/thai sản. Dựng Split-screen so sánh gói.", "04_BaoHiem_DuLich": "Mood năng động: Bản đồ du lịch thế giới, chuẩn visa Schengen/Mỹ. Thích hợp chèn icon máy bay bay vòng quanh.", "05_BaoHiem_TaiSan_DoanhNghiep": "Uy tín & B2B: Bảng tính phí Cháy nổ NĐ 97/2021, biểu đồ thẩm định an toàn nhà xưởng và công trình.", "06_SoSanh_BaoGia_ThongMinh": "Killer Feature (USP): Ma trận so sánh trực quan quyền lợi & mức khấu trừ giữa 5 hãng bảo hiểm cùng lúc. Zoom in từng hàng.", "07_QuyTrinh_DatMua_ThanhToan": "Trọng tâm quy trình: AI OCR tự động quét cà vẹt xe điền trong 2 giây + Cổng VNPAY QR quét cái ăn ngay. Dựng Motion Speed-up.", "08_BoiThuong_CSKH_HoTro": "Xây dựng niềm tin: Tra cứu trạng thái bồi thường minh bạch theo mã hợp đồng, không cần xếp hàng đợi duyệt.", "09_CongTacVien_KOL_DaiLy": "Kêu gọi hợp tác: Giao diện dashboard đối tác, hoa hồng và link giới thiệu affiliate. Phù hợp clip tuyển đại lý số.", "10_QuanLy_HopDong_CaNhan": "Tiện ích số: Kho chứng nhận bảo hiểm điện tử trong túi áo, tra cứu mọi lúc không sợ mất giấy.", "11_CamNang_PhapLy_ChinhSach": "Bảo chứng pháp lý: Logo Bộ Công Thương, cam kết bảo mật thông tin và hoàn phí minh bạch."};
+    const basePath = "/Users/phamminhtri/Desktop/train/crawl4ai/output/topbaohiem/";
+
+    let currentViewMode = 'viewport'; // 'viewport' or 'fullpage'
+    let currentFilter = 'ALL';
+    let searchQuery = '';
+    let currentModalPath = '';
+
+    function setViewMode(mode) {
+      currentViewMode = mode;
+      document.getElementById('btn-mode-vp').classList.toggle('active', mode === 'viewport');
+      document.getElementById('btn-mode-fp').classList.toggle('active', mode === 'fullpage');
+      renderGallery();
+    }
+
+    function filterGroup(groupKey) {
+      currentFilter = groupKey;
+      document.querySelectorAll('.filter-tabs .tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('onclick').includes("'" + groupKey + "'"));
+      });
+      renderGallery();
+    }
+
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      renderGallery();
+    });
+
+    function renderGallery() {
+      const container = document.getElementById('gallery-container');
+      container.innerHTML = '';
+
+      // Group items
+      const grouped = {};
+      itemsData.forEach(item => {
+        // Filter by group
+        if (currentFilter !== 'ALL' && item.group !== currentFilter) return;
+
+        // Filter by search
+        if (searchQuery) {
+          const matchName = (item.name || '').toLowerCase().includes(searchQuery);
+          const matchDesc = (item.desc || '').toLowerCase().includes(searchQuery);
+          const matchTitle = (item.title || '').toLowerCase().includes(searchQuery);
+          const matchUrl = (item.url || '').toLowerCase().includes(searchQuery);
+          if (!matchName && !matchDesc && !matchTitle && !matchUrl) return;
+        }
+
+        if (!grouped[item.group]) {
+          grouped[item.group] = [];
+        }
+        grouped[item.group].push(item);
+      });
+
+      const groups = Object.keys(grouped).sort();
+
+      if (groups.length === 0) {
+        container.innerHTML = '<div style="text-align: center; padding: 4rem; color: var(--text-sub);">Không tìm thấy màn hình phù hợp với bộ lọc.</div>';
+        return;
+      }
+
+      groups.forEach(groupKey => {
+        const groupItems = grouped[groupKey];
+        const section = document.createElement('section');
+        section.className = 'group-section';
+
+        const titleText = groupLabels[groupKey] || groupKey;
+        const hintText = mediaHints[groupKey] || 'Tư liệu minh họa giao diện phần mềm chất lượng cao.';
+
+        section.innerHTML = `
+          <div class="group-header">
+            <div>
+              <div class="group-title-wrap">
+                <span class="group-title">${titleText}</span>
+                <span class="group-count">(${groupItems.length} màn hình)</span>
+              </div>
+              <div class="group-hint">🎬 <strong>Media Hint:</strong> ${hintText}</div>
+            </div>
+          </div>
+          <div class="asset-grid" id="grid-${groupKey}"></div>
+        `;
+
+        container.appendChild(section);
+        const grid = section.querySelector(`#grid-${groupKey}`);
+
+        groupItems.forEach(item => {
+          const imgSrc = currentViewMode === 'viewport' ? item.viewport_img : item.fullpage_img;
+          const fullDiskPath = basePath + imgSrc;
+          const card = document.createElement('div');
+          card.className = 'asset-card';
+
+          card.innerHTML = `
+            <div class="card-thumb-wrap" onclick="openModal('${imgSrc}', '${item.name}', '${item.desc.replace(/'/g, "\\'")}', '${fullDiskPath}')">
+              <img src="${imgSrc}" alt="${item.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/640x360?text=TopBaoHiem+4K'">
+              <span class="resolution-tag">4K UHD • 16:9</span>
+              <span class="type-tag">${currentViewMode === 'viewport' ? 'Viewport' : 'Full Page'}</span>
+            </div>
+            <div class="card-body">
+              <div class="card-idx-name">
+                <span class="card-idx">#${String(item.idx).padStart(2, '0')}</span>
+                <span class="card-url" title="${item.url}">${item.url}</span>
+              </div>
+              <h4 class="card-title">${item.name}</h4>
+              <p class="card-desc">${item.desc}</p>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-primary" onclick="openModal('${imgSrc}', '${item.name}', '${item.desc.replace(/'/g, "\\'")}', '${fullDiskPath}')">
+                🔍 Phóng To 4K
+              </button>
+              <button class="btn btn-secondary" onclick="copyPath('${fullDiskPath}')">
+                📋 Sao Chép File Path
+              </button>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      });
+    }
+
+    function openModal(imgSrc, name, desc, fullDiskPath) {
+      currentModalPath = fullDiskPath;
+      document.getElementById('modal-img').src = imgSrc;
+      document.getElementById('modal-title').innerText = name;
+      document.getElementById('modal-sub').innerText = desc;
+      document.getElementById('modal-open-tab').href = imgSrc;
+      document.getElementById('preview-modal').classList.add('active');
+    }
+
+    function closeModal(event) {
+      document.getElementById('preview-modal').classList.remove('active');
+    }
+
+    function closeModalDirect() {
+      document.getElementById('preview-modal').classList.remove('active');
+    }
+
+    function copyPath(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Đã copy: ' + text.split('/').pop());
+      }).catch(() => {
+        showToast('Đã copy đường dẫn ảnh!');
+      });
+    }
+
+    function copyModalPath() {
+      copyPath(currentModalPath);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notify');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // Initial render
+    renderGallery();
+  </script>
+</body>
+</html>

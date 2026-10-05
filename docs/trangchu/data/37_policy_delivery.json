@@ -1,0 +1,59 @@
+{
+  "idx": 37,
+  "name": "policy_delivery",
+  "group": "08_BoiThuong_CSKH_HoTro",
+  "url": "https://topbaohiem.vn/policy-delivery",
+  "desc": "Chính sách phát hành chứng nhận điện tử và giao nhận ấn chỉ",
+  "title": "Chính sách giao hàng - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/08_BoiThuong_CSKH_HoTro/37_policy_delivery_4k_viewport.png",
+  "fullpage_img": "screenshots/08_BoiThuong_CSKH_HoTro/37_policy_delivery_4k_fullpage.png",
+  "headings": [
+    {
+      "tag": "H1",
+      "text": "CHÍNH SÁCH GIAO HÀNG"
+    },
+    {
+      "tag": "H2",
+      "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+    },
+    {
+      "tag": "H4",
+      "text": "Sản phẩm"
+    },
+    {
+      "tag": "H4",
+      "text": "Dịch vụ"
+    },
+    {
+      "tag": "H4",
+      "text": "Chính sách"
+    },
+    {
+      "tag": "H4",
+      "text": "Kết nối với chúng tôi"
+    }
+  ],
+  "key_features": [
+    "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+    "Mua bảo hiểm\nƯu đãi\nBlogs",
+    "1.Những trường hợp bên mua bảo hiểm (BMBH) không được yêu cầu hoàn huỷ",
+    "Đối với hợp đồng Bảo hiểm Trách nhiệm dân sự bắt buộc cho xe cơ giới (xe máy, xe ô tô);",
+    "Đối với hợp đồng Bảo hiểm du lịch đã bắt đầu chuyến đi;",
+    "Nếu sự kiện bảo hiểm đã xảy ra, hợp đồng bảo hiểm đã phát sinh bồi thường và Doanh nghiệp bảo hiểm (DNBH) đã hoàn thành toàn bộ cam kết bồi thường hoặc trả tiền bảo hiểm.",
+    "2. Những trường hợp DNBH có quyền đơn phương chấm dứt hợp đồng và hoàn lại phí theo tỷ lệ thời gian còn lại và/hoặc sau khi trừ chi phí phát sinh cần thiết",
+    "BMBH không đóng đủ hoặc không đóng phí bảo hiểm theo thỏa thuận trong Hợp đồng bảo hiểm (HĐBH);",
+    "BMBH không đóng đủ phí trong thời gian gia hạn đóng phí bảo hiểm;",
+    "DNBH không chấp nhận yêu cầu về thay đổi mức độ rủi ro được bảo hiểm quy định tại Điều 23 của Luật Kinh Doanh bảo hiểm 2022;",
+    "Người được bảo hiểm (NĐBH) không thực hiện các biện pháp bảo đảm an toàn cho đối tượng bảo hiểm quy định tại khoản 3 Điều 55 của Luật Kinh Doanh bảo hiểm 2022.",
+    "3. Những trường hợp BMBH có quyền yêu cầu hoàn hủy, chấm dứt HĐBH",
+    "BMBH không còn (đã mất) quyền lợi có thể được bảo hiểm;",
+    "Trường hợp DNBH bị phá sản, danh mục HĐBH sẽ được chuyển giao cho DNBH khác. Nếu BMBH không đồng ý chuyển giao HĐBH cho DNBH khác, HĐBH sẽ chấm dứt;",
+    "HĐBH được giao kết có điều khoản cho phép có thể được chấm dứt theo thỏa thuận giữa hai bên.",
+    "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam",
+    "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc",
+    "Dịch vụ\nƯu đãi\nYêu cầu bồi thường",
+    "Kết nối với chúng tôi",
+    "Copyright ©2024 TopBaoHiem all rights reserved"
+  ]
+}

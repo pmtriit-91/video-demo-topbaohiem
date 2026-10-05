@@ -1,0 +1,13 @@
+{
+  "idx": 33,
+  "name": "checkout_result_screen",
+  "group": "07_QuyTrinh_DatMua_ThanhToan",
+  "url": "https://topbaohiem.vn/checkout-result",
+  "desc": "Màn hình cấp chứng nhận bảo hiểm điện tử tức thì",
+  "title": "Kết quả thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/33_checkout_result_screen_4k_viewport.png",
+  "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/33_checkout_result_screen_4k_fullpage.png",
+  "headings": [],
+  "key_features": []
+}

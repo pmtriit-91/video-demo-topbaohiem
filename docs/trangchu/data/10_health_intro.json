@@ -1,0 +1,144 @@
+{
+  "idx": 10,
+  "name": "health_intro",
+  "group": "03_BaoHiem_SucKhoe_YTe",
+  "url": "https://topbaohiem.vn/health/intro",
+  "desc": "Giới thiệu gói chăm sóc sức khỏe gia đình và cá nhân",
+  "title": "Bảo hiểm Sức khoẻ - Giới thiệu - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/03_BaoHiem_SucKhoe_YTe/10_health_intro_4k_viewport.png",
+  "fullpage_img": "screenshots/03_BaoHiem_SucKhoe_YTe/10_health_intro_4k_fullpage.png",
+  "headings": [
+    {
+      "tag": "H1",
+      "text": "So sánh bảo hiểm,\nchọn TopBaoHiem!"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm sức khỏe toàn diện"
+    },
+    {
+      "tag": "H4",
+      "text": "Tại sao nên mua Bảo hiểm sức khoẻ toàn diện?"
+    },
+    {
+      "tag": "H4",
+      "text": "Chọn TopBaoHiem khi mua bảo hiểm sức khoẻ"
+    },
+    {
+      "tag": "H4",
+      "text": "Đối tác và khách hàng nói về TOPbaohiem"
+    },
+    {
+      "tag": "H4",
+      "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+    },
+    {
+      "tag": "H4",
+      "text": "Có thể bạn cần biết"
+    },
+    {
+      "tag": "H3",
+      "text": "Phân biệt bảo hiểm sức khoẻ và bảo hiển nhân thọ"
+    },
+    {
+      "tag": "H3",
+      "text": "Phân biệt giữa quyền lợi bảo hiểm sức khỏe nội trú và ngoại trú"
+    },
+    {
+      "tag": "H3",
+      "text": "Dùng thẻ bảo lãnh viện phí để được bảo hiểm chi trả viện phí như thế nào?"
+    },
+    {
+      "tag": "H3",
+      "text": "Giải đáp về thời gian chờ khi mua bảo hiểm sức khỏe online hoặc trực tiếp"
+    },
+    {
+      "tag": "H3",
+      "text": "Bảo hiểm sức khỏe gia đình và những lợi ích khi tham gia"
+    },
+    {
+      "tag": "H3",
+      "text": "Hướng dẫn mua bảo hiểm sức khỏe thai sản trên TopBaoHiem"
+    },
+    {
+      "tag": "H4",
+      "text": "Câu hỏi thường gặp"
+    },
+    {
+      "tag": "H2",
+      "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+    },
+    {
+      "tag": "H4",
+      "text": "Sản phẩm"
+    },
+    {
+      "tag": "H4",
+      "text": "Dịch vụ"
+    },
+    {
+      "tag": "H4",
+      "text": "Chính sách"
+    },
+    {
+      "tag": "H4",
+      "text": "Kết nối với chúng tôi"
+    }
+  ],
+  "key_features": [
+    "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+    "Mua bảo hiểm\nƯu đãi\nBlogs",
+    "So sánh bảo hiểm,\nchọn TopBaoHiem!\nSo sánh và cung cấp thông tin bảo hiểm bạn cần một cách nhanh nhất!\nMUA CHO CÁ NHÂN\nMUA CHO GIA ĐÌNH\nTRA CỨU BỆNH VIỆN BẢO LÃNH VIỆN PHÍ",
+    "MUA CHO CÁ NHÂN\nMUA CHO GIA ĐÌNH\nTRA CỨU BỆNH VIỆN BẢO LÃNH VIỆN PHÍ",
+    "MUA CHO CÁ NHÂN\nMUA CHO GIA ĐÌNH",
+    "Dịch vụ bảo lãnh viện phí tiện lợi, khách hàng không phải thanh toán toàn bộ tiền khám chữa bệnh tại bệnh viện.",
+    "Chi trả bồi thường nhanh chóng và minh bạch.",
+    "Hỗ trợ thanh toán dịch vụ y tế chất lượng cao.",
+    "dịch vụ y tế chất lượng cao.",
+    "Không giới hạn danh sách bệnh viện khám theo tuyến.",
+    "Dự phòng tài chính trước những bệnh lý nghiêm trọng.",
+    "Cung cấp các dịch vụ y tế mở rộng (nha khoa, thai sản, v.v...).",
+    "Thiết kế gói bảo hiểm phù hợp cho gia đình với chi phí tiết kiệm.",
+    "Chọn TopBaoHiem khi mua bảo hiểm sức khoẻ",
+    "Thao tác thuận tiện\nDễ dàng theo dõi và tra cứu hồ sơ bảo hiểm mọi lúc mọi nơi chỉ trên một ứng dụng duy nhất mà không mất thời gian điền vào các mẫu biểu giấy.",
+    "Thủ tục đơn giản\nXuất hợp đồng điện tử chỉ trong vài phút.",
+    "Ưu đãi hấp dẫn\nTiết kiệm chi phí với các chương trình ưu đãi khi mua bảo hiểm online.",
+    "Đối tác và khách hàng nói về TOPbaohiem",
+    "Anh Nguyễn Mạnh\n\nKhách hàng",
+    "Anh Nguyễn Việt Thắng\n\nCông ty Sách Đông A",
+    "Anh Nguyễn Việt Thắng",
+    "Có thể bạn cần biết\nNhững bài viết tổng hợp kiến thức về kinh nghiệm mua bảo hiểm được chúng tôi cập nhật hàng ngày",
+    "Những bài viết tổng hợp kiến thức về kinh nghiệm mua bảo hiểm được chúng tôi cập nhật hàng ngày",
+    "Phân biệt bảo hiểm sức khoẻ và bảo hiển nhân thọ\n\nĐọc thêm",
+    "Phân biệt giữa quyền lợi bảo hiểm sức khỏe nội trú và ngoại trú\n\nĐọc thêm"
+  ]
+}

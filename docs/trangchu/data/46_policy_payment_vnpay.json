@@ -1,0 +1,68 @@
+{
+  "idx": 46,
+  "name": "policy_payment_vnpay",
+  "group": "11_CamNang_PhapLy_ChinhSach",
+  "url": "https://topbaohiem.vn/policy-vnpay-payment",
+  "desc": "Chính sách liên kết cổng thanh toán quốc gia VNPAY",
+  "title": "Chính sách thanh toán VNPAY - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/11_CamNang_PhapLy_ChinhSach/46_policy_payment_vnpay_4k_viewport.png",
+  "fullpage_img": "screenshots/11_CamNang_PhapLy_ChinhSach/46_policy_payment_vnpay_4k_fullpage.png",
+  "headings": [
+    {
+      "tag": "H1",
+      "text": "CHÍNH SÁCH THANH TOÁN VNPAY"
+    },
+    {
+      "tag": "H3",
+      "text": "HƯỚNG DẪN THANH TOÁN VNPAY TRÊN WEBSITE"
+    },
+    {
+      "tag": "H2",
+      "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+    },
+    {
+      "tag": "H4",
+      "text": "Sản phẩm"
+    },
+    {
+      "tag": "H4",
+      "text": "Dịch vụ"
+    },
+    {
+      "tag": "H4",
+      "text": "Chính sách"
+    },
+    {
+      "tag": "H4",
+      "text": "Kết nối với chúng tôi"
+    }
+  ],
+  "key_features": [
+    "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+    "Mua bảo hiểm\nƯu đãi\nBlogs",
+    "CHÍNH SÁCH THANH TOÁN VNPAY",
+    "HƯỚNG DẪN THANH TOÁN VNPAY TRÊN WEBSITE",
+    "Quét mã VNPAY-QR trên 35+ Ứng dụng Mobile Banking và 15+ Ví điện tử liên kết",
+    "40+ Thẻ ATM/nội địa/tài khoản ngân hàng",
+    "4 Thẻ thanh toán quốc tế",
+    "Các phương thức thanh toán qua VNPAY",
+    "1. Phương thức thanh toán qua “Ứng dụng thanh toán hỗ trợ VNPAY-QR”",
+    "Bước 1: Quý khách lựa chọn sản phẩm, dịch vụ và chọn Thanh toán ngay hoặc Đặt hàng",
+    ": Quý khách lựa chọn sản phẩm, dịch vụ và chọn Thanh toán ngay hoặc Đặt hàng",
+    "Tại trang thanh toán, vui lòng kiểm tra lại sản phẩm đã đặt, điền đầy đủ thông tin người nhận hàng, chọn phương thức thanh toán VNPAY và nhấn nút “Đặt hàng ngay”.",
+    "Bước 2: Màn hình thanh toán chuyển sang giao diện cổng thanh toán VNPAY. Chọn phương thức  “Ứng dụng thanh toán hỗ trợ VNPAY-QR”",
+    ": Màn hình thanh toán chuyển sang giao diện cổng thanh toán VNPAY. Chọn phương thức  “Ứng dụng thanh toán hỗ trợ VNPAY-QR”",
+    ": Hệ thống hiển thị mã QR cùng với số tiền cần thanh toán, Quý khách kiểm tra lại số tiền này. Sử dụng ứng dụng ngân hàng (theo danh sách liệt kê), chọn",
+    "và tiến hành quét mã QR trên màn hình thanh toán website",
+    "*Lưu ý: Mã QR có hiệu lực trong 15 phút",
+    "Bước 4: Kiểm tra thông tin, nhập mã giảm giá (nếu có) và hoàn tất thanh toán",
+    ": Kiểm tra thông tin, nhập mã giảm giá (nếu có) và hoàn tất thanh toán",
+    "Khi thực hiện thanh toán hoàn tất Quý khách sẽ nhận được thông báo xác nhận đơn hàng đặt hàng thành công tại website",
+    "Hướng dẫn thanh toán qua tính năng QR Pay/VNPAY-QR",
+    "2. Phương thức thanh toán qua “Thẻ nội địa và tài khoản ngân hàng”",
+    ": Màn hình thanh toán chuyển sang giao diện cổng thanh toán VNPAY. Chọn phương thức  “Thẻ nội địa và tài khoản ngân hàng” và chọn ngân hàng muốn thanh toán thẻ trong danh sách",
+    "Bước 3: Quý khách vui lòng thực hiện nhập các thông tin thẻ/tài khoản theo yêu cầu và chọn “Tiếp tục”. Mã OTP sẽ được gửi về điện thoại đăng ký, nhập mã OTP để hoàn tất giao dịch",
+    ": Quý khách vui lòng thực hiện nhập các thông tin thẻ/tài khoản theo yêu cầu và chọn “Tiếp tục”. Mã OTP sẽ được gửi về điện thoại đăng ký, nhập mã OTP để hoàn tất giao dịch"
+  ]
+}

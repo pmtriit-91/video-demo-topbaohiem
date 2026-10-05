@@ -1,0 +1,212 @@
+{
+  "idx": 3,
+  "name": "motorbike_listing",
+  "group": "02_BaoHiem_OTo_XeMay",
+  "url": "https://topbaohiem.vn/motorbike",
+  "desc": "Bảo hiểm TNDS Xe máy: Bộ lọc tính phí, danh sách so sánh PTI, PVI, Bảo Việt, PJICO, Bảo Long",
+  "title": "Bảo hiểm TNDS Xe máy - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/03_motorbike_listing_4k_viewport.png",
+  "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/03_motorbike_listing_4k_fullpage.png",
+  "headings": [
+    {
+      "tag": "H1",
+      "text": "BẢO HIỂM TNDS XE MÁY"
+    },
+    {
+      "tag": "H1",
+      "text": "Bảo Hiểm TNDS Xe Máy"
+    },
+    {
+      "tag": "H3",
+      "text": "CÁC GÓI BẢO HIỂM"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PTI - Xe dưới 50cc/xe máy điện"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PTI - Xe dưới 50cc/xe máy điện"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PVI - xe dưới 50cc/ xe máy điện"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PVI - xe dưới 50cc/ xe máy điện"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy Bảo Việt - xe dưới 50cc/xe máy điện"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy Bảo Việt - xe dưới 50cc/xe máy điện"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PJICO - xe dưới 50cc/xe máy điện"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PJICO - xe dưới 50cc/xe máy điện"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy Bảo Long - xe dưới 50cc/xe máy điện"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy Bảo Long - xe dưới 50cc/xe máy điện"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS Xe máy Bảo Việt - xe trên 50cc"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS Xe máy Bảo Việt - xe trên 50cc"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS Xe máy PTI - xe trên 50cc"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS Xe máy PTI - xe trên 50cc"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PVI - xe trên 50cc"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PVI - xe trên 50cc"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PJICO - xe trên 50cc"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PJICO - xe trên 50cc"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy Bảo Long - xe trên 50cc"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy Bảo Long - xe trên 50cc"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PTI - Xe 3 bánh"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PTI - Xe 3 bánh"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PVI - Xe 3 bánh"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PVI - Xe 3 bánh"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy Bảo Việt - Xe 3 bánh"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy Bảo Việt - Xe 3 bánh"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PJICO - xe ba bánh"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy PJICO - xe ba bánh"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy Bảo Long - xe ba bánh"
+    },
+    {
+      "tag": "H4",
+      "text": "Bảo hiểm TNDS xe máy Bảo Long - xe ba bánh"
+    },
+    {
+      "tag": "H4",
+      "text": "Vì sao nên chọn bảo hiểm của TopBaoHiem!"
+    },
+    {
+      "tag": "H3",
+      "text": "Đa dạng nhà cung cấp"
+    },
+    {
+      "tag": "H3",
+      "text": "Đa dạng nhà cung cấp"
+    },
+    {
+      "tag": "H3",
+      "text": "Chứng nhận điện tử"
+    },
+    {
+      "tag": "H4",
+      "text": "Đối tác của chúng tôi"
+    },
+    {
+      "tag": "H2",
+      "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+    },
+    {
+      "tag": "H4",
+      "text": "Sản phẩm"
+    },
+    {
+      "tag": "H4",
+      "text": "Dịch vụ"
+    },
+    {
+      "tag": "H4",
+      "text": "Chính sách"
+    },
+    {
+      "tag": "H4",
+      "text": "Kết nối với chúng tôi"
+    }
+  ],
+  "key_features": [
+    "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+    "Mua bảo hiểm\nƯu đãi\nBlogs",
+    "BẢO HIỂM TNDS XE MÁY\n\nBảo vệ trách nhiệm tài chính khi xảy ra tai nạn",
+    "Bảo vệ trách nhiệm tài chính khi xảy ra tai nạn",
+    "Bảo Hiểm TNDS Xe MáyBảo vệ trách nhiệm tài chính khi xảy ra tai nạn",
+    "Loại xe\n\nTất cả\n​\n\nThời hạn (năm)\n\n01\n​\nTNDS người ngồi trên xe\nSố người\n\nGiá dự kiến từ\n\n80.000 vnđ\n\nBộ lọc\nLọc ngay",
+    "TNDS người ngồi trên xe\nSố người",
+    "TNDS người ngồi trên xe",
+    "Giá dự kiến từ\n\n80.000 vnđ",
+    "Chọn để so sánh\nBảo hiểm TNDS xe máy PTI - Xe dưới 50cc/xe máy điện\n75.000đ/năm\nXem chi tiết\nMua ngay",
+    "Bảo hiểm TNDS xe máy PTI - Xe dưới 50cc/xe máy điện",
+    "Xem chi tiết\nMua ngay",
+    "Bảo hiểm TNDS xe máy PTI - Xe dưới 50cc/xe máy điện75.000đ/nămChọn để so sánhXem chi tiếtMua ngay",
+    "Chọn để so sánhXem chi tiếtMua ngay",
+    "Chọn để so sánh\nBảo hiểm TNDS xe máy PVI - xe dưới 50cc/ xe máy điện\n75.000đ/năm\nXem chi tiết\nMua ngay",
+    "Bảo hiểm TNDS xe máy PVI - xe dưới 50cc/ xe máy điện",
+    "Bảo hiểm TNDS xe máy PVI - xe dưới 50cc/ xe máy điện75.000đ/nămChọn để so sánhXem chi tiếtMua ngay",
+    "Chọn để so sánh\nBảo hiểm TNDS xe máy Bảo Việt - xe dưới 50cc/xe máy điện\n75.000đ/năm\nXem chi tiết\nMua ngay",
+    "Bảo hiểm TNDS xe máy Bảo Việt - xe dưới 50cc/xe máy điện",
+    "Bảo hiểm TNDS xe máy Bảo Việt - xe dưới 50cc/xe máy điện75.000đ/nămChọn để so sánhXem chi tiếtMua ngay",
+    "Chọn để so sánh\nBảo hiểm TNDS xe máy PJICO - xe dưới 50cc/xe máy điện\n75.000đ/năm\nXem chi tiết\nMua ngay",
+    "Bảo hiểm TNDS xe máy PJICO - xe dưới 50cc/xe máy điện",
+    "Bảo hiểm TNDS xe máy PJICO - xe dưới 50cc/xe máy điện75.000đ/nămChọn để so sánhXem chi tiếtMua ngay",
+    "Chọn để so sánh\nBảo hiểm TNDS xe máy Bảo Long - xe dưới 50cc/xe máy điện\n75.000đ/năm\nXem chi tiết\nMua ngay",
+    "Bảo hiểm TNDS xe máy Bảo Long - xe dưới 50cc/xe máy điện"
+  ]
+}

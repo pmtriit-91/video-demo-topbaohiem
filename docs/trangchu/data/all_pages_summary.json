@@ -1,0 +1,3172 @@
+[
+  {
+    "index": 1,
+    "name": "home_main",
+    "group": "01_TrangChu_Hero_Branding",
+    "url": "https://topbaohiem.vn/vi",
+    "description": "Trang chủ chính: Hero section, huy hiệu Bộ Công Thương, 3 trụ cột giá trị, quy trình 4 bước, thẻ phân loại sản phẩm",
+    "status": "success",
+    "title": "TopBaoHiem - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/01_TrangChu_Hero_Branding/01_home_main_4k_viewport.png",
+    "fullpage_img": "screenshots/01_TrangChu_Hero_Branding/01_home_main_4k_fullpage.png"
+  },
+  {
+    "index": 2,
+    "name": "home_variant",
+    "group": "01_TrangChu_Hero_Branding",
+    "url": "https://topbaohiem.vn/vi/home",
+    "description": "Trang chủ biến thể routing /vi/home",
+    "status": "success",
+    "title": "Trang chủ - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/01_TrangChu_Hero_Branding/02_home_variant_4k_viewport.png",
+    "fullpage_img": "screenshots/01_TrangChu_Hero_Branding/02_home_variant_4k_fullpage.png"
+  },
+  {
+    "index": 3,
+    "name": "motorbike_listing",
+    "group": "02_BaoHiem_OTo_XeMay",
+    "url": "https://topbaohiem.vn/vi/motorbike",
+    "description": "Bảo hiểm TNDS Xe máy: Bộ lọc tính phí theo phân khối/loại xe, danh sách báo giá đa công ty (PTI, PVI, Bảo Việt, PJICO, Bảo Long)",
+    "status": "success",
+    "title": "Bảo hiểm TNDS Xe máy - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/03_motorbike_listing_4k_viewport.png",
+    "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/03_motorbike_listing_4k_fullpage.png"
+  },
+  {
+    "index": 4,
+    "name": "motorbike_intro",
+    "group": "02_BaoHiem_OTo_XeMay",
+    "url": "https://topbaohiem.vn/vi/motorbike/intro",
+    "description": "Giới thiệu quyền lợi & quy chuẩn bảo hiểm bắt buộc xe máy",
+    "status": "success",
+    "title": "502 Bad Gateway",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "502 Bad Gateway"
+      }
+    ],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/04_motorbike_intro_4k_viewport.png",
+    "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/04_motorbike_intro_4k_fullpage.png"
+  },
+  {
+    "index": 5,
+    "name": "car_tnds",
+    "group": "02_BaoHiem_OTo_XeMay",
+    "url": "https://topbaohiem.vn/vi/car",
+    "description": "Bảo hiểm TNDS Bắt buộc Ô tô: Phân loại xe con, xe kinh doanh, xe tải, báo giá tức thì",
+    "status": "success",
+    "title": "Bảo hiểm TNDS Ô tô - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/05_car_tnds_4k_viewport.png",
+    "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/05_car_tnds_4k_fullpage.png"
+  },
+  {
+    "index": 6,
+    "name": "car_material_calculator",
+    "group": "02_BaoHiem_OTo_XeMay",
+    "url": "https://topbaohiem.vn/vi/car-material",
+    "description": "Bảo hiểm Vật chất Thân vỏ Ô tô: Form cấu hình năm sản xuất, giá trị xe, các điều khoản mở rộng (thủy kích, mất cắp, gara chính hãng)",
+    "status": "success",
+    "title": "Bảo hiểm Vật chất xe ô tô - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/06_car_material_calculator_4k_viewport.png",
+    "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/06_car_material_calculator_4k_fullpage.png"
+  },
+  {
+    "index": 7,
+    "name": "car_material_search_valuation",
+    "group": "02_BaoHiem_OTo_XeMay",
+    "url": "https://topbaohiem.vn/vi/car-material/search",
+    "description": "Công cụ tra cứu định giá xe ô tô thị trường tự động theo hãng, dòng xe, phiên bản",
+    "status": "success",
+    "title": "Bảo hiểm Vật chất xe ô tô - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/07_car_material_search_valuation_4k_viewport.png",
+    "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/07_car_material_search_valuation_4k_fullpage.png"
+  },
+  {
+    "index": 8,
+    "name": "car_material_intro",
+    "group": "02_BaoHiem_OTo_XeMay",
+    "url": "https://topbaohiem.vn/vi/car-material/intro",
+    "description": "Giới thiệu chi tiết quyền lợi & mức khấu trừ bảo hiểm vật chất ô tô",
+    "status": "success",
+    "title": "Bảo hiểm Vật chất xe ô tô - Giới thiệu - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/02_BaoHiem_OTo_XeMay/08_car_material_intro_4k_viewport.png",
+    "fullpage_img": "screenshots/02_BaoHiem_OTo_XeMay/08_car_material_intro_4k_fullpage.png"
+  },
+  {
+    "index": 9,
+    "name": "health_insurance_calculator",
+    "group": "03_BaoHiem_SucKhoe_YTe",
+    "url": "https://topbaohiem.vn/vi/health",
+    "description": "Bảo hiểm Sức khỏe: Báo giá theo độ tuổi, giới tính, gói cơ bản - nâng cao - VIP, quyền lợi nội trú/ngoại trú",
+    "status": "success",
+    "title": "Bảo hiểm Sức khoẻ - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/03_BaoHiem_SucKhoe_YTe/09_health_insurance_calculator_4k_viewport.png",
+    "fullpage_img": "screenshots/03_BaoHiem_SucKhoe_YTe/09_health_insurance_calculator_4k_fullpage.png"
+  },
+  {
+    "index": 10,
+    "name": "health_intro",
+    "group": "03_BaoHiem_SucKhoe_YTe",
+    "url": "https://topbaohiem.vn/vi/health/intro",
+    "description": "Giới thiệu quyền lợi bảo hiểm chăm sóc y tế toàn diện",
+    "status": "success",
+    "title": "Bảo hiểm Sức khoẻ - Giới thiệu - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/03_BaoHiem_SucKhoe_YTe/10_health_intro_4k_viewport.png",
+    "fullpage_img": "screenshots/03_BaoHiem_SucKhoe_YTe/10_health_intro_4k_fullpage.png"
+  },
+  {
+    "index": 11,
+    "name": "voluntary_health",
+    "group": "03_BaoHiem_SucKhoe_YTe",
+    "url": "https://topbaohiem.vn/vi/voluntary-health",
+    "description": "Bảo hiểm sức khỏe tự nguyện mở rộng",
+    "status": "success",
+    "title": "Bảo hiểm y tế tự nguyện Việt Nam - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/03_BaoHiem_SucKhoe_YTe/11_voluntary_health_4k_viewport.png",
+    "fullpage_img": "screenshots/03_BaoHiem_SucKhoe_YTe/11_voluntary_health_4k_fullpage.png"
+  },
+  {
+    "index": 12,
+    "name": "medical_network_search",
+    "group": "03_BaoHiem_SucKhoe_YTe",
+    "url": "https://topbaohiem.vn/vi/medical-search",
+    "description": "Công cụ tra cứu mạng lưới bệnh viện & cơ sở y tế bảo lãnh viện phí trên toàn quốc",
+    "status": "success",
+    "title": "Tra cứu cơ sở y tế - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H4",
+        "text": "Tra cứu cơ sở y tế bảo lãnh viện phí"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "text",
+        "name": "",
+        "placeholder": "",
+        "value": "Thành phố Hà Nội"
+      },
+      {
+        "type": "text",
+        "name": "",
+        "placeholder": "",
+        "value": "Thành phố Hà Nội"
+      }
+    ],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập",
+      "TÌM KIẾM"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "Tra cứu cơ sở y tế bảo lãnh viện phí",
+      "bảo lãnh viện phí",
+      "Nội trú\nNgoại trú\nNha khoa",
+      "Tỉnh/Thành phố\n\n​\n\nBệnh viện\n\n​\nTÌM KIẾM",
+      "Tỉnh/Thành phố\n\n​",
+      "Bệnh Viện\nBảo lãnh viện phí\nNhà cung cấp bảo hiểm\nBệnh viện Hồng Ngọc\n\nNội trú\n\nNgoại trú\n\nNha khoa\n\nSố 55 Phố Yên Ninh, Phường Ba Đình, Thành phố Hà Nội, Việt Nam",
+      "Bệnh Viện\nBảo lãnh viện phí\nNhà cung cấp bảo hiểm",
+      "Bảo lãnh viện phí",
+      "Nhà cung cấp bảo hiểm",
+      "Bệnh viện Hồng Ngọc\n\nNội trú\n\nNgoại trú\n\nNha khoa\n\nSố 55 Phố Yên Ninh, Phường Ba Đình, Thành phố Hà Nội, Việt Nam",
+      "Bệnh viện Hồng Ngọc",
+      "Nội trú\n\nNgoại trú\n\nNha khoa",
+      "Số 55 Phố Yên Ninh, Phường Ba Đình, Thành phố Hà Nội, Việt Nam",
+      "cs@topbaohiem.vn",
+      "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam",
+      "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc",
+      "Dịch vụ\nƯu đãi\nYêu cầu bồi thường",
+      "Kết nối với chúng tôi",
+      "Copyright ©2024 TopBaoHiem all rights reserved"
+    ],
+    "viewport_img": "screenshots/03_BaoHiem_SucKhoe_YTe/12_medical_network_search_4k_viewport.png",
+    "fullpage_img": "screenshots/03_BaoHiem_SucKhoe_YTe/12_medical_network_search_4k_fullpage.png"
+  },
+  {
+    "index": 13,
+    "name": "international_travel",
+    "group": "04_BaoHiem_DuLich",
+    "url": "https://topbaohiem.vn/vi/travel",
+    "description": "Bảo hiểm Du lịch Quốc tế: Đáp ứng visa Schengen, Mỹ, Nhật, chi trả chi phí y tế khẩn cấp, mất hành lý",
+    "status": "success",
+    "title": "Bảo hiểm Du lịch - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/04_BaoHiem_DuLich/13_international_travel_4k_viewport.png",
+    "fullpage_img": "screenshots/04_BaoHiem_DuLich/13_international_travel_4k_fullpage.png"
+  },
+  {
+    "index": 14,
+    "name": "travel_intro",
+    "group": "04_BaoHiem_DuLich",
+    "url": "https://topbaohiem.vn/vi/travel/intro",
+    "description": "Giới thiệu quyền lợi & hướng dẫn mua bảo hiểm du lịch nước ngoài",
+    "status": "success",
+    "title": "Bảo hiểm Du lịch quốc tế - Giới thiệu - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/04_BaoHiem_DuLich/14_travel_intro_4k_viewport.png",
+    "fullpage_img": "screenshots/04_BaoHiem_DuLich/14_travel_intro_4k_fullpage.png"
+  },
+  {
+    "index": 15,
+    "name": "domestic_travel",
+    "group": "04_BaoHiem_DuLich",
+    "url": "https://topbaohiem.vn/vi/vietnam-travel",
+    "description": "Bảo hiểm Du lịch Trong nước: Bảo vệ hành trình cá nhân, gia đình, đoàn tour",
+    "status": "success",
+    "title": "Bảo hiểm du lịch Việt Nam - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/04_BaoHiem_DuLich/15_domestic_travel_4k_viewport.png",
+    "fullpage_img": "screenshots/04_BaoHiem_DuLich/15_domestic_travel_4k_fullpage.png"
+  },
+  {
+    "index": 16,
+    "name": "compulsory_fire_building",
+    "group": "05_BaoHiem_TaiSan_DoanhNghiep",
+    "url": "https://topbaohiem.vn/vi/compulsory-fire",
+    "description": "Bảo hiểm Cháy nổ bắt buộc nhà xưởng, chung cư, kho bãi theo Nghị định 97/2021",
+    "status": "success",
+    "title": "Bảo hiểm Cháy nổ bắt buộc - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/16_compulsory_fire_building_4k_viewport.png",
+    "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/16_compulsory_fire_building_4k_fullpage.png"
+  },
+  {
+    "index": 17,
+    "name": "compulsory_fire_intro",
+    "group": "05_BaoHiem_TaiSan_DoanhNghiep",
+    "url": "https://topbaohiem.vn/vi/compulsory-fire/intro",
+    "description": "Giới thiệu quy định pháp lý cháy nổ bắt buộc",
+    "status": "success",
+    "title": "Bảo hiểm Cháy nổ bắt buộc - Giới thiệu - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "So sánh bảo hiểm,\nchọn TopBaoHiem!"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo hiểm cháy nổ bắt buộc"
+      },
+      {
+        "tag": "H4",
+        "text": "Tại sao nên mua Bảo hiểm cháy nổ bắt buộc?"
+      },
+      {
+        "tag": "H4",
+        "text": "Chọn TopBaoHiem khi mua bảo hiểm cháy nổ"
+      },
+      {
+        "tag": "H4",
+        "text": "Đối tác và khách hàng nói về TOPbaohiem"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "Câu hỏi thường gặp"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập",
+      "MUA BẢO HIỂM",
+      "MUA NGAY",
+      "Previous",
+      "Next"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "So sánh bảo hiểm,\nchọn TopBaoHiem!\nSo sánh và cung cấp thông tin bảo hiểm bạn cần một cách nhanh nhất!\nMUA BẢO HIỂM",
+      "Bồi thường thiệt hại do cháy, nổ gây ra.",
+      "Bảo vệ tài sản, nhà xưởng, máy móc, hàng hóa.",
+      "Hồ sơ bảo hiểm đáp ứng yêu cầu kiểm tra PCCC.",
+      "Thủ tục nhanh - tư vấn tận nơi.",
+      "Phí bảo hiểm hợp lý - quyền lợi lớn.",
+      "Cấp đơn nhanh, hỗ trợ đầy đủ hồ sơ pháp lý.",
+      "👉\nLiên hệ 088.999.6688 ngay để được tư vấn và cấp bảo hiểm nhanh chóng.",
+      "Chọn TopBaoHiem khi mua bảo hiểm cháy nổ",
+      "Đưa ra lựa chọn phù hợp\nCông cụ giúp so sánh mức phí và quyền lợi giữa các nhà cung cấp, cùng với đội ngũ tư vấn viên của Topbaohiem sẽ giúp bạn tìm được gói bảo hiểm sức khoẻ phù hợp nhất.",
+      "Thao tác thuận tiện\nDễ dàng theo dõi và tra cứu hồ sơ bảo hiểm mọi lúc mọi nơi chỉ trên một ứng dụng duy nhất mà không mất thời gian điền vào các mẫu biểu giấy.",
+      "Thủ tục đơn giản\nXuất hợp đồng điện tử chỉ trong vài phút.",
+      "Ưu đãi hấp dẫn\nTiết kiệm chi phí với các chương trình ưu đãi khi mua bảo hiểm online.",
+      "Đối tác và khách hàng nói về TOPbaohiem",
+      "Anh Nguyễn Mạnh\n\nKhách hàng",
+      "Anh Nguyễn Việt Thắng\n\nCông ty Sách Đông A\n\n“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”",
+      "Anh Nguyễn Việt Thắng\n\nCông ty Sách Đông A",
+      "Anh Nguyễn Việt Thắng",
+      "Công ty Sách Đông A",
+      "Câu hỏi thường gặp",
+      "Topbaohiem hoạt động như thế nào?",
+      "Topbaohiem kiếm tiền bằng cách nào?",
+      "Tôi sẽ ký hợp đồng bảo hiểm với ai?",
+      "Topbaohiem bảo mật thông tin khách hàng như thế nào?",
+      "Chúng tôi hiểu rằng sự an tâm của bạn bắt đầu từ việc bảo mật thông tin. TopBaoHiem luôn giữ kín tuyệt đối mọi dữ liệu cá nhân, và không bao giờ chia sẻ cho bên thứ ba nếu không có sự đồng ý của bạn.",
+      "Topbaohiem có được nhà nước cấp phép hoạt động không?",
+      "Quy trình giải quyết bồi thường diễn ra như nào?\n\nNhập mã bảo hiểm vào danh mục bồi thường trên nền tảng Topbaohiem và làm theo hướng dẫn bên trong.",
+      "Quy trình giải quyết bồi thường diễn ra như nào?"
+    ],
+    "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/17_compulsory_fire_intro_4k_viewport.png",
+    "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/17_compulsory_fire_intro_4k_fullpage.png"
+  },
+  {
+    "index": 18,
+    "name": "compulsory_fire_survey_guide",
+    "group": "05_BaoHiem_TaiSan_DoanhNghiep",
+    "url": "https://topbaohiem.vn/vi/compulsory-fire/survey-guide",
+    "description": "Hướng dẫn biểu mẫu khảo sát rủi ro cháy nổ công trình",
+    "status": "success",
+    "title": "Hướng dẫn chụp ảnh khảo sát - Bảo hiểm Cháy nổ bắt buộc - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "HƯỚNG DẪN CHỤP ẢNH KHẢO SÁT"
+      },
+      {
+        "tag": "H2",
+        "text": "Phục vụ cấp đơn Bảo hiểm Cháy Nổ Bắt Buộc"
+      },
+      {
+        "tag": "H3",
+        "text": "1. Ảnh mặt tiền cơ sở"
+      },
+      {
+        "tag": "H3",
+        "text": "2. Ảnh bên trong"
+      },
+      {
+        "tag": "H3",
+        "text": "3. Ảnh hệ thống điện"
+      },
+      {
+        "tag": "H3",
+        "text": "4. Ảnh thiết bị PCCC"
+      },
+      {
+        "tag": "H3",
+        "text": "5. Ảnh xung quanh cơ sở"
+      },
+      {
+        "tag": "H3",
+        "text": "Lưu ý khi chụp"
+      },
+      {
+        "tag": "H3",
+        "text": "Hồ sơ gửi kèm"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "Để hồ sơ được duyệt nhanh, vui lòng chụp rõ nét và đầy đủ các ảnh sau:",
+      "1. Ảnh mặt tiền cơ sở\nChụp toàn bộ phía trước nhà/xưởng/cửa hàng\nThấy rõ biển hiệu, số nhà (nếu có)",
+      "2. Ảnh bên trong\nChụp tổng quan khu vực hoạt động\nChụp hàng hóa, máy móc, trang thiết bị chính",
+      "3. Ảnh hệ thống điện\nTủ điện chính\nCầu dao/aptomat\nDây điện khu vực chính",
+      "4. Ảnh thiết bị PCCC\nBình chữa cháy\nHệ thống báo cháy/chữa cháy (nếu có)\nLối thoát hiểm",
+      "5. Ảnh xung quanh cơ sở\nĐường ra vào\nNhà liền kề hoặc khu vực xung quanh",
+      "Lưu ý khi chụp\nChụp đủ sáng, không mờ\nKhông dùng ảnh cũ\nMỗi góc chụp 1-2 ảnh rõ nét\nCó thể quay thêm video ngắn tổng quan nếu cần",
+      "Hồ sơ gửi kèm\nGiấy phép kinh doanh (nếu có)\nCCCD người mua bảo hiểm\nDanh mục tài sản cần bảo hiểm (nếu yêu cầu)\nBiên bản Phòng cháy chữa cháy gần nhất do Công an PCCC cấp.",
+      "cs@topbaohiem.vn",
+      "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam",
+      "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc",
+      "Dịch vụ\nƯu đãi\nYêu cầu bồi thường",
+      "Kết nối với chúng tôi",
+      "Copyright ©2024 TopBaoHiem all rights reserved"
+    ],
+    "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/18_compulsory_fire_survey_guide_4k_viewport.png",
+    "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/18_compulsory_fire_survey_guide_4k_fullpage.png"
+  },
+  {
+    "index": 19,
+    "name": "private_house_insurance",
+    "group": "05_BaoHiem_TaiSan_DoanhNghiep",
+    "url": "https://topbaohiem.vn/vi/contact-house",
+    "description": "Bảo hiểm nhà tư nhân: Nhà phố, căn hộ chung cư",
+    "status": "success",
+    "title": "Bảo hiểm Nhà tư nhân - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/19_private_house_insurance_4k_viewport.png",
+    "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/19_private_house_insurance_4k_fullpage.png"
+  },
+  {
+    "index": 20,
+    "name": "cargo_transport_insurance",
+    "group": "05_BaoHiem_TaiSan_DoanhNghiep",
+    "url": "https://topbaohiem.vn/vi/cargo",
+    "description": "Bảo hiểm hàng hóa vận chuyển đường bộ, đường biển, đường hàng không",
+    "status": "success",
+    "title": "Bảo hiểm Hàng hoá - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/20_cargo_transport_insurance_4k_viewport.png",
+    "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/20_cargo_transport_insurance_4k_fullpage.png"
+  },
+  {
+    "index": 21,
+    "name": "commercial_credit_insurance",
+    "group": "05_BaoHiem_TaiSan_DoanhNghiep",
+    "url": "https://topbaohiem.vn/vi/contact-commodity-credit",
+    "description": "Bảo hiểm tín dụng thương mại & rủi ro thanh toán doanh nghiệp",
+    "status": "success",
+    "title": "Bảo hiểm Tín dụng hàng hoá - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/21_commercial_credit_insurance_4k_viewport.png",
+    "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/21_commercial_credit_insurance_4k_fullpage.png"
+  },
+  {
+    "index": 22,
+    "name": "mortgage_loan_insurance",
+    "group": "05_BaoHiem_TaiSan_DoanhNghiep",
+    "url": "https://topbaohiem.vn/vi/contact-mortgage-loan",
+    "description": "Bảo hiểm khoản vay thế chấp ngân hàng",
+    "status": "success",
+    "title": "Bảo hiểm Khoản vay thế chấp - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Bảo hiểm khoản vay thế chấp"
+      },
+      {
+        "tag": "H3",
+        "text": "Tư vấn và hỗ trợ 24/7"
+      },
+      {
+        "tag": "H4",
+        "text": "Vì sao nên chọn bảo hiểm của TopBaoHiem!"
+      },
+      {
+        "tag": "H3",
+        "text": "Đa dạng nhà cung cấp"
+      },
+      {
+        "tag": "H3",
+        "text": "Đa dạng nhà cung cấp"
+      },
+      {
+        "tag": "H3",
+        "text": "Chứng nhận điện tử"
+      },
+      {
+        "tag": "H4",
+        "text": "Đối tác của chúng tôi"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "text",
+        "name": "name",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "phoneNumber",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "email",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "insureType",
+        "placeholder": "",
+        "value": "0"
+      }
+    ],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập",
+      "LIÊN HỆ MUA",
+      "Nhận tư vấn",
+      "Previous",
+      "Next"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "Ví dụ chỉ mang tính chất tham khảo.\nVui lòng liên hệ TopBaoHiem để nhận được báo giá chính xác nhất",
+      "Tư vấn và hỗ trợ 24/7\nĐội ngũ Insure GO luôn sẵn sàng hỗ trợ bạn trong suốt quá trình mua và sử dụng bảo hiểm",
+      "Email\n\ncs@topbaohiem.vn\n\nSĐT\n\n088 999 6688\n\nZalo\n\nTopBaoHiem\n\nHọ và tên\n\n​\n\nSố điện thoại\n\n​\n\nEmail(nếu có)\n\n​\n\nSản phẩm mà bạn quan tâm\n\n​\n​\nNhận tư vấn",
+      "Email\n\ncs@topbaohiem.vn\n\nSĐT\n\n088 999 6688\n\nZalo\n\nTopBaoHiem",
+      "Email\n\ncs@topbaohiem.vn",
+      "cs@topbaohiem.vn",
+      "SĐT\n\n088 999 6688",
+      "Zalo\n\nTopBaoHiem",
+      "Họ và tên\n\n​\n\nSố điện thoại\n\n​\n\nEmail(nếu có)\n\n​\n\nSản phẩm mà bạn quan tâm\n\n​\n​\nNhận tư vấn",
+      "Số điện thoại\n\n​\n\nEmail(nếu có)\n\n​",
+      "Số điện thoại\n\n​",
+      "Số điện thoại",
+      "Email(nếu có)\n\n​",
+      "Sản phẩm mà bạn quan tâm",
+      "Vì sao nên chọn bảo hiểm của TopBaoHiem!",
+      "Đa dạng nhà cung cấp\nTopBaoHiem! là đối tác chính thức của nhiều đơn vị bảo hiểm uy tín",
+      "Đa dạng nhà cung cấp\nCác chương trình ưu đãi hấp dẫn từ TopBaoHiem! và các đối tác được cập nhật liên tục.",
+      "Chứng nhận điện tử\nĐược cấp online bởi Công ty bảo hiểm, có giá trị tương đương bản giấy.",
+      "Đối tác của chúng tôi\n\nĐồng hành cùng các công ty bảo hiểm lớn để mang đến giải pháp tốt nhất cho khách hàng",
+      "Đồng hành cùng các công ty bảo hiểm lớn để mang đến giải pháp tốt nhất cho khách hàng",
+      "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam",
+      "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc",
+      "Dịch vụ\nƯu đãi\nYêu cầu bồi thường",
+      "Kết nối với chúng tôi",
+      "Copyright ©2024 TopBaoHiem all rights reserved"
+    ],
+    "viewport_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/22_mortgage_loan_insurance_4k_viewport.png",
+    "fullpage_img": "screenshots/05_BaoHiem_TaiSan_DoanhNghiep/22_mortgage_loan_insurance_4k_fullpage.png"
+  },
+  {
+    "index": 23,
+    "name": "compare_matrix_engine",
+    "group": "06_SoSanh_BaoGia_ThongMinh",
+    "url": "https://topbaohiem.vn/vi/insure-compare",
+    "description": "Công cụ ma trận so sánh quyền lợi và phí giữa các công ty bảo hiểm song song",
+    "status": "success",
+    "title": "So sánh bảo hiểm - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [
+      "Quay lại"
+    ],
+    "key_texts": [
+      "Quay lại\n\nSo sánh gói bảo hiểm\n\nGÓI BẢO HIỂM\n\nThông tin giá",
+      "Quay lại\n\nSo sánh gói bảo hiểm",
+      "So sánh gói bảo hiểm"
+    ],
+    "viewport_img": "screenshots/06_SoSanh_BaoGia_ThongMinh/23_compare_matrix_engine_4k_viewport.png",
+    "fullpage_img": "screenshots/06_SoSanh_BaoGia_ThongMinh/23_compare_matrix_engine_4k_fullpage.png"
+  },
+  {
+    "index": 24,
+    "name": "discounts_vouchers",
+    "group": "06_SoSanh_BaoGia_ThongMinh",
+    "url": "https://topbaohiem.vn/vi/discount",
+    "description": "Trung tâm ưu đãi, mã giảm giá, voucher chiết khấu",
+    "status": "success",
+    "title": "Ưu đãi - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/06_SoSanh_BaoGia_ThongMinh/24_discounts_vouchers_4k_viewport.png",
+    "fullpage_img": "screenshots/06_SoSanh_BaoGia_ThongMinh/24_discounts_vouchers_4k_fullpage.png"
+  },
+  {
+    "index": 25,
+    "name": "motorbike_checkout_form",
+    "group": "07_QuyTrinh_DatMua_ThanhToan",
+    "url": "https://topbaohiem.vn/vi/motorbike-checkout",
+    "description": "Form thanh toán xe máy tích hợp tính năng OCR scan cà vẹt xe tự động điền",
+    "status": "success",
+    "title": "Bảo hiểm TNDS Xe máy - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Thanh toán"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "text",
+        "name": "vehicleInfoId.ownerName",
+        "placeholder": "VD: Nguyễn Văn A",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "vehicleInfoId.address",
+        "placeholder": "Số nhà, tên đường, phường/xã, tỉnh/thành phố",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "",
+        "placeholder": "",
+        "value": "x"
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.idCard",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.licensePlate",
+        "placeholder": "VD: 30B1-123.45",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.chassisNumber",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "",
+        "placeholder": "VD: Honda Lead, Yamaha Janus, Piaggio Vespa...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "onlineCertificateId.phoneNumber",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "onlineCertificateId.email",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "checkbox",
+        "name": "",
+        "placeholder": "",
+        "value": "on"
+      },
+      {
+        "type": "text",
+        "name": "refCode",
+        "placeholder": "Nhập mã CTV",
+        "value": ""
+      },
+      {
+        "type": "checkbox",
+        "name": "",
+        "placeholder": "",
+        "value": "on"
+      },
+      {
+        "type": "text",
+        "name": "voucher",
+        "placeholder": "Mã khuyến mại",
+        "value": ""
+      }
+    ],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập",
+      "Quay lại",
+      "Áp dụng",
+      "Thanh toán"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "Quay lại\nThanh toán",
+      "Thông tin phương tiện",
+      "Chụp giấy đăng kí xe để điền nhanh",
+      "hoặc điền thông tin bên dưới",
+      "Họ và tên chủ xe*(trên giấy đăng ký xe)\n\n​",
+      "Họ và tên chủ xe*(trên giấy đăng ký xe)",
+      "Họ và tên chủ xe*",
+      "(trên giấy đăng ký xe)",
+      "Địa chỉ*\n\n​\n\nVui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới",
+      "​\n\nVui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới",
+      "Vui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới",
+      "Biển số xe*\n\n​\n\nSố khung*\n\n​",
+      "Tên xe* (Hiệu xe - Dòng xe)\nTên xe* (Hiệu xe - Dòng xe)",
+      "Tên xe* (Hiệu xe - Dòng xe)",
+      "Thông tin nhận chứng nhận điện tử",
+      "Ngày bắt đầu\n\n22/09/2026\n\n⟶\n\n22/09/2026\n\nĐầy đủ giá trị pháp lý như chứng nhận bản cứng\n\nThân thiện với môi trường\n\nSố điện thoại*\n\n​\n\nEmail*\n\n​\n\nYêu cầu xuất hóa đơn",
+      "22/09/2026\n\n⟶\n\n22/09/2026",
+      "Đầy đủ giá trị pháp lý như chứng nhận bản cứng\n\nThân thiện với môi trường",
+      "Đầy đủ giá trị pháp lý như chứng nhận bản cứng",
+      "Thân thiện với môi trường",
+      "Số điện thoại*\n\n​\n\nEmail*\n\n​",
+      "Số điện thoại*\n\n​",
+      "Yêu cầu xuất hóa đơn",
+      "Hình thức thanh toán\n\nThanh toán qua ví VNPay\n\nNgười giới thiệu\n\n​\n\nTự động tạo tài khoản\n\nSĐT của bạn sẽ được dùng để đăng nhập, giúp quản lý hợp đồng dễ dàng hơn.",
+      "Hình thức thanh toán",
+      "Thanh toán qua ví VNPay\n\nNgười giới thiệu\n\n​\n\nTự động tạo tài khoản\n\nSĐT của bạn sẽ được dùng để đăng nhập, giúp quản lý hợp đồng dễ dàng hơn.",
+      "Thanh toán qua ví VNPay",
+      "Người giới thiệu\n\n​"
+    ],
+    "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/25_motorbike_checkout_form_4k_viewport.png",
+    "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/25_motorbike_checkout_form_4k_fullpage.png"
+  },
+  {
+    "index": 26,
+    "name": "car_checkout_form",
+    "group": "07_QuyTrinh_DatMua_ThanhToan",
+    "url": "https://topbaohiem.vn/vi/car-checkout",
+    "description": "Form thanh toán TNDS ô tô, thông tin đăng kiểm và xuất hóa đơn",
+    "status": "success",
+    "title": "Bảo hiểm TNDS Ô tô - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Thanh toán"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "text",
+        "name": "vehicleInfoId.ownerName",
+        "placeholder": "VD: Nguyễn Văn A",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "vehicleInfoId.address",
+        "placeholder": "Số nhà, tên đường, phường, tỉnh/thành phố",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "",
+        "placeholder": "",
+        "value": "x"
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.idCard",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.licensePlate",
+        "placeholder": "VD: 30B1-123.45",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.chassisNumber",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.createdYear",
+        "placeholder": "YYYY",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.numberOfSeats",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.vehicleName",
+        "placeholder": "VD: Honda Civic, Mazda CX-5, VinFast VF 8...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "onlineCertificateId.phoneNumber",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "onlineCertificateId.email",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "checkbox",
+        "name": "",
+        "placeholder": "",
+        "value": "on"
+      },
+      {
+        "type": "textarea",
+        "name": "onlineCertificateId.address",
+        "placeholder": "Số nhà, tên đường, phường, tỉnh/thành phố",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "",
+        "placeholder": "",
+        "value": "x"
+      },
+      {
+        "type": "checkbox",
+        "name": "",
+        "placeholder": "",
+        "value": "on"
+      },
+      {
+        "type": "text",
+        "name": "refCode",
+        "placeholder": "Nhập mã CTV",
+        "value": ""
+      },
+      {
+        "type": "checkbox",
+        "name": "",
+        "placeholder": "",
+        "value": "on"
+      },
+      {
+        "type": "text",
+        "name": "discountCode",
+        "placeholder": "Mã khuyến mại",
+        "value": ""
+      }
+    ],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập",
+      "Quay lại",
+      "Áp dụng",
+      "Thanh toán"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "Quay lại\nThanh toán",
+      "Thông tin phương tiện",
+      "Chụp giấy đăng kí xe để điền nhanh",
+      "hoặc điền thông tin bên dưới",
+      "Họ và tên chủ xe*(trên giấy đăng ký xe)\n\n​",
+      "Họ và tên chủ xe*(trên giấy đăng ký xe)",
+      "Họ và tên chủ xe*",
+      "(trên giấy đăng ký xe)",
+      "Địa chỉ*\n\n​\n\nVui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới",
+      "​\n\nVui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới",
+      "Vui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới",
+      "Biển số xe*\n\n​\n\nSố khung *\n\n​",
+      "Năm sản xuất\n\n​\n\nSố chỗ ngồi\n\n​",
+      "Tên xe(Hiệu xe - Dòng xe)\n\n​",
+      "Tên xe(Hiệu xe - Dòng xe)",
+      "(Hiệu xe - Dòng xe)",
+      "Thông tin nhận chứng nhận điện tử",
+      "22/09/2026\n\n⟶\n\n22/09/2026",
+      "Chứng nhận điện tử",
+      "Miễn phí chứng nhận\n\nĐầy đủ giá trị pháp lý như chứng nhận bản cứng\n\nThân thiện với môi trường",
+      "Miễn phí chứng nhận",
+      "Đầy đủ giá trị pháp lý như chứng nhận bản cứng",
+      "Thân thiện với môi trường",
+      "Số điện thoại*\n\n​\n\nEmail*\n\n​",
+      "Số điện thoại*\n\n​",
+      "Chứng nhận bản cứng (có thể mất phí vận chuyển)",
+      "(có thể mất phí vận chuyển)",
+      "Địa chỉ nhận(Địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới)\n\n​"
+    ],
+    "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/26_car_checkout_form_4k_viewport.png",
+    "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/26_car_checkout_form_4k_fullpage.png"
+  },
+  {
+    "index": 27,
+    "name": "car_material_checkout_form",
+    "group": "07_QuyTrinh_DatMua_ThanhToan",
+    "url": "https://topbaohiem.vn/vi/car-material-checkout",
+    "description": "Form thẩm định & thanh toán bảo hiểm vật chất xe hơi",
+    "status": "success",
+    "title": "Bảo hiểm Vật chất xe ô tô - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/27_car_material_checkout_form_4k_viewport.png",
+    "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/27_car_material_checkout_form_4k_fullpage.png"
+  },
+  {
+    "index": 28,
+    "name": "health_checkout_form",
+    "group": "07_QuyTrinh_DatMua_ThanhToan",
+    "url": "https://topbaohiem.vn/vi/health-checkout",
+    "description": "Form đăng ký & kê khai y tế trực tuyến cho gói sức khỏe",
+    "status": "success",
+    "title": "Bảo hiểm Sức khoẻ - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Thanh toán"
+      }
+    ],
+    "inputs": [],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập",
+      "Quay lại",
+      "Không",
+      "Có",
+      "Tiếp theo"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "Quay lại\nThanh toán",
+      "Những người được bảo hiểm kê khai trên đã từng phải điều trị, nằm viện hay phẫu thuật trong một bệnh viện, viện điều dưỡng, phòng khám hoặc các tổ chức y tế khác trong vòng 3 năm gần đây không?",
+      "Câu 2\n\nNgười được bảo hiểm có đang theo dõi hoặc điều trị thương tật, bệnh hoặc có triệu chứng sức khỏe không ổn định hoặc cần phải điều trị bệnh viện trong vòng 12 tháng tới không?\n\nKhông\nCó",
+      "Người được bảo hiểm có đang theo dõi hoặc điều trị thương tật, bệnh hoặc có triệu chứng sức khỏe không ổn định hoặc cần phải điều trị bệnh viện trong vòng 12 tháng tới không?",
+      "Vui lòng trả lời tất cả câu hỏi để tiếp tục mua bảo hiểm"
+    ],
+    "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/28_health_checkout_form_4k_viewport.png",
+    "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/28_health_checkout_form_4k_fullpage.png"
+  },
+  {
+    "index": 29,
+    "name": "travel_checkout_form",
+    "group": "07_QuyTrinh_DatMua_ThanhToan",
+    "url": "https://topbaohiem.vn/vi/travel-checkout",
+    "description": "Form thanh toán bảo hiểm du lịch quốc tế, nhập danh sách hành khách",
+    "status": "success",
+    "title": "Bảo hiểm Du lịch quốc tế - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Thanh toán"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "text",
+        "name": "buyerName",
+        "placeholder": "VD: Nguyễn Văn A",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "idCard",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "phoneNumber",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "email",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "",
+        "placeholder": "",
+        "value": "Vietnam"
+      },
+      {
+        "type": "text",
+        "name": "",
+        "placeholder": "DD/MM/YYYY",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "",
+        "placeholder": "",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "",
+        "placeholder": "",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "address",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "",
+        "placeholder": "",
+        "value": "x"
+      },
+      {
+        "type": "radio",
+        "name": "beneficiary",
+        "placeholder": "",
+        "value": "1"
+      },
+      {
+        "type": "text",
+        "name": "infoInsuredPersonItem.idCard",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "radio",
+        "name": "infoInsuredPersonItem.gender",
+        "placeholder": "",
+        "value": "1"
+      },
+      {
+        "type": "radio",
+        "name": "infoInsuredPersonItem.gender",
+        "placeholder": "",
+        "value": "0"
+      },
+      {
+        "type": "radio",
+        "name": "beneficiary",
+        "placeholder": "",
+        "value": "0"
+      },
+      {
+        "type": "text",
+        "name": "onlineCertificateId.phoneNumber",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "onlineCertificateId.email",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "checkbox",
+        "name": "",
+        "placeholder": "",
+        "value": "on"
+      },
+      {
+        "type": "textarea",
+        "name": "onlineCertificateId.address",
+        "placeholder": "Số nhà, tên đường, phường/xã, tỉnh/thành phố",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "",
+        "placeholder": "",
+        "value": "x"
+      },
+      {
+        "type": "text",
+        "name": "refCode",
+        "placeholder": "Nhập mã CTV",
+        "value": ""
+      },
+      {
+        "type": "checkbox",
+        "name": "",
+        "placeholder": "",
+        "value": "on"
+      },
+      {
+        "type": "text",
+        "name": "voucher",
+        "placeholder": "Mã khuyến mại",
+        "value": ""
+      }
+    ],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập",
+      "Quay lại",
+      "Áp dụng",
+      "Thanh toán"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "Quay lại\nThanh toán",
+      "Thông tin hợp đồng\n\nHọ và tên người mua\n\n​\n\nCCCD*\n\n​\n\nSố điện thoại\n\n​\n\nEmail\n\n​\n\nQuốc tịch\n\n​\n\nNgày sinh\n\n​\n\nTỉnh/TP*\n\n​\n\nPhường/Xã*\n\n​\n\nSố nhà và đường*\n\n​",
+      "Thông tin hợp đồng",
+      "Họ và tên người mua\n\n​\n\nCCCD*\n\n​\n\nSố điện thoại\n\n​\n\nEmail\n\n​\n\nQuốc tịch\n\n​\n\nNgày sinh\n\n​\n\nTỉnh/TP*\n\n​\n\nPhường/Xã*\n\n​\n\nSố nhà và đường*\n\n​",
+      "Họ và tên người mua\n\n​",
+      "Họ và tên người mua",
+      "Số điện thoại\n\n​\n\nEmail\n\n​",
+      "Số điện thoại\n\n​",
+      "Quốc tịch\n\n​\n\nNgày sinh\n\n​",
+      "Tỉnh/TP*\n\n​\n\nPhường/Xã*\n\n​",
+      "Số nhà và đường*\n\n​",
+      "Số nhà và đường*",
+      "Người lớn 01\nNgười được bảo hiểm là bản thân\n\nCCCD*\n\n​\n\nGiới tính người được bảo hiểm*\n\nNam\nNữ\nNgười được bảo hiểm là người khác",
+      "Người được bảo hiểm là bản thân\n\nCCCD*\n\n​\n\nGiới tính người được bảo hiểm*\n\nNam\nNữ\nNgười được bảo hiểm là người khác",
+      "Người được bảo hiểm là bản thân",
+      "Giới tính người được bảo hiểm*\n\nNam\nNữ",
+      "Giới tính người được bảo hiểm*",
+      "Người được bảo hiểm là người khác",
+      "Thông tin nhận chứng nhận",
+      "23/09/2026\n\n⟶\n\n26/09/2026",
+      "Chứng nhận điện tử",
+      "Miễn phí chứng nhận\n\nĐầy đủ giá trị pháp lý như chứng nhận bản cứng\n\nThân thiện với môi trường",
+      "Miễn phí chứng nhận",
+      "Đầy đủ giá trị pháp lý như chứng nhận bản cứng",
+      "Thân thiện với môi trường",
+      "Chứng nhận bản cứng (có thể mất phí vận chuyển)",
+      "(có thể mất phí vận chuyển)",
+      "Hình thức thanh toán"
+    ],
+    "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/29_travel_checkout_form_4k_viewport.png",
+    "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/29_travel_checkout_form_4k_fullpage.png"
+  },
+  {
+    "index": 30,
+    "name": "vietnam_travel_checkout_form",
+    "group": "07_QuyTrinh_DatMua_ThanhToan",
+    "url": "https://topbaohiem.vn/vi/vietnam-travel-checkout",
+    "description": "Form thanh toán bảo hiểm du lịch nội địa",
+    "status": "success",
+    "title": "Bảo hiểm du lịch Việt Nam - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/30_vietnam_travel_checkout_form_4k_viewport.png",
+    "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/30_vietnam_travel_checkout_form_4k_fullpage.png"
+  },
+  {
+    "index": 31,
+    "name": "cargo_checkout_form",
+    "group": "07_QuyTrinh_DatMua_ThanhToan",
+    "url": "https://topbaohiem.vn/vi/cargo-checkout",
+    "description": "Form thông tin vận đơn và giá trị hàng hóa",
+    "status": "success",
+    "title": "Bảo hiểm TNDS Ô tô - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Thanh toán"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "text",
+        "name": "vehicleInfoId.ownerName",
+        "placeholder": "VD: Nguyễn Văn A",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "vehicleInfoId.address",
+        "placeholder": "Số nhà, tên đường, phường, tỉnh/thành phố",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "",
+        "placeholder": "",
+        "value": "x"
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.idCard",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.licensePlate",
+        "placeholder": "VD: 30B1-123.45",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.chassisNumber",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.createdYear",
+        "placeholder": "YYYY",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.numberOfSeats",
+        "placeholder": "Nhập thông tin...",
+        "value": "1"
+      },
+      {
+        "type": "text",
+        "name": "vehicleInfoId.vehicleName",
+        "placeholder": "VD: Honda Civic, Mazda CX-5, VinFast VF 8...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "onlineCertificateId.phoneNumber",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "onlineCertificateId.email",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "checkbox",
+        "name": "",
+        "placeholder": "",
+        "value": "on"
+      },
+      {
+        "type": "textarea",
+        "name": "onlineCertificateId.address",
+        "placeholder": "Số nhà, tên đường, phường, tỉnh/thành phố",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "",
+        "placeholder": "",
+        "value": "x"
+      },
+      {
+        "type": "checkbox",
+        "name": "",
+        "placeholder": "",
+        "value": "on"
+      },
+      {
+        "type": "text",
+        "name": "refCode",
+        "placeholder": "Nhập mã CTV",
+        "value": ""
+      },
+      {
+        "type": "checkbox",
+        "name": "",
+        "placeholder": "",
+        "value": "on"
+      },
+      {
+        "type": "text",
+        "name": "discountCode",
+        "placeholder": "Mã khuyến mại",
+        "value": ""
+      }
+    ],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập",
+      "Quay lại",
+      "Áp dụng",
+      "Thanh toán"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "Quay lại\nThanh toán",
+      "Thông tin phương tiện",
+      "Chụp giấy đăng kí xe để điền nhanh",
+      "hoặc điền thông tin bên dưới",
+      "Họ và tên chủ xe*(trên giấy đăng ký xe)\n\n​",
+      "Họ và tên chủ xe*(trên giấy đăng ký xe)",
+      "Họ và tên chủ xe*",
+      "(trên giấy đăng ký xe)",
+      "Địa chỉ*\n\n​\n\nVui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới",
+      "​\n\nVui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới",
+      "Vui lòng nhập địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới",
+      "Biển số xe*\n\n​\n\nSố khung *\n\n​",
+      "Năm sản xuất\n\n​\n\nSố chỗ ngồi\n\n​",
+      "Tên xe(Hiệu xe - Dòng xe)\n\n​",
+      "Tên xe(Hiệu xe - Dòng xe)",
+      "(Hiệu xe - Dòng xe)",
+      "Thông tin nhận chứng nhận điện tử",
+      "22/09/2026\n\n⟶\n\n22/09/2026",
+      "Chứng nhận điện tử",
+      "Miễn phí chứng nhận\n\nĐầy đủ giá trị pháp lý như chứng nhận bản cứng\n\nThân thiện với môi trường",
+      "Miễn phí chứng nhận",
+      "Đầy đủ giá trị pháp lý như chứng nhận bản cứng",
+      "Thân thiện với môi trường",
+      "Số điện thoại*\n\n​\n\nEmail*\n\n​",
+      "Số điện thoại*\n\n​",
+      "Chứng nhận bản cứng (có thể mất phí vận chuyển)",
+      "(có thể mất phí vận chuyển)",
+      "Địa chỉ nhận(Địa chỉ trên giấy đăng ký xe nhưng theo đơn vị hành chính mới)\n\n​"
+    ],
+    "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/31_cargo_checkout_form_4k_viewport.png",
+    "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/31_cargo_checkout_form_4k_fullpage.png"
+  },
+  {
+    "index": 32,
+    "name": "fire_checkout_form",
+    "group": "07_QuyTrinh_DatMua_ThanhToan",
+    "url": "https://topbaohiem.vn/vi/compulsory-fire-checkout",
+    "description": "Form khai báo cơ sở PCCC và diện tích công trình",
+    "status": "success",
+    "title": "Bảo hiểm Cháy nổ bắt buộc - Thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [],
+    "buttons": [],
+    "key_texts": [],
+    "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/32_fire_checkout_form_4k_viewport.png",
+    "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/32_fire_checkout_form_4k_fullpage.png"
+  },
+  {
+    "index": 33,
+    "name": "checkout_result_screen",
+    "group": "07_QuyTrinh_DatMua_ThanhToan",
+    "url": "https://topbaohiem.vn/vi/checkout-result",
+    "description": "Màn hình thông báo kết quả giao dịch và cấp giấy chứng nhận bảo hiểm điện tử",
+    "status": "success",
+    "title": "Kết quả thanh toán - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "Có lỗi! Đơn hàng không tồn tại bạn nhé!",
+      "cs@topbaohiem.vn",
+      "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam",
+      "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc",
+      "Dịch vụ\nƯu đãi\nYêu cầu bồi thường",
+      "Kết nối với chúng tôi",
+      "Copyright ©2024 TopBaoHiem all rights reserved"
+    ],
+    "viewport_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/33_checkout_result_screen_4k_viewport.png",
+    "fullpage_img": "screenshots/07_QuyTrinh_DatMua_ThanhToan/33_checkout_result_screen_4k_fullpage.png"
+  },
+  {
+    "index": 34,
+    "name": "online_compensation_claims",
+    "group": "08_BoiThuong_CSKH_HoTro",
+    "url": "https://topbaohiem.vn/vi/compensation",
+    "description": "Trung tâm xử lý bồi thường online: Hướng dẫn nộp hồ sơ, đường dây nóng hỗ trợ 24/7",
+    "status": "success",
+    "title": "Bồi thường - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Bồi thường"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "text",
+        "name": "compansation",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      }
+    ],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập",
+      "Tra cứu"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "Bồi thường\n\nMã hợp đồng\n\n​\nTra cứu",
+      "Mã hợp đồng\n\n​\nTra cứu",
+      "cs@topbaohiem.vn",
+      "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam",
+      "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc",
+      "Dịch vụ\nƯu đãi\nYêu cầu bồi thường",
+      "Kết nối với chúng tôi",
+      "Copyright ©2024 TopBaoHiem all rights reserved"
+    ],
+    "viewport_img": "screenshots/08_BoiThuong_CSKH_HoTro/34_online_compensation_claims_4k_viewport.png",
+    "fullpage_img": "screenshots/08_BoiThuong_CSKH_HoTro/34_online_compensation_claims_4k_fullpage.png"
+  },
+  {
+    "index": 35,
+    "name": "live_chat_support",
+    "group": "08_BoiThuong_CSKH_HoTro",
+    "url": "https://topbaohiem.vn/vi/chat",
+    "description": "Kênh chat tư vấn trực tuyến và giải đáp chính sách",
+    "status": "success",
+    "title": "Hỗ trợ 27/7 - TopBaoHiem - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [],
+    "inputs": [
+      {
+        "type": "textarea",
+        "name": "message",
+        "placeholder": "Nhập nội dung...",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "",
+        "placeholder": "",
+        "value": "x"
+      }
+    ],
+    "buttons": [],
+    "key_texts": [
+      "Hello, how are you doing?\n\n08:15 AM",
+      "Hello, how are you doing?",
+      "Hoàng Thuỳ TrangNhân viên CSKH\n\nI'm doing well, thank you! How can I help you today?\n\n08:16 AM",
+      "Hoàng Thuỳ TrangNhân viên CSKH",
+      "Hoàng Thuỳ Trang",
+      "I'm doing well, thank you! How can I help you today?",
+      "I have a question about the return policy for a product I purchased.\n\nJust now",
+      "I have a question about the return policy for a product I purchased."
+    ],
+    "viewport_img": "screenshots/08_BoiThuong_CSKH_HoTro/35_live_chat_support_4k_viewport.png",
+    "fullpage_img": "screenshots/08_BoiThuong_CSKH_HoTro/35_live_chat_support_4k_fullpage.png"
+  },
+  {
+    "index": 36,
+    "name": "policy_support",
+    "group": "08_BoiThuong_CSKH_HoTro",
+    "url": "https://topbaohiem.vn/vi/policy-support",
+    "description": "Chính sách hỗ trợ khách hàng và quy trình khiếu nại",
+    "status": "success",
+    "title": "Chính sách giải quyết bồi thường và hỗ trợ - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "CHÍNH SÁCH GIẢI QUYẾT BỒI THƯỜNG VÀ HỖ TRỢ"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "CHÍNH SÁCH GIẢI QUYẾT BỒI THƯỜNG VÀ HỖ TRỢ",
+      "Khách hàng có thể liên hệ với đội ngũ CSKH qua các kênh:",
+      "Hotline: 088 999 6688",
+      "Email: cs@topbaohiem.vn",
+      "cs@topbaohiem.vn",
+      "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam",
+      "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc",
+      "Dịch vụ\nƯu đãi\nYêu cầu bồi thường",
+      "Kết nối với chúng tôi",
+      "Copyright ©2024 TopBaoHiem all rights reserved"
+    ],
+    "viewport_img": "screenshots/08_BoiThuong_CSKH_HoTro/36_policy_support_4k_viewport.png",
+    "fullpage_img": "screenshots/08_BoiThuong_CSKH_HoTro/36_policy_support_4k_fullpage.png"
+  },
+  {
+    "index": 37,
+    "name": "policy_delivery",
+    "group": "08_BoiThuong_CSKH_HoTro",
+    "url": "https://topbaohiem.vn/vi/policy-delivery",
+    "description": "Chính sách cấp chứng nhận điện tử và chuyển phát thẻ cứng",
+    "status": "success",
+    "title": "Chính sách giao hàng - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "CHÍNH SÁCH GIAO HÀNG"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "CHÍNH SÁCH GIAO HÀNG",
+      "1.Những trường hợp bên mua bảo hiểm (BMBH) không được yêu cầu hoàn huỷ",
+      "Đối với hợp đồng Bảo hiểm Trách nhiệm dân sự bắt buộc cho xe cơ giới (xe máy, xe ô tô);",
+      "Đối với hợp đồng Bảo hiểm du lịch đã bắt đầu chuyến đi;",
+      "Nếu sự kiện bảo hiểm đã xảy ra, hợp đồng bảo hiểm đã phát sinh bồi thường và Doanh nghiệp bảo hiểm (DNBH) đã hoàn thành toàn bộ cam kết bồi thường hoặc trả tiền bảo hiểm.",
+      "2. Những trường hợp DNBH có quyền đơn phương chấm dứt hợp đồng và hoàn lại phí theo tỷ lệ thời gian còn lại và/hoặc sau khi trừ chi phí phát sinh cần thiết",
+      "BMBH không đóng đủ hoặc không đóng phí bảo hiểm theo thỏa thuận trong Hợp đồng bảo hiểm (HĐBH);",
+      "BMBH không đóng đủ phí trong thời gian gia hạn đóng phí bảo hiểm;",
+      "DNBH không chấp nhận yêu cầu về thay đổi mức độ rủi ro được bảo hiểm quy định tại Điều 23 của Luật Kinh Doanh bảo hiểm 2022;",
+      "Người được bảo hiểm (NĐBH) không thực hiện các biện pháp bảo đảm an toàn cho đối tượng bảo hiểm quy định tại khoản 3 Điều 55 của Luật Kinh Doanh bảo hiểm 2022.",
+      "3. Những trường hợp BMBH có quyền yêu cầu hoàn hủy, chấm dứt HĐBH",
+      "BMBH không còn (đã mất) quyền lợi có thể được bảo hiểm;",
+      "Trường hợp DNBH bị phá sản, danh mục HĐBH sẽ được chuyển giao cho DNBH khác. Nếu BMBH không đồng ý chuyển giao HĐBH cho DNBH khác, HĐBH sẽ chấm dứt;",
+      "HĐBH được giao kết có điều khoản cho phép có thể được chấm dứt theo thỏa thuận giữa hai bên.",
+      "cs@topbaohiem.vn",
+      "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam",
+      "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc",
+      "Dịch vụ\nƯu đãi\nYêu cầu bồi thường",
+      "Kết nối với chúng tôi",
+      "Copyright ©2024 TopBaoHiem all rights reserved"
+    ],
+    "viewport_img": "screenshots/08_BoiThuong_CSKH_HoTro/37_policy_delivery_4k_viewport.png",
+    "fullpage_img": "screenshots/08_BoiThuong_CSKH_HoTro/37_policy_delivery_4k_fullpage.png"
+  },
+  {
+    "index": 38,
+    "name": "kol_partner_landing",
+    "group": "09_CongTacVien_KOL_DaiLy",
+    "url": "https://topbaohiem.vn/vi/kol",
+    "description": "Cổng tuyển dụng đối tác KOL/CTV bán bảo hiểm: Giới thiệu mockups app điện thoại, cơ chế chia sẻ doanh thu",
+    "status": "success",
+    "title": "TopBaoHiem - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "So sánh bảo hiểm,\nchọn TOPbaohiem!"
+      },
+      {
+        "tag": "H1",
+        "text": "Bảo vệ tương lai  an tâm sống trọn!"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo hiểm"
+      },
+      {
+        "tag": "H4",
+        "text": "Sức khoẻ"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo hiểm"
+      },
+      {
+        "tag": "H4",
+        "text": "Cháy nổ"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo hiểm"
+      },
+      {
+        "tag": "H4",
+        "text": "Du lịch"
+      },
+      {
+        "tag": "H4",
+        "text": "Quy trình mua bảo hiểm\nchưa bao giờ dễ dàng đến thế"
+      },
+      {
+        "tag": "H4",
+        "text": "Vì sao chọn TOPbaohiem?"
+      },
+      {
+        "tag": "H3",
+        "text": "So sánh thông minh"
+      },
+      {
+        "tag": "H3",
+        "text": "Tiết kiệm tối đa"
+      },
+      {
+        "tag": "H3",
+        "text": "Quyền lợi rõ ràng"
+      },
+      {
+        "tag": "H3",
+        "text": "Hỗ trợ tận tâm"
+      },
+      {
+        "tag": "H4",
+        "text": "Đối tác và khách hàng nói về TOPbaohiem"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "Đối tác của chúng tôi"
+      },
+      {
+        "tag": "H4",
+        "text": "Câu hỏi thường gặp"
+      },
+      {
+        "tag": "H4",
+        "text": "Blog TopBaoHiem"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập",
+      "Xem thêm",
+      "Previous",
+      "Next",
+      "XEM TẤT CẢ"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "NỀN TẢNG UY TÍN ĐÃ ĐƯỢC XÁC NHẬN BỞI BỘ CÔNG THƯƠNG",
+      "So sánh dễ dàng\n\nMinh bạch, nhanh chóng\n\nTiết kiệm chi phí\n\nTối ưu quyền lợi\n\nAn toàn bảo mật\n\nBảo vệ dữ liệu cá nhân",
+      "So sánh dễ dàng\n\nMinh bạch, nhanh chóng",
+      "Minh bạch, nhanh chóng",
+      "Tiết kiệm chi phí\n\nTối ưu quyền lợi",
+      "Tiết kiệm chi phí",
+      "Tối ưu quyền lợi",
+      "An toàn bảo mật\n\nBảo vệ dữ liệu cá nhân",
+      "Bảo vệ dữ liệu cá nhân",
+      "Nổi bật\nBảo hiểm\nSức khoẻ\nSo sánh ngay\nBảo hiểm\nCháy nổ\nSo sánh ngay\nBảo hiểm\nDu lịch\nSo sánh ngay",
+      "Nổi bật\nBảo hiểm\nSức khoẻ\nSo sánh ngay",
+      "Bảo hiểm\nSức khoẻ\nSo sánh ngay",
+      "Bảo hiểm\nCháy nổ\nSo sánh ngay",
+      "Bảo hiểm\nDu lịch\nSo sánh ngay",
+      "Quy trình mua bảo hiểm\nchưa bao giờ dễ dàng đến thế",
+      "Vì sao chọn TOPbaohiem?",
+      "So sánh thông minh\n\nCông cụ so sánh độc quyền,\nminh bạch, dễ hiểu",
+      "Công cụ so sánh độc quyền,\nminh bạch, dễ hiểu",
+      "Tiết kiệm tối đa\n\nNhiều lựa chọn phù hợp,\ngiá tốt nhất cho bạn",
+      "Nhiều lựa chọn phù hợp,\ngiá tốt nhất cho bạn",
+      "Quyền lợi rõ ràng\n\nThông tin đầy đủ,\ndễ dàng quyết định",
+      "Thông tin đầy đủ,\ndễ dàng quyết định",
+      "Hỗ trợ tận tâm\n\nĐội ngũ tư vấn chuyên nghiệp,\nluôn đồng hành cùng bạn",
+      "Đội ngũ tư vấn chuyên nghiệp,\nluôn đồng hành cùng bạn",
+      "Đối tác và khách hàng nói về TOPbaohiem",
+      "Anh Nguyễn Mạnh\n\nKhách hàng",
+      "Anh Nguyễn Việt Thắng\n\nCông ty Sách Đông A\n\n“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”",
+      "Anh Nguyễn Việt Thắng\n\nCông ty Sách Đông A"
+    ],
+    "viewport_img": "screenshots/09_CongTacVien_KOL_DaiLy/38_kol_partner_landing_4k_viewport.png",
+    "fullpage_img": "screenshots/09_CongTacVien_KOL_DaiLy/38_kol_partner_landing_4k_fullpage.png"
+  },
+  {
+    "index": 39,
+    "name": "kol_partner_login",
+    "group": "09_CongTacVien_KOL_DaiLy",
+    "url": "https://topbaohiem.vn/vi/login-kol",
+    "description": "Cổng đăng nhập dành riêng cho mạng lưới đối tác & đại lý kinh doanh",
+    "status": "success",
+    "title": "Đăng ký Cộng tác viên - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Đăng ký thông tin cộng tác viên"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "text",
+        "name": "refCode",
+        "placeholder": "VD: TopBaoHiemSaleVip",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "referralBy",
+        "placeholder": "",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "fullName",
+        "placeholder": "VD: Nguyễn Văn A",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "",
+        "placeholder": "DD/MM/YYYY",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "phoneNumber",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "email",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "radio",
+        "name": "gender",
+        "placeholder": "",
+        "value": "1"
+      },
+      {
+        "type": "radio",
+        "name": "gender",
+        "placeholder": "",
+        "value": "0"
+      },
+      {
+        "type": "password",
+        "name": "password",
+        "placeholder": "Nhập mật khẩu",
+        "value": ""
+      },
+      {
+        "type": "password",
+        "name": "confirmPassword",
+        "placeholder": "Nhập mật khẩu",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "idCard",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "",
+        "placeholder": "DD/MM/YYYY",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "placeOfIssue",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "taxCode",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "address",
+        "placeholder": "Số nhà, tên đường, phường/xã, tỉnh/thành phố",
+        "value": ""
+      },
+      {
+        "type": "textarea",
+        "name": "",
+        "placeholder": "",
+        "value": "x"
+      },
+      {
+        "type": "text",
+        "name": "",
+        "placeholder": "",
+        "value": ""
+      },
+      {
+        "type": "text",
+        "name": "bankAccountNumber",
+        "placeholder": "Nhập thông tin...",
+        "value": ""
+      }
+    ],
+    "buttons": [
+      "Gửi đăng ký"
+    ],
+    "key_texts": [
+      "Mã Cộng tác viên\n\n​\n\nMã Cộng tác viên sẽ không thể thay đổi sau khi tạo thành công. Nếu bạn để trống, mặc định số điện thoại sẽ được sử dụng làm mã CTV.",
+      "Mã Cộng tác viên",
+      "​\n\nMã Cộng tác viên sẽ không thể thay đổi sau khi tạo thành công. Nếu bạn để trống, mặc định số điện thoại sẽ được sử dụng làm mã CTV.",
+      "Mã Cộng tác viên sẽ không thể thay đổi sau khi tạo thành công. Nếu bạn để trống, mặc định số điện thoại sẽ được sử dụng làm mã CTV.",
+      "Người giới thiệu\n\n​\n\nNhập mã cộng tác viên của người giới thiệu (nếu có).",
+      "Người giới thiệu",
+      "​\n\nNhập mã cộng tác viên của người giới thiệu (nếu có).",
+      "Nhập mã cộng tác viên của người giới thiệu (nếu có).",
+      "Họ và tên*\n\n​\n\nNgày sinh*\n\n​",
+      "Số điện thoại*\n\n​",
+      "Giới tính*\n\nNam\nNữ",
+      "Mật khẩu*\n\n​\n\nMật khẩu tối thiểu là 6 ký tự bao gồm chữ, số, kí tự viết hoa và kí tự đặt biệt!",
+      "​\n\nMật khẩu tối thiểu là 6 ký tự bao gồm chữ, số, kí tự viết hoa và kí tự đặt biệt!",
+      "Mật khẩu tối thiểu là 6 ký tự bao gồm chữ, số, kí tự viết hoa và kí tự đặt biệt!",
+      "Nhập lại mật khẩu*\n\n​",
+      "Nhập lại mật khẩu*",
+      "Địa chỉ thường trú\n\n​",
+      "Địa chỉ thường trú",
+      "Ngân hàng\n\n​\n\nSố tài khoản\n\n​"
+    ],
+    "viewport_img": "screenshots/09_CongTacVien_KOL_DaiLy/39_kol_partner_login_4k_viewport.png",
+    "fullpage_img": "screenshots/09_CongTacVien_KOL_DaiLy/39_kol_partner_login_4k_fullpage.png"
+  },
+  {
+    "index": 40,
+    "name": "partner_insure_manager",
+    "group": "09_CongTacVien_KOL_DaiLy",
+    "url": "https://topbaohiem.vn/vi/review/insure-manager",
+    "description": "Bảng điều khiển quản lý doanh số, hợp đồng và hoa hồng đại lý",
+    "status": "success",
+    "title": "Đăng nhập - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Đăng nhập tài khoản"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "text",
+        "name": "username",
+        "placeholder": "Nhập email",
+        "value": ""
+      },
+      {
+        "type": "password",
+        "name": "password",
+        "placeholder": "Nhập mật khẩu",
+        "value": ""
+      }
+    ],
+    "buttons": [
+      "Đăng nhập"
+    ],
+    "key_texts": [
+      "Đăng nhập tài khoản\n\nSử dụng số điện thoại và mật khẩu đã\n\ncung cấp để đăng nhập\n\nEmail*\n\n​\n\nMật khẩu*\n\n​\n\nĐăng nhập\n\nCám ơn bạn đã hợp tác cùng TopBaoHiem!",
+      "Sử dụng số điện thoại và mật khẩu đã",
+      "cung cấp để đăng nhập",
+      "Email*\n\n​\n\nMật khẩu*\n\n​\n\nĐăng nhập",
+      "Cám ơn bạn đã hợp tác cùng TopBaoHiem!"
+    ],
+    "viewport_img": "screenshots/09_CongTacVien_KOL_DaiLy/40_partner_insure_manager_4k_viewport.png",
+    "fullpage_img": "screenshots/09_CongTacVien_KOL_DaiLy/40_partner_insure_manager_4k_fullpage.png"
+  },
+  {
+    "index": 41,
+    "name": "user_login",
+    "group": "10_QuanLy_HopDong_CaNhan",
+    "url": "https://topbaohiem.vn/vi/login",
+    "description": "Màn hình đăng nhập tài khoản khách hàng cá nhân",
+    "status": "success",
+    "title": "Đăng nhập - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Đăng nhập tài khoản"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "text",
+        "name": "phoneNumber",
+        "placeholder": "",
+        "value": ""
+      }
+    ],
+    "buttons": [
+      "Tiếp theo"
+    ],
+    "key_texts": [
+      "Đăng nhập tài khoản\n\nSử dụng số điện thoại để đăng nhập\n\nhoặc tạo tài khoản lần đầu trên TopBaoHiem!\n\nSố điện thoại\n\n+84\n\n​\nTiếp theo",
+      "Sử dụng số điện thoại để đăng nhập",
+      "hoặc tạo tài khoản lần đầu trên TopBaoHiem!",
+      "+84\n\n​\nTiếp theo"
+    ],
+    "viewport_img": "screenshots/10_QuanLy_HopDong_CaNhan/41_user_login_4k_viewport.png",
+    "fullpage_img": "screenshots/10_QuanLy_HopDong_CaNhan/41_user_login_4k_fullpage.png"
+  },
+  {
+    "index": 42,
+    "name": "user_profile_contracts",
+    "group": "10_QuanLy_HopDong_CaNhan",
+    "url": "https://topbaohiem.vn/vi/profile",
+    "description": "Hồ sơ cá nhân & quản lý danh sách hợp đồng bảo hiểm đã mua",
+    "status": "success",
+    "title": "TopBaoHiem - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "So sánh bảo hiểm,\nchọn TOPbaohiem!"
+      },
+      {
+        "tag": "H1",
+        "text": "Bảo vệ tương lai  an tâm sống trọn!"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo hiểm"
+      },
+      {
+        "tag": "H4",
+        "text": "Sức khoẻ"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo hiểm"
+      },
+      {
+        "tag": "H4",
+        "text": "Cháy nổ"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo hiểm"
+      },
+      {
+        "tag": "H4",
+        "text": "Du lịch"
+      },
+      {
+        "tag": "H4",
+        "text": "Quy trình mua bảo hiểm\nchưa bao giờ dễ dàng đến thế"
+      },
+      {
+        "tag": "H4",
+        "text": "Vì sao chọn TOPbaohiem?"
+      },
+      {
+        "tag": "H3",
+        "text": "So sánh thông minh"
+      },
+      {
+        "tag": "H3",
+        "text": "Tiết kiệm tối đa"
+      },
+      {
+        "tag": "H3",
+        "text": "Quyền lợi rõ ràng"
+      },
+      {
+        "tag": "H3",
+        "text": "Hỗ trợ tận tâm"
+      },
+      {
+        "tag": "H4",
+        "text": "Đối tác và khách hàng nói về TOPbaohiem"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "“So sánh giá và quyền lợi rõ ràng, giúp tôi chọn gói phù hợp nhanh chóng. Thanh toán online tiện lợi, nhận giấy chứng nhận qua email liền tay. Tôi rất thích vì mọi thứ đều minh bạch, không phát sinh chi phí ẩn.”"
+      },
+      {
+        "tag": "H4",
+        "text": "Đối tác của chúng tôi"
+      },
+      {
+        "tag": "H4",
+        "text": "Câu hỏi thường gặp"
+      },
+      {
+        "tag": "H4",
+        "text": "Blog TopBaoHiem"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập",
+      "Xem thêm",
+      "Previous",
+      "Next",
+      "XEM TẤT CẢ"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "NỀN TẢNG UY TÍN ĐÃ ĐƯỢC XÁC NHẬN BỞI BỘ CÔNG THƯƠNG",
+      "So sánh dễ dàng\n\nMinh bạch, nhanh chóng\n\nTiết kiệm chi phí\n\nTối ưu quyền lợi\n\nAn toàn bảo mật\n\nBảo vệ dữ liệu cá nhân",
+      "So sánh dễ dàng\n\nMinh bạch, nhanh chóng",
+      "Minh bạch, nhanh chóng",
+      "Tiết kiệm chi phí\n\nTối ưu quyền lợi",
+      "Tiết kiệm chi phí",
+      "Tối ưu quyền lợi",
+      "An toàn bảo mật\n\nBảo vệ dữ liệu cá nhân",
+      "Bảo vệ dữ liệu cá nhân",
+      "Nổi bật\nBảo hiểm\nSức khoẻ\nSo sánh ngay\nBảo hiểm\nCháy nổ\nSo sánh ngay\nBảo hiểm\nDu lịch\nSo sánh ngay",
+      "Nổi bật\nBảo hiểm\nSức khoẻ\nSo sánh ngay",
+      "Bảo hiểm\nSức khoẻ\nSo sánh ngay",
+      "Bảo hiểm\nCháy nổ\nSo sánh ngay",
+      "Bảo hiểm\nDu lịch\nSo sánh ngay",
+      "Quy trình mua bảo hiểm\nchưa bao giờ dễ dàng đến thế",
+      "Vì sao chọn TOPbaohiem?",
+      "So sánh thông minh\n\nCông cụ so sánh độc quyền,\nminh bạch, dễ hiểu",
+      "Công cụ so sánh độc quyền,\nminh bạch, dễ hiểu",
+      "Tiết kiệm tối đa\n\nNhiều lựa chọn phù hợp,\ngiá tốt nhất cho bạn",
+      "Nhiều lựa chọn phù hợp,\ngiá tốt nhất cho bạn",
+      "Quyền lợi rõ ràng\n\nThông tin đầy đủ,\ndễ dàng quyết định",
+      "Thông tin đầy đủ,\ndễ dàng quyết định",
+      "Hỗ trợ tận tâm\n\nĐội ngũ tư vấn chuyên nghiệp,\nluôn đồng hành cùng bạn",
+      "Đội ngũ tư vấn chuyên nghiệp,\nluôn đồng hành cùng bạn",
+      "Đối tác và khách hàng nói về TOPbaohiem",
+      "Anh Nguyễn Mạnh\n\nKhách hàng",
+      "Anh Nguyễn Việt Thắng\n\nCông ty Sách Đông A\n\n“Lần đầu mua bảo hiểm online nhưng cảm thấy an tâm và dễ dàng hơn tôi nghĩ. Giao diện web dễ hiểu, điền thông tin đơn giản, thanh toán an toàn.”",
+      "Anh Nguyễn Việt Thắng\n\nCông ty Sách Đông A"
+    ],
+    "viewport_img": "screenshots/10_QuanLy_HopDong_CaNhan/42_user_profile_contracts_4k_viewport.png",
+    "fullpage_img": "screenshots/10_QuanLy_HopDong_CaNhan/42_user_profile_contracts_4k_fullpage.png"
+  },
+  {
+    "index": 43,
+    "name": "forgot_password",
+    "group": "10_QuanLy_HopDong_CaNhan",
+    "url": "https://topbaohiem.vn/vi/forgot-password",
+    "description": "Khôi phục mật khẩu tài khoản",
+    "status": "success",
+    "title": "Quên mật khẩu - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Xác thực tài khoản"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "text",
+        "name": "email",
+        "placeholder": "Nhập email",
+        "value": ""
+      }
+    ],
+    "buttons": [
+      "Gửi"
+    ],
+    "key_texts": [
+      "Xác thực tài khoản\n\nNhập email đã đăng ký để nhận email xác thực. Email sẽ được gửi trong ít phút, bạn vui lòng kiểm tra hộp thư (bao gồm cả mục Spam/Quảng cáo).\n\nEmail*\n\n​\nGửi",
+      "Nhập email đã đăng ký để nhận email xác thực. Email sẽ được gửi trong ít phút, bạn vui lòng kiểm tra hộp thư (bao gồm cả mục Spam/Quảng cáo)."
+    ],
+    "viewport_img": "screenshots/10_QuanLy_HopDong_CaNhan/43_forgot_password_4k_viewport.png",
+    "fullpage_img": "screenshots/10_QuanLy_HopDong_CaNhan/43_forgot_password_4k_fullpage.png"
+  },
+  {
+    "index": 44,
+    "name": "blogs_knowledge_hub",
+    "group": "11_CamNang_PhapLy_ChinhSach",
+    "url": "https://topbaohiem.vn/vi/blogs",
+    "description": "Trung tâm cẩm nang kiến thức bảo hiểm & kinh nghiệm bồi thường",
+    "status": "success",
+    "title": "Tin tức - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Bài viết mới"
+      },
+      {
+        "tag": "H3",
+        "text": "Bảo lãnh viện phí bị lỗi khi thanh toán! Phải làm thế nào?"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo lãnh viện phí bị lỗi khi thanh toán, bạn sẽ phải tự thanh toán trước. Tuy nhiên, bạn hoàn toàn có quyền được hoàn lại tiền sau khi nộp hồ sơ đúng quy trình, miễn là trường hợp điều trị của bạn nằm trong phạm vi bảo hiểm và hồ sơ của bạn hợp lệ."
+      },
+      {
+        "tag": "H3",
+        "text": "Bảo hiểm sức khỏe có chi trả bệnh nền không?"
+      },
+      {
+        "tag": "H3",
+        "text": "Tối Ưu Chi Phí, Tối Đa An Tâm: Tại Sao Bạn Nên Chọn Mua Bảo Hiểm Trực Tuyến Qua TOPBAOHIEM?"
+      },
+      {
+        "tag": "H3",
+        "text": "Mức phạt khi không tham gia bảo hiểm cháy nổ bắt buộc"
+      },
+      {
+        "tag": "H1",
+        "text": "Bảo hiểm Sức Khỏe & An Toàn Cuộc Sống"
+      },
+      {
+        "tag": "H3",
+        "text": "Bảo lãnh viện phí bị lỗi khi thanh toán! Phải làm thế nào?"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo lãnh viện phí bị lỗi khi thanh toán, bạn sẽ phải tự thanh toán trước. Tuy nhiên, bạn hoàn toàn có quyền được hoàn lại tiền sau khi nộp hồ sơ đúng quy trình, miễn là trường hợp điều trị của bạn nằm trong phạm vi bảo hiểm và hồ sơ của bạn hợp lệ."
+      },
+      {
+        "tag": "H3",
+        "text": "Giải pháp giảm gánh nặng viện phí cho gia đình từ bảo hiểm sức khỏe"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo hiểm sức khỏe giúp gia đình chủ động trước chi phí khám chữa bệnh. Tìm hiểu quyền lợi, phí bảo hiểm và cách so sánh bảo hiểm sức khỏe các công ty."
+      },
+      {
+        "tag": "H3",
+        "text": "Bảo hiểm có chi trả bệnh nền không? 4 điều kiện cần biết"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo hiểm có chi trả bệnh nền không? Tìm hiểu 4 điều kiện quan trọng về bệnh có sẵn, thời gian chờ, điều khoản loại trừ và khai báo sức khỏe trước khi mua bảo hiểm"
+      },
+      {
+        "tag": "H3",
+        "text": "Nên Mua Bảo Hiểm Ở Tuổi Nào? Phân Tích Theo 5 Giai Đoạn Cuộc Đời"
+      },
+      {
+        "tag": "H4",
+        "text": "Nên mua bảo hiểm ở tuổi nào là hợp lý nhất? Phân tích 5 giai đoạn cuộc đời — từ trẻ nhỏ đến cao tuổi — kèm ví dụ cụ thể giúp bạn chọn đúng loại bảo hiểm cho từng thời điểm"
+      },
+      {
+        "tag": "H3",
+        "text": "BẢO HIỂM THAI SẢN - NHỮNG ĐIỀU MẸ BẦU CẦN BIẾT"
+      },
+      {
+        "tag": "H4",
+        "text": "Mẹ bầu cần biết: Thời gian chờ bảo hiểm thai sản là bao lâu? Sinh mổ được chi trả thế nào? Biến chứng thai kỳ có được bảo vệ? Xem ngay hướng dẫn chi tiết tại đây."
+      },
+      {
+        "tag": "H3",
+        "text": "NHỮNG ĐIỀU KHOẢN LOẠI TRỪ TRONG BẢO HIỂM SỨC KHỎE"
+      },
+      {
+        "tag": "H4",
+        "text": "Tìm hiểu chi tiết các điều khoản loại trừ bảo hiểm sức khỏe phổ biến nhất. Nắm rõ quy định về bệnh có sẵn, bệnh đặc biệt, thẩm mỹ và các trường hợp bị từ chối bồi thường để bảo vệ quyền lợi tối đa."
+      },
+      {
+        "tag": "H3",
+        "text": "Những Căn Bệnh Phổ Biến Của Dân Văn Phòng: Đừng Để Tiền Lương Chỉ Để Trả Viện Phí!"
+      },
+      {
+        "tag": "H4",
+        "text": "Việc văn phòng tiềm ẩn nhiều rủi ro sức khỏe: từ áp lực cột sống tăng 50% đến nguy cơ đột quỵ tăng 34% khi làm việc quá sức. Thay vì lo lắng về chi phí y tế, việc chủ động so sánh các gói bảo hiểm sức khỏe trên nền tảng trực tuyến giúp bạn có cái nhìn tổng quan về quyền lợi và giá cả của nhiều hãng uy tín. Đây là giải pháp bảo vệ tài chính nhanh chóng, minh bạch và phù hợp với lối sống hiện đại"
+      },
+      {
+        "tag": "H3",
+        "text": "Biểu Phí Bảo Hiểm Sức Khỏe Theo Độ Tuổi: Vì Sao Mua Càng Trẻ, Phí Càng Rẻ?"
+      },
+      {
+        "tag": "H4",
+        "text": "Bài viết phân tích chi tiết biểu phí bảo hiểm sức khỏe theo độ tuổi, giải thích nguyên nhân sâu xa vì sao tham gia bảo hiểm càng trẻ lại có mức phí càng rẻ. Cung cấp thông tin so sánh chi phí, lợi ích dài hạn và chiến lược lựa chọn bảo hiểm sức khỏe tối ưu cho người trẻ tuổi."
+      },
+      {
+        "tag": "H3",
+        "text": "Bảo Hiểm Sức Khỏe Tốt Nhất Cho Mọi Lứa Tuổi"
+      },
+      {
+        "tag": "H4",
+        "text": "Phân tích chuyên sâu về bảo hiểm sức khỏe tốt nhất cho mọi lứa tuổi. So sánh bảo hiểm sức khỏe gia đình và cá nhân chi tiết. Giải mã thời gian chờ bảo hiểm sức khỏe và 7 điều khoản loại trừ phổ biến nhất năm 2025."
+      },
+      {
+        "tag": "H3",
+        "text": "5 Lợi Ích Vượt Trội Của Bảo Hiểm Sức Khỏe"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo hiểm Sức khỏe có thực sự cần thiết? Khám phá ngay 5 lợi ích vượt trội của BHSK – lá chắn giúp gia đình bạn bảo toàn tài chính trước chi phí y tế tăng cao. Hiểu tại sao đây là quyết định đầu tư thông minh nhất để yên tâm tận hưởng cuộc sống!"
+      },
+      {
+        "tag": "H3",
+        "text": "Bảo hiểm sức khỏe có chi trả bệnh nền không?"
+      },
+      {
+        "tag": "H4",
+        "text": "Người có bệnh nền như cao huyết áp, tiểu đường, viêm dạ dày, tim mạch… luôn có nhu cầu mua bảo hiểm sức khỏe cao hơn người bình thường. Nhưng thực tế, không phải gói nào cũng nhận — và không phải trường hợp nào cũng được chi trả."
+      },
+      {
+        "tag": "H3",
+        "text": "Bảo hiểm sức khỏe có thật sự cần khi đã có Bảo hiểm y tế"
+      },
+      {
+        "tag": "H4",
+        "text": "Bài viết này giúp bạn hiểu rõ 2 loại bảo hiểm khác nhau thế nào, khi nào bảo hiểm y tế đủ – khi nào không, chi trả ra sao, và đặc biệt là có nên mua bảo hiểm sức khỏe hay không."
+      },
+      {
+        "tag": "H3",
+        "text": "7 Điều Khoản Loại Trừ Bảo Hiểm Sức Khỏe Ít Ai Ngờ Tới"
+      },
+      {
+        "tag": "H4",
+        "text": "Đừng để bị từ chối bồi thường! Hiểu rõ các điều khoản loại trừ bảo hiểm sức khỏe ít người biết. Cùng Topbaohiem tìm hiểu về 7 lý do mất tiền oan dù đã mua bảo hiểm."
+      },
+      {
+        "tag": "H3",
+        "text": "Bảo Hiểm Sức Khỏe Gia Đình: So Sánh 5 Lợi Ích Vượt Trội & Các Gói Tốt Nhất 2025"
+      },
+      {
+        "tag": "H4",
+        "text": "Lợi ích của mua bảo hiểm sức khỏe gia đình? So sánh bảo hiểm các gói tốt nhất 2025 để tiết kiệm đến 30% chi phí và bảo vệ toàn diện. Xem ngay tại TopBaoHiem!"
+      },
+      {
+        "tag": "H3",
+        "text": "Giải Đáp A-Z về Thời Gian Chờ Bảo Hiểm Sức Khỏe: Mua Online và Trực Tiếp"
+      },
+      {
+        "tag": "H4",
+        "text": "Giải đáp A-Z về thời gian chờ bảo hiểm sức khỏe. Mua bảo hiểm bao lâu thì được hưởng? Tìm hiểu ngay thời gian chờ bệnh có sẵn, bệnh thông thường & thai sản."
+      },
+      {
+        "tag": "H3",
+        "text": "7 Điều Cần Biết Để Bảo Vệ Tài Chính Gia Đình"
+      },
+      {
+        "tag": "H4",
+        "text": "Trong bối cảnh chi phí y tế ngày càng tăng, Bảo hiểm Sức khỏe đã trở thành một giải pháp tài chính thiết yếu, không chỉ là lựa chọn mà là sự đầu tư thông minh cho bản thân và gia đình. Dưới đây là 7 Điều Cần Biết Để Bảo Vệ Tài Chính Gia Đình."
+      },
+      {
+        "tag": "H1",
+        "text": "Tin Tức & Chính Sách Mới"
+      },
+      {
+        "tag": "H3",
+        "text": "Đồng Chi Trả Là Gì? Hiểu Đúng Trong 5 Phút"
+      },
+      {
+        "tag": "H4",
+        "text": "Đồng chi trả (co-payment) là gì? Đồng chi trả 20% nghĩa là gì? Xem ví dụ tính toán cụ thể, phân biệt với mức khấu trừ và cách chọn gói bảo hiểm phù hợp."
+      },
+      {
+        "tag": "H3",
+        "text": "TOP 10 CÔNG TY BẢO HIỂM UY TÍN NĂM 2025"
+      },
+      {
+        "tag": "H4",
+        "text": "Ngày 11/06/2025, Vietnam Report công bố danh sách Top 10 Công ty Bảo hiểm uy tín năm 2025. Lễ vinh danh các doanh nghiệp uy tín do Vietnam Report và Báo VietNamNet tổ chức sẽ diễn ra vào tháng 8/2025 tại TP. Hồ Chí Minh."
+      },
+      {
+        "tag": "H3",
+        "text": "Sự kiện đầu tiên của TopBaoHiem"
+      },
+      {
+        "tag": "H4",
+        "text": "Trong bối cảnh ngành bảo hiểm số tại Việt Nam đang phát triển mạnh mẽ, việc tiếp cận các sản phẩm bảo hiểm bắt buộc vẫn thường khiến nhiều người tiêu dùng cảm thấy phức tạp, thiếu minh bạch và mất thời gian. Theo thống kê từ Bộ Tài Chính, hơn 70% người dân Việt Nam gặp khó khăn trong việc chọn lựa và quản lý hợp đồng bảo hiểm xã hội hoặc bảo hiểm y tế bắt buộc, dẫn đến tình trạng bỏ lỡ quyền lợi hoặc chi phí không cần thiết."
+      },
+      {
+        "tag": "H1",
+        "text": "Bảo Hiểm Xe & Giao Thông"
+      },
+      {
+        "tag": "H3",
+        "text": "SAI LẦM KHIẾN BẢO HIỂM THÂN VỎ Ô TÔ BỊ TỪ CHỐI KHI NGẬP LỤT"
+      },
+      {
+        "tag": "H4",
+        "text": "Đừng để mất tiền tỷ vì thiếu hiểu biết! Khám phá ngay sai lầm nghiêm trọng khi xử lý xe bị thủy kích trong mùa mưa lũ khiến các công ty bảo hiểm từ chối bồi thường 100%."
+      },
+      {
+        "tag": "H3",
+        "text": "Cập Nhật Các Lỗi Vi Phạm Giao Thông & Quy Định Mới Nhất 2025"
+      },
+      {
+        "tag": "H4",
+        "text": "Mức phạt không có bảo hiểm xe máy 2025 là bao nhiêu? Cập nhật ngay các lỗi vi phạm và mức phạt mới nhất cho Ô tô, Xe máy. Nắm rõ quy định về bảo hiểm xe máy bắt buộc 2025 để tránh bị phạt nặng!"
+      },
+      {
+        "tag": "H3",
+        "text": "Bảo hiểm dân sự bắt buộc xe máy: Giải đáp 10 thắc mắc phổ biến nhất 2025"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo hiểm trách nhiệm dân sự bắt buộc xe máy (gọi tắt là bảo hiểm dân sự xe máy) là một loại giấy tờ mà hầu như mọi chủ xe đều nghe đến. Tuy nhiên, không phải ai cũng hiểu rõ vì sao phải mua, quyền lợi cụ thể là gì, mức phạt ra sao nếu không có… Trong bài viết này, chúng ta sẽ cùng giải đáp 10 câu hỏi thường gặp nhất để bạn nắm rõ mọi thông tin cần thiết trước khi mua."
+      },
+      {
+        "tag": "H1",
+        "text": "Du lịch và những điều cần biết"
+      },
+      {
+        "tag": "H3",
+        "text": "NÊN MUA BẢO HIỂM DU LỊCH KHI NÀO?"
+      },
+      {
+        "tag": "H4",
+        "text": "Mua bảo hiểm du lịch sớm giúp bạn bảo vệ quyền lợi hủy chuyến, hoãn chuyến lên tới hàng chục triệu đồng. Xem ngay lộ trình thời điểm vàng tại TopBaoHiem.vn."
+      },
+      {
+        "tag": "H3",
+        "text": "Kinh Nghiệm Du Lịch Cáp Nhĩ Tân Tự Túc"
+      },
+      {
+        "tag": "H4",
+        "text": "Bạn đang lên kế hoạch du lịch Cáp Nhĩ Tân? Khám phá ngay kinh nghiệm từ A-Z: lịch trình, điểm check-in, bí kíp giữ ấm và cách mua bảo hiểm du lịch quốc tế để an tâm tận hưởng lễ hội băng đăng lớn nhất thế giới"
+      },
+      {
+        "tag": "H3",
+        "text": "Cách Xin Visa Đơn Giản Chỉ Với 5 Bước"
+      },
+      {
+        "tag": "H4",
+        "text": "Bạn đang tìm hướng dẫn xin visa đơn giản? Xem ngay quy trình 5 bước chuẩn xác, bộ hồ sơ cần thiết và bí quyết sở hữu bảo hiểm du lịch quốc tế chuẩn quy định tại Topbaohiem.vn để hồ sơ \"đẹp\" hơn trong mắt lãnh sự"
+      },
+      {
+        "tag": "H3",
+        "text": "Review các gói bảo hiểm du lịch phổ biến"
+      },
+      {
+        "tag": "H4",
+        "text": "Trên thị trường hiện nay có quá nhiều lựa chọn khiến bạn băn khoăn: nên mua bảo hiểm du lịch của hãng nào, chọn gói nào mới phù hợp, và làm sao để mua bảo hiểm du lịch online nhanh chóng, tiết kiệm?"
+      },
+      {
+        "tag": "H3",
+        "text": "So Sánh Bảo Hiểm Du Lịch Trong Nước và Quốc Tế: 5 Khác Biệt Quan Trọng Cần Biết"
+      },
+      {
+        "tag": "H4",
+        "text": "Tìm hiểu ngay khác biệt bảo hiểm du lịch nội địa và quốc tế về phạm vi chi trả, chi phí y tế và dịch vụ hỗ trợ. Giải đáp có nên mua bảo hiểm du lịch nội địa? Phân tích bảo hiểm du lịch quốc tế và bảo hiểm du lịch trong nước chi tiết."
+      },
+      {
+        "tag": "H3",
+        "text": "🔥 7 Rủi Ro Du Lịch Hàng Đầu & Cách Phòng Tránh: Bảo Hiểm Chi Trả Gì?"
+      },
+      {
+        "tag": "H4",
+        "text": "Đừng để mất hành lý hay hoãn chuyến bay làm hỏng kỳ nghỉ! Xem 7 rủi ro du lịch thường gặp nhất & bảo hiểm du lịch chi trả những gì để bạn yên tâm tuyệt đối."
+      },
+      {
+        "tag": "H3",
+        "text": "Chuẩn Bị Đi Du Lịch Nước Ngoài: Checklist 10 Bước Không Thể Bỏ Qua"
+      },
+      {
+        "tag": "H4",
+        "text": "Bạn đang lên kế hoạch cho một chuyến du lịch nước ngoài đầy thú vị? Bài viết này của TravelEZ sẽ cung cấp cho bạn một checklist chi tiết và toàn diện nhất, giúp bạn tự tin bước ra thế giới mà không thiếu một thứ gì!"
+      },
+      {
+        "tag": "H1",
+        "text": "So sánh & đánh giá"
+      },
+      {
+        "tag": "H3",
+        "text": "CHIẾN THUẬT KHIẾU NẠI BẢO HIỂM: NHẬN BỒI THƯỜNG 100%"
+      },
+      {
+        "tag": "H4",
+        "text": "Bạn bị từ chối bồi thường bảo hiểm? Xem ngay 5 sai lầm phổ biến và quy trình 3 bước khiếu nại thực chiến để nhận đủ 100% quyền lợi tại TopBaoHiem.vn"
+      },
+      {
+        "tag": "H3",
+        "text": "Tại Sao Chi Phí Y Tế Thực Tế Luôn Cao Hơn Dự Tính?"
+      },
+      {
+        "tag": "H4",
+        "text": "Bạn sốc vì hóa đơn viện phí tăng vọt? Bài viết bóc tách 5 nguyên nhân khiến chi phí y tế luôn vượt dự tính: từ bệnh nền, biến chứng đến kỹ thuật cao. Xem ngay để chủ động tài chính!"
+      },
+      {
+        "tag": "H3",
+        "text": "Tối Ưu Chi Phí, Tối Đa An Tâm: Tại Sao Bạn Nên Chọn Mua Bảo Hiểm Trực Tuyến Qua TOPBAOHIEM?"
+      },
+      {
+        "tag": "H4",
+        "text": "Hầu hết mọi người mua bảo hiểm theo cảm tính: qua một người quen hoặc chọn đại một thương hiệu lớn mà không thực sự hiểu mình đang chi trả cho cái gì. Kết quả? Bạn thường phải trả phí cao hơn 20-30% cho những quyền lợi mình không bao giờ dùng tới, hoặc tệ hơn, bị từ chối bồi thường vì không nắm rõ điều khoản loại trừ."
+      },
+      {
+        "tag": "H3",
+        "text": "Bảo hiểm trực tuyến hay bảo hiểm truyền thống"
+      },
+      {
+        "tag": "H4",
+        "text": "Lựa chọn mua bảo hiểm online hay truyền thống để tối ưu quyền lợi? Khám phá xu hướng mua bảo hiểm trên sàn thương mại điện tử giúp bạn có cái nhìn tổng quan toàn thị trường, dễ dàng so sánh giá và quyền lợi từ nhiều hãng uy tín. Giải pháp minh bạch, nhanh chóng và tiết kiệm thời gian cho người bận rộn"
+      },
+      {
+        "tag": "H1",
+        "text": "Bảo Hiểm Cháy Nổ Bắt buộc & Rủi ro đặc biệt"
+      },
+      {
+        "tag": "H3",
+        "text": "Cảnh Báo! Top 5 Tỉnh thành có Nguy Cơ Cháy Nổ Cao Nhất Việt Nam. Nguyên nhân và Giải pháp"
+      },
+      {
+        "tag": "H4",
+        "text": "🚨 Cảnh báo PCCC 2025! Tỉnh thành nào có nguy cơ cháy nổ cao nhất Việt Nam? Xem ngay Top 5 địa phương rủi ro nhất (Hà Nội, TPHCM...) và phân tích nguyên nhân chính. Đừng bỏ qua 9 kỹ năng thoát nạn PCCC quan trọng."
+      },
+      {
+        "tag": "H3",
+        "text": "Mức phạt khi không tham gia bảo hiểm cháy nổ bắt buộc"
+      },
+      {
+        "tag": "H4",
+        "text": "Cháy nổ luôn là một trong những rủi ro lớn nhất đối với nhà ở, cửa hàng, nhà xưởng và doanh nghiệp. Để giảm thiểu thiệt hại và tuân thủ quy định pháp luật, nhiều chủ tài sản bắt buộc phải tham gia bảo hiểm cháy nổ bắt buộc."
+      },
+      {
+        "tag": "H3",
+        "text": "Bài viết mới nhất"
+      },
+      {
+        "tag": "H2",
+        "text": "Bảo lãnh viện phí bị lỗi khi thanh toán! Phải làm thế nào?"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo lãnh viện phí bị lỗi khi thanh toán, bạn sẽ phải tự thanh toán trước. Tuy nhiên, bạn hoàn toàn có quyền được hoàn lại tiền sau khi nộp hồ sơ đúng quy trình, miễn là trường hợp điều trị của bạn nằm trong phạm vi bảo hiểm và hồ sơ của bạn hợp lệ."
+      },
+      {
+        "tag": "H2",
+        "text": "Giải pháp giảm gánh nặng viện phí cho gia đình từ bảo hiểm sức khỏe"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo hiểm sức khỏe giúp gia đình chủ động trước chi phí khám chữa bệnh. Tìm hiểu quyền lợi, phí bảo hiểm và cách so sánh bảo hiểm sức khỏe các công ty."
+      },
+      {
+        "tag": "H2",
+        "text": "Bảo hiểm có chi trả bệnh nền không? 4 điều kiện cần biết"
+      },
+      {
+        "tag": "H4",
+        "text": "Bảo hiểm có chi trả bệnh nền không? Tìm hiểu 4 điều kiện quan trọng về bệnh có sẵn, thời gian chờ, điều khoản loại trừ và khai báo sức khỏe trước khi mua bảo hiểm"
+      },
+      {
+        "tag": "H2",
+        "text": "Nên Mua Bảo Hiểm Ở Tuổi Nào? Phân Tích Theo 5 Giai Đoạn Cuộc Đời"
+      },
+      {
+        "tag": "H4",
+        "text": "Nên mua bảo hiểm ở tuổi nào là hợp lý nhất? Phân tích 5 giai đoạn cuộc đời — từ trẻ nhỏ đến cao tuổi — kèm ví dụ cụ thể giúp bạn chọn đúng loại bảo hiểm cho từng thời điểm"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "Bảo lãnh viện phí bị lỗi khi thanh toán! Phải làm thế nào?",
+      "Bảo hiểm Sức Khỏe & An Toàn Cuộc Sống1 ngày trước",
+      "Bảo hiểm Sức Khỏe & An Toàn Cuộc Sống",
+      "Bảo hiểm sức khỏe có chi trả bệnh nền không?\n\nBảo hiểm Sức Khỏe & An Toàn Cuộc Sống27/11/2025",
+      "Bảo hiểm sức khỏe có chi trả bệnh nền không?",
+      "Bảo hiểm Sức Khỏe & An Toàn Cuộc Sống27/11/2025",
+      "Tối Ưu Chi Phí, Tối Đa An Tâm: Tại Sao Bạn Nên Chọn Mua Bảo Hiểm Trực Tuyến Qua TOPBAOHIEM?\n\nSo sánh & đánh giá14/1/2026",
+      "Tối Ưu Chi Phí, Tối Đa An Tâm: Tại Sao Bạn Nên Chọn Mua Bảo Hiểm Trực Tuyến Qua TOPBAOHIEM?",
+      "So sánh & đánh giá14/1/2026",
+      "So sánh & đánh giá",
+      "Mức phạt khi không tham gia bảo hiểm cháy nổ bắt buộc\n\nBảo Hiểm Cháy Nổ Bắt buộc & Rủi ro đặc biệt3/10/2025",
+      "Mức phạt khi không tham gia bảo hiểm cháy nổ bắt buộc",
+      "Bảo Hiểm Cháy Nổ Bắt buộc & Rủi ro đặc biệt3/10/2025",
+      "Bảo Hiểm Cháy Nổ Bắt buộc & Rủi ro đặc biệt",
+      "Giải pháp giảm gánh nặng viện phí cho gia đình từ bảo hiểm sức khỏe",
+      "Bảo hiểm có chi trả bệnh nền không? 4 điều kiện cần biết",
+      "Nên Mua Bảo Hiểm Ở Tuổi Nào? Phân Tích Theo 5 Giai Đoạn Cuộc Đời",
+      "BẢO HIỂM THAI SẢN - NHỮNG ĐIỀU MẸ BẦU CẦN BIẾT",
+      "NHỮNG ĐIỀU KHOẢN LOẠI TRỪ TRONG BẢO HIỂM SỨC KHỎE",
+      "Những Căn Bệnh Phổ Biến Của Dân Văn Phòng: Đừng Để Tiền Lương Chỉ Để Trả Viện Phí!",
+      "Biểu Phí Bảo Hiểm Sức Khỏe Theo Độ Tuổi: Vì Sao Mua Càng Trẻ, Phí Càng Rẻ?",
+      "Bảo Hiểm Sức Khỏe Tốt Nhất Cho Mọi Lứa Tuổi",
+      "5 Lợi Ích Vượt Trội Của Bảo Hiểm Sức Khỏe",
+      "Bảo hiểm sức khỏe có thật sự cần khi đã có Bảo hiểm y tế",
+      "7 Điều Khoản Loại Trừ Bảo Hiểm Sức Khỏe Ít Ai Ngờ Tới",
+      "Bảo Hiểm Sức Khỏe Gia Đình: So Sánh 5 Lợi Ích Vượt Trội & Các Gói Tốt Nhất 2025",
+      "Giải Đáp A-Z về Thời Gian Chờ Bảo Hiểm Sức Khỏe: Mua Online và Trực Tiếp",
+      "7 Điều Cần Biết Để Bảo Vệ Tài Chính Gia Đình"
+    ],
+    "viewport_img": "screenshots/11_CamNang_PhapLy_ChinhSach/44_blogs_knowledge_hub_4k_viewport.png",
+    "fullpage_img": "screenshots/11_CamNang_PhapLy_ChinhSach/44_blogs_knowledge_hub_4k_fullpage.png"
+  },
+  {
+    "index": 45,
+    "name": "policy_terms",
+    "group": "11_CamNang_PhapLy_ChinhSach",
+    "url": "https://topbaohiem.vn/vi/policy-terms",
+    "description": "Điều khoản sử dụng dịch vụ nền tảng",
+    "status": "success",
+    "title": "Điều khoản và điều kiện - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "ĐIỀU KHOẢN VÀ ĐIỀU KIỆN"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "ĐIỀU KHOẢN VÀ ĐIỀU KIỆN",
+      "1. Tài khoản người dùng",
+      "Nếu bạn không còn quyền kiểm soát tài khoản của mình, bạn phải thông báo ngay cho chúng tôi để chúng tôi có thể tạm thời chặn và / hoặc vô hiệu hóa tài khoản của bạn.",
+      "Vi phạm các Điều khoản này;",
+      "Các điều cấm trong luật hoặc quy định;",
+      "Gian lận hoặc trộm cắp (hoặc có dấu hiệu hoặc nghi ngờ gian lận hoặc trộm cắp), nghi ngờ hoạt động tội phạm;",
+      "Đặt hàng đáng ngờ;",
+      "Bạn đang cung cấp thông tin không chính xác, sai sót hoặc gây hiểu nhầm;",
+      "Hành vi không phù hợp của bạn, đe dọa hoặc lăng mạ;",
+      "Trở ngại thực tế,",
+      "Khó khăn trong giao tiếp hoặc sự cố, hoặc bạn được các chính phủ hoặc tổ chức quốc tế liệt kê vào bất kỳ “danh sách đen” hoặc “danh sách theo dõi”",
+      "2. Quyền sở hữu trí tuệ và thương hiệu",
+      "3. Quyền và nghĩa vụ",
+      "Khách hàng có thể đăng ký mua các gói bảo hiểm và yêu cầu nhận tư vấn nếu cần trên các kênh liên hệ của Topbaohiem.",
+      "Bằng cách sử dụng Dịch vụ, khách hàng đồng ý không:",
+      "(i) tạo tài khoản cho bất kỳ ai khác ngoài thể nhân (trừ khi bạn là công ty, tổ chức, pháp nhân hoặc thương hiệu và đại diện cho công ty, tổ chức, pháp nhân hoặc thương hiệu đó).",
+      "(ii) lạm dụng bằng lời nói, đe dọa, quấy rối, đe dọa, bôi nhọ, bắt nạt, sử dụng ngôn từ kích động thù địch hoặc gây hại cho bất kỳ nhân viên của công ty;",
+      "(iii) sử dụng hoặc cố gắng sử dụng tài khoản của người khác hoặc tạo danh tính giả;",
+      "(v) thiết kế đối chiếu, dịch ngược, tháo rời, giải mã hoặc cố gắng lấy mã nguồn cho bất kỳ tài sản trí tuệ cơ bản nào được sử dụng để cung cấp Dịch vụ hoặc bất kỳ phần nào trong đó;",
+      "(vi) sử dụng hoặc sao chép thông tin, nội dung hoặc bất kỳ dữ liệu nào bạn xem hoặc lấy từ Dịch vụ để cung cấp bất kỳ dịch vụ nào có tính cạnh tranh, theo quyết định riêng của chúng tôi, với Dịch vụ;",
+      "(vii) điều chỉnh, sửa đổi hoặc tạo các sản phẩm phái sinh dựa trên Dịch vụ hoặc công nghệ nền tảng của Dịch vụ, toàn bộ hoặc một phần;",
+      "(viii) thuê, cho thuê, cho mượn, giao dịch, bán / bán lại bất kỳ thông tin nào trong Dịch vụ, toàn bộ hoặc một phần;",
+      "(ix) bán, tài trợ hoặc kiếm tiền từ bất kỳ dịch vụ hoặc chức năng nào trong Dịch vụ mà không có sự đồng ý rõ ràng bằng văn bản của chúng tôi;",
+      "(x) xóa mọi thông báo về bản quyền, nhãn hiệu hoặc các quyền sở hữu khác có trong hoặc trên Dịch vụ (cho dù là của chúng tôi hay người cấp phép của chúng tôi);",
+      "(xii) vi phạm hoặc sử dụng thương hiệu, biểu tượng hoặc nhãn hiệu của chúng tôi trong bất kỳ tên doanh nghiệp, email hoặc URL nào ngoại trừ được chúng tôi cho phép rõ ràng;",
+      "(xiii) sử dụng bot hoặc các phương pháp tự động khác để truy cập Dịch vụ, thêm hoặc tải xuống Dịch vụ;danh bạ, gửi hoặc chuyển hướng tin nhắn hoặc thực hiện các hoạt động tương tự khác thông qua",
+      "(xiv) truy cập, thông qua các phương tiện hoặc quy trình tự động hoặc thủ công, Dịch vụ nhằm mục đích theo dõi tính khả dụng, hiệu suất hoặc chức năng của nó cho bất kỳ mục đích cạnh tranh nào;",
+      "(xv) tham gia vào việc \"đóng khung\", \"sao chép\" hoặc mô phỏng hình thức hoặc chức năng của Ứng dụng;"
+    ],
+    "viewport_img": "screenshots/11_CamNang_PhapLy_ChinhSach/45_policy_terms_4k_viewport.png",
+    "fullpage_img": "screenshots/11_CamNang_PhapLy_ChinhSach/45_policy_terms_4k_fullpage.png"
+  },
+  {
+    "index": 46,
+    "name": "policy_payment_vnpay",
+    "group": "11_CamNang_PhapLy_ChinhSach",
+    "url": "https://topbaohiem.vn/vi/policy-vnpay-payment",
+    "description": "Cổng thanh toán điện tử an toàn VNPAY",
+    "status": "success",
+    "title": "Chính sách thanh toán VNPAY - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "CHÍNH SÁCH THANH TOÁN VNPAY"
+      },
+      {
+        "tag": "H3",
+        "text": "HƯỚNG DẪN THANH TOÁN VNPAY TRÊN WEBSITE"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "CHÍNH SÁCH THANH TOÁN VNPAY",
+      "HƯỚNG DẪN THANH TOÁN VNPAY TRÊN WEBSITE",
+      "Quét mã VNPAY-QR trên 35+ Ứng dụng Mobile Banking và 15+ Ví điện tử liên kết",
+      "40+ Thẻ ATM/nội địa/tài khoản ngân hàng",
+      "4 Thẻ thanh toán quốc tế",
+      "Các phương thức thanh toán qua VNPAY",
+      "1. Phương thức thanh toán qua “Ứng dụng thanh toán hỗ trợ VNPAY-QR”",
+      "Bước 1: Quý khách lựa chọn sản phẩm, dịch vụ và chọn Thanh toán ngay hoặc Đặt hàng",
+      ": Quý khách lựa chọn sản phẩm, dịch vụ và chọn Thanh toán ngay hoặc Đặt hàng",
+      "Tại trang thanh toán, vui lòng kiểm tra lại sản phẩm đã đặt, điền đầy đủ thông tin người nhận hàng, chọn phương thức thanh toán VNPAY và nhấn nút “Đặt hàng ngay”.",
+      "Bước 2: Màn hình thanh toán chuyển sang giao diện cổng thanh toán VNPAY. Chọn phương thức  “Ứng dụng thanh toán hỗ trợ VNPAY-QR”",
+      ": Màn hình thanh toán chuyển sang giao diện cổng thanh toán VNPAY. Chọn phương thức  “Ứng dụng thanh toán hỗ trợ VNPAY-QR”",
+      ": Hệ thống hiển thị mã QR cùng với số tiền cần thanh toán, Quý khách kiểm tra lại số tiền này. Sử dụng ứng dụng ngân hàng (theo danh sách liệt kê), chọn",
+      "và tiến hành quét mã QR trên màn hình thanh toán website",
+      "*Lưu ý: Mã QR có hiệu lực trong 15 phút",
+      "Bước 4: Kiểm tra thông tin, nhập mã giảm giá (nếu có) và hoàn tất thanh toán\nKhi thực hiện thanh toán hoàn tất Quý khách sẽ nhận được thông báo xác nhận đơn hàng đặt hàng thành công tại website",
+      "Bước 4: Kiểm tra thông tin, nhập mã giảm giá (nếu có) và hoàn tất thanh toán",
+      ": Kiểm tra thông tin, nhập mã giảm giá (nếu có) và hoàn tất thanh toán",
+      "Khi thực hiện thanh toán hoàn tất Quý khách sẽ nhận được thông báo xác nhận đơn hàng đặt hàng thành công tại website",
+      "Hướng dẫn thanh toán qua tính năng QR Pay/VNPAY-QR",
+      "2. Phương thức thanh toán qua “Thẻ nội địa và tài khoản ngân hàng”",
+      "Bước 2: Màn hình thanh toán chuyển sang giao diện cổng thanh toán VNPAY. Chọn phương thức  “Thẻ nội địa và tài khoản ngân hàng” và chọn ngân hàng muốn thanh toán thẻ trong danh sách",
+      ": Màn hình thanh toán chuyển sang giao diện cổng thanh toán VNPAY. Chọn phương thức  “Thẻ nội địa và tài khoản ngân hàng” và chọn ngân hàng muốn thanh toán thẻ trong danh sách",
+      "Bước 3: Quý khách vui lòng thực hiện nhập các thông tin thẻ/tài khoản theo yêu cầu và chọn “Tiếp tục”. Mã OTP sẽ được gửi về điện thoại đăng ký, nhập mã OTP để hoàn tất giao dịch",
+      ": Quý khách vui lòng thực hiện nhập các thông tin thẻ/tài khoản theo yêu cầu và chọn “Tiếp tục”. Mã OTP sẽ được gửi về điện thoại đăng ký, nhập mã OTP để hoàn tất giao dịch",
+      "*Lưu ý: Giao dịch sẽ hết hạn sau 15 phút",
+      "Bước 4: Khi thực hiện thanh toán hoàn tất Quý khách sẽ nhận được thông báo xác nhận đơn hàng đặt hàng thành công tại website",
+      ": Khi thực hiện thanh toán hoàn tất Quý khách sẽ nhận được thông báo xác nhận đơn hàng đặt hàng thành công tại website"
+    ],
+    "viewport_img": "screenshots/11_CamNang_PhapLy_ChinhSach/46_policy_payment_vnpay_4k_viewport.png",
+    "fullpage_img": "screenshots/11_CamNang_PhapLy_ChinhSach/46_policy_payment_vnpay_4k_fullpage.png"
+  },
+  {
+    "index": 47,
+    "name": "policy_refund",
+    "group": "11_CamNang_PhapLy_ChinhSach",
+    "url": "https://topbaohiem.vn/vi/policy-refund",
+    "description": "Quy chế đổi trả, hoàn phí bảo hiểm minh bạch",
+    "status": "success",
+    "title": "Chính sách đổi, hủy, hoàn trả - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "CHÍNH SÁCH ĐỔI, HỦY, HOÀN TRẢ"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "CHÍNH SÁCH ĐỔI, HỦY, HOÀN TRẢ",
+      "1.Những trường hợp bên mua bảo hiểm (BMBH) không được yêu cầu hoàn huỷ",
+      "Đối với hợp đồng Bảo hiểm Trách nhiệm dân sự bắt buộc cho xe cơ giới (xe máy, xe ô tô);",
+      "Đối với hợp đồng Bảo hiểm du lịch đã bắt đầu chuyến đi;",
+      "Nếu sự kiện bảo hiểm đã xảy ra, hợp đồng bảo hiểm đã phát sinh bồi thường và Doanh nghiệp bảo hiểm (DNBH) đã hoàn thành toàn bộ cam kết bồi thường hoặc trả tiền bảo hiểm.",
+      "2. Những trường hợp DNBH có quyền đơn phương chấm dứt hợp đồng và hoàn lại phí theo tỷ lệ thời gian còn lại và/hoặc sau khi trừ chi phí phát sinh cần thiết",
+      "BMBH không đóng đủ hoặc không đóng phí bảo hiểm theo thỏa thuận trong Hợp đồng bảo hiểm (HĐBH);",
+      "BMBH không đóng đủ phí trong thời gian gia hạn đóng phí bảo hiểm;",
+      "DNBH không chấp nhận yêu cầu về thay đổi mức độ rủi ro được bảo hiểm quy định tại Điều 23 của Luật Kinh Doanh bảo hiểm 2022;",
+      "Người được bảo hiểm (NĐBH) không thực hiện các biện pháp bảo đảm an toàn cho đối tượng bảo hiểm quy định tại khoản 3 Điều 55 của Luật Kinh Doanh bảo hiểm 2022.",
+      "3. Những trường hợp BMBH có quyền yêu cầu hoàn hủy, chấm dứt HĐBH",
+      "BMBH không còn (đã mất) quyền lợi có thể được bảo hiểm;",
+      "Trường hợp DNBH bị phá sản, danh mục HĐBH sẽ được chuyển giao cho DNBH khác. Nếu BMBH không đồng ý chuyển giao HĐBH cho DNBH khác, HĐBH sẽ chấm dứt;",
+      "HĐBH được giao kết có điều khoản cho phép có thể được chấm dứt theo thỏa thuận giữa hai bên.",
+      "cs@topbaohiem.vn",
+      "số 141 Hoàng Hoa Thám, phường Ngọc Hà, thành phố Hà Nội, Việt Nam",
+      "Sản phẩm\nDu lịch\nSức khoẻ\nTNDS Ô tô\nTNDS Xe máy\nCháy Nổ Bắt Buộc",
+      "Dịch vụ\nƯu đãi\nYêu cầu bồi thường",
+      "Kết nối với chúng tôi",
+      "Copyright ©2024 TopBaoHiem all rights reserved"
+    ],
+    "viewport_img": "screenshots/11_CamNang_PhapLy_ChinhSach/47_policy_refund_4k_viewport.png",
+    "fullpage_img": "screenshots/11_CamNang_PhapLy_ChinhSach/47_policy_refund_4k_fullpage.png"
+  },
+  {
+    "index": 48,
+    "name": "policy_information_security",
+    "group": "11_CamNang_PhapLy_ChinhSach",
+    "url": "https://topbaohiem.vn/vi/policy-information-security",
+    "description": "Chính sách bảo mật thông tin chuẩn an toàn dữ liệu",
+    "status": "success",
+    "title": "Chính sách bảo mật thông tin - Nền tảng so sánh bảo hiểm trực tuyến",
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "CHÍNH SÁCH BẢO MẬT THÔNG TIN"
+      },
+      {
+        "tag": "H2",
+        "text": "CÔNG TY CỔ PHẦN PHÁT TRIỂN CÔNG NGHỆ TÀI CHÍNH SỐ VIỆT NAM"
+      },
+      {
+        "tag": "H4",
+        "text": "Sản phẩm"
+      },
+      {
+        "tag": "H4",
+        "text": "Dịch vụ"
+      },
+      {
+        "tag": "H4",
+        "text": "Chính sách"
+      },
+      {
+        "tag": "H4",
+        "text": "Kết nối với chúng tôi"
+      }
+    ],
+    "inputs": [],
+    "buttons": [
+      "Mua bảo hiểm",
+      "Ưu đãi",
+      "Blogs",
+      "Cộng tác viên",
+      "Đăng nhập"
+    ],
+    "key_texts": [
+      "Mua bảo hiểm\nƯu đãi\nBlogs\nCộng tác viên\nĐăng nhập",
+      "Mua bảo hiểm\nƯu đãi\nBlogs",
+      "CHÍNH SÁCH BẢO MẬT THÔNG TIN",
+      "1. Mục đích thu thập thông tin cá nhân",
+      "Khi khách hàng đăng ký tài khoản và sử dụng dịch vụ trên Topbaohiem, thông tin cá nhân mà chúng tôi thu thập bao gồm nhưng không giới hạn:",
+      "Địa chỉ tài sản cần bảo hiểm",
+      "CMND/CCCD/Hộ chiếu",
+      "Hình ảnh chân dung, phương tiện, tài sản",
+      "Địa chỉ giao hàng",
+      "Tình trạng sức khỏe hiện tại",
+      "Danh bạ điện thoại",
+      "Những thông tin trên sẽ được sử dụng cho một hoặc tất cả các mục đích sau đây:",
+      "Thành lập hợp đồng giữa bạn và công ty bảo hiểm.",
+      "Hỗ trợ khách hàng khi có yêu cầu.",
+      "Thông báo về việc giao hàng và hỗ trợ khách hàng.",
+      "Cung cấp thông tin liên quan đến sản phẩm.",
+      "Gửi các giấy tờ hợp đồng bảo hiểm hoặc các vật phẩm khuyến mãi.",
+      "Xử lý đơn đặt hàng và cung cấp dịch vụ và thông tin qua trang web của chúng tôi theo yêu cầu của quý khách.",
+      "Gửi thông tin trợ giúp khẩn cấp tới những người được bạn chỉ định.",
+      "Lưu trữ đảm bảo danh bạ.",
+      "Để duy trì chất lượng và dịch vụ công ty, chúng tôi sẽ dùng các thông tin cá nhân của bạn để:",
+      "Cung cấp các dịch vụ hỗ trợ và chăm sóc khách hàng.",
+      "Đo lường, phân tích dữ liệu nội bộ và các xử lý khác để phát triển, cải thiện, nâng cao chất lượng sản phẩm, dịch vụ của công ty hoặc thực hiện các hoạt động truyền thông, tiếp thị;",
+      "Phục vụ quá trình đánh giá độ tín nhiệm và phê duyệt hồ sơ bảo hiểm và bồi thường.",
+      "3. Lưu trữ và Bảo vệ thông tin",
+      "4. Chia sẻ thông tin với những người dùng khác",
+      "Thông tin liên lạc của Người mua bảo hiểm, Người được bảo hiểm, Người thụ hưởng theo hợp đồng bảo hiểm do bạn cung cấp qua hệ thống của Topbaohiem.",
+      "Ngày đăng ký, ngày giao dịch, giấy chứng nhận bảo hiểm.",
+      "Số giao dịch thành công trong quá khứ.",
+      "Tình trạng xác minh của tài khoản…"
+    ],
+    "viewport_img": "screenshots/11_CamNang_PhapLy_ChinhSach/48_policy_information_security_4k_viewport.png",
+    "fullpage_img": "screenshots/11_CamNang_PhapLy_ChinhSach/48_policy_information_security_4k_fullpage.png"
+  }
+]

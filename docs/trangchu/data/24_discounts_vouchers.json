@@ -1,0 +1,13 @@
+{
+  "idx": 24,
+  "name": "discounts_vouchers",
+  "group": "06_SoSanh_BaoGia_ThongMinh",
+  "url": "https://topbaohiem.vn/discount",
+  "desc": "Kho ưu đãi, mã giảm giá và voucher khuyến mãi",
+  "title": "Ưu đãi - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/06_SoSanh_BaoGia_ThongMinh/24_discounts_vouchers_4k_viewport.png",
+  "fullpage_img": "screenshots/06_SoSanh_BaoGia_ThongMinh/24_discounts_vouchers_4k_fullpage.png",
+  "headings": [],
+  "key_features": []
+}

@@ -1,0 +1,30 @@
+{
+  "name": "topbaohiem-video-ad",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Video Quảng Cáo Hệ Thống TopBaoHiem & InsureGO CMS 2K/4K 60FPS",
+  "scripts": {
+    "dev": "remotion studio",
+    "start": "remotion studio",
+    "build": "remotion render TopBaoHiemPromo4K out/topbaohiem-promo-4k.mp4 --concurrency=100% --gl=angle",
+    "render:1080p": "remotion render TopBaoHiemPromo1080p out/topbaohiem-promo-1080p.mp4 --concurrency=100% --crf=18 --gl=angle",
+    "render:2k": "remotion render TopBaoHiemPromo2K out/topbaohiem-promo-2k.mp4 --concurrency=100% --crf=18 --gl=angle",
+    "render:4k": "remotion render TopBaoHiemPromo4K out/topbaohiem-promo-4k.mp4 --concurrency=100% --crf=18 --gl=angle"
+  },
+  "dependencies": {
+    "@remotion/effects": "^4.0.218",
+    "@remotion/google-fonts": "^4.0.218",
+    "@types/three": "^0.186.0",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.218",
+    "three": "^0.186.0"
+  },
+  "devDependencies": {
+    "@remotion/cli": "^4.0.218",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "typescript": "^5.6.3"
+  }
+}

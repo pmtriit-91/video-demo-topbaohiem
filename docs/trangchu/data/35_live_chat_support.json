@@ -1,0 +1,21 @@
+{
+  "idx": 35,
+  "name": "live_chat_support",
+  "group": "08_BoiThuong_CSKH_HoTro",
+  "url": "https://topbaohiem.vn/chat",
+  "desc": "Trợ lý hỗ trợ và live chat tư vấn bảo hiểm",
+  "title": "Hỗ trợ 27/7 - TopBaoHiem - Nền tảng so sánh bảo hiểm trực tuyến",
+  "status": "success",
+  "viewport_img": "screenshots/08_BoiThuong_CSKH_HoTro/35_live_chat_support_4k_viewport.png",
+  "fullpage_img": "screenshots/08_BoiThuong_CSKH_HoTro/35_live_chat_support_4k_fullpage.png",
+  "headings": [],
+  "key_features": [
+    "Hello, how are you doing?\n\n08:15 AM",
+    "Hello, how are you doing?",
+    "Hoàng Thuỳ TrangNhân viên CSKH\n\nI'm doing well, thank you! How can I help you today?\n\n08:16 AM",
+    "Hoàng Thuỳ TrangNhân viên CSKH",
+    "I'm doing well, thank you! How can I help you today?",
+    "I have a question about the return policy for a product I purchased.\n\nJust now",
+    "I have a question about the return policy for a product I purchased."
+  ]
+}

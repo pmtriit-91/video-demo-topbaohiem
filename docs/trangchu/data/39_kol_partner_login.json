@@ -1,0 +1,13 @@
+{
+  "idx": 39,
+  "name": "kol_partner_login",
+  "group": "09_CongTacVien_KOL_DaiLy",
+  "url": "https://topbaohiem.vn/login-kol",
+  "desc": "Cổng đăng nhập hệ thống đại lý & mạng lưới phân phối bảo hiểm",
+  "title": "",
+  "status": "error: Page.screenshot: Timeout 30000ms exceeded.\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n",
+  "viewport_img": "screenshots/09_CongTacVien_KOL_DaiLy/39_kol_partner_login_4k_viewport.png",
+  "fullpage_img": "screenshots/09_CongTacVien_KOL_DaiLy/39_kol_partner_login_4k_fullpage.png",
+  "headings": [],
+  "key_features": []
+}
