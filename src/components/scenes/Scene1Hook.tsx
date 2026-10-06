@@ -58,42 +58,39 @@ export const Scene1Hook: React.FC = () => {
     );
 
     // 4. Cơ chế Lăn Trang Parallax Chậm Rãi (Full-Length Smooth Momentum Scroll)
-    // Ảnh gốc: 2910 x 10312. Scale theo macScreenW:
-    // Rendered Height = 10312 * (macScreenW / 2910)
-    const renderedPageH = Math.round(10312 * (macScreenW / 2910));
+    // Ảnh thiết kế mới: 2910 x 10188 (chuẩn Retina siêu nét trang chủ TopBaoHiem)
+    const imgW = 2910;
+    const imgH = 10188;
+    const renderedPageH = Math.round(imgH * (macScreenW / imgW));
     const maxScroll = Math.max(0, renderedPageH - macScreenH);
 
-    // Vị trí các mốc nội dung trên ảnh:
-    // - Hero: 0
-    // - Gói bảo hiểm hot (Sức khoẻ, Cháy nổ, Xe máy...): Y ~ 1400 (scale: 1400/2910 * macScreenW)
-    // - Quy trình mua 4 bước & Banners: Y ~ 2400 (scale: 2400/2910 * macScreenW)
-    // - Đối tác 5 Đại gia (PVI, BIC, PJICO, Bảo Việt, MIC): Y ~ 5350 (scale: 5350/2910 * macScreenW)
+    // Vị trí các mốc nội dung trên ảnh fullsize-trangchu.png (2910 x 10188):
+    // - Hero & Thẻ Sản Phẩm Hot: 0
+    // - Quy trình mua 4 bước & Banners: Y ~ 4000 (scale: 4000/2910 * macScreenW)
+    // - Đối tác lớn (PTI, PVI, BIC, PJICO, BAOVIET): Y ~ 6200 (scale: 6200/2910 * macScreenW)
     // - Chạm đáy Footer có dấu Bộ Công Thương: maxScroll
-    const scrollTargetGoi = Math.round((1400 / 2910) * macScreenW);
-    const scrollTargetQuyTrinh = Math.round((2400 / 2910) * macScreenW);
-    const scrollTargetDoiTac = Math.round((5350 / 2910) * macScreenW);
+    const scrollTargetQuyTrinh = Math.round((4000 / imgW) * macScreenW);
+    const scrollTargetDoiTac = Math.round((6200 / imgW) * macScreenW);
 
     const scrollY = interpolate(
         frame,
         [
             0, // Khởi đầu: Hero & Header
             120, // Giữ nguyên ở Hero để nhận diện thương hiệu
-            340, // Lăn êm ái xuống Các gói bảo hiểm hot
-            460, // Dừng nhẹ (Dwell) tương tác chuột hover
-            640, // Lăn xuống Quy trình mua 4 bước & Banners lớn
-            740, // Dừng nhẹ xem quy trình
-            860, // Lăn xuống Khối 5 Tập đoàn Bảo hiểm đối tác (PVI, BIC, PJICO, Bảo Việt, MIC)
-            980, // Lăn chạm đáy: FAQ, Tin tức & Footer Bộ Công Thương
+            360, // Tương tác chuột click tab/thẻ bảo hiểm
+            480, // Lăn êm ái xuống Quy trình mua 4 bước & Banners
+            680, // Dừng nhẹ xem quy trình
+            800, // Lăn xuống Khối Đối tác lớn & Mạng lưới bảo lãnh
+            960, // Lăn chạm đáy: FAQ, Tin tức & Footer Bộ Công Thương
             1080, // Giữ chân trang trước khi zoom
         ],
         [
             0, // Hero
             0, // Dwell Hero
-            -scrollTargetGoi, // Danh mục gói
-            -scrollTargetGoi, // Dwell danh mục
+            0, // Tương tác thẻ
             -scrollTargetQuyTrinh, // Quy trình 4 bước
             -scrollTargetQuyTrinh, // Dwell quy trình
-            -scrollTargetDoiTac, // 5 Tập đoàn Đối tác
+            -scrollTargetDoiTac, // Đối tác lớn
             -maxScroll, // Chạm đáy Footer Bộ Công Thương
             -maxScroll, // Kết thúc
         ],
@@ -119,14 +116,24 @@ export const Scene1Hook: React.FC = () => {
     const cursorX = interpolate(
         frame,
         [120, 240, 360, 440],
-        [macScreenW * 0.5, macScreenW * 0.22, macScreenW * 0.16, macScreenW * 0.28],
+        [
+            macScreenW * 0.5,
+            macScreenW * 0.38,
+            Math.round((990 / imgW) * macScreenW),
+            Math.round((990 / imgW) * macScreenW),
+        ],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
     );
 
     const cursorY = interpolate(
         frame,
         [120, 240, 360, 440],
-        [macScreenH * 0.15, macScreenH * 0.38, macScreenH * 0.44, macScreenH * 0.44],
+        [
+            Math.round(macScreenH * 0.2),
+            Math.round((560 / imgW) * macScreenW),
+            Math.round((560 / imgW) * macScreenW),
+            Math.round((560 / imgW) * macScreenW),
+        ],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
     );
 
@@ -191,6 +198,64 @@ export const Scene1Hook: React.FC = () => {
             }}
         >
             {/* ========================================================= */}
+            {/* 0. NỀN SÁNG CAO CẤP STUDIO (LUXURY LIGHT STUDIO BACKGROUND) */}
+            {/* ========================================================= */}
+            <div
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background:
+                        'radial-gradient(ellipse 95% 75% at 50% 28%, #ffffff 0%, #f8fafc 40%, #eef2f6 75%, #e2e8f0 100%)',
+                    zIndex: 0,
+                }}
+            >
+                {/* Ánh sáng đèn studio mềm trên đỉnh */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: '-20%',
+                        left: '15%',
+                        right: '15%',
+                        height: '50%',
+                        background:
+                            'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.95) 0%, rgba(241, 245, 249, 0.4) 60%, transparent 100%)',
+                        filter: 'blur(50px)',
+                        pointerEvents: 'none',
+                    }}
+                />
+
+                {/* Lưới toạ độ kiến trúc số siêu mảnh (Subtle Studio Architectural Grid) */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        backgroundImage: `
+                            linear-gradient(to right, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+                            linear-gradient(to bottom, rgba(15, 23, 42, 0.035) 1px, transparent 1px)
+                        `,
+                        backgroundSize: `${64 * s}px ${64 * s}px`,
+                        maskImage: 'radial-gradient(ellipse 80% 65% at 50% 45%, #000 35%, transparent 85%)',
+                        WebkitMaskImage: 'radial-gradient(ellipse 80% 65% at 50% 45%, #000 35%, transparent 85%)',
+                        pointerEvents: 'none',
+                    }}
+                />
+
+                {/* Ánh phản chiếu sàn studio dưới chân thiết bị */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: '35%',
+                        background:
+                            'linear-gradient(180deg, transparent 0%, rgba(203, 213, 225, 0.35) 100%)',
+                        pointerEvents: 'none',
+                    }}
+                />
+            </div>
+
+            {/* ========================================================= */}
             {/* 1. TOP HEADER BRANDING & PHÁT THẢO KHÔNG GIAN SANG TRỌNG */}
             {/* ========================================================= */}
             <div
@@ -218,9 +283,9 @@ export const Scene1Hook: React.FC = () => {
                             gap: 12 * s,
                             padding: `${8 * s}px ${20 * s}px`,
                             borderRadius: 999,
-                            background: 'rgba(225, 29, 72, 0.12)',
-                            border: '1px solid rgba(225, 29, 72, 0.35)',
-                            boxShadow: '0 0 24px rgba(225, 29, 72, 0.25)',
+                            background: 'rgba(225, 29, 72, 0.08)',
+                            border: '1px solid rgba(225, 29, 72, 0.28)',
+                            boxShadow: '0 4px 16px rgba(225, 29, 72, 0.1)',
                         }}
                     >
                         <span
@@ -239,7 +304,7 @@ export const Scene1Hook: React.FC = () => {
                                 fontSize: Math.max(12, 18 * s),
                                 fontWeight: 700,
                                 letterSpacing: '0.12em',
-                                color: '#ffffff',
+                                color: '#e11d48',
                                 textTransform: 'uppercase',
                             }}
                         >
@@ -247,28 +312,28 @@ export const Scene1Hook: React.FC = () => {
                         </span>
                     </div>
 
-                    <span style={{ fontSize: 18 * s, color: 'rgba(255,255,255,0.3)' }}>/</span>
+                    <span style={{ fontSize: 18 * s, color: 'rgba(15, 23, 42, 0.25)' }}>/</span>
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 * s }}>
-                        <Laptop size={18 * s} color="#94a3b8" />
+                        <Laptop size={18 * s} color="#64748b" />
                         <span
                             style={{
                                 fontFamily: 'var(--font-primary)',
                                 fontSize: Math.max(12, 17 * s),
                                 fontWeight: 600,
-                                color: '#cbd5e1',
+                                color: '#334155',
                             }}
                         >
                             MacBook Air M3 13-inch
                         </span>
-                        <span style={{ fontSize: 16 * s, color: 'rgba(255,255,255,0.2)' }}>•</span>
-                        <Smartphone size={17 * s} color="#94a3b8" />
+                        <span style={{ fontSize: 16 * s, color: 'rgba(15, 23, 42, 0.2)' }}>•</span>
+                        <Smartphone size={17 * s} color="#64748b" />
                         <span
                             style={{
                                 fontFamily: 'var(--font-primary)',
                                 fontSize: Math.max(12, 17 * s),
                                 fontWeight: 600,
-                                color: '#cbd5e1',
+                                color: '#334155',
                             }}
                         >
                             iPhone 16 Pro Retina
@@ -284,18 +349,19 @@ export const Scene1Hook: React.FC = () => {
                         gap: 12 * s,
                         padding: `${8 * s}px ${22 * s}px`,
                         borderRadius: 999,
-                        background: 'rgba(15, 23, 42, 0.8)',
-                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        background: 'rgba(255, 255, 255, 0.88)',
+                        border: '1px solid rgba(15, 23, 42, 0.08)',
+                        boxShadow: '0 4px 20px rgba(15, 23, 42, 0.06)',
                         backdropFilter: 'blur(16px)',
                     }}
                 >
-                    <Sparkles color="#38bdf8" size={18 * s} />
+                    <Sparkles color="#0284c7" size={18 * s} />
                     <span
                         style={{
                             fontFamily: 'var(--font-primary)',
                             fontSize: Math.max(12, 17 * s),
                             fontWeight: 600,
-                            color: '#e2e8f0',
+                            color: '#0f172a',
                         }}
                     >
                         Cổng Mua Bán & So Sánh Bảo Hiểm Trực Tuyến Toàn Diện
@@ -335,18 +401,18 @@ export const Scene1Hook: React.FC = () => {
                         justifyContent: 'center',
                     }}
                 >
-                    {/* Shadow dưới chân máy chiếu xuống mặt sàn */}
+                    {/* Shadow dưới chân máy chiếu xuống mặt sàn nền sáng */}
                     <div
                         style={{
                             position: 'absolute',
-                            bottom: 4,
-                            width: '95%',
-                            height: Math.round(macH * 0.08),
+                            bottom: -Math.round(macH * 0.042),
+                            width: '102%',
+                            height: Math.round(macH * 0.15),
                             borderRadius: '50%',
                             background:
-                                'radial-gradient(ellipse at center, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.45) 50%, transparent 80%)',
-                            filter: 'blur(28px)',
-                            transform: 'translateZ(-80px) rotateX(90deg) translateY(30px)',
+                                'radial-gradient(ellipse at center, rgba(15, 23, 42, 0.6) 0%, rgba(15, 23, 42, 0.22) 45%, transparent 75%)',
+                            filter: 'blur(24px)',
+                            transform: 'translateZ(-60px) rotateX(90deg) translateY(24px)',
                             pointerEvents: 'none',
                         }}
                     />
@@ -359,9 +425,9 @@ export const Scene1Hook: React.FC = () => {
                             height: '100%',
                             borderRadius: Math.round(macW * 0.016),
                             padding: `${macScreenPadding}px ${macScreenPadding}px ${macScreenPadding * 1.5}px ${macScreenPadding}px`,
-                            background: 'linear-gradient(145deg, #2e3440 0%, #1a1e28 35%, #11141c 70%, #252b38 100%)',
+                            background: 'linear-gradient(145deg, #e2e8f0 0%, #cbd5e1 32%, #94a3b8 68%, #64748b 100%)',
                             boxShadow:
-                                '0 30px 90px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 2px 4px rgba(255, 255, 255, 0.3) inset',
+                                '0 30px 90px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.6) inset, 0 2px 4px rgba(255, 255, 255, 0.7) inset, 0 -1px 2px rgba(71, 85, 105, 0.4) inset',
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -446,7 +512,7 @@ export const Scene1Hook: React.FC = () => {
                                     }}
                                 >
                                     <Img
-                                        src={staticFile('assets/trangchu/topbaohiem_full_macbook.png')}
+                                        src={staticFile('assets/trangchu/fullsize-trangchu.png')}
                                         alt="TopBaoHiem Full Trang Chủ"
                                         style={{
                                             width: '100%',
@@ -455,18 +521,18 @@ export const Scene1Hook: React.FC = () => {
                                         }}
                                     />
 
-                                    {/* Hiệu ứng Highlight Pulse lên thẻ "Bảo hiểm Sức khoẻ" khi chuột click */}
+                                    {/* Hiệu ứng Highlight Pulse lên thẻ/tab bảo hiểm khi chuột click */}
                                     <div
                                         style={{
                                             position: 'absolute',
-                                            top: Math.round((500 / 2910) * macScreenW),
-                                            left: '14%',
-                                            width: '22%',
-                                            height: Math.round((180 / 2910) * macScreenW),
-                                            borderRadius: 14 * s,
-                                            border: `${3 * s}px solid #e11d48`,
-                                            boxShadow: `0 0 ${35 * cardHoverPulse}px rgba(225, 29, 72, ${0.7 * cardHoverPulse})`,
-                                            backgroundColor: `rgba(225, 29, 72, ${0.08 * cardHoverPulse})`,
+                                            top: Math.round((528 / 2910) * macScreenW),
+                                            left: `${(713 / 2910) * 100}%`,
+                                            width: `${(554 / 2910) * 100}%`,
+                                            height: Math.round((63 / 2910) * macScreenW),
+                                            borderRadius: 12 * s,
+                                            border: `${3 * s}px solid #ed017c`,
+                                            boxShadow: `0 0 ${40 * cardHoverPulse}px rgba(237, 1, 124, ${0.75 * cardHoverPulse})`,
+                                            backgroundColor: `rgba(237, 1, 124, ${0.12 * cardHoverPulse})`,
                                             opacity: cardHoverPulse,
                                             pointerEvents: 'none',
                                             transition: 'opacity 0.2s ease',
@@ -525,32 +591,108 @@ export const Scene1Hook: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* THÂN MÁY DƯỚI (MacBook Lower Chassis & Display Hinge) */}
+                    {/* THÂN MÁY DƯỚI (MacBook Pro/Air M3 Lower Chassis, Hinge & Rubber Feet) */}
                     <div
                         style={{
                             position: 'absolute',
-                            bottom: -Math.round(macH * 0.016),
-                            width: Math.round(macW * 1.025),
-                            height: Math.round(macH * 0.02),
-                            background: 'linear-gradient(180deg, #3a4150 0%, #1f232d 40%, #141720 100%)',
-                            borderRadius: '0 0 20px 20px',
-                            boxShadow: '0 18px 36px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.2) inset',
+                            bottom: -Math.round(macH * 0.048),
+                            width: Math.round(macW * 1.045),
+                            height: Math.round(macH * 0.054),
+                            zIndex: 2,
                             display: 'flex',
                             alignItems: 'flex-start',
                             justifyContent: 'center',
-                            zIndex: 2,
                         }}
                     >
-                        {/* Rãnh mở nắp máy (Thumb Notch) */}
+                        {/* 1. Đế cao su bên trái (Left Rubber Foot) */}
                         <div
                             style={{
-                                width: Math.round(macW * 0.08),
-                                height: Math.round(macH * 0.007),
-                                background: '#0e1118',
+                                position: 'absolute',
+                                left: '4%',
+                                bottom: -Math.round(macH * 0.006),
+                                width: Math.round(macW * 0.045),
+                                height: Math.round(macH * 0.01),
                                 borderRadius: '0 0 6px 6px',
-                                boxShadow: '0 1px 2px rgba(255, 255, 255, 0.1)',
+                                background: 'linear-gradient(180deg, #1e2430 0%, #090c12 100%)',
+                                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.8)',
                             }}
                         />
+
+                        {/* 2. Đế cao su bên phải (Right Rubber Foot) */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                right: '4%',
+                                bottom: -Math.round(macH * 0.006),
+                                width: Math.round(macW * 0.045),
+                                height: Math.round(macH * 0.01),
+                                borderRadius: '0 0 6px 6px',
+                                background: 'linear-gradient(180deg, #1e2430 0%, #090c12 100%)',
+                                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.8)',
+                            }}
+                        />
+
+                        {/* 3. Khối bản lề đen (Display Hinge) kết nối màn hình với thân máy */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: -Math.round(macH * 0.006),
+                                width: Math.round(macW * 0.72),
+                                height: Math.round(macH * 0.01),
+                                background: 'linear-gradient(180deg, #05070a 0%, #161b24 50%, #080a0f 100%)',
+                                borderRadius: '4px 4px 0 0',
+                                zIndex: 1,
+                            }}
+                        />
+
+                        {/* 4. Mâm nhôm nguyên khối đầm chắc (Solid Aluminum Chassis Deck - Deeper Apple Silver) */}
+                        <div
+                            style={{
+                                position: 'relative',
+                                width: '100%',
+                                height: '100%',
+                                background:
+                                    'linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 10%, #94a3b8 32%, #64748b 68%, #475569 92%, #334155 100%)',
+                                borderRadius: '0 0 16px 16px',
+                                boxShadow:
+                                    '0 24px 50px rgba(0, 0, 0, 0.8), 0 2px 0 rgba(255, 255, 255, 0.7) inset, 0 -2px 4px rgba(51, 65, 85, 0.5) inset',
+                                display: 'flex',
+                                alignItems: 'flex-start',
+                                justifyContent: 'center',
+                                zIndex: 2,
+                                overflow: 'hidden',
+                            }}
+                        >
+                            {/* Đường viền ánh sáng kim loại phản quang mép trên (Specular Edge Sheen) */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    height: '1.5px',
+                                    background:
+                                        'linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.7) 25%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.7) 75%, rgba(255,255,255,0.2) 100%)',
+                                    zIndex: 3,
+                                }}
+                            />
+
+                            {/* Rãnh khuyết mở nắp máy (Precision Thumb Notch - Deeper Silver Machined Cavity) */}
+                            <div
+                                style={{
+                                    width: Math.round(macW * 0.11),
+                                    height: Math.round(macH * 0.015),
+                                    background:
+                                        'linear-gradient(180deg, #cbd5e1 0%, #94a3b8 45%, #64748b 100%)',
+                                    borderRadius: '0 0 8px 8px',
+                                    boxShadow:
+                                        '0 2px 4px rgba(30, 41, 59, 0.5) inset, 0 1px 0 rgba(255, 255, 255, 0.7)',
+                                    border: '1px solid rgba(100, 116, 139, 0.5)',
+                                    borderTop: 'none',
+                                    zIndex: 4,
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
 
@@ -570,17 +712,18 @@ export const Scene1Hook: React.FC = () => {
                         alignItems: 'center',
                     }}
                 >
-                    {/* Shadow dưới chân iPhone */}
+                    {/* Shadow dưới chân iPhone trên nền sáng */}
                     <div
                         style={{
                             position: 'absolute',
-                            bottom: 6,
-                            width: '85%',
-                            height: Math.round(phoneH * 0.06),
+                            bottom: 0,
+                            width: '88%',
+                            height: Math.round(phoneH * 0.08),
                             borderRadius: '50%',
-                            background: 'radial-gradient(ellipse at center, rgba(0, 0, 0, 0.85) 0%, transparent 75%)',
-                            filter: 'blur(18px)',
-                            transform: 'rotateX(90deg) translateY(24px)',
+                            background:
+                                'radial-gradient(ellipse at center, rgba(15, 23, 42, 0.45) 0%, rgba(15, 23, 42, 0.12) 50%, transparent 75%)',
+                            filter: 'blur(16px)',
+                            transform: 'rotateX(85deg) translateY(18px)',
                             pointerEvents: 'none',
                         }}
                     />
@@ -653,8 +796,8 @@ export const Scene1Hook: React.FC = () => {
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    transform: `scale(${interpolate(phoneTransition, [0, 1], [0.96, 1])})`,
-                                    opacity: phoneTransition,
+                                    transform: `scale(${interpolate(phoneTransition, [0, 1], [0.97, 1])})`,
+                                    opacity: interpolate(phoneTransition, [0, 1], [0.65, 1]),
                                 }}
                             >
                                 <Img
@@ -1083,8 +1226,8 @@ export const Scene1Hook: React.FC = () => {
                         style={{
                             fontFamily: 'var(--font-mono)',
                             fontSize: Math.max(11, 16 * s),
-                            color: '#94a3b8',
-                            fontWeight: 600,
+                            color: '#475569',
+                            fontWeight: 700,
                         }}
                     >
                         PARALLAX SCROLL DEPTH
@@ -1094,7 +1237,8 @@ export const Scene1Hook: React.FC = () => {
                             flex: 1,
                             height: Math.max(4, 6 * s),
                             borderRadius: 999,
-                            background: 'rgba(255, 255, 255, 0.12)',
+                            background: 'rgba(15, 23, 42, 0.08)',
+                            border: '1px solid rgba(15, 23, 42, 0.06)',
                             overflow: 'hidden',
                             position: 'relative',
                         }}
@@ -1103,8 +1247,8 @@ export const Scene1Hook: React.FC = () => {
                             style={{
                                 width: `${interpolate(-scrollY, [0, maxScroll], [10, 100], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })}%`,
                                 height: '100%',
-                                background: 'linear-gradient(90deg, #e11d48, #38bdf8)',
-                                boxShadow: '0 0 12px rgba(225, 29, 72, 0.8)',
+                                background: 'linear-gradient(90deg, #e11d48, #0284c7)',
+                                boxShadow: '0 0 10px rgba(225, 29, 72, 0.5)',
                             }}
                         />
                     </div>
@@ -1112,7 +1256,7 @@ export const Scene1Hook: React.FC = () => {
                         style={{
                             fontFamily: 'var(--font-mono)',
                             fontSize: Math.max(11, 16 * s),
-                            color: '#ffffff',
+                            color: '#0f172a',
                             fontWeight: 700,
                         }}
                     >
@@ -1131,8 +1275,8 @@ export const Scene1Hook: React.FC = () => {
                     style={{
                         fontFamily: 'var(--font-primary)',
                         fontSize: Math.max(12, 17 * s),
-                        color: '#64748b',
-                        fontWeight: 500,
+                        color: '#475569',
+                        fontWeight: 600,
                     }}
                 >
                     Trang chủ TopBaoHiem • Tương thích hoàn hảo mọi kích cỡ màn hình
