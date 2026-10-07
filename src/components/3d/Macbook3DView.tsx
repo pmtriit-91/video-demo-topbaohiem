@@ -112,6 +112,25 @@ export const Macbook3DView: React.FC<Macbook3DViewProps> = ({
                     lidPivotRef.current = lidPivot;
                 }
 
+                // Tối ưu hiển thị màn hình Liquid Retina: phát sáng nhẹ tự nhiên, giữ sắc nét logo và menu bar
+                loadedGroup.traverse((child) => {
+                    // @ts-ignore
+                    if (child.isMesh && child.material) {
+                        // @ts-ignore
+                        const mats = Array.isArray(child.material) ? child.material : [child.material];
+                        for (const mat of mats) {
+                            if (mat.map && (mat.map.name?.includes('qLVJPXVlXIfSiVu') || (mat.map.image && mat.map.image.width === 2048))) {
+                                mat.roughness = 0.15;
+                                mat.metalness = 0.0;
+                                mat.emissive = new THREE.Color(0xffffff);
+                                mat.emissiveMap = mat.map;
+                                mat.emissiveIntensity = 0.4;
+                                mat.needsUpdate = true;
+                            }
+                        }
+                    }
+                });
+
                 setIsLoaded(true);
                 continueRender(renderHandle);
             },

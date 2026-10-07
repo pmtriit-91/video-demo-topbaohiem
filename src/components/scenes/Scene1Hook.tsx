@@ -1,16 +1,8 @@
 import React from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig, staticFile, Img, Easing } from 'remotion';
-import {
-    Sparkles,
-    Layers,
-    MousePointer2,
-    Building2,
-    Zap,
-    Smartphone,
-    Laptop,
-    ShieldCheck,
-} from 'lucide-react';
+import { Sparkles, Layers, MousePointer2, Building2, Zap, Smartphone, Laptop, ShieldCheck } from 'lucide-react';
 import { CenterSpotlightSearch } from '../ui/CenterSpotlightSearch';
+import { MacbookStandbyScreen } from '../ui/MacbookStandbyScreen';
 
 export const Scene1Hook: React.FC = () => {
     const frame = useCurrentFrame();
@@ -24,7 +16,7 @@ export const Scene1Hook: React.FC = () => {
     // 1. PHÂN BỔ KÍCH THƯỚC CÁC THIẾT BỊ & KHÔNG GIAN
     // =========================================================================
     // A. Chuỗi hoạt cảnh mở nắp MacBook Pro 3D (110 frames @ 3456x1824, Alpha Transparent 100%)
-    const appleFrameH = Math.round(height * 0.90);
+    const appleFrameH = Math.round(height * 0.9);
     const appleFrameW = Math.round(appleFrameH * (3456 / 1824));
 
     // B. Chiếc MacBook Pro 90 độ trực diện ngang tầm mắt (2200 x 1340) - Dành cho Showcase Website
@@ -55,62 +47,57 @@ export const Scene1Hook: React.FC = () => {
     const openStartFrame = 276;
     const currentOpenFrame = Math.min(110, Math.max(1, frame - openStartFrame + 1));
     const openFrameSrc = staticFile(
-        `assets/macbook_open/frames_webp/frame_${String(currentOpenFrame).padStart(3, '0')}.webp`
+        `assets/macbook_open/frames_webp/frame_${String(currentOpenFrame).padStart(3, '0')}.webp`,
     );
 
-    // Độ hiển thị của Pha 1 (chuỗi 110 frames WebP 3D mở nắp: Frame 276 -> 386)
-    const state1Opacity = interpolate(
-        frame,
-        [275, 278, 384, 388],
-        [0, 1, 1, 0],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
-    );
+    // Độ hiển thị của Pha 1 (chuỗi 110 frames WebP 3D mở nắp: Frame 276 -> 385)
+    const state1Opacity = interpolate(frame, [275, 278, 385, 386], [0, 1, 1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
 
-    // Độ hiển thị của Pha 2 (MacBook 90 độ có lòng đục rỗng và website bên trong)
-    const state2Opacity = interpolate(
-        frame,
-        [384, 388],
-        [0, 1],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
-    );
+    // Độ hiển thị của Pha 2 (MacBook 90 độ trực diện: Frame 386+)
+    const state2Opacity = interpolate(frame, [385, 386], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
 
-    // Màn hình Liquid Retina 90 độ thức giấc bừng sáng mở website thật (Frame 386 -> 402)
-    const screenWakeUp = interpolate(frame, [386, 402], [0, 1], {
+    // Màn hình Liquid Retina 90 độ thức giấc bừng sáng mở website thật (Frame 530 -> 555)
+    // Dành trọn frame 386 -> 530 (~2.4s thoải mái) cho màn hình chờ macOS Dynamic Light & Logo Kinetic Beat & Thanh Loading!
+    const screenWakeUp = interpolate(frame, [530, 555], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.2, 0.8, 0.2, 1),
     });
 
-    // GIAI ĐOẠN 3: FRAME 390 -> 440
+    // GIAI ĐOẠN 3: FRAME 540 -> 590
     // MacBook trượt êm ái từ CHÍNH GIỮA màn hình sang VỊ TRÍ BÊN PHẢI (right: 3.5%)
     const deltaX = Math.round(width * 0.1725);
-    const macCenterShift = interpolate(frame, [390, 440], [-deltaX, 0], {
+    const macCenterShift = interpolate(frame, [540, 590], [-deltaX, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
     });
 
-    // Cột nội dung bên trái lướt vào (Frame 410 -> 450)
+    // Cột nội dung bên trái lướt vào (Frame 555 -> 595)
     const leftColEntrance = spring({
-        frame: Math.max(0, frame - 410),
+        frame: Math.max(0, frame - 555),
         fps,
         config: { damping: 16, mass: 0.9, stiffness: 85 },
     });
 
-    // Chiếc iPhone 16 Pro lướt vào tiếp ứng từ bên phải (Frame 435 -> 475)
+    // Chiếc iPhone 16 Pro lướt vào tiếp ứng từ bên phải (Frame 575 -> 615)
     const phoneEntrance = spring({
-        frame: Math.max(0, frame - 435),
+        frame: Math.max(0, frame - 575),
         fps,
         config: { damping: 15, mass: 1.0, stiffness: 70 },
     });
 
     // Push-in nhẹ toàn bộ MacBook về cuối cảnh (Frame 850 -> 1080)
-    const macPushIn = interpolate(
-        frame,
-        [0, 350, 850, 980, 1080],
-        [1, 1, 1.02, 1.05, 1.25],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
-    );
+    const macPushIn = interpolate(frame, [0, 350, 850, 980, 1080], [1, 1, 1.02, 1.05, 1.25], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
 
     // =========================================================================
     // 3. CƠ CHẾ LĂN TRANG PARALLAX CHẬM RÃI TRÊN MÀN HÌNH 90 ĐỘ (2910 x 10188 px)
@@ -127,37 +114,29 @@ export const Scene1Hook: React.FC = () => {
         frame,
         [
             0,
-            550, // Giữ nguyên ở Hero để click thẻ và nhận diện thương hiệu
-            690, // Lăn êm ái xuống Quy trình mua 4 bước & Banners
-            810, // Dừng nhẹ xem quy trình
-            920, // Lăn xuống Khối Đối tác lớn & Mạng lưới bảo lãnh
-            1000, // Lăn chạm đáy: FAQ, Tin tức & Footer Bộ Công Thương
+            665, // Giữ nguyên ở Hero để click thẻ và nhận diện thương hiệu
+            775, // Lăn êm ái xuống Quy trình mua 4 bước & Banners
+            855, // Dừng nhẹ xem quy trình
+            935, // Lăn xuống Khối Đối tác lớn & Mạng lưới bảo lãnh
+            1015, // Lăn chạm đáy: FAQ, Tin tức & Footer Bộ Công Thương
             1080, // Giữ chân trang
         ],
-        [
-            0,
-            0,
-            -scrollTargetQuyTrinh,
-            -scrollTargetQuyTrinh,
-            -scrollTargetDoiTac,
-            -maxScroll,
-            -maxScroll,
-        ],
+        [0, 0, -scrollTargetQuyTrinh, -scrollTargetQuyTrinh, -scrollTargetDoiTac, -maxScroll, -maxScroll],
         {
             easing: Easing.bezier(0.25, 0.1, 0.25, 1),
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
-        }
+        },
     );
 
     // Ánh sáng quét qua mặt kính Retina (Cinematic Glare / Sheen)
-    const glareX = interpolate(frame, [390, 440, 650, 1080], [-100, 180, 240, 400], {
+    const glareX = interpolate(frame, [530, 575, 700, 1080], [-100, 180, 240, 400], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
-    // Con trỏ chuột tương tác Studio trên MacBook 90 độ (Frame 455 -> 580)
-    const cursorOpacity = interpolate(frame, [455, 475, 545, 580], [0, 1, 1, 0], {
+    // Con trỏ chuột tương tác Studio trên MacBook 90 độ (Frame 590 -> 695)
+    const cursorOpacity = interpolate(frame, [590, 610, 665, 695], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -168,47 +147,37 @@ export const Scene1Hook: React.FC = () => {
 
     const cursorX = interpolate(
         frame,
-        [455, 485, 515, 550],
-        [
-            Math.round(screen90W * 0.5),
-            targetCursorX,
-            targetCursorX,
-            targetCursorX + Math.round(screen90W * 0.04),
-        ],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
+        [590, 620, 645, 675],
+        [Math.round(screen90W * 0.5), targetCursorX, targetCursorX, targetCursorX + Math.round(screen90W * 0.04)],
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
     );
 
     const cursorY = interpolate(
         frame,
-        [455, 485, 515, 550],
-        [
-            Math.round(screen90H * 0.25),
-            targetCursorY,
-            targetCursorY,
-            targetCursorY + Math.round(screen90H * 0.06),
-        ],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
+        [590, 620, 645, 675],
+        [Math.round(screen90H * 0.25), targetCursorY, targetCursorY, targetCursorY + Math.round(screen90H * 0.06)],
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
     );
 
-    const cursorClick = interpolate(frame, [490, 500, 510], [1, 0.82, 1], {
+    const cursorClick = interpolate(frame, [620, 630, 640], [1, 0.82, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
-    const cardHoverPulse = interpolate(frame, [495, 515, 545], [0, 1, 0], {
+    const cardHoverPulse = interpolate(frame, [625, 645, 675], [0, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
     // Đồng bộ màn hình trên iPhone 16 Pro (Mobile Step Sync 2 -> 3 -> 4)
-    const phoneStep = frame < 660 ? 2 : frame < 880 ? 3 : 4;
+    const phoneStep = frame < 700 ? 2 : frame < 880 ? 3 : 4;
     const phoneTransition = spring({
-        frame: frame < 660 ? frame - 435 : frame < 880 ? frame - 660 : frame - 880,
+        frame: frame < 700 ? frame - 575 : frame < 880 ? frame - 700 : frame - 880,
         fps,
         config: { damping: 14, mass: 0.8 },
     });
 
-    // Gõ chữ Typewriter Kinetic (Cột Trái Dẫn Dắt từ Frame 425)
+    // Gõ chữ Typewriter Kinetic (Cột Trái Dẫn Dắt từ Frame 565)
     const fullLine1 = 'SO SÁNH MINH BẠCH';
     const fullLine2 = 'CẤP ĐƠN 1-CHẠM';
 
@@ -217,12 +186,12 @@ export const Scene1Hook: React.FC = () => {
         Math.max(
             0,
             Math.floor(
-                interpolate(frame, [425, 455], [0, fullLine1.length], {
+                interpolate(frame, [565, 593], [0, fullLine1.length], {
                     extrapolateLeft: 'clamp',
                     extrapolateRight: 'clamp',
-                })
-            )
-        )
+                }),
+            ),
+        ),
     );
     const typedLine1 = fullLine1.slice(0, chars1);
 
@@ -231,17 +200,17 @@ export const Scene1Hook: React.FC = () => {
         Math.max(
             0,
             Math.floor(
-                interpolate(frame, [455, 485], [0, fullLine2.length], {
+                interpolate(frame, [593, 623], [0, fullLine2.length], {
                     extrapolateLeft: 'clamp',
                     extrapolateRight: 'clamp',
-                })
-            )
-        )
+                }),
+            ),
+        ),
     );
     const typedLine2 = fullLine2.slice(0, chars2);
 
-    const showCursor1 = frame >= 425 && frame < 455;
-    const showCursor2 = frame >= 455;
+    const showCursor1 = frame >= 565 && frame < 593;
+    const showCursor2 = frame >= 593;
     const cursorBlink = Math.floor(frame / 16) % 2 === 0;
 
     const TOPICS = [
@@ -283,23 +252,23 @@ export const Scene1Hook: React.FC = () => {
     ];
 
     // Opacity cho 5 giai đoạn nội dung đồng bộ với nhịp cuộn
-    const callout1Opacity = interpolate(frame, [320, 350, 520, 550], [0, 1, 1, 0], {
+    const callout1Opacity = interpolate(frame, [320, 350, 555, 585], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const callout2Opacity = interpolate(frame, [550, 580, 710, 740], [0, 1, 1, 0], {
+    const callout2Opacity = interpolate(frame, [585, 615, 735, 765], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const callout3Opacity = interpolate(frame, [740, 770, 850, 880], [0, 1, 1, 0], {
+    const callout3Opacity = interpolate(frame, [765, 795, 860, 890], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const callout4Opacity = interpolate(frame, [880, 910, 970, 1000], [0, 1, 1, 0], {
+    const callout4Opacity = interpolate(frame, [890, 920, 980, 1010], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const callout5Opacity = interpolate(frame, [1000, 1020, 1050, 1080], [0, 1, 1, 0], {
+    const callout5Opacity = interpolate(frame, [1010, 1030, 1055, 1080], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -371,11 +340,7 @@ export const Scene1Hook: React.FC = () => {
             {/* ========================================================= */}
             {/* 1. SPOTLIGHT SEARCH TO BẢN CHÍNH GIỮA (FRAME 0 -> 195)   */}
             {/* ========================================================= */}
-            <CenterSpotlightSearch
-                frame={frame}
-                width={width}
-                height={height}
-            />
+            <CenterSpotlightSearch frame={frame} width={width} height={height} />
 
             {/* ========================================================= */}
             {/* 2. TOP HEADER BRANDING & KHÔNG GIAN SANG TRỌNG          */}
@@ -833,30 +798,14 @@ export const Scene1Hook: React.FC = () => {
                                     zIndex: 2,
                                 }}
                             >
-                                {/* 1.1 HÌNH NỀN TOPBAOHIEM VỚI LOGO GỐC (Trước khi website bung sáng) */}
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        inset: 0,
-                                        width: '100%',
-                                        height: '100%',
-                                        opacity: interpolate(screenWakeUp, [0, 0.4], [1, 0], {
-                                            extrapolateLeft: 'clamp',
-                                            extrapolateRight: 'clamp',
-                                        }),
-                                        pointerEvents: 'none',
-                                    }}
-                                >
-                                    <Img
-                                        src={staticFile('assets/macbook_open/topbaohiem_wallpaper.png')}
-                                        alt="TopBaoHiem Light Studio Wallpaper"
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            objectFit: 'cover',
-                                        }}
-                                    />
-                                </div>
+                                {/* 1.1 MÀN HÌNH CHỜ MACOS DYNAMIC LIGHT & PLAYFUL KINETIC LOGO */}
+                                <MacbookStandbyScreen
+                                    frame={frame}
+                                    startFrame={385}
+                                    wakeProgress={screenWakeUp}
+                                    screenW={screen90W}
+                                    screenH={screen90H}
+                                />
 
                                 {/* 1.2 ẢNH FULL PAGE TRANG CHỦ TOPBAOHIEM (2910 x 10188 px) - MỞ BỪNG RA */}
                                 <div
@@ -1174,7 +1123,8 @@ export const Scene1Hook: React.FC = () => {
                                 padding: `${Math.round(phoneW * 0.024)}px`,
                                 background: 'linear-gradient(145deg, #cbd5e1 0%, #94a3b8 40%, #64748b 100%)',
                                 border: `${Math.max(2, 3 * s)}px solid #94a3b8`,
-                                boxShadow: '0 20px 60px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.6) inset',
+                                boxShadow:
+                                    '0 20px 60px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.6) inset',
                                 display: 'flex',
                                 flexDirection: 'column',
                                 boxSizing: 'border-box',

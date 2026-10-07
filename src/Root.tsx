@@ -46,6 +46,16 @@ export const RemotionRoot: React.FC = () => {
         width={3456}
         height={1824}
       />
+
+      {/* Composition Master MacBook 90 độ Standby Pixel-Perfect (2200 x 1340) */}
+      <Composition
+        id="Laptop90Master"
+        component={require("./components/ui/Laptop90Standalone").Laptop90Standalone}
+        durationInFrames={1}
+        fps={60}
+        width={2200}
+        height={1340}
+      />
     </>
   );
 };
