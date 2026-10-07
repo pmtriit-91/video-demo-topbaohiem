@@ -5,15 +5,15 @@ import { Macbook3DView } from './Macbook3DView';
 export const TestMacbookComp: React.FC = () => {
     const frame = useCurrentFrame();
 
-    // 33 frames (0 đến 32) mở mượt mà từ 29 độ (nối tiếp frame 78 Apple) lên 90 độ
-    // Easing cubic bezier tự nhiên như bản lề kim loại Apple
-    const openAngle = interpolate(frame, [0, 32], [29, 90], {
-        easing: Easing.bezier(0.42, 0, 0.25, 1),
+    // 60 frames (0 đến 59) tương ứng timeline frame 51 -> 110 trong Scene1Hook
+    // Easing cubic bezier hoàn hảo: bắt trớn 0.42 deg/frame, lướt mở êm ái và đáp nhẹ 90 độ đúng frame 59
+    const openAngle = interpolate(frame, [0, 59], [28.3, 90], {
+        easing: Easing.bezier(0.4, 0.15, 0.45, 1),
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const cameraProgress = interpolate(frame, [0, 32], [0, 1], {
-        easing: Easing.bezier(0.42, 0, 0.25, 1),
+    const cameraProgress = interpolate(frame, [0, 59], [0, 1], {
+        easing: Easing.bezier(0.4, 0.15, 0.45, 1),
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });

@@ -150,7 +150,7 @@ export const Macbook3DView: React.FC<Macbook3DViewProps> = ({
 
         // Camera fov và khoảng cách:
         // cameraProgress = 0: fov = 36 deg, camZ = 0.455 (khớp phối cảnh Apple frame 78)
-        // cameraProgress = 1: fov = 15.2 deg, camZ = 1.12 (khớp tỉ lệ 1:1 macbook_front_90 telephoto eye-level)
+        // cameraProgress = 1: fov = 15.2 deg, camZ = 1.120 (khớp tỉ lệ 1:1 macbook_front_90 telephoto eye-level)
         const fov = THREE.MathUtils.lerp(36, 15.2, cameraProgress);
         cameraRef.current.fov = fov;
         cameraRef.current.updateProjectionMatrix();

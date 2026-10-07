@@ -41,13 +41,12 @@ export const Scene1Hook: React.FC = () => {
     const leftColW = Math.round(width * 0.32);
 
     // =========================================================================
-    // HỒI 0: TIẾN TRÌNH MỞ NẮP TỰ NHIÊN (0 -> 78: APPLE; 78 -> 110: 3D LÊN 90 ĐỘ)
+    // HỒI 0: TIẾN TRÌNH MỞ NẮP TỰ NHIÊN (0 -> 110: APPLE & 3D ĐỒNG BỘ 1:1 CHUẨN 60FPS)
     // =========================================================================
-    const openFrameProgress = interpolate(frame, [0, 78, 110], [1, 78, 111], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-    });
-    const currentOpenFrame = Math.min(111, Math.max(1, Math.round(openFrameProgress)));
+    // Frame 1 -> 48: Apple video mở tự nhiên
+    // Frame 49 -> 50: Chuyển tiếp & hòa trộn đà quán tính (momentum)
+    // Frame 51 -> 110: 3D USDZ Apple mở mượt mà lên 90 độ, triệt tiêu hoàn toàn điểm dừng
+    const currentOpenFrame = Math.min(110, Math.max(1, frame));
     const openFrameSrc = staticFile(
         `assets/macbook_open/frames_webp/frame_${String(currentOpenFrame).padStart(3, '0')}.webp`
     );
