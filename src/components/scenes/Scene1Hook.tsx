@@ -3,15 +3,14 @@ import { interpolate, spring, useCurrentFrame, useVideoConfig, staticFile, Img, 
 import {
     Sparkles,
     Layers,
-    CheckCircle2,
     MousePointer2,
-    FileCheck,
     Building2,
     Zap,
     Smartphone,
     Laptop,
     ShieldCheck,
 } from 'lucide-react';
+import { CenterSpotlightSearch } from '../ui/CenterSpotlightSearch';
 
 export const Scene1Hook: React.FC = () => {
     const frame = useCurrentFrame();
@@ -21,12 +20,14 @@ export const Scene1Hook: React.FC = () => {
     const is4K = width >= 3840;
     const s = is4K ? 1 : width / 3840; // Hệ số typographic
 
-    // 1. Phân bổ kích thước 2 cụm:
-    // A. Chuỗi hoạt cảnh mở nắp MacBook Pro Apple CDN (78 frames @ 3456x1824) - Dành riêng cho HỒI 0
+    // =========================================================================
+    // 1. PHÂN BỔ KÍCH THƯỚC CÁC THIẾT BỊ & KHÔNG GIAN
+    // =========================================================================
+    // A. Chuỗi hoạt cảnh mở nắp MacBook Pro 3D (110 frames @ 3456x1824, Alpha Transparent 100%)
     const appleFrameH = Math.round(height * 0.90);
     const appleFrameW = Math.round(appleFrameH * (3456 / 1824));
 
-    // B. Chiếc MacBook Pro 90 độ trực diện ngang tầm mắt (2200 x 1340) - Dành cho HỒI 1 & HỒI 2 (Showcase Website)
+    // B. Chiếc MacBook Pro 90 độ trực diện ngang tầm mắt (2200 x 1340) - Dành cho Showcase Website
     const mac90W = Math.round(width * 0.585);
     const mac90H = Math.round(mac90W * (1340 / 2200));
     const screen90X = Math.round(mac90W * (224 / 2200));
@@ -41,54 +42,78 @@ export const Scene1Hook: React.FC = () => {
     const leftColW = Math.round(width * 0.32);
 
     // =========================================================================
-    // HỒI 0: TIẾN TRÌNH MỞ NẮP TỰ NHIÊN (0 -> 110: APPLE & 3D ĐỒNG BỘ 1:1 CHUẨN 60FPS)
+    // 2. TIMELINE PHÂN BỔ CHI TIẾT
     // =========================================================================
-    // Frame 1 -> 48: Apple video mở tự nhiên
-    // Frame 49 -> 50: Chuyển tiếp & hòa trộn đà quán tính (momentum)
-    // Frame 51 -> 110: 3D USDZ Apple mở mượt mà lên 90 độ, triệt tiêu hoàn toàn điểm dừng
-    const currentOpenFrame = Math.min(110, Math.max(1, frame));
+    // GIAI ĐOẠN 1: FRAME 0 -> 185
+    // Spotlight Search to rõ ràng nằm chính giữa màn hình Studio Light, gõ https://topbaohiem.vn,
+    // trỏ chuột lướt vào click Enter, sau đó phóng to nhẹ và fade out tại frame 175 -> 195.
+
+    // GIAI ĐOẠN 2: FRAME 276 -> 386
+    // Chiếc MacBook xuất hiện ở CHÍNH GIỮA màn hình ngay khi ô Search biến mất,
+    // mở nắp từ 0° (đóng kín) lên 90° (thẳng đứng ngang tầm mắt).
+    // Hình nền hiển thị logo gốc TopBaoHiem trên nền Studio sáng sạch sẽ.
+    const openStartFrame = 276;
+    const currentOpenFrame = Math.min(110, Math.max(1, frame - openStartFrame + 1));
     const openFrameSrc = staticFile(
         `assets/macbook_open/frames_webp/frame_${String(currentOpenFrame).padStart(3, '0')}.webp`
     );
 
-    // Pha 1 Fade Out & Chuyển sang Pha 2 (ngay khi mở nắp chạm mốc 90 độ tại frame 110-112)
-    const state1Opacity = interpolate(frame, [110, 112], [1, 0], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-    });
-    const state1Scale = 1;
+    // Độ hiển thị của Pha 1 (chuỗi 110 frames WebP 3D mở nắp: Frame 276 -> 386)
+    const state1Opacity = interpolate(
+        frame,
+        [275, 278, 384, 388],
+        [0, 1, 1, 0],
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
+    );
 
-    // Pha 2: MacBook 90 độ khớp hoàn hảo 1:1 góc nhìn và vị trí
-    const state2Opacity = interpolate(frame, [110, 112], [0, 1], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-    });
-    const state2Scale = 1;
+    // Độ hiển thị của Pha 2 (MacBook 90 độ có lòng đục rỗng và website bên trong)
+    const state2Opacity = interpolate(
+        frame,
+        [384, 388],
+        [0, 1],
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
+    );
 
-    // Màn hình Liquid Retina 90 độ thức giấc bừng sáng (frame 110 -> 126)
-    const screenWakeUp = interpolate(frame, [110, 126], [0, 1], {
+    // Màn hình Liquid Retina 90 độ thức giấc bừng sáng mở website thật (Frame 386 -> 402)
+    const screenWakeUp = interpolate(frame, [386, 402], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.2, 0.8, 0.2, 1),
     });
 
-    // Chiếc iPhone 16 Pro lướt vào tiếp ứng từ bên phải
+    // GIAI ĐOẠN 3: FRAME 390 -> 440
+    // MacBook trượt êm ái từ CHÍNH GIỮA màn hình sang VỊ TRÍ BÊN PHẢI (right: 3.5%)
+    const deltaX = Math.round(width * 0.1725);
+    const macCenterShift = interpolate(frame, [390, 440], [-deltaX, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    });
+
+    // Cột nội dung bên trái lướt vào (Frame 410 -> 450)
+    const leftColEntrance = spring({
+        frame: Math.max(0, frame - 410),
+        fps,
+        config: { damping: 16, mass: 0.9, stiffness: 85 },
+    });
+
+    // Chiếc iPhone 16 Pro lướt vào tiếp ứng từ bên phải (Frame 435 -> 475)
     const phoneEntrance = spring({
-        frame: Math.max(0, frame - 116),
+        frame: Math.max(0, frame - 435),
         fps,
         config: { damping: 15, mass: 1.0, stiffness: 70 },
     });
 
-    // Push-in nhẹ toàn bộ MacBook về cuối cảnh
+    // Push-in nhẹ toàn bộ MacBook về cuối cảnh (Frame 850 -> 1080)
     const macPushIn = interpolate(
         frame,
-        [0, 120, 850, 980, 1080],
+        [0, 350, 850, 980, 1080],
         [1, 1, 1.02, 1.05, 1.25],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
     );
 
     // =========================================================================
-    // CƠ CHẾ LĂN TRANG PARALLAX CHẬM RÃI TRÊN MÀN HÌNH 90 ĐỘ (2910 x 10188 px)
+    // 3. CƠ CHẾ LĂN TRANG PARALLAX CHẬM RÃI TRÊN MÀN HÌNH 90 ĐỘ (2910 x 10188 px)
     // =========================================================================
     const imgW = 2910;
     const imgH = 10188;
@@ -101,39 +126,38 @@ export const Scene1Hook: React.FC = () => {
     const scrollY = interpolate(
         frame,
         [
-            0, // Khởi đầu: Hero & Header
-            280, // Giữ nguyên ở Hero để click thẻ và nhận diện thương hiệu
-            440, // Lăn êm ái xuống Quy trình mua 4 bước & Banners
-            640, // Dừng nhẹ xem quy trình
-            780, // Lăn xuống Khối Đối tác lớn & Mạng lưới bảo lãnh
-            940, // Lăn chạm đáy: FAQ, Tin tức & Footer Bộ Công Thương
-            1080, // Giữ chân trang trước khi zoom
+            0,
+            550, // Giữ nguyên ở Hero để click thẻ và nhận diện thương hiệu
+            690, // Lăn êm ái xuống Quy trình mua 4 bước & Banners
+            810, // Dừng nhẹ xem quy trình
+            920, // Lăn xuống Khối Đối tác lớn & Mạng lưới bảo lãnh
+            1000, // Lăn chạm đáy: FAQ, Tin tức & Footer Bộ Công Thương
+            1080, // Giữ chân trang
         ],
         [
-            0, // Hero
-            0, // Dwell Hero
-            -scrollTargetQuyTrinh, // Quy trình 4 bước
-            -scrollTargetQuyTrinh, // Dwell quy trình
-            -scrollTargetDoiTac, // Đối tác lớn
-            -maxScroll, // Chạm đáy Footer Bộ Công Thương
-            -maxScroll, // Kết thúc
+            0,
+            0,
+            -scrollTargetQuyTrinh,
+            -scrollTargetQuyTrinh,
+            -scrollTargetDoiTac,
+            -maxScroll,
+            -maxScroll,
         ],
         {
             easing: Easing.bezier(0.25, 0.1, 0.25, 1),
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
-        },
+        }
     );
 
     // Ánh sáng quét qua mặt kính Retina (Cinematic Glare / Sheen)
-    // Ánh sáng quét qua mặt kính Retina (Cinematic Glare / Sheen khi mở sáng)
-    const glareX = interpolate(frame, [110, 160, 650, 1080], [-100, 180, 240, 400], {
+    const glareX = interpolate(frame, [390, 440, 650, 1080], [-100, 180, 240, 400], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
-    // Con trỏ chuột tương tác Studio trên MacBook 90 độ
-    const cursorOpacity = interpolate(frame, [118, 140, 275, 310], [0, 1, 1, 0], {
+    // Con trỏ chuột tương tác Studio trên MacBook 90 độ (Frame 455 -> 580)
+    const cursorOpacity = interpolate(frame, [455, 475, 545, 580], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -144,47 +168,47 @@ export const Scene1Hook: React.FC = () => {
 
     const cursorX = interpolate(
         frame,
-        [118, 180, 240, 290],
+        [455, 485, 515, 550],
         [
             Math.round(screen90W * 0.5),
             targetCursorX,
             targetCursorX,
             targetCursorX + Math.round(screen90W * 0.04),
         ],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
     );
 
     const cursorY = interpolate(
         frame,
-        [118, 180, 240, 290],
+        [455, 485, 515, 550],
         [
             Math.round(screen90H * 0.25),
             targetCursorY,
             targetCursorY,
             targetCursorY + Math.round(screen90H * 0.06),
         ],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
     );
 
-    const cursorClick = interpolate(frame, [205, 215, 225], [1, 0.82, 1], {
+    const cursorClick = interpolate(frame, [490, 500, 510], [1, 0.82, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
-    const cardHoverPulse = interpolate(frame, [210, 235, 275], [0, 1, 0], {
+    const cardHoverPulse = interpolate(frame, [495, 515, 545], [0, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
     // Đồng bộ màn hình trên iPhone 16 Pro (Mobile Step Sync 2 -> 3 -> 4)
-    const phoneStep = frame < 520 ? 2 : frame < 800 ? 3 : 4;
+    const phoneStep = frame < 660 ? 2 : frame < 880 ? 3 : 4;
     const phoneTransition = spring({
-        frame: frame < 520 ? frame : frame < 800 ? frame - 520 : frame - 800,
+        frame: frame < 660 ? frame - 435 : frame < 880 ? frame - 660 : frame - 880,
         fps,
         config: { damping: 14, mass: 0.8 },
     });
 
-    // HỒI 1: Hiệu ứng gõ chữ Typewriter Kinetic & Dynamic Topics (Cột Trái Dẫn Dắt)
+    // Gõ chữ Typewriter Kinetic (Cột Trái Dẫn Dắt từ Frame 425)
     const fullLine1 = 'SO SÁNH MINH BẠCH';
     const fullLine2 = 'CẤP ĐƠN 1-CHẠM';
 
@@ -193,12 +217,12 @@ export const Scene1Hook: React.FC = () => {
         Math.max(
             0,
             Math.floor(
-                interpolate(frame, [105, 145], [0, fullLine1.length], {
+                interpolate(frame, [425, 455], [0, fullLine1.length], {
                     extrapolateLeft: 'clamp',
                     extrapolateRight: 'clamp',
-                }),
-            ),
-        ),
+                })
+            )
+        )
     );
     const typedLine1 = fullLine1.slice(0, chars1);
 
@@ -207,24 +231,18 @@ export const Scene1Hook: React.FC = () => {
         Math.max(
             0,
             Math.floor(
-                interpolate(frame, [145, 185], [0, fullLine2.length], {
+                interpolate(frame, [455, 485], [0, fullLine2.length], {
                     extrapolateLeft: 'clamp',
                     extrapolateRight: 'clamp',
-                }),
-            ),
-        ),
+                })
+            )
+        )
     );
     const typedLine2 = fullLine2.slice(0, chars2);
 
-    const showCursor1 = frame >= 105 && frame < 145;
-    const showCursor2 = frame >= 145;
+    const showCursor1 = frame >= 425 && frame < 455;
+    const showCursor2 = frame >= 455;
     const cursorBlink = Math.floor(frame / 16) % 2 === 0;
-
-    const leftColEntrance = spring({
-        frame: Math.max(0, frame - 95),
-        fps,
-        config: { damping: 16, mass: 0.9, stiffness: 85 },
-    });
 
     const TOPICS = [
         {
@@ -265,23 +283,23 @@ export const Scene1Hook: React.FC = () => {
     ];
 
     // Opacity cho 5 giai đoạn nội dung đồng bộ với nhịp cuộn
-    const callout1Opacity = interpolate(frame, [25, 55, 220, 245], [0, 1, 1, 0], {
+    const callout1Opacity = interpolate(frame, [320, 350, 520, 550], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const callout2Opacity = interpolate(frame, [245, 275, 480, 510], [0, 1, 1, 0], {
+    const callout2Opacity = interpolate(frame, [550, 580, 710, 740], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const callout3Opacity = interpolate(frame, [510, 540, 740, 770], [0, 1, 1, 0], {
+    const callout3Opacity = interpolate(frame, [740, 770, 850, 880], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const callout4Opacity = interpolate(frame, [770, 800, 930, 960], [0, 1, 1, 0], {
+    const callout4Opacity = interpolate(frame, [880, 910, 970, 1000], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const callout5Opacity = interpolate(frame, [960, 980, 1050, 1080], [0, 1, 1, 0], {
+    const callout5Opacity = interpolate(frame, [1000, 1020, 1050, 1080], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -309,13 +327,13 @@ export const Scene1Hook: React.FC = () => {
             }}
         >
             {/* ========================================================= */}
-            {/* 0. NỀN STUDIO SANG TRỌNG CHUẨN APPLE KEYNOTE (DEEP BLACK) */}
+            {/* 0. NỀN STUDIO SÁNG SỦA SANG TRỌNG (APPLE STUDIO LIGHT)   */}
             {/* ========================================================= */}
             <div
                 style={{
                     position: 'absolute',
                     inset: 0,
-                    background: '#000000',
+                    background: 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%)',
                     zIndex: 0,
                 }}
             >
@@ -323,20 +341,44 @@ export const Scene1Hook: React.FC = () => {
                 <div
                     style={{
                         position: 'absolute',
-                        top: '20%',
+                        top: '15%',
                         left: '4%',
-                        width: '38%',
-                        height: '55%',
+                        width: '42%',
+                        height: '65%',
                         background:
-                            'radial-gradient(ellipse at center, rgba(237, 1, 124, 0.08) 0%, rgba(2, 132, 199, 0.04) 50%, transparent 80%)',
+                            'radial-gradient(ellipse at center, rgba(237, 1, 124, 0.06) 0%, rgba(2, 132, 199, 0.04) 50%, transparent 80%)',
                         filter: 'blur(90px)',
+                        pointerEvents: 'none',
+                    }}
+                />
+
+                {/* Vùng hắt sáng mềm mại sau MacBook */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: '20%',
+                        right: '6%',
+                        width: '58%',
+                        height: '70%',
+                        background:
+                            'radial-gradient(circle at center, rgba(255, 255, 255, 0.85) 0%, rgba(241, 245, 249, 0.4) 60%, transparent 85%)',
+                        filter: 'blur(80px)',
                         pointerEvents: 'none',
                     }}
                 />
             </div>
 
             {/* ========================================================= */}
-            {/* 1. TOP HEADER BRANDING & PHÁT THẢO KHÔNG GIAN SANG TRỌNG */}
+            {/* 1. SPOTLIGHT SEARCH TO BẢN CHÍNH GIỮA (FRAME 0 -> 195)   */}
+            {/* ========================================================= */}
+            <CenterSpotlightSearch
+                frame={frame}
+                width={width}
+                height={height}
+            />
+
+            {/* ========================================================= */}
+            {/* 2. TOP HEADER BRANDING & KHÔNG GIAN SANG TRỌNG          */}
             {/* ========================================================= */}
             <div
                 style={{
@@ -363,9 +405,9 @@ export const Scene1Hook: React.FC = () => {
                             gap: 12 * s,
                             padding: `${8 * s}px ${20 * s}px`,
                             borderRadius: 999,
-                            background: 'rgba(237, 1, 124, 0.12)',
-                            border: '1px solid rgba(237, 1, 124, 0.45)',
-                            boxShadow: '0 4px 20px rgba(237, 1, 124, 0.25)',
+                            background: 'rgba(237, 1, 124, 0.1)',
+                            border: '1px solid rgba(237, 1, 124, 0.35)',
+                            boxShadow: '0 4px 16px rgba(237, 1, 124, 0.12)',
                         }}
                     >
                         <span
@@ -373,8 +415,8 @@ export const Scene1Hook: React.FC = () => {
                                 width: 10 * s,
                                 height: 10 * s,
                                 borderRadius: '50%',
-                                background: '#f43f5e',
-                                boxShadow: '0 0 10px #f43f5e',
+                                background: '#ed017c',
+                                boxShadow: '0 0 10px #ed017c',
                                 display: 'inline-block',
                             }}
                         />
@@ -392,7 +434,7 @@ export const Scene1Hook: React.FC = () => {
                         </span>
                     </div>
 
-                    <span style={{ fontSize: 18 * s, color: 'rgba(255, 255, 255, 0.25)' }}>/</span>
+                    <span style={{ fontSize: 18 * s, color: 'rgba(100, 116, 139, 0.35)' }}>/</span>
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 * s }}>
                         <Laptop size={18 * s} color="#64748b" />
@@ -401,19 +443,19 @@ export const Scene1Hook: React.FC = () => {
                                 fontFamily: 'var(--font-primary)',
                                 fontSize: Math.max(12, 17 * s),
                                 fontWeight: 600,
-                                color: '#e2e8f0',
+                                color: '#334155',
                             }}
                         >
                             MacBook Pro M4 Liquid Retina
                         </span>
-                        <span style={{ fontSize: 16 * s, color: 'rgba(255, 255, 255, 0.2)' }}>•</span>
+                        <span style={{ fontSize: 16 * s, color: 'rgba(100, 116, 139, 0.35)' }}>•</span>
                         <Smartphone size={17 * s} color="#64748b" />
                         <span
                             style={{
                                 fontFamily: 'var(--font-primary)',
                                 fontSize: Math.max(12, 17 * s),
                                 fontWeight: 600,
-                                color: '#e2e8f0',
+                                color: '#334155',
                             }}
                         >
                             iPhone 16 Pro Retina
@@ -429,19 +471,19 @@ export const Scene1Hook: React.FC = () => {
                         gap: 12 * s,
                         padding: `${8 * s}px ${22 * s}px`,
                         borderRadius: 999,
-                        background: 'rgba(15, 23, 42, 0.75)',
-                        border: '1px solid rgba(255, 255, 255, 0.12)',
-                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
+                        background: 'rgba(255, 255, 255, 0.92)',
+                        border: '1px solid rgba(226, 232, 240, 0.9)',
+                        boxShadow: '0 4px 18px rgba(15, 23, 42, 0.05)',
                         backdropFilter: 'blur(16px)',
                     }}
                 >
-                    <Sparkles color="#38bdf8" size={18 * s} />
+                    <Sparkles color="#0284c7" size={18 * s} />
                     <span
                         style={{
                             fontFamily: 'var(--font-primary)',
                             fontSize: Math.max(12, 17 * s),
                             fontWeight: 600,
-                            color: '#ffffff',
+                            color: '#0f172a',
                         }}
                     >
                         Cổng Mua Bán & So Sánh Bảo Hiểm Trực Tuyến Toàn Diện
@@ -450,7 +492,7 @@ export const Scene1Hook: React.FC = () => {
             </div>
 
             {/* ========================================================= */}
-            {/* 1. KHỐI TRÁI: KINETIC TYPOGRAPHY & TYPEWRITER HERO        */}
+            {/* 3. KHỐI TRÁI: KINETIC TYPOGRAPHY & TYPEWRITER HERO        */}
             {/* ========================================================= */}
             <div
                 style={{
@@ -464,6 +506,7 @@ export const Scene1Hook: React.FC = () => {
                     flexDirection: 'column',
                     alignItems: 'flex-start',
                     zIndex: 30,
+                    pointerEvents: 'none',
                 }}
             >
                 {/* A. Tagline Pill Badge */}
@@ -476,7 +519,7 @@ export const Scene1Hook: React.FC = () => {
                         borderRadius: 999,
                         background: 'rgba(237, 1, 124, 0.08)',
                         border: '1.5px solid rgba(237, 1, 124, 0.28)',
-                        boxShadow: '0 4px 20px rgba(237, 1, 124, 0.12)',
+                        boxShadow: '0 4px 16px rgba(237, 1, 124, 0.08)',
                         backdropFilter: 'blur(12px)',
                         marginBottom: 18 * s,
                     }}
@@ -502,14 +545,14 @@ export const Scene1Hook: React.FC = () => {
                         fontSize: Math.max(26, 50 * s),
                         fontWeight: 800,
                         lineHeight: 1.15,
-                        color: '#ffffff',
+                        color: '#0f172a',
                         letterSpacing: -1 * s,
                         marginBottom: 20 * s,
                     }}
                 >
                     {/* Dòng 1: SO SÁNH MINH BẠCH */}
                     <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-                        <span style={{ color: '#ffffff' }}>{typedLine1}</span>
+                        <span style={{ color: '#0f172a' }}>{typedLine1}</span>
                         {showCursor1 && (
                             <span
                                 style={{
@@ -576,6 +619,12 @@ export const Scene1Hook: React.FC = () => {
                                     opacity: op,
                                     transform: `translateY(${interpolate(op, [0, 1], [15, 0])}px)`,
                                     pointerEvents: 'none',
+                                    padding: `${16 * s}px ${20 * s}px`,
+                                    borderRadius: 20 * s,
+                                    background: 'rgba(255, 255, 255, 0.9)',
+                                    border: '1.5px solid rgba(226, 232, 240, 0.85)',
+                                    boxShadow: '0 10px 30px rgba(15, 23, 42, 0.05)',
+                                    backdropFilter: 'blur(16px)',
                                 }}
                             >
                                 <div
@@ -602,7 +651,7 @@ export const Scene1Hook: React.FC = () => {
                                         fontFamily: 'var(--font-primary)',
                                         fontSize: Math.max(16, 24 * s),
                                         fontWeight: 700,
-                                        color: '#f8fafc',
+                                        color: '#0f172a',
                                         margin: `0 0 ${8 * s}px 0`,
                                         lineHeight: 1.3,
                                     }}
@@ -614,7 +663,7 @@ export const Scene1Hook: React.FC = () => {
                                     style={{
                                         fontFamily: 'var(--font-primary)',
                                         fontSize: Math.max(12, 17 * s),
-                                        color: '#94a3b8',
+                                        color: '#475569',
                                         lineHeight: 1.55,
                                         margin: 0,
                                     }}
@@ -646,9 +695,9 @@ export const Scene1Hook: React.FC = () => {
                                 flex: 1,
                                 padding: `${12 * s}px ${14 * s}px`,
                                 borderRadius: 16 * s,
-                                background: 'rgba(15, 23, 42, 0.75)',
-                                border: '1px solid rgba(255, 255, 255, 0.12)',
-                                boxShadow: '0 8px 24px rgba(15, 23, 42, 0.05)',
+                                background: 'rgba(255, 255, 255, 0.92)',
+                                border: '1.5px solid rgba(226, 232, 240, 0.85)',
+                                boxShadow: '0 8px 24px rgba(15, 23, 42, 0.04)',
                                 backdropFilter: 'blur(16px)',
                             }}
                         >
@@ -669,7 +718,7 @@ export const Scene1Hook: React.FC = () => {
                                     fontFamily: 'var(--font-primary)',
                                     fontSize: Math.max(10, 13 * s),
                                     fontWeight: 600,
-                                    color: '#94a3b8',
+                                    color: '#64748b',
                                 }}
                             >
                                 {stat.label}
@@ -680,14 +729,14 @@ export const Scene1Hook: React.FC = () => {
             </div>
 
             {/* ========================================================= */}
-            {/* 2. CỤM PHẢI: THIẾT BỊ CHÍNH HÃNG APPLE (MACBOOK + IPHONE)  */}
+            {/* 4. CỤM THIẾT BỊ: MACBOOK PRO & IPHONE 16 PRO               */}
             {/* ========================================================= */}
             <div
                 style={{
                     position: 'absolute',
                     top: '50%',
                     right: Math.round(width * 0.035),
-                    transform: `translateY(-50%) scale(${macPushIn})`,
+                    transform: `translateY(-50%) translateX(${macCenterShift}px) scale(${macPushIn})`,
                     zIndex: 10,
                     display: 'flex',
                     alignItems: 'center',
@@ -702,8 +751,29 @@ export const Scene1Hook: React.FC = () => {
                         height: mac90H,
                     }}
                 >
+                    {/* Bóng đổ Studio mềm mại dưới chân MacBook trên nền sáng (chỉ hiện khi MacBook xuất hiện) */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            bottom: -Math.round(mac90H * 0.04),
+                            left: '5%',
+                            width: '90%',
+                            height: Math.round(mac90H * 0.12),
+                            borderRadius: '50%',
+                            background:
+                                'radial-gradient(ellipse at center, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.05) 50%, transparent 75%)',
+                            filter: 'blur(20px)',
+                            pointerEvents: 'none',
+                            zIndex: 1,
+                            opacity: interpolate(frame, [178, 188], [0, 1], {
+                                extrapolateLeft: 'clamp',
+                                extrapolateRight: 'clamp',
+                            }),
+                        }}
+                    />
+
                     {/* ========================================================================= */}
-                    {/* A. PHA 1: CHUỖI MỞ NẮP 78 FRAMES TỰ NHIÊN (FADE OUT & PUSH-IN TẠI 48-62) */}
+                    {/* A. PHA 1: CHUỖI MỞ NẮP 110 FRAMES 3D TỰ NHIÊN (0° ĐẾN 90°)               */}
                     {/* ========================================================================= */}
                     {state1Opacity > 0.01 && (
                         <div
@@ -711,7 +781,7 @@ export const Scene1Hook: React.FC = () => {
                                 position: 'absolute',
                                 left: '50%',
                                 top: '50%',
-                                transform: `translate(-50%, -50%) scale(${state1Scale})`,
+                                transform: 'translate(-50%, -50%)',
                                 width: appleFrameW,
                                 height: appleFrameH,
                                 opacity: state1Opacity,
@@ -735,7 +805,7 @@ export const Scene1Hook: React.FC = () => {
                     )}
 
                     {/* ========================================================================= */}
-                    {/* B. PHA 2 & 3: MACBOOK PRO 90 ĐỘ TRỰC DIỆN (CHÍNH HÃNG APPLE ĐÃ ĐỤC RỖNG)   */}
+                    {/* B. PHA 2: MACBOOK PRO 90 ĐỘ TRỰC DIỆN (CHÍNH HÃNG APPLE ĐÃ ĐỤC RỖNG)      */}
                     {/* ========================================================================= */}
                     {state2Opacity > 0.01 && (
                         <div
@@ -745,7 +815,6 @@ export const Scene1Hook: React.FC = () => {
                                 width: mac90W,
                                 height: mac90H,
                                 opacity: state2Opacity,
-                                transform: `scale(${state2Scale})`,
                                 zIndex: 6,
                             }}
                         >
@@ -758,242 +827,153 @@ export const Scene1Hook: React.FC = () => {
                                     width: screen90W,
                                     height: screen90H,
                                     overflow: 'hidden',
-                                    backgroundColor: '#000000',
-                                    opacity: screenWakeUp,
+                                    backgroundColor: '#f8fafc',
                                     borderRadius: `${Math.round(mac90W * 0.008)}px ${Math.round(mac90W * 0.008)}px 0 0`,
-                                    boxShadow: `0 0 ${40 * screenWakeUp}px rgba(237, 1, 124, ${0.4 * screenWakeUp})`,
+                                    boxShadow: `0 0 ${40 * screenWakeUp}px rgba(237, 1, 124, ${0.2 * screenWakeUp})`,
                                     zIndex: 2,
                                 }}
                             >
-                            {/* ẢNH FULL PAGE TRANG CHỦ TOPBAOHIEM (2910 x 10188 px) */}
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '100%',
-                                    transform: `translateY(${scrollY}px)`,
-                                    willChange: 'transform',
-                                }}
-                            >
-                                <Img
-                                    src={staticFile('assets/trangchu/fullsize-trangchu.png')}
-                                    alt="TopBaoHiem Full Trang Chủ"
-                                    style={{
-                                        width: '100%',
-                                        height: 'auto',
-                                        display: 'block',
-                                    }}
-                                />
-
-                                {/* Hiệu ứng Highlight Pulse lên thẻ Sức khoẻ khi chuột click */}
+                                {/* 1.1 HÌNH NỀN TOPBAOHIEM VỚI LOGO GỐC (Trước khi website bung sáng) */}
                                 <div
                                     style={{
                                         position: 'absolute',
-                                        top: Math.round((900 / 2910) * screen90W),
-                                        left: `${(490 / 2910) * 100}%`,
-                                        width: `${(610 / 2910) * 100}%`,
-                                        height: Math.round((540 / 2910) * screen90W),
-                                        borderRadius: 20 * s,
-                                        border: `${3 * s}px solid #ed017c`,
-                                        boxShadow: `0 0 ${40 * cardHoverPulse}px rgba(237, 1, 124, ${0.75 * cardHoverPulse})`,
-                                        backgroundColor: `rgba(237, 1, 124, ${0.12 * cardHoverPulse})`,
-                                        opacity: cardHoverPulse,
+                                        inset: 0,
+                                        width: '100%',
+                                        height: '100%',
+                                        opacity: interpolate(screenWakeUp, [0, 0.4], [1, 0], {
+                                            extrapolateLeft: 'clamp',
+                                            extrapolateRight: 'clamp',
+                                        }),
                                         pointerEvents: 'none',
                                     }}
-                                />
-                            </div>
-
-                            {/* CON TRỎ CHUỘT TƯƠNG TÁC */}
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    top: cursorY,
-                                    left: cursorX,
-                                    zIndex: 40,
-                                    opacity: cursorOpacity,
-                                    transform: `scale(${cursorClick})`,
-                                    pointerEvents: 'none',
-                                    filter: 'drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5))',
-                                }}
-                            >
-                                <MousePointer2
-                                    size={Math.max(16, 28 * s)}
-                                    color="#0f172a"
-                                    fill="#ffffff"
-                                    strokeWidth={1.8}
-                                />
-                                {cardHoverPulse > 0 && (
-                                    <div
+                                >
+                                    <Img
+                                        src={staticFile('assets/macbook_open/topbaohiem_wallpaper.png')}
+                                        alt="TopBaoHiem Light Studio Wallpaper"
                                         style={{
-                                            position: 'absolute',
-                                            top: 0,
-                                            left: 0,
-                                            width: 32 * s,
-                                            height: 32 * s,
-                                            borderRadius: '50%',
-                                            border: `${2 * s}px solid #e11d48`,
-                                            transform: `scale(${1 + cardHoverPulse * 1.5})`,
-                                            opacity: 1 - cardHoverPulse,
-                                            pointerEvents: 'none',
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
                                         }}
                                     />
-                                )}
-                            </div>
-
-                            {/* Dải Ánh Sáng Specular Glare quét qua mặt kính Retina */}
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    inset: 0,
-                                    background: `linear-gradient(115deg, transparent ${glareX - 40}%, rgba(255, 255, 255, 0.12) ${glareX}%, transparent ${glareX + 40}%)`,
-                                    pointerEvents: 'none',
-                                    zIndex: 35,
-                                }}
-                            />
-
-                            {/* CỤM NÚT HỖ TRỢ & GIỎ HÀNG CỐ ĐỊNH */}
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    bottom: Math.round(screen90H * 0.08),
-                                    right: Math.round(screen90W * 0.06),
-                                    zIndex: 38,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    gap: Math.round(widgetBtnSize * 0.24),
-                                    pointerEvents: 'none',
-                                }}
-                            >
-                                {/* Nút Giỏ Hàng */}
-                                <div
-                                    style={{
-                                        position: 'relative',
-                                        width: widgetBtnSize,
-                                        height: widgetBtnSize,
-                                        borderRadius: '50%',
-                                        background: '#effcf3',
-                                        boxShadow:
-                                            '0 4px 14px rgba(46, 162, 56, 0.25), 0 2px 6px rgba(0, 0, 0, 0.12)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                    }}
-                                >
-                                    <svg
-                                        width={Math.round(widgetBtnSize * 0.52)}
-                                        height={Math.round(widgetBtnSize * 0.52)}
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                    >
-                                        <path
-                                            d="M7 4L10 9M17 4L14 9"
-                                            stroke="#2ea238"
-                                            strokeWidth="2.2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                        <path
-                                            d="M4 9H20"
-                                            stroke="#2ea238"
-                                            strokeWidth="2.2"
-                                            strokeLinecap="round"
-                                        />
-                                        <path
-                                            d="M5.5 10L6.8 19C6.9 19.6 7.4 20 8 20H16C16.6 20 17.1 19.6 17.2 19L18.5 10"
-                                            fill="#2ea238"
-                                            stroke="#2ea238"
-                                            strokeWidth="1.5"
-                                            strokeLinejoin="round"
-                                        />
-                                        <line
-                                            x1="9.5"
-                                            y1="12"
-                                            x2="9.5"
-                                            y2="17"
-                                            stroke="#effcf3"
-                                            strokeWidth="1.8"
-                                            strokeLinecap="round"
-                                        />
-                                        <line
-                                            x1="12"
-                                            y1="12"
-                                            x2="12"
-                                            y2="17"
-                                            stroke="#effcf3"
-                                            strokeWidth="1.8"
-                                            strokeLinecap="round"
-                                        />
-                                        <line
-                                            x1="14.5"
-                                            y1="12"
-                                            x2="14.5"
-                                            y2="17"
-                                            stroke="#effcf3"
-                                            strokeWidth="1.8"
-                                            strokeLinecap="round"
-                                        />
-                                    </svg>
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            top: -Math.round(widgetBtnSize * 0.05),
-                                            right: -Math.round(widgetBtnSize * 0.05),
-                                            width: Math.round(widgetBtnSize * 0.38),
-                                            height: Math.round(widgetBtnSize * 0.38),
-                                            borderRadius: '50%',
-                                            background: '#286b2f',
-                                            color: '#ffffff',
-                                            fontFamily: 'var(--font-mono)',
-                                            fontSize: Math.round(widgetBtnSize * 0.22),
-                                            fontWeight: 700,
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-                                            border: '1.5px solid #ffffff',
-                                        }}
-                                    >
-                                        2
-                                    </div>
                                 </div>
 
-                                {/* Nút Hỗ Trợ Chat */}
+                                {/* 1.2 ẢNH FULL PAGE TRANG CHỦ TOPBAOHIEM (2910 x 10188 px) - MỞ BỪNG RA */}
                                 <div
                                     style={{
-                                        position: 'relative',
-                                        width: widgetBtnSize,
-                                        height: widgetBtnSize,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        width: '100%',
+                                        opacity: screenWakeUp,
+                                        transform: `translateY(${scrollY}px)`,
+                                        willChange: 'transform',
                                     }}
                                 >
+                                    <Img
+                                        src={staticFile('assets/trangchu/fullsize-trangchu.png')}
+                                        alt="TopBaoHiem Full Trang Chủ"
+                                        style={{
+                                            width: '100%',
+                                            height: 'auto',
+                                            display: 'block',
+                                        }}
+                                    />
+
+                                    {/* Hiệu ứng Highlight Pulse lên thẻ Sức khoẻ khi chuột click */}
                                     <div
                                         style={{
                                             position: 'absolute',
-                                            width: Math.round(widgetBtnSize * 1.55),
-                                            height: Math.round(widgetBtnSize * 1.55),
-                                            borderRadius: '50%',
-                                            background: 'rgba(237, 1, 124, 0.15)',
-                                            transform: `scale(${1 + Math.sin((frame / 20) * Math.PI) * 0.08})`,
+                                            top: Math.round((900 / 2910) * screen90W),
+                                            left: `${(490 / 2910) * 100}%`,
+                                            width: `${(610 / 2910) * 100}%`,
+                                            height: Math.round((540 / 2910) * screen90W),
+                                            borderRadius: 20 * s,
+                                            border: `${3 * s}px solid #ed017c`,
+                                            boxShadow: `0 0 ${40 * cardHoverPulse}px rgba(237, 1, 124, ${0.75 * cardHoverPulse})`,
+                                            backgroundColor: `rgba(237, 1, 124, ${0.12 * cardHoverPulse})`,
+                                            opacity: cardHoverPulse,
                                             pointerEvents: 'none',
                                         }}
                                     />
+                                </div>
+
+                                {/* CON TRỎ CHUỘT TƯƠNG TÁC TRÊN MÀN HÌNH MACBOOK */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        top: cursorY,
+                                        left: cursorX,
+                                        zIndex: 40,
+                                        opacity: cursorOpacity,
+                                        transform: `scale(${cursorClick})`,
+                                        pointerEvents: 'none',
+                                        filter: 'drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4))',
+                                    }}
+                                >
+                                    <MousePointer2
+                                        size={Math.max(16, 28 * s)}
+                                        color="#0f172a"
+                                        fill="#ffffff"
+                                        strokeWidth={1.8}
+                                    />
+                                    {cardHoverPulse > 0 && (
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                top: 0,
+                                                left: 0,
+                                                width: 32 * s,
+                                                height: 32 * s,
+                                                borderRadius: '50%',
+                                                border: `${2 * s}px solid #e11d48`,
+                                                transform: `scale(${1 + cardHoverPulse * 1.5})`,
+                                                opacity: 1 - cardHoverPulse,
+                                                pointerEvents: 'none',
+                                            }}
+                                        />
+                                    )}
+                                </div>
+
+                                {/* Dải Ánh Sáng Specular Glare quét qua mặt kính Retina */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        inset: 0,
+                                        background: `linear-gradient(115deg, transparent ${glareX - 40}%, rgba(255, 255, 255, 0.15) ${glareX}%, transparent ${glareX + 40}%)`,
+                                        pointerEvents: 'none',
+                                        zIndex: 35,
+                                    }}
+                                />
+
+                                {/* CỤM NÚT HỖ TRỢ & GIỎ HÀNG CỐ ĐỊNH */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        bottom: Math.round(screen90H * 0.08),
+                                        right: Math.round(screen90W * 0.06),
+                                        zIndex: 38,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        gap: Math.round(widgetBtnSize * 0.24),
+                                        pointerEvents: 'none',
+                                        opacity: screenWakeUp,
+                                    }}
+                                >
+                                    {/* Nút Giỏ Hàng */}
                                     <div
                                         style={{
                                             position: 'relative',
                                             width: widgetBtnSize,
                                             height: widgetBtnSize,
                                             borderRadius: '50%',
-                                            background:
-                                                'linear-gradient(135deg, #f43f5e 0%, #e11d48 40%, #be123c 100%)',
-                                            boxShadow: '0 6px 18px rgba(225, 29, 72, 0.5)',
+                                            background: '#effcf3',
+                                            boxShadow:
+                                                '0 4px 14px rgba(46, 162, 56, 0.25), 0 2px 6px rgba(0, 0, 0, 0.12)',
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',
-                                            zIndex: 2,
                                         }}
                                     >
                                         <svg
@@ -1002,22 +982,137 @@ export const Scene1Hook: React.FC = () => {
                                             viewBox="0 0 24 24"
                                             fill="none"
                                         >
-                                            <rect x="3" y="5" width="18" height="14" rx="3.5" fill="#ffffff" />
                                             <path
-                                                d="M7 9.5L12 13.5L17 9.5"
-                                                stroke="#e11d48"
-                                                strokeWidth="2.4"
+                                                d="M7 4L10 9M17 4L14 9"
+                                                stroke="#2ea238"
+                                                strokeWidth="2.2"
                                                 strokeLinecap="round"
                                                 strokeLinejoin="round"
-                                                fill="none"
+                                            />
+                                            <path
+                                                d="M4 9H20"
+                                                stroke="#2ea238"
+                                                strokeWidth="2.2"
+                                                strokeLinecap="round"
+                                            />
+                                            <path
+                                                d="M5.5 10L6.8 19C6.9 19.6 7.4 20 8 20H16C16.6 20 17.1 19.6 17.2 19L18.5 10"
+                                                fill="#2ea238"
+                                                stroke="#2ea238"
+                                                strokeWidth="1.5"
+                                                strokeLinejoin="round"
+                                            />
+                                            <line
+                                                x1="9.5"
+                                                y1="12"
+                                                x2="9.5"
+                                                y2="17"
+                                                stroke="#effcf3"
+                                                strokeWidth="1.8"
+                                                strokeLinecap="round"
+                                            />
+                                            <line
+                                                x1="12"
+                                                y1="12"
+                                                x2="12"
+                                                y2="17"
+                                                stroke="#effcf3"
+                                                strokeWidth="1.8"
+                                                strokeLinecap="round"
+                                            />
+                                            <line
+                                                x1="14.5"
+                                                y1="12"
+                                                x2="14.5"
+                                                y2="17"
+                                                stroke="#effcf3"
+                                                strokeWidth="1.8"
+                                                strokeLinecap="round"
                                             />
                                         </svg>
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                top: -Math.round(widgetBtnSize * 0.05),
+                                                right: -Math.round(widgetBtnSize * 0.05),
+                                                width: Math.round(widgetBtnSize * 0.38),
+                                                height: Math.round(widgetBtnSize * 0.38),
+                                                borderRadius: '50%',
+                                                background: '#286b2f',
+                                                color: '#ffffff',
+                                                fontFamily: 'var(--font-mono)',
+                                                fontSize: Math.round(widgetBtnSize * 0.22),
+                                                fontWeight: 700,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                                                border: '1.5px solid #ffffff',
+                                            }}
+                                        >
+                                            2
+                                        </div>
+                                    </div>
+
+                                    {/* Nút Hỗ Trợ Chat */}
+                                    <div
+                                        style={{
+                                            position: 'relative',
+                                            width: widgetBtnSize,
+                                            height: widgetBtnSize,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                width: Math.round(widgetBtnSize * 1.55),
+                                                height: Math.round(widgetBtnSize * 1.55),
+                                                borderRadius: '50%',
+                                                background: 'rgba(237, 1, 124, 0.15)',
+                                                transform: `scale(${1 + Math.sin((frame / 20) * Math.PI) * 0.08})`,
+                                                pointerEvents: 'none',
+                                            }}
+                                        />
+                                        <div
+                                            style={{
+                                                position: 'relative',
+                                                width: widgetBtnSize,
+                                                height: widgetBtnSize,
+                                                borderRadius: '50%',
+                                                background:
+                                                    'linear-gradient(135deg, #f43f5e 0%, #e11d48 40%, #be123c 100%)',
+                                                boxShadow: '0 6px 18px rgba(225, 29, 72, 0.4)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                zIndex: 2,
+                                            }}
+                                        >
+                                            <svg
+                                                width={Math.round(widgetBtnSize * 0.52)}
+                                                height={Math.round(widgetBtnSize * 0.52)}
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                            >
+                                                <rect x="3" y="5" width="18" height="14" rx="3.5" fill="#ffffff" />
+                                                <path
+                                                    d="M7 9.5L12 13.5L17 9.5"
+                                                    stroke="#e11d48"
+                                                    strokeWidth="2.4"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    fill="none"
+                                                />
+                                            </svg>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        {/* 2. LỚP TRÊN: KHUNG VỎ MACBOOK PRO 90 ĐỘ CHÍNH HÃNG APPLE (ĐÃ ĐỤC RỖNG MÀN HÌNH) */}
+                            {/* 2. LỚP TRÊN: KHUNG VỎ MACBOOK PRO 90 ĐỘ CHÍNH HÃNG APPLE (ĐÃ ĐỤC RỖNG MÀN HÌNH) */}
                             <Img
                                 src={staticFile('assets/macbook_open/macbook_front_90_transparent.png')}
                                 alt="MacBook Pro 90 Degree Front"
@@ -1062,8 +1157,8 @@ export const Scene1Hook: React.FC = () => {
                                 height: Math.round(phoneH * 0.08),
                                 borderRadius: '50%',
                                 background:
-                                    'radial-gradient(ellipse at center, rgba(15, 23, 42, 0.45) 0%, rgba(15, 23, 42, 0.12) 50%, transparent 75%)',
-                                filter: 'blur(16px)',
+                                    'radial-gradient(ellipse at center, rgba(15, 23, 42, 0.25) 0%, rgba(15, 23, 42, 0.06) 50%, transparent 75%)',
+                                filter: 'blur(14px)',
                                 transform: 'rotateX(85deg) translateY(18px)',
                                 pointerEvents: 'none',
                             }}
@@ -1077,9 +1172,9 @@ export const Scene1Hook: React.FC = () => {
                                 height: '100%',
                                 borderRadius: Math.round(phoneW * 0.12),
                                 padding: `${Math.round(phoneW * 0.024)}px`,
-                                background: 'linear-gradient(145deg, #475569 0%, #1e293b 40%, #0f172a 100%)',
-                                border: `${Math.max(2, 3 * s)}px solid #64748b`,
-                                boxShadow: '0 25px 70px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.2) inset',
+                                background: 'linear-gradient(145deg, #cbd5e1 0%, #94a3b8 40%, #64748b 100%)',
+                                border: `${Math.max(2, 3 * s)}px solid #94a3b8`,
+                                boxShadow: '0 20px 60px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.6) inset',
                                 display: 'flex',
                                 flexDirection: 'column',
                                 boxSizing: 'border-box',
@@ -1094,7 +1189,7 @@ export const Scene1Hook: React.FC = () => {
                                     borderRadius: Math.round(phoneW * 0.095),
                                     background: '#ffffff',
                                     overflow: 'hidden',
-                                    boxShadow: '0 0 0 2px #050608 inset',
+                                    boxShadow: '0 0 0 2px #0f172a inset',
                                     display: 'flex',
                                     flexDirection: 'column',
                                     alignItems: 'center',
@@ -1114,7 +1209,7 @@ export const Scene1Hook: React.FC = () => {
                                         alignItems: 'center',
                                         justifyContent: 'flex-end',
                                         paddingRight: 8 * s,
-                                        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.6)',
+                                        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)',
                                     }}
                                 >
                                     <div
@@ -1175,8 +1270,9 @@ export const Scene1Hook: React.FC = () => {
                     </div>
                 </div>
             </div>
+
             {/* ========================================================= */}
-            {/* 3. FOOTER PROGRESS BAR: THEO DÕI ĐỘ SÂU TRANG WEB         */}
+            {/* 5. FOOTER PROGRESS BAR: THEO DÕI ĐỘ SÂU TRANG WEB         */}
             {/* ========================================================= */}
             <div
                 style={{
@@ -1188,7 +1284,7 @@ export const Scene1Hook: React.FC = () => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     zIndex: 30,
-                    opacity: interpolate(frame, [30, 80], [0, 1], {
+                    opacity: interpolate(frame, [315, 345], [0, 1], {
                         extrapolateLeft: 'clamp',
                         extrapolateRight: 'clamp',
                     }),
@@ -1208,7 +1304,7 @@ export const Scene1Hook: React.FC = () => {
                         style={{
                             fontFamily: 'var(--font-mono)',
                             fontSize: Math.max(11, 16 * s),
-                            color: '#94a3b8',
+                            color: '#64748b',
                             fontWeight: 700,
                         }}
                     >
@@ -1229,8 +1325,8 @@ export const Scene1Hook: React.FC = () => {
                             style={{
                                 width: `${interpolate(-scrollY, [0, maxScroll], [10, 100], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })}%`,
                                 height: '100%',
-                                background: 'linear-gradient(90deg, #e11d48, #0284c7)',
-                                boxShadow: '0 0 10px rgba(225, 29, 72, 0.5)',
+                                background: 'linear-gradient(90deg, #ed017c, #0284c7)',
+                                boxShadow: '0 0 10px rgba(237, 1, 124, 0.4)',
                             }}
                         />
                     </div>
@@ -1238,7 +1334,7 @@ export const Scene1Hook: React.FC = () => {
                         style={{
                             fontFamily: 'var(--font-mono)',
                             fontSize: Math.max(11, 16 * s),
-                            color: '#ffffff',
+                            color: '#0f172a',
                             fontWeight: 700,
                         }}
                     >
@@ -1257,7 +1353,7 @@ export const Scene1Hook: React.FC = () => {
                     style={{
                         fontFamily: 'var(--font-primary)',
                         fontSize: Math.max(12, 17 * s),
-                        color: '#94a3b8',
+                        color: '#64748b',
                         fontWeight: 600,
                     }}
                 >

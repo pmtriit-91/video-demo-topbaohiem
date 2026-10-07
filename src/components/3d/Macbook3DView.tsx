@@ -145,7 +145,7 @@ export const Macbook3DView: React.FC<Macbook3DViewProps> = ({
         // cameraProgress = 1: model.position.x = 0.0000 (trở về chính tâm màn hình eye-level)
         const loadedModel = sceneRef.current.children.find((c) => c.type === 'Group');
         if (loadedModel) {
-            loadedModel.position.x = THREE.MathUtils.lerp(0.0395, 0.000, cameraProgress);
+            loadedModel.position.x = 0;
         }
 
         // Camera fov và khoảng cách:

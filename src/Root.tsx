@@ -37,11 +37,11 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
 
-      {/* Composition Test 3D MacBook mở 45 -> 90 độ */}
+      {/* Composition Test 3D MacBook mở 0 -> 90 độ */}
       <Composition
         id="TestMacbook3D"
         component={TestMacbookComp}
-        durationInFrames={60}
+        durationInFrames={110}
         fps={60}
         width={3456}
         height={1824}
