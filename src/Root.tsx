@@ -2,6 +2,7 @@ import React from "react";
 import { Composition } from "remotion";
 import { MainVideo } from "./MainVideo";
 import { VIDEO_CONFIG } from "./config/videoConfig";
+import { TestMacbookComp } from "./components/3d/TestMacbookComp";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -34,6 +35,16 @@ export const RemotionRoot: React.FC = () => {
         fps={VIDEO_CONFIG.fps}
         width={1920}
         height={1080}
+      />
+
+      {/* Composition Test 3D MacBook mở 45 -> 90 độ */}
+      <Composition
+        id="TestMacbook3D"
+        component={TestMacbookComp}
+        durationInFrames={33}
+        fps={60}
+        width={3456}
+        height={1824}
       />
     </>
   );
