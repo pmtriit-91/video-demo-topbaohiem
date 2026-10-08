@@ -801,7 +801,7 @@ export const Scene1Hook: React.FC = () => {
                                 {/* 1.1 MÀN HÌNH CHỜ MACOS DYNAMIC LIGHT & PLAYFUL KINETIC LOGO */}
                                 <MacbookStandbyScreen
                                     frame={frame}
-                                    startFrame={385}
+                                    startFrame={openStartFrame + 109}
                                     wakeProgress={screenWakeUp}
                                     screenW={screen90W}
                                     screenH={screen90H}
