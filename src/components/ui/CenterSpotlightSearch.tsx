@@ -15,8 +15,8 @@ export const CenterSpotlightSearch: React.FC<CenterSpotlightSearchProps> = ({ fr
     const is4K = width >= 3840;
     const s = is4K ? 1 : width / 3840;
 
-    // Component chỉ hiển thị trong giai đoạn đầu (Frame 0 -> 278, đã tăng thêm 1s)
-    if (frame < 5 || frame > 278) return null;
+    // Component chỉ hiển thị trong giai đoạn đầu (Frame 0 -> 470)
+    if (frame < 5 || frame > 470) return null;
 
     // 1. TIMELINE PHÂN BỔ:
     // Frame 10 -> 26: Ô Search xuất hiện từ trung tâm (Spring phóng êm)
@@ -36,7 +36,7 @@ export const CenterSpotlightSearch: React.FC<CenterSpotlightSearchProps> = ({ fr
     const typedText = fullDomain.slice(0, currentTypedLength);
 
     // Con trỏ nhấp nháy khi gõ
-    const showCaret = frame >= 24 && frame < 156 && Math.floor(frame / 12) % 2 === 0;
+    const showCaret = frame >= 24 && frame < 430 && Math.floor(frame / 12) % 2 === 0;
 
     // NỘI DUNG DROPDOWN CHỈ HIỂN THỊ KHI BẮT ĐẦU GÕ XONG CHỮ TOP...
     // Hiệu ứng xổ xuống mướt mà, rõ ràng với duration đầy đủ (Frame 63 -> 105 ~ 42 frames, 0.7s)
@@ -71,42 +71,88 @@ export const CenterSpotlightSearch: React.FC<CenterSpotlightSearchProps> = ({ fr
         extrapolateRight: 'clamp',
     });
 
-    // Frame 125 -> 154: Con trỏ chuột macOS lướt từ góc dưới phải vào nút "Truy cập ↵"
-    const mouseEntrance = interpolate(frame, [125, 154], [0, 1], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-    });
-
-    // Frame 156 -> 166: Chuột click nút Enter (co nhẹ + kích hoạt trạng thái Enter)
-    const isEnterPressed = frame >= 156;
-    const clickScale = interpolate(frame, [156, 160, 166], [1, 0.88, 1], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-    });
-
-    // CHẬM LẠI NHỊP KHI BẤM TRUY CẬP (TĂNG THÊM 1 GIÂY):
-    // Giữ nguyên trạng thái active từ frame 156 -> 258 (hơn 100 frames ~ 1.7s) để người xem kịp đọc trọn vẹn Dropdown.
-    // Frame 258 -> 276: Spotlight Search phóng to nhẹ và tan biến (Zoom-in & Fade out) hoàn toàn
-    const exitProgress = interpolate(frame, [258, 276], [0, 1], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-        easing: Easing.bezier(0.4, 0, 0.2, 1),
-    });
-    const overallOpacity = interpolate(exitProgress, [0, 1], [1, 0]);
-    const overallScale = interpolate(exitProgress, [0, 1], [1, 1.06]);
-
     // Kích thước chuẩn ô Search to bản chính giữa màn hình (To, bề thế, dễ đọc)
     const searchWidth = Math.min(width * 0.76, Math.round(2360 * s));
     const searchHeight = Math.round(140 * s);
     const enterBtnWidth = Math.round(320 * s);
 
-    // Tọa độ con trỏ chuột lướt vào nút Enter
-    const cursorStartX = Math.round(220 * s);
-    const cursorStartY = Math.round(260 * s);
-    const cursorCurrentX = interpolate(mouseEntrance, [0, 1], [cursorStartX, 0]);
-    const cursorCurrentY = interpolate(mouseEntrance, [0, 1], [cursorStartY, 0]);
-    const cursorOpacity = interpolate(frame, [122, 130, 258, 268], [0, 1, 1, 0], {
+    // =========================================================================
+    // 2. TIMELINE CHUYỂN ĐỘNG CON TRỎ CHUỘT & VÒNG TRÒN DẪN MẮT (FOCUS HALO)
+    // =========================================================================
+    // Tọa độ mục tiêu:
+    // - Tâm nút "Truy cập":
+    const targetEnterX = searchWidth - Math.round(30 * s) - Math.round(enterBtnWidth / 2);
+    const targetEnterY = Math.round(140 * s);
+
+    // - Tọa độ Card Dropdown (dòng nội dung TopBaoHiem và các Badge):
+    const sweepStartX = Math.round(140 * s);
+    const sweepEndX = searchWidth - Math.round(140 * s);
+    const sweepY = Math.round(346 * s);
+
+    // Quỹ đạo di chuyển chậm rãi, thư thả của con trỏ chuột
+    let cursorCurrentX: number;
+    let cursorCurrentY: number;
+
+    if (frame < 340) {
+        // Quét RẤT CHẬM RÃI từ TRÁI sang PHẢI (Frame 120 -> 340 ~ 3.67s) để dẫn mắt người xem đọc từng nội dung
+        const sweepProgress = interpolate(frame, [120, 340], [0, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+            easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+        });
+        cursorCurrentX = interpolate(sweepProgress, [0, 1], [sweepStartX, sweepEndX]);
+        cursorCurrentY = sweepY + Math.sin(sweepProgress * Math.PI) * (4 * s);
+    } else if (frame < 360) {
+        // Dừng nghỉ tự nhiên cuối dòng (Frame 340 -> 360)
+        cursorCurrentX = sweepEndX;
+        cursorCurrentY = sweepY;
+    } else if (frame < 415) {
+        // Lướt chéo từ tốn lên tâm nút "Truy cập" (Frame 360 -> 415 ~ 0.9s)
+        const toBtnProgress = interpolate(frame, [360, 415], [0, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+            easing: Easing.bezier(0.2, 0.8, 0.2, 1),
+        });
+        cursorCurrentX = interpolate(toBtnProgress, [0, 1], [sweepEndX, targetEnterX]);
+        cursorCurrentY = interpolate(toBtnProgress, [0, 1], [sweepY, targetEnterY]);
+    } else {
+        // Định vị vững chắc tại tâm nút "Truy cập"
+        cursorCurrentX = targetEnterX;
+        cursorCurrentY = targetEnterY;
+    }
+
+    // Pha Click nút Enter / Truy cập tại frame 430
+    const isEnterPressed = frame >= 430;
+    const isEnterHovered = frame >= 415 && frame < 430;
+    const isCardHovered = frame >= 120 && frame <= 360;
+
+    const clickScale = interpolate(frame, [430, 434, 440], [1, 0.88, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const cursorClickScale = interpolate(frame, [430, 434, 440], [1, 0.84, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+
+    // Sóng xung kích Click Ripple Wave (Frame 430 -> 455)
+    const rippleProgress = interpolate(frame, [430, 455], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const rippleScale = interpolate(rippleProgress, [0, 1], [0.8, 2.4]);
+    const rippleOpacity = interpolate(rippleProgress, [0, 0.15, 1], [0, 0.85, 0]);
+
+    // Ngay sau khi click, ô Search phóng to nhẹ và tan biến (Frame 438 -> 465)
+    const exitProgress = interpolate(frame, [438, 465], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.4, 0, 0.2, 1),
+    });
+    const overallOpacity = interpolate(exitProgress, [0, 1], [1, 0]);
+    const overallScale = interpolate(exitProgress, [0, 1], [1, 1.05]);
+
+    const cursorOpacity = interpolate(frame, [110, 120, 442, 465], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -316,7 +362,11 @@ export const CenterSpotlightSearch: React.FC<CenterSpotlightSearchProps> = ({ fr
                             background: isEnterPressed
                                 ? 'linear-gradient(135deg, #e11d48 0%, #be123c 100%)'
                                 : 'linear-gradient(135deg, #ed017c 0%, #db2777 100%)',
-                            boxShadow: '0 12px 28px rgba(237, 1, 124, 0.35)',
+                            boxShadow: isEnterPressed
+                                ? '0 8px 20px rgba(237, 1, 124, 0.6), 0 0 25px rgba(237, 1, 124, 0.4)'
+                                : isEnterHovered
+                                  ? '0 16px 36px rgba(237, 1, 124, 0.5), 0 0 20px rgba(237, 1, 124, 0.3)'
+                                  : '0 12px 28px rgba(237, 1, 124, 0.35)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -327,33 +377,11 @@ export const CenterSpotlightSearch: React.FC<CenterSpotlightSearchProps> = ({ fr
                             fontWeight: 700,
                             letterSpacing: '0.02em',
                             transform: `scale(${clickScale})`,
-                            transition: 'transform 0.1s ease',
+                            transition: 'transform 0.1s ease, box-shadow 0.15s ease',
                         }}
                     >
                         <span>Truy cập</span>
                         <CornerDownLeft size={Math.round(26 * s)} strokeWidth={2.4} />
-
-                        {/* CON TRỎ CHUỘT MACOS LƯỚT VÀO VÀ CLICK NÚT NÀY */}
-                        {cursorOpacity > 0.01 && (
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    right: Math.round(40 * s) + cursorCurrentX,
-                                    bottom: Math.round(10 * s) - cursorCurrentY,
-                                    zIndex: 100,
-                                    opacity: cursorOpacity,
-                                    transform: `scale(${interpolate(clickScale, [0.88, 1], [0.9, 1])})`,
-                                    filter: 'drop-shadow(0 6px 14px rgba(0, 0, 0, 0.4))',
-                                }}
-                            >
-                                <MousePointer2
-                                    size={Math.max(32, 54 * s)}
-                                    color="#0f172a"
-                                    fill="#ffffff"
-                                    strokeWidth={2}
-                                />
-                            </div>
-                        )}
                     </div>
                 </div>
 
@@ -415,10 +443,16 @@ export const CenterSpotlightSearch: React.FC<CenterSpotlightSearchProps> = ({ fr
                                 gap: Math.round(24 * s),
                                 padding: `${Math.round(20 * s)}px ${Math.round(24 * s)}px`,
                                 borderRadius: Math.round(20 * s),
-                                background: 'rgba(248, 250, 252, 0.9)',
-                                border: `${Math.max(1, Math.round(1.5 * s))}px solid rgba(226, 232, 240, 0.7)`,
+                                background: isCardHovered ? 'rgba(255, 255, 255, 0.98)' : 'rgba(248, 250, 252, 0.9)',
+                                border: isCardHovered
+                                    ? `${Math.max(1, Math.round(1.5 * s))}px solid rgba(237, 1, 124, 0.45)`
+                                    : `${Math.max(1, Math.round(1.5 * s))}px solid rgba(226, 232, 240, 0.7)`,
+                                boxShadow: isCardHovered
+                                    ? `0 ${Math.round(10 * s)}px ${Math.round(30 * s)}px rgba(237, 1, 124, 0.1)`
+                                    : 'none',
                                 opacity: innerCardOpacity,
                                 transform: `translateY(${innerCardY}px)`,
+                                transition: 'background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease',
                             }}
                         >
                             {/* Icon khiên TopBaoHiem */}
@@ -537,6 +571,72 @@ export const CenterSpotlightSearch: React.FC<CenterSpotlightSearchProps> = ({ fr
                             >
                                 <ArrowRight size={Math.round(24 * s)} strokeWidth={2.4} />
                             </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* 4. CON TRỎ CHUỘT & VÒNG TRÒN DẪN MẮT (DEMO FOCUS HALO & RIPPLE) */}
+                {cursorOpacity > 0.005 && (
+                    <div
+                        id="demo-cursor-pointer"
+                        style={{
+                            position: 'absolute',
+                            left: cursorCurrentX,
+                            top: cursorCurrentY,
+                            zIndex: 200,
+                            pointerEvents: 'none',
+                            opacity: cursorOpacity,
+                        }}
+                    >
+                        {/* VÒNG TRÒN FOCUS HALO (Bọc quanh mũi trỏ chuột, phát sáng theo nhận diện TopBaoHiem) */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: -Math.round(48 * s),
+                                top: -Math.round(48 * s),
+                                width: Math.round(96 * s),
+                                height: Math.round(96 * s),
+                                borderRadius: '50%',
+                                background:
+                                    'radial-gradient(circle, rgba(237, 1, 124, 0.22) 0%, rgba(237, 1, 124, 0.08) 60%, rgba(237, 1, 124, 0) 100%)',
+                                border: `${Math.max(1.5, Math.round(2 * s))}px solid rgba(237, 1, 124, 0.65)`,
+                                boxShadow: `0 0 ${Math.round(22 * s)}px rgba(237, 1, 124, 0.4), inset 0 0 ${Math.round(14 * s)}px rgba(237, 1, 124, 0.2)`,
+                                transform: `scale(${1 + Math.sin(frame * 0.18) * 0.04})`,
+                            }}
+                        />
+
+                        {/* SÓNG XUNG KÍCH RIPPLE KHI CLICK NÚT TRUY CẬP */}
+                        {frame >= 430 && rippleOpacity > 0.01 && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    left: -Math.round(48 * s),
+                                    top: -Math.round(48 * s),
+                                    width: Math.round(96 * s),
+                                    height: Math.round(96 * s),
+                                    borderRadius: '50%',
+                                    border: `${Math.max(2, Math.round(2.5 * s))}px solid #ed017c`,
+                                    boxShadow: `0 0 ${Math.round(25 * s)}px #ed017c`,
+                                    opacity: rippleOpacity,
+                                    transform: `scale(${rippleScale})`,
+                                }}
+                            />
+                        )}
+
+                        {/* ICON CON TRỎ CHUỘT MACOS (Mũi nhọn đặt ngay tâm vòng tròn) */}
+                        <div
+                            style={{
+                                transform: `scale(${cursorClickScale})`,
+                                filter: 'drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35))',
+                                transformOrigin: 'top left',
+                            }}
+                        >
+                            <MousePointer2
+                                size={Math.max(34, 54 * s)}
+                                color="#0f172a"
+                                fill="#ffffff"
+                                strokeWidth={2.2}
+                            />
                         </div>
                     </div>
                 )}

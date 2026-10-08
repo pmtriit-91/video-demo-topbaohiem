@@ -4,11 +4,21 @@
 
 ---
 
-## 1. QUY TẮC LÀM VIỆC & QUẢN LÝ MÃ NGUỒN (GIT RULES)
+## 1. QUY TẮC LÀM VIỆC & VẬN HÀNH DỰ ÁN CHO AGENT
 
+### A. Quản Lý Mã Nguồn (Git Rules)
 1. **Chỉ commit khi có yêu cầu**: Tuyệt đối không tự ý commit code trừ khi người dùng ra lệnh trực tiếp.
 2. **Bảo vệ Staged Changes**: Tuyệt đối không đụng vào, không sửa đổi hay xóa các thay đổi đang nằm trong `staged changes` (người dùng đã staged có chủ đích).
-3. **Thực thi commit tức thì**: Khi người dùng yêu cầu commit, thực hiện commit ngay lập tức, không kiểm tra rườm rà.
+3. **Thực thi commit tức thì**: Khi người dùng yêu cầu commit, thực hiện commit ngay lập tức, dứt khoát, không kiểm tra rườm rà.
+
+### B. Nắm Bắt Task & Giữ Đúng Trọng Điểm (Laser Focus)
+4. **Đúng vị trí & chỉ điểm**: Nắm bắt đúng task đang làm, vị trí file hoặc mô tả mà người dùng chỉ điểm để fix, tạo mới, hoặc refactor ngay tại chỗ được chỉ định.
+5. **Tuyệt đối không làm lan man**: Không tự ý sửa ngoài phạm vi yêu cầu để tránh gây rối task, tránh xung đột code, tập trung giải quyết dứt điểm trọng điểm.
+
+### C. Quy Trình Phối Hợp & Kiểm Thử Giao Diện (Workflow & Testing)
+6. **Phân tích trước - Code nhanh sau**: Khi nhận task, tập trung trao đổi và phân tích logic cùng người dùng trước; sau khi phương án đã rõ ràng thì tập trung code nhanh nhất có thể.
+7. **Không tự ý test UI**: Tuyệt đối không tự ý chạy test UI/preview tự động (browser subagent, devtools...) để tránh mất thời gian. **Chỉ khi nào người dùng có yêu cầu trực tiếp thì Agent mới được phép test UI**. Mặc định người dùng sẽ trực tiếp test UI trên màn hình thực tế và report lại chính xác điểm lỗi để Agent sửa ngay.
+8. **Tinh thần cộng tác linh hoạt (Agile & Iterative)**: Kịch bản và visual trong Scene 1 (và các scene tiếp theo) đang trong quá trình vừa làm vừa tinh chỉnh, sáng tạo; Agent cần phối hợp nhịp nhàng, thích ứng nhanh với các thay đổi theo định hướng của người dùng.
 
 ---
 
@@ -18,7 +28,7 @@
     1. **Frontend (`https://topbaohiem.vn/`)**: Cổng bán bảo hiểm trực tuyến cho người dùng cuối (B2C).
     2. **Backend CMS (`https://cms.topbaohiem.vn/` - cms.topbaohiem)**: Hệ thống quản trị, điều hành, tự động hóa cấp đơn và mạng lưới đại lý (B2B/ERP).
 - **Mục đích cốt lõi của video**: **BÁN TOÀN BỘ HỆ THỐNG BẢO HIỂM NÀY CHO NHÀ ĐẦU TƯ / DOANH NGHIỆP MUỐN SỞ HỮU NỀN TẢNG (Turnkey InsurTech Solution)**, đồng thời phô diễn sự mượt mà cho khách mua lẻ.
-- **Thời lượng mục tiêu**: Ngắn gọn, súc tích trong khoảng **45s – 60s (tối đa 75s)**. Không làm tutorial dài dòng mà tập trung đánh mạnh vào thị giác, quy mô đồ sộ và cỗ máy tự động hóa.
+- **Thời lượng & Kịch bản**: **Không giới hạn thời gian (Open Duration)** để dồn toàn lực vào chất lượng visual, hiệu ứng thị giác và chiều sâu nội dung. Kịch bản linh hoạt biến đổi theo thực tế sáng tạo, việc cô đọng/cắt gọt thời lượng sẽ xử lý ở giai đoạn hoàn thiện sau cùng.
 
 ---
 
@@ -83,10 +93,16 @@ Tọa lạc tại thư mục: `/Users/phamminhtri/Desktop/train/crawl4ai/output/
 
 ---
 
-## 6. KHUNG KỊCH BẢN ĐÃ THỐNG NHẤT (60 GIÂY - INVESTOR PITCH)
+## 6. ĐỊNH HƯỚNG KỊCH BẢN & CHIẾN LƯỢC SẢN XUẤT NỘI DUNG (OPEN DURATION & EVOLVING SCRIPT)
 
-- **[00:00 - 00:08] HOOK**: Cơ hội InsurTech nghìn tỷ, xuất hiện logo 3D TopBaoHiem & InsureGO.
-- **[00:08 - 00:25] TẦNG 1 (FRONTEND)**: Trải nghiệm người dùng 1-chạm (AI OCR quét Cà vẹt 2s -> Ma trận so sánh đa hãng -> Cấp chứng nhận điện tử QR code). Các component bay ra xếp lớp 3D lơ lửng.
-- **[00:25 - 00:45] TẦNG 2 (CMS DEEP DIVE)**: Cú gập origami lật sang Dark Mode CMS. Doanh thu nhảy số thời gian thực, tự động hóa xử lý 130+ hợp đồng, thẩm định bồi thường online, định giá xe tự động.
-- **[00:45 - 00:55] TẦNG 3 (SCALE ENGINE)**: Mạng lưới 75+ CTV Affiliate tự động chia hoa hồng, kết nối API các tập đoàn bảo hiểm lớn nhất.
-- **[00:55 - 01:00] OUTRO**: Khẳng định giải pháp Chìa khóa trao tay (Turnkey Solution), kêu gọi đầu tư / sở hữu hệ thống.
+> [!IMPORTANT]
+> - **Bỏ giới hạn thời gian (No Time Limit)**: Tập trung hoàn toàn vào việc dựng nội dung visual đỉnh cao, hiệu ứng mượt mà và câu chuyện sản phẩm sắc bén. Thời gian dài hay ngắn không quan trọng ở giai đoạn này, sẽ tinh chỉnh sau.
+> - **Kịch bản động (Evolving & Agile)**: Không có kịch bản nào là cố định 100%. Kịch bản thay đổi và nâng cấp liên tục tùy theo cảm hứng, thử nghiệm và đóng góp sáng tạo qua từng phiên làm việc.
+
+- **Khung các phân cảnh tham khảo (Modular Scenes - Cập nhật linh hoạt theo thực tế)**:
+    - **Scene 1 (Đang triển khai & hoàn thiện)**: Hook & Visual Opening, tương tác thiết bị (Macbook Standby Screen, bàn phím, chuyển cảnh màn hình, nhận diện thương hiệu).
+    - **Các Scene tiếp theo (Dự kiến mở rộng)**:
+        - Trải nghiệm Frontend 1-chạm (AI OCR quét Cà vẹt, ma trận so sánh đa hãng, cấp GCN điện tử QR code).
+        - Khám phá cỗ máy CMS Dark Mode (Doanh thu nhảy số thời gian thực, tự động hóa duyệt đơn & bồi thường).
+        - Scale Engine (Mạng lưới CTV Affiliate, API kết nối các hãng bảo hiểm lớn).
+        - Outro / Kêu gọi đầu tư sở hữu nền tảng trọn gói (Turnkey InsurTech).
