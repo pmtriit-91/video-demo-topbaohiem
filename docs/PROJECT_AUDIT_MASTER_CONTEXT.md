@@ -9,7 +9,7 @@
 ### A. Quản Lý Mã Nguồn (Git Rules)
 1. **Chỉ commit khi có yêu cầu**: Tuyệt đối không tự ý commit code trừ khi người dùng ra lệnh trực tiếp.
 2. **Bảo vệ Staged Changes**: Tuyệt đối không đụng vào, không sửa đổi hay xóa các thay đổi đang nằm trong `staged changes` (người dùng đã staged có chủ đích).
-3. **Thực thi commit tức thì**: Khi người dùng yêu cầu commit, thực hiện commit ngay lập tức, dứt khoát, không kiểm tra rườm rà.
+3. **Thực thi commit & push tức thì**: Khi người dùng yêu cầu commit, thực hiện commit và push (`git push`) ngay lập tức, dứt khoát, không kiểm tra rườm rà.
 
 ### B. Nắm Bắt Task & Giữ Đúng Trọng Điểm (Laser Focus)
 4. **Đúng vị trí & chỉ điểm**: Nắm bắt đúng task đang làm, vị trí file hoặc mô tả mà người dùng chỉ điểm để fix, tạo mới, hoặc refactor ngay tại chỗ được chỉ định.
