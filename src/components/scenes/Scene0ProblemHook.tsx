@@ -1,7 +1,12 @@
 import React from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig, Easing, Img, staticFile } from 'remotion';
 import { LucideIcon, ShieldAlert, FileText, Clock, AlertTriangle, HelpCircle, Sparkles, Lightbulb } from 'lucide-react';
-import { AlarmClockComicSticker, MagnifyingComicSticker, ContractComicSticker, WarningSweatComicSticker } from '../ui/ComicStickers';
+import {
+    AlarmClockComicSticker,
+    MagnifyingComicSticker,
+    ContractComicSticker,
+    WarningSweatComicSticker,
+} from '../ui/ComicStickers';
 
 // =========================================================================
 // CẤU HÌNH 4 CÂU HỎI NỖI ĐAU (NEARLY SQUARE BOXES, EXTRA LARGE READABLE TEXT)
@@ -16,7 +21,7 @@ interface CardConfig {
     iconColor: string;
     popFrame: number;
     holdUntil: number; // Thời điểm bắt đầu rời trung tâm bay về góc
-    dockEnd: number;   // Thời điểm cập bến hoàn toàn ở góc
+    dockEnd: number; // Thời điểm cập bến hoàn toàn ở góc
     cornerKey: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
     spotlightW: number;
     spotlightH: number;
@@ -28,14 +33,14 @@ const CARDS_DATA: CardConfig[] = [
     {
         id: 1,
         title: 'Mua Ở Đâu Uy Tín?',
-        badge: 'RỦI RO',
+        badge: 'SỢ LỪA ĐẢO?',
         badgeColor: '#f59e0b',
         icon: ShieldAlert,
         iconBg: '#fef3c7',
         iconColor: '#d97706',
         popFrame: 260,
         holdUntil: 370, // Giữ ở tâm ~1.83s để đọc trọn vẹn
-        dockEnd: 395,   // Lướt về góc trong 25 frames
+        dockEnd: 395, // Lướt về góc trong 25 frames
         cornerKey: 'top-left',
         spotlightW: 860,
         spotlightH: 560,
@@ -45,14 +50,14 @@ const CARDS_DATA: CardConfig[] = [
     {
         id: 2,
         title: 'Quyền Lợi Ra Sao?',
-        badge: 'MA TRẬN',
+        badge: 'ĐIỀU KHOẢN MẬP MỜ?',
         badgeColor: '#ef4444',
         icon: FileText,
         iconBg: '#fee2e2',
         iconColor: '#dc2626',
         popFrame: 405,
         holdUntil: 515, // Giữ ở tâm ~1.83s để đọc
-        dockEnd: 540,   // Lướt về góc trong 25 frames
+        dockEnd: 540, // Lướt về góc trong 25 frames
         cornerKey: 'top-right',
         spotlightW: 860,
         spotlightH: 560,
@@ -62,14 +67,14 @@ const CARDS_DATA: CardConfig[] = [
     {
         id: 3,
         title: 'Thủ Tục Cấp Đơn Rườm Rà?',
-        badge: 'MẤT THỜI GIAN',
+        badge: 'THỦ TỤC PHỨC TẠP?',
         badgeColor: '#6366f1',
         icon: Clock,
         iconBg: '#e0e7ff',
         iconColor: '#4f46e5',
         popFrame: 550,
         holdUntil: 660, // Giữ ở tâm ~1.83s để đọc
-        dockEnd: 685,   // Lướt về góc trong 25 frames
+        dockEnd: 685, // Lướt về góc trong 25 frames
         cornerKey: 'bottom-left',
         spotlightW: 880,
         spotlightH: 570,
@@ -79,14 +84,14 @@ const CARDS_DATA: CardConfig[] = [
     {
         id: 4,
         title: 'Bồi Thường Có Khó Khăn?',
-        badge: 'LO LẮNG',
+        badge: 'SỢ BỊ TỪ CHỐI?',
         badgeColor: '#06b6d4',
         icon: AlertTriangle,
         iconBg: '#cffafe',
         iconColor: '#0891b2',
         popFrame: 695,
         holdUntil: 805, // Giữ ở tâm ~1.83s để đọc
-        dockEnd: 830,   // Lướt về góc trong 25 frames
+        dockEnd: 830, // Lướt về góc trong 25 frames
         cornerKey: 'bottom-right',
         spotlightW: 860,
         spotlightH: 560,
@@ -117,7 +122,9 @@ const COMIC_BLAST_PATH_D = `
     L 125,168
     L 76,138
     Z
-`.replace(/\s+/g, ' ').trim();
+`
+    .replace(/\s+/g, ' ')
+    .trim();
 
 // =========================================================================
 // HÀM RENDER ĐÁM MÂY SUY NGHĨ COMIC (THOUGHT CLOUD SVG + 3 CHẤM TRÒN DẪN HƯỚNG)
@@ -136,7 +143,9 @@ const CLOUD_PATH_D = `
     C 75,295 85,200 145,155
     C 155,100 205,85 220,120
     Z
-`.replace(/\s+/g, ' ').trim();
+`
+    .replace(/\s+/g, ' ')
+    .trim();
 
 function getThoughtDots(tail: 'spotlight' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right') {
     switch (tail) {
@@ -305,10 +314,10 @@ export const Scene0ProblemHook: React.FC = () => {
         d1.isCharging || d1.isPopping
             ? d1
             : d2.isCharging || d2.isPopping
-            ? d2
-            : d3.isCharging || d3.isPopping
-            ? d3
-            : d4;
+              ? d2
+              : d3.isCharging || d3.isPopping
+                ? d3
+                : d4;
 
     // Phản lực giật mình nhún vai nhẹ nhàng của nhân vật
     const calcRecoil = (popFrame: number) => {
@@ -347,9 +356,7 @@ export const Scene0ProblemHook: React.FC = () => {
 
     // Rung lắc nhẹ ở đoạn quá tải
     const overloadJitter =
-        frame >= OVERLOAD_START && frame <= AHA_START
-            ? (Math.sin(frame * 1.6) * 3 * (frame - OVERLOAD_START)) / 23
-            : 0;
+        frame >= OVERLOAD_START && frame <= AHA_START ? (Math.sin(frame * 1.6) * 3 * (frame - OVERLOAD_START)) / 23 : 0;
 
     // Hiệu ứng bừng sáng A-ha Moment
     const ahaProgress = interpolate(frame, [AHA_START, AHA_START + 22], [0, 1], {
@@ -547,7 +554,14 @@ export const Scene0ProblemHook: React.FC = () => {
                                     </radialGradient>
 
                                     {/* Họa tiết chấm Halftone Comic */}
-                                    <pattern id="blastHalftone" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+                                    <pattern
+                                        id="blastHalftone"
+                                        x="0"
+                                        y="0"
+                                        width="14"
+                                        height="14"
+                                        patternUnits="userSpaceOnUse"
+                                    >
                                         <circle cx="7" cy="7" r="2.0" fill="rgba(0, 0, 0, 0.22)" />
                                     </pattern>
                                 </defs>
@@ -572,15 +586,32 @@ export const Scene0ProblemHook: React.FC = () => {
                                 )}
 
                                 {/* B. 4 MẢNH VỠ 3D BAY LƠ LỬNG GÓC TẠO LỰC NỔ CHÂN THẬT (KHÔNG PHẢI CHÂN CÔN TRÙNG) */}
-                                <g fill="#ef4444" stroke="#0f172a" strokeWidth={Math.max(2, 2.8 * s)} strokeLinejoin="round">
+                                <g
+                                    fill="#ef4444"
+                                    stroke="#0f172a"
+                                    strokeWidth={Math.max(2, 2.8 * s)}
+                                    strokeLinejoin="round"
+                                >
                                     {/* Mảnh trên trái */}
-                                    <polygon points="18,34 36,24 28,44" filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`} />
+                                    <polygon
+                                        points="18,34 36,24 28,44"
+                                        filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`}
+                                    />
                                     {/* Mảnh trên phải */}
-                                    <polygon points="488,32 506,42 494,54" filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`} />
+                                    <polygon
+                                        points="488,32 506,42 494,54"
+                                        filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`}
+                                    />
                                     {/* Mảnh dưới trái */}
-                                    <polygon points="22,154 38,166 18,172" filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`} />
+                                    <polygon
+                                        points="22,154 38,166 18,172"
+                                        filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`}
+                                    />
                                     {/* Mảnh dưới phải */}
-                                    <polygon points="486,148 506,160 488,170" filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`} />
+                                    <polygon
+                                        points="486,148 506,160 488,170"
+                                        filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`}
+                                    />
                                 </g>
 
                                 {/* C. LỚP BÓNG ĐỔ 3D EXTRUSION KHỐI DÀY (GÓC 45 ĐỘ COMIC) */}
@@ -619,14 +650,34 @@ export const Scene0ProblemHook: React.FC = () => {
                                 {/* H. RÃNH NỨT 3D NỘI TẠI (FRACTURE CREVICES CHẠY TRONG THÂN, KHÔNG CHÌA RA NGOÀI) */}
                                 <g strokeLinecap="round" strokeLinejoin="round">
                                     {/* Rãnh nứt nhánh trái - Đường rãnh tối 3D */}
-                                    <path d="M 125 22 L 180 68 L 210 92 L 235 125" fill="none" stroke="#0f172a" strokeWidth={Math.max(3, 4.2 * s)} />
+                                    <path
+                                        d="M 125 22 L 180 68 L 210 92 L 235 125"
+                                        fill="none"
+                                        stroke="#0f172a"
+                                        strokeWidth={Math.max(3, 4.2 * s)}
+                                    />
                                     {/* Mép phản quang rãnh nứt sáng màu vàng neon */}
-                                    <path d="M 127 22 L 182 68 L 212 92 L 237 125" fill="none" stroke="#fef08a" strokeWidth={Math.max(1.5, 2 * s)} />
+                                    <path
+                                        d="M 127 22 L 182 68 L 212 92 L 237 125"
+                                        fill="none"
+                                        stroke="#fef08a"
+                                        strokeWidth={Math.max(1.5, 2 * s)}
+                                    />
 
                                     {/* Rãnh nứt nhánh phải - Đường rãnh tối 3D */}
-                                    <path d="M 395 170 L 350 125 L 315 95" fill="none" stroke="#0f172a" strokeWidth={Math.max(3, 4.2 * s)} />
+                                    <path
+                                        d="M 395 170 L 350 125 L 315 95"
+                                        fill="none"
+                                        stroke="#0f172a"
+                                        strokeWidth={Math.max(3, 4.2 * s)}
+                                    />
                                     {/* Mép phản quang rãnh nứt sáng màu vàng neon */}
-                                    <path d="M 397 170 L 352 125 L 317 95" fill="none" stroke="#fef08a" strokeWidth={Math.max(1.5, 2 * s)} />
+                                    <path
+                                        d="M 397 170 L 352 125 L 317 95"
+                                        fill="none"
+                                        stroke="#fef08a"
+                                        strokeWidth={Math.max(1.5, 2 * s)}
+                                    />
                                 </g>
                             </svg>
 
@@ -825,8 +876,7 @@ export const Scene0ProblemHook: React.FC = () => {
                             userSelect: 'none',
                             transform: `scale(${activeDynamics.scaleX}, ${activeDynamics.scaleY})`,
                             transformOrigin: 'bottom center',
-                            filter:
-                                'drop-shadow(0 20px 40px rgba(15, 23, 42, 0.2)) drop-shadow(0 4px 12px rgba(15, 23, 42, 0.1))',
+                            filter: 'drop-shadow(0 20px 40px rgba(15, 23, 42, 0.2)) drop-shadow(0 4px 12px rgba(15, 23, 42, 0.1))',
                             WebkitTextStroke: `${Math.max(3, 4 * s)}px #0f172a`,
                             letterSpacing: '-0.05em',
                         }}
@@ -995,18 +1045,12 @@ export const Scene0ProblemHook: React.FC = () => {
                     dockProgress === 1
                         ? Math.sin(frame * 0.045 + idx * 1.5) * (7 * s)
                         : isSpotlight
-                        ? Math.sin(frame * 0.05) * (3.5 * s)
-                        : 0;
+                          ? Math.sin(frame * 0.05) * (3.5 * s)
+                          : 0;
 
                 // CỠ CHỮ SIÊU TO RÕ RÀNG (KHÔNG CÒN GẠCH ĐẦU DÒNG VỤN VẶT)
-                const titleSize = Math.max(
-                    26,
-                    Math.round(interpolate(dockProgress, [0, 1], [56 * s, 46 * s]))
-                );
-                const badgeSize = Math.max(
-                    14,
-                    Math.round(interpolate(dockProgress, [0, 1], [22 * s, 18 * s]))
-                );
+                const titleSize = Math.max(26, Math.round(interpolate(dockProgress, [0, 1], [56 * s, 46 * s])));
+                const badgeSize = Math.max(18, Math.round(interpolate(dockProgress, [0, 1], [30 * s, 24 * s])));
 
                 const IconComponent = card.icon;
 
@@ -1096,19 +1140,19 @@ export const Scene0ProblemHook: React.FC = () => {
                                     zIndex: 12,
                                     pointerEvents: 'none',
                                     ...(card.id === 1
-                                        ? { top: '-4%', left: '22%' }
+                                        ? { top: '-10%', left: '18%' }
                                         : card.id === 2
-                                        ? { top: '-8%', right: '9%' }
-                                        : card.id === 3
-                                        ? { top: '-12%', left: '8%' } // Đồng hồ vintage nghiêng -24 độ sang trái, kích thước lớn nổi bật
-                                        : { top: '-8%', right: '9%' }),
+                                          ? { top: '-8%', right: '9%' }
+                                          : card.id === 3
+                                            ? { top: '-12%', left: '8%' } // Đồng hồ vintage nghiêng -24 độ sang trái, kích thước lớn nổi bật
+                                            : { top: '-8%', right: '9%' }),
                                 }}
                             >
                                 {card.id === 1 && (
                                     <MagnifyingComicSticker
                                         frame={frame}
                                         isSpotlight={isSpotlight}
-                                        size={Math.round(interpolate(dockProgress, [0, 1], [130 * s, 105 * s]))}
+                                        size={Math.round(interpolate(dockProgress, [0, 1], [150 * s, 120 * s]))}
                                         s={s}
                                     />
                                 )}
@@ -1160,15 +1204,15 @@ export const Scene0ProblemHook: React.FC = () => {
                         <div
                             style={{
                                 position: 'absolute',
-                                top: '22%',
-                                bottom: '24%',
-                                left: '18%',
-                                right: '18%',
+                                top: '20%',
+                                bottom: '22%',
+                                left: '13%',
+                                right: '13%',
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                gap: Math.round(interpolate(dockProgress, [0, 1], [18 * s, 14 * s])),
+                                gap: Math.round(interpolate(dockProgress, [0, 1], [20 * s, 15 * s])),
                                 zIndex: 2,
                                 textAlign: 'center',
                                 pointerEvents: 'none',
@@ -1179,11 +1223,11 @@ export const Scene0ProblemHook: React.FC = () => {
                                 style={{
                                     display: 'inline-flex',
                                     alignItems: 'center',
-                                    padding: `${Math.round(interpolate(dockProgress, [0, 1], [7 * s, 5 * s]))}px ${Math.round(interpolate(dockProgress, [0, 1], [22 * s, 18 * s]))}px`,
+                                    padding: `${Math.max(8, Math.round(interpolate(dockProgress, [0, 1], [11 * s, 8.5 * s])))}px ${Math.max(22, Math.round(interpolate(dockProgress, [0, 1], [32 * s, 25 * s])))}px`,
                                     borderRadius: 999,
                                     background: card.badgeColor,
-                                    border: `${Math.max(2.2, 2.8 * s)}px solid #0f172a`,
-                                    boxShadow: `${2.8 * s}px ${2.8 * s}px 0px #0f172a`,
+                                    border: `${Math.max(2.8, 3.6 * s)}px solid #0f172a`,
+                                    boxShadow: `${Math.max(3.2, 4.2 * s)}px ${Math.max(3.2, 4.2 * s)}px 0px #0f172a`,
                                     color: '#ffffff',
                                 }}
                             >
@@ -1192,7 +1236,7 @@ export const Scene0ProblemHook: React.FC = () => {
                                         fontSize: badgeSize,
                                         fontWeight: 900,
                                         fontFamily: '"Plus Jakarta Sans", sans-serif',
-                                        letterSpacing: '0.06em',
+                                        letterSpacing: '0.05em',
                                         textTransform: 'uppercase',
                                     }}
                                 >

@@ -12,16 +12,14 @@ export const AlarmClockComicSticker: React.FC<{
     s: number;
 }> = ({ frame, isSpotlight, size, s }) => {
     // Trục đồng hồ nghiêng sang trái 24 độ (-24deg), tạo độ ngả năng động và lắc nhẹ nhàng
-    const wiggle = isSpotlight
-        ? Math.sin(frame * 0.16) * 4.5
-        : Math.sin(frame * 0.08) * 2.2;
+    const wiggle = isSpotlight ? Math.sin(frame * 0.16) * 4.5 : Math.sin(frame * 0.08) * 2.2;
     const rotate = -24 + wiggle;
 
     // Nhịp thở vi mô rất nhẹ
     const breathe = 1 + Math.sin(frame * 0.1) * 0.02;
 
-    // Tăng kích thước chiếc đồng hồ to rõ, sắc nét từng con số và quai chuông vintage
-    const widthPx = Math.round(size * 1.36);
+    // Cân chỉnh kích thước chiếc đồng hồ vừa vặn, hài hòa với đám mây và badge
+    const widthPx = Math.round(size * 1.08);
     const heightPx = Math.round(widthPx * (854 / 642));
 
     return (
@@ -71,28 +69,25 @@ export const MagnifyingComicSticker: React.FC<{
 
     // Vận tốc quét để tạo góc nghiêng động (nghiêng theo chiều chuyển động)
     const velocity = Math.cos(frame * 0.075);
-    const dynamicTilt = velocity * (isSpotlight ? 9 : 4.5);
-    const rotate = -12 + dynamicTilt;
+    const dynamicTilt = velocity * (isSpotlight ? 5.5 : 3);
+    // Trục nghiêng cơ sở +15 độ: Đưa tay cầm kính lúp chúc xuống góc 5h (giữa 4h30 và 5h)
+    const rotate = 15 + dynamicTilt;
 
     // Nhịp thở vi mô
     const breathe = 1 + Math.sin(frame * 0.1) * 0.015;
 
     // Danh sách địa chỉ web người tiêu dùng hoang mang tìm kiếm
-    const urlList = [
-        'www://baohiem...',
-        'www.baohiem-xyz.vn',
-        'www.muabaohiem.com',
-        'www://baohiem-uytin?',
-    ];
+    const urlList = ['www://baohiem...', 'www.baohiem-xyz.vn', 'www.muabaohiem.com', 'www://baohiem-uytin?'];
     const currentUrl = urlList[cycle % urlList.length];
 
-    const glassWidth = Math.round(size * 0.95);
-    const glassHeight = Math.round(glassWidth * (944 / 621));
+    // Kính lúp kim loại cao cấp tròng thủy tinh trong suốt (555x556)
+    const glassWidth = Math.round(size * 1.35);
+    const glassHeight = glassWidth;
 
     // Kích thước thanh URL Bar
-    const pillWidth = Math.round(interpolate(isSpotlight ? 1 : 0, [0, 1], [200 * s, 270 * s]));
-    const pillHeight = Math.round(interpolate(isSpotlight ? 1 : 0, [0, 1], [34 * s, 44 * s]));
-    const textSize = Math.round(interpolate(isSpotlight ? 1 : 0, [0, 1], [13 * s, 17 * s]));
+    const pillWidth = Math.round(interpolate(isSpotlight ? 1 : 0, [0, 1], [260 * s, 280 * s]));
+    const pillHeight = Math.round(interpolate(isSpotlight ? 1 : 0, [0, 1], [44 * s, 44 * s]));
+    const textSize = Math.round(interpolate(isSpotlight ? 1 : 0, [0, 1], [18 * s, 17 * s]));
 
     return (
         <div
@@ -108,7 +103,7 @@ export const MagnifyingComicSticker: React.FC<{
             <div
                 style={{
                     position: 'absolute',
-                    top: Math.round(36 * s),
+                    top: Math.round(52 * s),
                     left: '50%',
                     transform: 'translateX(-50%)',
                     width: pillWidth,
@@ -170,20 +165,20 @@ export const MagnifyingComicSticker: React.FC<{
                 />
             </div>
 
-            {/* 2. CHIẾC KÍNH LÚP VINTAGE LƯỚT NGANG MỀM MẠI PHÍA TRÊN THANH URL */}
+            {/* 2. KÍNH LÚP KIM LOẠI TRÒNG THỦY TINH TRONG SUỐT (NHÌN XUYÊN THAU THANH URL) */}
             <div
                 style={{
                     width: glassWidth,
                     height: glassHeight,
                     position: 'relative',
-                    transform: `translateX(${scanX}px) rotate(${rotate}deg) scale(${breathe})`,
-                    transformOrigin: '40% 30%',
+                    transform: `translateX(${scanX}px) translateY(${Math.round(32 * s)}px) rotate(${rotate}deg) scale(${breathe})`,
+                    transformOrigin: '38% 36%',
                     zIndex: 10,
-                    filter: 'drop-shadow(4px 6px 0px rgba(15, 23, 42, 0.85)) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15))',
+                    filter: 'drop-shadow(4px 7px 0px rgba(15, 23, 42, 0.85)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.18))',
                 }}
             >
                 <Img
-                    src={staticFile('assets/kinh-lup-vintage-sticker.png')}
+                    src={staticFile('assets/kinh-lup-realistic-transparent.png')}
                     style={{
                         width: '100%',
                         height: '100%',
@@ -210,9 +205,7 @@ export const ContractComicSticker: React.FC<{
     size: number;
     s: number;
 }> = ({ frame, isSpotlight, size, s }) => {
-    const tilt = isSpotlight
-        ? Math.sin(frame * 0.15) * 6
-        : Math.sin(frame * 0.05) * 2;
+    const tilt = isSpotlight ? Math.sin(frame * 0.15) * 6 : Math.sin(frame * 0.05) * 2;
     const pinWiggle = isSpotlight ? Math.sin(frame * 0.28) * 5 : Math.sin(frame * 0.1) * 2;
     const dizzySpin = isSpotlight ? (frame * 5) % 360 : 0;
 
@@ -227,14 +220,19 @@ export const ContractComicSticker: React.FC<{
                 pointerEvents: 'none',
             }}
         >
-            <svg
-                viewBox="0 0 260 260"
-                style={{ width: '100%', height: '100%', overflow: 'visible' }}
-            >
+            <svg viewBox="0 0 260 260" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
                 {/* Lớp bóng đổ Comic Pop-Art dày dặn cho toàn bộ sổ tay */}
                 <g transform="translate(9, 11)" opacity={0.88}>
                     {/* Bóng tờ bìa sau */}
-                    <rect x="36" y="36" width="155" height="185" rx="14" fill="#0f172a" transform="rotate(-9 113 128)" />
+                    <rect
+                        x="36"
+                        y="36"
+                        width="155"
+                        height="185"
+                        rx="14"
+                        fill="#0f172a"
+                        transform="rotate(-9 113 128)"
+                    />
                     {/* Bóng cuốn sổ tay trước */}
                     <rect x="54" y="28" width="155" height="185" rx="14" fill="#0f172a" transform="rotate(6 131 120)" />
                 </g>
@@ -268,7 +266,12 @@ export const ContractComicSticker: React.FC<{
 
                     {/* Các tab màu chỉ mục (Index bookmark tabs) ở mép phải sổ tay */}
                     <path d="M 209,75 L 223,75 L 223,98 L 209,98 Z" fill="#fbbf24" stroke="#0f172a" strokeWidth="5" />
-                    <path d="M 209,112 L 223,112 L 223,135 L 209,135 Z" fill="#fb923c" stroke="#0f172a" strokeWidth="5" />
+                    <path
+                        d="M 209,112 L 223,112 L 223,135 L 209,135 Z"
+                        fill="#fb923c"
+                        stroke="#0f172a"
+                        strokeWidth="5"
+                    />
 
                     {/* Hàng gáy xoắn lò xo Sổ tay (Spiral Notebook Rings) ở mép trái */}
                     {[58, 88, 118, 148, 178].map((yRing, idx) => (
@@ -343,10 +346,7 @@ export const ContractComicSticker: React.FC<{
 
                 {/* 4. BIỂU TƯỢNG XOÁY ỐC CHÓNG MẶT KHI Ở SPOTLIGHT (DIZZY SPIRAL) */}
                 {isSpotlight && (
-                    <g
-                        transform={`translate(34, 28) rotate(${dizzySpin})`}
-                        style={{ transformOrigin: '34px 28px' }}
-                    >
+                    <g transform={`translate(34, 28) rotate(${dizzySpin})`} style={{ transformOrigin: '34px 28px' }}>
                         <circle cx="34" cy="28" r="20" fill="#fef2f2" stroke="#ef4444" strokeWidth="5" />
                         <path
                             d="M 34,14 A 14 14 0 0 1 48 28 A 8 8 0 0 1 40 36"
@@ -372,9 +372,7 @@ export const WarningSweatComicSticker: React.FC<{
     size: number;
     s: number;
 }> = ({ frame, isSpotlight, size, s }) => {
-    const pulse = isSpotlight
-        ? 1 + Math.sin(frame * 0.25) * 0.07
-        : 1 + Math.sin(frame * 0.06) * 0.025;
+    const pulse = isSpotlight ? 1 + Math.sin(frame * 0.25) * 0.07 : 1 + Math.sin(frame * 0.06) * 0.025;
     const sweatY = isSpotlight ? Math.sin(frame * 0.3) * (9 * s) : Math.sin(frame * 0.1) * (3.5 * s);
     // Độ nghiêng sang phải theo yêu cầu của user (+13 độ cơ sở kèm dao động vi mô)
     const tilt = 13 + (isSpotlight ? Math.sin(frame * 0.18) * 4.5 : Math.sin(frame * 0.07) * 2);
@@ -390,10 +388,7 @@ export const WarningSweatComicSticker: React.FC<{
                 pointerEvents: 'none',
             }}
         >
-            <svg
-                viewBox="0 0 220 220"
-                style={{ width: '100%', height: '100%', overflow: 'visible' }}
-            >
+            <svg viewBox="0 0 220 220" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
                 {/* 1. Lớp bóng đổ Comic Pop-Art dày dặn */}
                 <g transform="translate(8, 10)" opacity={0.88}>
                     <polygon points="95,22 175,160 15,160" fill="#0f172a" />
