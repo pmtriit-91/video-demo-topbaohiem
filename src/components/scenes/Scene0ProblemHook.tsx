@@ -33,9 +33,9 @@ const CARDS_DATA: CardConfig[] = [
         icon: ShieldAlert,
         iconBg: '#fef3c7',
         iconColor: '#d97706',
-        popFrame: 65,
-        holdUntil: 180, // Giữ ở tâm ~1.9s (115 frames) để đọc trọn vẹn
-        dockEnd: 205,   // Lướt về góc trong 25 frames
+        popFrame: 200,
+        holdUntil: 305, // Giữ ở tâm ~1.75s để đọc trọn vẹn
+        dockEnd: 330,   // Lướt về góc trong 25 frames
         cornerKey: 'top-left',
         spotlightW: 860,
         spotlightH: 560,
@@ -50,9 +50,9 @@ const CARDS_DATA: CardConfig[] = [
         icon: FileText,
         iconBg: '#fee2e2',
         iconColor: '#dc2626',
-        popFrame: 215,
-        holdUntil: 330, // Giữ ở tâm ~1.9s để đọc
-        dockEnd: 355,   // Lướt về góc trong 25 frames
+        popFrame: 340,
+        holdUntil: 445, // Giữ ở tâm ~1.75s để đọc
+        dockEnd: 470,   // Lướt về góc trong 25 frames
         cornerKey: 'top-right',
         spotlightW: 860,
         spotlightH: 560,
@@ -67,9 +67,9 @@ const CARDS_DATA: CardConfig[] = [
         icon: Clock,
         iconBg: '#e0e7ff',
         iconColor: '#4f46e5',
-        popFrame: 365,
-        holdUntil: 480, // Giữ ở tâm ~1.9s để đọc
-        dockEnd: 505,   // Lướt về góc trong 25 frames
+        popFrame: 480,
+        holdUntil: 585, // Giữ ở tâm ~1.75s để đọc
+        dockEnd: 610,   // Lướt về góc trong 25 frames
         cornerKey: 'bottom-left',
         spotlightW: 880,
         spotlightH: 570,
@@ -84,9 +84,9 @@ const CARDS_DATA: CardConfig[] = [
         icon: AlertTriangle,
         iconBg: '#cffafe',
         iconColor: '#0891b2',
-        popFrame: 515,
-        holdUntil: 630, // Giữ ở tâm ~1.9s để đọc
-        dockEnd: 655,   // Lướt về góc trong 25 frames
+        popFrame: 620,
+        holdUntil: 725, // Giữ ở tâm ~1.75s để đọc
+        dockEnd: 750,   // Lướt về góc trong 25 frames
         cornerKey: 'bottom-right',
         spotlightW: 860,
         spotlightH: 560,
@@ -172,16 +172,39 @@ export const Scene0ProblemHook: React.FC = () => {
     // =========================================================================
     // Tổng thời lượng: 730 frames (~12.16s @ 60fps)
 
-    // A. Tiêu đề chính mở màn (Frame 10 -> 40)
-    const headerEntrance = spring({
-        frame: Math.max(0, frame - 10),
-        fps,
-        config: { damping: 16, mass: 0.9, stiffness: 85 },
+    // A. Máy đánh chữ gõ "Muốn Mua Bảo Hiểm Online," ở trung tâm chậm rãi (Frame 12 -> 76 ~1.1s)
+    const fullPrefixText = 'Muốn Mua Bảo Hiểm Online,';
+    const typingProgress = interpolate(frame, [12, 76], [0, fullPrefixText.length], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
     });
+    const charCount = Math.floor(typingProgress);
+    const typedText = fullPrefixText.slice(0, charCount);
+    const showCursor = frame >= 8 && frame < 80 && Math.floor(frame / 5) % 2 === 0;
 
-    // B. Nhân vật trung tâm xuất hiện từ tốn (Frame 15 -> 50)
+    // B. Cú đục thủng lỗ "NHƯNG...?" tại trung tâm (Hole Punch Impact: Frame 80+)
+    const punchSpring = spring({
+        frame: Math.max(0, frame - 80),
+        fps,
+        config: { damping: 9, mass: 0.45, stiffness: 140 },
+    });
+    const punchShake =
+        frame >= 80 && frame < 96
+            ? Math.sin((frame - 80) * 2.2) * Math.max(0, 1 - (frame - 80) / 16) * (8 * s)
+            : 0;
+
+    // C. Quỹ đạo lướt từ Trung tâm lên Đỉnh (Docking to Top Header: Frame 140 -> 175)
+    const dockSpring = spring({
+        frame: Math.max(0, frame - 140),
+        fps,
+        config: { damping: 15, mass: 0.85, stiffness: 75 },
+    });
+    const headerY = interpolate(dockSpring, [0, 1], [cy - 60 * s, height * 0.045]);
+    const headerScale = interpolate(dockSpring, [0, 1], [1.18, 1.0]);
+
+    // D. Nhân vật trung tâm xuất hiện sau khi tiêu đề đã lướt lên đỉnh (Frame 165 -> 200)
     const characterEntrance = spring({
-        frame: Math.max(0, frame - 15),
+        frame: Math.max(0, frame - 165),
         fps,
         config: { damping: 15, mass: 0.95, stiffness: 80 },
     });
@@ -392,84 +415,133 @@ export const Scene0ProblemHook: React.FC = () => {
             />
 
             {/* ============================================================= */}
-            {/* 1. KHỐI TIÊU ĐỀ DẪN DẮT TRÊN CÙNG (GỌN GÀNG, CAO CẤP)        */}
+            {/* 1. KHỐI CÂU HỎI LỚN: GÕ CHỮ TRUNG TÂM -> ĐỤC THỦNG NHƯNG -> LƯỚT LÊN ĐỈNH */}
             {/* ============================================================= */}
-            <div
-                style={{
-                    position: 'absolute',
-                    top: '2.8%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: 8 * s,
-                    opacity: headerEntrance,
-                    transform: `translateY(${(1 - headerEntrance) * -25 * s}px)`,
-                    zIndex: 20,
-                    textAlign: 'center',
-                }}
-            >
-                {/* Badge phân cảnh */}
+            {frame >= 8 && (
                 <div
                     style={{
-                        display: 'inline-flex',
+                        position: 'absolute',
+                        top: headerY,
+                        left: '50%',
+                        transform: `translateX(-50%) scale(${headerScale})`,
+                        transformOrigin: 'center center',
+                        zIndex: 25,
+                        display: 'flex',
                         alignItems: 'center',
-                        gap: 10 * s,
-                        padding: `${6 * s}px ${20 * s}px`,
-                        borderRadius: 999,
-                        background: 'rgba(255, 255, 255, 0.95)',
-                        border: '1.8px solid #0f172a',
-                        boxShadow: `${3 * s}px ${3 * s}px 0px #0f172a`,
+                        justifyContent: 'center',
+                        gap: 22 * s,
+                        whiteSpace: 'nowrap',
+                        pointerEvents: 'none',
                     }}
                 >
-                    <span
-                        style={{
-                            width: 8 * s,
-                            height: 8 * s,
-                            borderRadius: '50%',
-                            background: '#f59e0b',
-                            boxShadow: '0 0 8px #f59e0b',
-                        }}
-                    />
+                    {/* Vế 1: Chữ gõ Typewriter từng ký tự */}
                     <span
                         style={{
                             fontFamily: '"Plus Jakarta Sans", sans-serif',
-                            fontSize: Math.max(11, 16 * s),
-                            fontWeight: 800,
-                            letterSpacing: '0.12em',
+                            fontSize: Math.max(28, 54 * s),
+                            fontWeight: 900,
                             color: '#0f172a',
-                            textTransform: 'uppercase',
+                            letterSpacing: '-0.03em',
+                            textShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
+                            display: 'inline-flex',
+                            alignItems: 'center',
                         }}
                     >
-                        THỰC TRẠNG NGƯỜI TIÊU DÙNG HIỆN NAY
+                        {typedText}
+                        {showCursor && (
+                            <span
+                                style={{
+                                    display: 'inline-block',
+                                    width: 4 * s,
+                                    height: 52 * s,
+                                    backgroundColor: '#ed017c',
+                                    marginLeft: 6 * s,
+                                    borderRadius: 2 * s,
+                                }}
+                            />
+                        )}
                     </span>
-                </div>
 
-                {/* Tiêu đề lớn đánh trúng tâm lý: Chuẩn Tiếng Việt không lỗi kerning */}
-                <h1
-                    style={{
-                        margin: 0,
-                        fontFamily: '"Plus Jakarta Sans", sans-serif',
-                        fontSize: Math.max(26, 48 * s),
-                        fontWeight: 900,
-                        color: '#0f172a',
-                        letterSpacing: '-0.03em',
-                        lineHeight: 1.2,
-                    }}
-                >
-                    Mua Bảo Hiểm Sao Lại Có Quá Nhiều Đắn Đo?
-                </h1>
-                <p
-                    style={{
-                        margin: 0,
-                        fontFamily: '"Plus Jakarta Sans", sans-serif',
-                        fontSize: Math.max(13, 22 * s),
-                        fontWeight: 600,
-                        color: '#475569',
-                    }}
-                >
-                    Hàng ngàn người mua phải đối mặt với ma trận thông tin, giấy tờ phức tạp và nỗi lo mập mờ.
-                </p>
-            </div>
+                    {/* Vế 2: Cú đục thủng lỗ trên Background dành riêng cho "NHƯNG...?" */}
+                    {frame >= 78 && (
+                        <div
+                            style={{
+                                position: 'relative',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: 14 * s,
+                                padding: `${10 * s}px ${34 * s}px`,
+                                borderRadius: 24 * s,
+                                // Hiệu ứng khoét thủng nền: Nền đỏ rực cảnh báo bên trong hố sâu
+                                background: 'linear-gradient(145deg, #b91c1c 0%, #ef4444 55%, #991b1b 100%)',
+                                // Inset Shadow tạo cảm giác thành hố bị khoét sâu xuống bề mặt giấy
+                                boxShadow: `
+                                    inset 0px ${6 * s}px ${16 * s}px rgba(0, 0, 0, 0.8),
+                                    inset 0px -${3 * s}px ${8 * s}px rgba(255, 255, 255, 0.3),
+                                    0px ${12 * s}px ${30 * s}px rgba(220, 38, 38, 0.55),
+                                    0px 0px ${60 * s}px rgba(239, 68, 68, 0.4)
+                                `,
+                                border: `${Math.max(2, 3.5 * s)}px dashed #ffffff`,
+                                transform: `scale(${punchSpring}) rotate(${interpolate(punchSpring, [0, 1], [-18, -3.5])}deg) translate(${punchShake}px, ${punchShake}px)`,
+                                transformOrigin: 'center center',
+                            }}
+                        >
+                            {/* Tia nứt rạn xung quanh mép lỗ thủng */}
+                            <svg
+                                style={{
+                                    position: 'absolute',
+                                    width: '140%',
+                                    height: '200%',
+                                    top: '-50%',
+                                    left: '-20%',
+                                    pointerEvents: 'none',
+                                    overflow: 'visible',
+                                }}
+                            >
+                                <path
+                                    d="M 15 35 L 35 15 L 60 22"
+                                    fill="none"
+                                    stroke="#dc2626"
+                                    strokeWidth={Math.max(1.5, 2.5 * s)}
+                                    strokeLinecap="round"
+                                />
+                                <path
+                                    d="M 320 60 L 350 78 L 380 68"
+                                    fill="none"
+                                    stroke="#dc2626"
+                                    strokeWidth={Math.max(1.5, 2.5 * s)}
+                                    strokeLinecap="round"
+                                />
+                            </svg>
+
+                            {/* Icon cảnh báo rung nhẹ trong lỗ thủng */}
+                            <AlertTriangle
+                                size={Math.max(24, 42 * s)}
+                                color="#fef08a"
+                                style={{
+                                    filter: 'drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6))',
+                                    transform: `rotate(${Math.sin(frame * 0.25) * 8}deg)`,
+                                }}
+                            />
+
+                            {/* Chữ NHƯNG...? nổi bật trong hố thủng */}
+                            <span
+                                style={{
+                                    fontFamily: '"Plus Jakarta Sans", sans-serif',
+                                    fontSize: Math.max(34, 62 * s),
+                                    fontWeight: 950,
+                                    color: '#ffffff',
+                                    letterSpacing: '0.04em',
+                                    textShadow: `0 3px 6px rgba(0, 0, 0, 0.8), 0 0 ${20 * s}px #fef08a`,
+                                }}
+                            >
+                                NHƯNG...?
+                            </span>
+                        </div>
+                    )}
+                </div>
+            )}
 
             {/* ============================================================= */}
             {/* 2. KHU VỰC TRUNG TÂM: NHÂN VẬT THỰC TẾ SUY NGHĨ (EDITORIAL) */}

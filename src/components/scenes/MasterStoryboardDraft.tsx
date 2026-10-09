@@ -30,12 +30,12 @@ import { Scene0ProblemHook } from './Scene0ProblemHook';
 // CẤU HÌNH TIMELINE 6 HỒI KỊCH BẢN MASTER (TOTAL: 2600 FRAMES @ 60FPS ~ 43.3S)
 // =========================================================================
 export const ACT_TIMINGS = {
-    act1_pain: { start: 0, duration: 660, label: '1. Băn Khoăn' },
-    act2_snap: { start: 660, duration: 240, label: '2. Búng Tay Snap' },
-    act3_vignettes: { start: 900, duration: 520, label: '3. Tiểu Cảnh Vui Nhộn' },
-    act4_frontend: { start: 1420, duration: 420, label: '4. Website 1-Chạm' },
-    act5_cms: { start: 1840, duration: 460, label: '5. Cỗ Máy CMS Ngầm' },
-    act6_outro: { start: 2300, duration: 300, label: '6. Outro & Đầu Tư' },
+    act1_pain: { start: 0, duration: 780, label: '1. Băn Khoăn' },
+    act2_snap: { start: 780, duration: 240, label: '2. Búng Tay Snap' },
+    act3_vignettes: { start: 1020, duration: 520, label: '3. Tiểu Cảnh Vui Nhộn' },
+    act4_frontend: { start: 1540, duration: 420, label: '4. Website 1-Chạm' },
+    act5_cms: { start: 1960, duration: 460, label: '5. Cỗ Máy CMS Ngầm' },
+    act6_outro: { start: 2420, duration: 300, label: '6. Outro & Đầu Tư' },
 };
 
 export const MasterStoryboardDraft: React.FC = () => {
@@ -47,11 +47,11 @@ export const MasterStoryboardDraft: React.FC = () => {
 
     // Xác định Hồi hiện tại
     const getCurrentActIndex = () => {
-        if (frame < 660) return 0;
-        if (frame < 900) return 1;
-        if (frame < 1420) return 2;
-        if (frame < 1840) return 3;
-        if (frame < 2300) return 4;
+        if (frame < 780) return 0;
+        if (frame < 1020) return 1;
+        if (frame < 1540) return 2;
+        if (frame < 1960) return 3;
+        if (frame < 2420) return 4;
         return 5;
     };
     const currentActIndex = getCurrentActIndex();
@@ -81,36 +81,36 @@ export const MasterStoryboardDraft: React.FC = () => {
                 LỚP TRÌNH DIỄN NỘI DUNG 6 HỒI
                ========================================================================= */}
 
-            {/* HỒI 1: BĂN KHOĂN CỦA KHÁCH HÀNG (0 -> 660) */}
-            {frame < 660 && (
+            {/* HỒI 1: BĂN KHOĂN CỦA KHÁCH HÀNG (0 -> 780) */}
+            {frame < 780 && (
                 <div style={{ position: 'absolute', inset: 0 }}>
                     <Scene0ProblemHook />
                 </div>
             )}
 
-            {/* HỒI 2: CÚ BÚNG TAY EUREKA SNAP & THỨC TỈNH MACBOOK 3D (660 -> 900) */}
-            {frame >= 660 && frame < 900 && (
-                <Act2EurekaSnap frame={frame - 660} fps={fps} s={s} width={width} height={height} />
+            {/* HỒI 2: CÚ BÚNG TAY EUREKA SNAP & THỨC TỈNH MACBOOK 3D (780 -> 1020) */}
+            {frame >= 780 && frame < 1020 && (
+                <Act2EurekaSnap frame={frame - 780} fps={fps} s={s} width={width} height={height} />
             )}
 
-            {/* HỒI 3: CÁC TIỂU CẢNH BẢO HIỂM ĐỜI THƯỜNG VUI NHỘN (900 -> 1420) */}
-            {frame >= 900 && frame < 1420 && (
-                <Act3Vignettes frame={frame - 900} fps={fps} s={s} width={width} height={height} />
+            {/* HỒI 3: CÁC TIỂU CẢNH BẢO HIỂM ĐỜI THƯỜNG VUI NHỘN (1020 -> 1540) */}
+            {frame >= 1020 && frame < 1540 && (
+                <Act3Vignettes frame={frame - 1020} fps={fps} s={s} width={width} height={height} />
             )}
 
-            {/* HỒI 4: QUY TRÌNH MUA 1-CHẠM TRÊN WEBSITE THẬT (1420 -> 1840) */}
-            {frame >= 1420 && frame < 1840 && (
-                <Act4Frontend1Touch frame={frame - 1420} fps={fps} s={s} width={width} height={height} />
+            {/* HỒI 4: QUY TRÌNH MUA 1-CHẠM TRÊN WEBSITE THẬT (1540 -> 1960) */}
+            {frame >= 1540 && frame < 1960 && (
+                <Act4Frontend1Touch frame={frame - 1540} fps={fps} s={s} width={width} height={height} />
             )}
 
-            {/* HỒI 5: CỖ MÁY CMS VẬN HÀNH NGẦM PHÍA SAU (1840 -> 2300) */}
-            {frame >= 1840 && frame < 2300 && (
-                <Act5CMSDashboard frame={frame - 1840} fps={fps} s={s} width={width} height={height} />
+            {/* HỒI 5: CỖ MÁY CMS VẬN HÀNH NGẦM PHÍA SAU (1960 -> 2420) */}
+            {frame >= 1960 && frame < 2420 && (
+                <Act5CMSDashboard frame={frame - 1960} fps={fps} s={s} width={width} height={height} />
             )}
 
-            {/* HỒI 6: OUTRO & ĐẦU TƯ SỞ HỮU HỆ THỐNG TRỌN GÓI (2300 -> 2600) */}
-            {frame >= 2300 && (
-                <Act6OutroCTA frame={frame - 2300} fps={fps} s={s} width={width} height={height} />
+            {/* HỒI 6: OUTRO & ĐẦU TƯ SỞ HỮU HỆ THỐNG TRỌN GÓI (2420 -> 2720) */}
+            {frame >= 2420 && (
+                <Act6OutroCTA frame={frame - 2420} fps={fps} s={s} width={width} height={height} />
             )}
 
             {/* =========================================================================

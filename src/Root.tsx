@@ -9,11 +9,11 @@ import { MasterStoryboardDraft } from "./components/scenes/MasterStoryboardDraft
 export const RemotionRoot: React.FC = () => {
   return (
     <>
-      {/* 🌟 BẢN PHÁC THẢO TOÀN CẢNH 6 HỒI KỊCH BẢN CHUẨN (2600 frames @ 60fps ~ 43.3s) 🌟 */}
+      {/* 🌟 BẢN PHÁC THẢO TOÀN CẢNH 6 HỒI KỊCH BẢN CHUẨN (2720 frames @ 60fps ~ 45.3s) 🌟 */}
       <Composition
         id="MasterStoryboardDraft4K"
         component={MasterStoryboardDraft}
-        durationInFrames={2600}
+        durationInFrames={2720}
         fps={60}
         width={3840}
         height={2160}
@@ -69,11 +69,11 @@ export const RemotionRoot: React.FC = () => {
         height={1340}
       />
 
-      {/* Composition Phân Cảnh 0: Nỗi Đau Khách Hàng (Editorial 2.5D Vector - 730 frames @ 60fps) */}
+      {/* Composition Phân Cảnh 0: Nỗi Đau Khách Hàng (Editorial 2.5D Vector - 780 frames @ 60fps) */}
       <Composition
         id="Scene0ProblemHook"
         component={Scene0ProblemHook}
-        durationInFrames={730}
+        durationInFrames={780}
         fps={60}
         width={3840}
         height={2160}
