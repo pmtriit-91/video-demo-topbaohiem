@@ -174,7 +174,7 @@ export const MagnifyingComicSticker: React.FC<{
                     transform: `translateX(${scanX}px) translateY(${Math.round(32 * s)}px) rotate(${rotate}deg) scale(${breathe})`,
                     transformOrigin: '38% 36%',
                     zIndex: 10,
-                    filter: 'drop-shadow(4px 7px 0px rgba(15, 23, 42, 0.85)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.18))',
+                    filter: 'drop-shadow(3.5px 0 0 #ffffff) drop-shadow(-3.5px 0 0 #ffffff) drop-shadow(0 3.5px 0 #ffffff) drop-shadow(0 -3.5px 0 #ffffff) drop-shadow(4px 7px 0px rgba(15, 23, 42, 0.9)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.18))',
                 }}
             >
                 <Img
@@ -218,6 +218,7 @@ export const ContractComicSticker: React.FC<{
                 transform: `rotate(${tilt}deg)`,
                 transformOrigin: 'bottom center',
                 pointerEvents: 'none',
+                filter: 'drop-shadow(3.5px 0 0 #ffffff) drop-shadow(-3.5px 0 0 #ffffff) drop-shadow(0 3.5px 0 #ffffff) drop-shadow(0 -3.5px 0 #ffffff) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.15))',
             }}
         >
             <svg viewBox="0 0 260 260" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
@@ -386,6 +387,7 @@ export const WarningSweatComicSticker: React.FC<{
                 transform: `rotate(${tilt}deg) scale(${pulse})`,
                 transformOrigin: 'bottom center',
                 pointerEvents: 'none',
+                filter: 'drop-shadow(3.5px 0 0 #ffffff) drop-shadow(-3.5px 0 0 #ffffff) drop-shadow(0 3.5px 0 #ffffff) drop-shadow(0 -3.5px 0 #ffffff) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.15))',
             }}
         >
             <svg viewBox="0 0 220 220" style={{ width: '100%', height: '100%', overflow: 'visible' }}>

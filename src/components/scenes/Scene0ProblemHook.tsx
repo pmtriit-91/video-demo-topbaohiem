@@ -101,30 +101,22 @@ const CARDS_DATA: CardConfig[] = [
 ];
 
 // =========================================================================
-// HÀM & ĐƯỜNG DẪN KHỐI NỔ 3D COMIC STARBURST (DYNAMIC IMPACT BLAST BADGE)
-// Thiết kế đa giác góc cạnh uy lực, chiều sâu 3D nội tại, triệt tiêu mọi cảm giác dẹt
+// HÀM & ĐƯỜNG DẪN MIẾNG BĂNG DÁN CẢNH BÁO THỦ CÔNG (PAPER TAPE STICKER CUT-OUT)
+// Phong cách Collage Paper Cut-out: Mép xé giấy tự nhiên, viền trắng dán đè, đồng bộ mỹ thuật
 // =========================================================================
 const COMIC_BLAST_PATH_D = `
-    M 28,95
-    L 76,52
-    L 125,22
-    L 188,38
-    L 260,12
-    L 332,36
-    L 395,20
-    L 444,52
-    L 492,95
-    L 444,138
-    L 395,170
-    L 332,154
-    L 260,178
-    L 188,152
-    L 125,168
-    L 76,138
+    M 22,14
+    L 455,14
+    L 472,38
+    L 462,64
+    L 476,90
+    L 458,118
+    L 20,118
+    L 6,92
+    L 16,64
+    L 4,38
     Z
-`
-    .replace(/\s+/g, ' ')
-    .trim();
+`.replace(/\s+/g, ' ').trim();
 
 // =========================================================================
 // HÀM RENDER ĐÁM MÂY SUY NGHĨ COMIC (THOUGHT CLOUD SVG + 3 CHẤM TRÒN DẪN HƯỚNG)
@@ -516,8 +508,8 @@ export const Scene0ProblemHook: React.FC = () => {
                         <div
                             style={{
                                 position: 'relative',
-                                width: Math.round(490 * s),
-                                height: Math.round(180 * s),
+                                width: Math.round(480 * s),
+                                height: Math.round(140 * s),
                                 display: 'inline-flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -526,7 +518,7 @@ export const Scene0ProblemHook: React.FC = () => {
                                 pointerEvents: 'none',
                             }}
                         >
-                            {/* SVG KHỐI NỔ 3D COMIC: VIỀN STICKER TRẮNG, KHỐI 3D DÀY, LÕI ĐỎ RỰC & RÃNH NỨT NỘI TẠI */}
+                            {/* SVG MIẾNG BĂNG DÁN CẢNH BÁO THỦ CÔNG (PAPER TAPE STICKER CUT-OUT) */}
                             <svg
                                 style={{
                                     position: 'absolute',
@@ -536,148 +528,89 @@ export const Scene0ProblemHook: React.FC = () => {
                                     overflow: 'visible',
                                     pointerEvents: 'none',
                                 }}
-                                viewBox="0 0 520 190"
+                                viewBox="0 0 490 140"
                             >
                                 <defs>
-                                    {/* Gradient đỏ tươi năng lượng rực rỡ, không xỉn màu */}
-                                    <linearGradient id="comicBlastGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    {/* Gradient đỏ tươi năng lượng rực rỡ */}
+                                    <linearGradient id="tapeStickerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" stopColor="#ff2a5f" />
-                                        <stop offset="42%" stopColor="#ef4444" />
-                                        <stop offset="100%" stopColor="#ea580c" />
+                                        <stop offset="45%" stopColor="#ef4444" />
+                                        <stop offset="100%" stopColor="#dc2626" />
                                     </linearGradient>
 
-                                    {/* Vầng sáng tâm hố nổ */}
-                                    <radialGradient id="blastCoreGlow" cx="50%" cy="50%" r="50%">
-                                        <stop offset="0%" stopColor="#fef08a" stopOpacity="0.45" />
-                                        <stop offset="60%" stopColor="#ef4444" stopOpacity="0.1" />
+                                    {/* Vầng sáng tâm nhãn dán */}
+                                    <radialGradient id="tapeCoreGlow" cx="50%" cy="50%" r="50%">
+                                        <stop offset="0%" stopColor="#fef08a" stopOpacity="0.4" />
+                                        <stop offset="60%" stopColor="#ef4444" stopOpacity="0.08" />
                                         <stop offset="100%" stopColor="transparent" stopOpacity="0" />
                                     </radialGradient>
 
                                     {/* Họa tiết chấm Halftone Comic */}
                                     <pattern
-                                        id="blastHalftone"
+                                        id="tapeHalftone"
                                         x="0"
                                         y="0"
-                                        width="14"
-                                        height="14"
+                                        width="12"
+                                        height="12"
                                         patternUnits="userSpaceOnUse"
                                     >
-                                        <circle cx="7" cy="7" r="2.0" fill="rgba(0, 0, 0, 0.22)" />
+                                        <circle cx="6" cy="6" r="1.8" fill="rgba(0, 0, 0, 0.2)" />
                                     </pattern>
                                 </defs>
 
-                                {/* A. TIA NĂNG LƯỢNG ACTION BURST (CHỈ BÙNG LÊN KHI NỔ RỒI BIẾN MẤT) */}
+                                {/* A. TIA NĂNG LƯỢNG ACTION BURST (BÙNG LÊN KHI NỔ RỒI BIẾN MẤT) */}
                                 {frame >= 80 && frame < 108 && (
                                     <g
                                         stroke="#fef08a"
-                                        strokeWidth={Math.max(2.5, 3.8 * s)}
+                                        strokeWidth={Math.max(2.5, 3.5 * s)}
                                         strokeLinecap="round"
                                         opacity={interpolate(frame, [80, 88, 108], [0, 1, 0])}
                                     >
-                                        <line x1="260" y1="-5" x2="260" y2="-35" />
-                                        <line x1="105" y1="12" x2="80" y2="-22" />
-                                        <line x1="415" y1="12" x2="440" y2="-22" />
-                                        <line x1="12" y1="95" x2="-28" y2="95" />
-                                        <line x1="508" y1="95" x2="548" y2="95" />
-                                        <line x1="105" y1="178" x2="80" y2="212" />
-                                        <line x1="415" y1="178" x2="440" y2="212" />
-                                        <line x1="260" y1="195" x2="260" y2="225" />
+                                        <line x1="240" y1="0" x2="240" y2="-28" />
+                                        <line x1="90" y1="8" x2="65" y2="-18" />
+                                        <line x1="390" y1="8" x2="415" y2="-18" />
+                                        <line x1="0" y1="65" x2="-28" y2="65" />
+                                        <line x1="480" y1="65" x2="510" y2="65" />
+                                        <line x1="90" y1="125" x2="65" y2="152" />
+                                        <line x1="390" y1="125" x2="415" y2="152" />
+                                        <line x1="240" y1="135" x2="240" y2="162" />
                                     </g>
                                 )}
 
-                                {/* B. 4 MẢNH VỠ 3D BAY LƠ LỬNG GÓC TẠO LỰC NỔ CHÂN THẬT (KHÔNG PHẢI CHÂN CÔN TRÙNG) */}
-                                <g
-                                    fill="#ef4444"
-                                    stroke="#0f172a"
-                                    strokeWidth={Math.max(2, 2.8 * s)}
-                                    strokeLinejoin="round"
-                                >
-                                    {/* Mảnh trên trái */}
-                                    <polygon
-                                        points="18,34 36,24 28,44"
-                                        filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`}
-                                    />
-                                    {/* Mảnh trên phải */}
-                                    <polygon
-                                        points="488,32 506,42 494,54"
-                                        filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`}
-                                    />
-                                    {/* Mảnh dưới trái */}
-                                    <polygon
-                                        points="22,154 38,166 18,172"
-                                        filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`}
-                                    />
-                                    {/* Mảnh dưới phải */}
-                                    <polygon
-                                        points="486,148 506,160 488,170"
-                                        filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`}
-                                    />
+                                {/* B. LỚP BÓNG ĐỔ KHỐI OFFSET ĐEN COMIC DÀY (OFFSET SHADOW) */}
+                                <g transform={`translate(${7 * s}, ${10 * s})`}>
+                                    <path d={COMIC_BLAST_PATH_D} fill="#0f172a" opacity={0.92} />
                                 </g>
 
-                                {/* C. LỚP BÓNG ĐỔ 3D EXTRUSION KHỐI DÀY (GÓC 45 ĐỘ COMIC) */}
-                                <g transform={`translate(${9 * s}, ${13 * s})`}>
-                                    <path d={COMIC_BLAST_PATH_D} fill="#0f172a" opacity={0.96} />
-                                </g>
-
-                                {/* D. LỚP THÀNH VÁCH NGHIÊNG 3D BEVEL RIM */}
-                                <g transform={`translate(${4.5 * s}, ${6.5 * s})`}>
-                                    <path d={COMIC_BLAST_PATH_D} fill="#991b1b" />
-                                </g>
-
-                                {/* E. VIỀN STICKER TRẮNG NGOÀI CÙNG (ĐỒNG BỘ 100% VỚI DNA COMIC POP-ART CỦA BỐ CỤC) */}
+                                {/* C. VIỀN MÉP GIẤY XÉ TRẮNG THỦ CÔNG BAO NGOÀI (WHITE TORN PAPER BORDER) */}
                                 <path
                                     d={COMIC_BLAST_PATH_D}
                                     fill="none"
                                     stroke="#ffffff"
-                                    strokeWidth={Math.max(7, 10 * s)}
+                                    strokeWidth={Math.max(6, 9 * s)}
                                     strokeLinejoin="round"
                                 />
 
-                                {/* F. MẶT KHỐI ĐỎ RỰC NĂNG LƯỢNG VỚI VIỀN ĐEN MỰC TRUYỆN TRANH DÀY */}
+                                {/* D. MẶT BĂNG DÁN ĐỎ GRADIENT VỚI ĐƯỜNG VIỀN MỰC TRUYỆN TRANH DÀY */}
                                 <path
                                     d={COMIC_BLAST_PATH_D}
-                                    fill="url(#comicBlastGrad)"
+                                    fill="url(#tapeStickerGrad)"
                                     stroke="#0f172a"
-                                    strokeWidth={Math.max(4, 5.5 * s)}
+                                    strokeWidth={Math.max(3.5, 4.8 * s)}
                                     strokeLinejoin="round"
                                     strokeLinecap="round"
                                 />
 
-                                {/* G. VẦNG HÀO QUANG & HỌA TIẾT HALFTONE BÊN TRONG LÕI */}
-                                <path d={COMIC_BLAST_PATH_D} fill="url(#blastCoreGlow)" />
-                                <path d={COMIC_BLAST_PATH_D} fill="url(#blastHalftone)" opacity={0.75} />
+                                {/* E. VẦNG HÀO QUANG & HỌA TIẾT HALFTONE BÊN TRONG LÕI BĂNG DÁN */}
+                                <path d={COMIC_BLAST_PATH_D} fill="url(#tapeCoreGlow)" />
+                                <path d={COMIC_BLAST_PATH_D} fill="url(#tapeHalftone)" opacity={0.65} />
 
-                                {/* H. RÃNH NỨT 3D NỘI TẠI (FRACTURE CREVICES CHẠY TRONG THÂN, KHÔNG CHÌA RA NGOÀI) */}
-                                <g strokeLinecap="round" strokeLinejoin="round">
-                                    {/* Rãnh nứt nhánh trái - Đường rãnh tối 3D */}
-                                    <path
-                                        d="M 125 22 L 180 68 L 210 92 L 235 125"
-                                        fill="none"
-                                        stroke="#0f172a"
-                                        strokeWidth={Math.max(3, 4.2 * s)}
-                                    />
-                                    {/* Mép phản quang rãnh nứt sáng màu vàng neon */}
-                                    <path
-                                        d="M 127 22 L 182 68 L 212 92 L 237 125"
-                                        fill="none"
-                                        stroke="#fef08a"
-                                        strokeWidth={Math.max(1.5, 2 * s)}
-                                    />
-
-                                    {/* Rãnh nứt nhánh phải - Đường rãnh tối 3D */}
-                                    <path
-                                        d="M 395 170 L 350 125 L 315 95"
-                                        fill="none"
-                                        stroke="#0f172a"
-                                        strokeWidth={Math.max(3, 4.2 * s)}
-                                    />
-                                    {/* Mép phản quang rãnh nứt sáng màu vàng neon */}
-                                    <path
-                                        d="M 397 170 L 352 125 L 317 95"
-                                        fill="none"
-                                        stroke="#fef08a"
-                                        strokeWidth={Math.max(1.5, 2 * s)}
-                                    />
+                                {/* F. HAI MẢNH BĂNG KEO TRONG SUỐT (WASHI TAPE) DÁN CHÉO 2 ĐẦU MÉP */}
+                                <g opacity={0.75}>
+                                    {/* Mảnh băng keo mép trái */}
+                                    <rect x="8" y="24" width="22" height="80" rx="3" fill="#fef08a" stroke="#0f172a" strokeWidth="2.2" transform="rotate(-6 19 64)" opacity={0.8} />
+                                    {/* Mảnh băng keo mép phải */}
+                                    <rect x="446" y="24" width="22" height="80" rx="3" fill="#fef08a" stroke="#0f172a" strokeWidth="2.2" transform="rotate(7 457 64)" opacity={0.8} />
                                 </g>
                             </svg>
 
@@ -901,7 +834,7 @@ export const Scene0ProblemHook: React.FC = () => {
                             width: '100%',
                             height: '100%',
                             objectFit: 'contain',
-                            filter: 'drop-shadow(0 25px 40px rgba(15, 23, 42, 0.12))',
+                            filter: `drop-shadow(${4.5 * s}px 0 0 #ffffff) drop-shadow(-${4.5 * s}px 0 0 #ffffff) drop-shadow(0 ${4.5 * s}px 0 #ffffff) drop-shadow(0 -${4.5 * s}px 0 #ffffff) drop-shadow(${3.2 * s}px ${3.2 * s}px 0 #ffffff) drop-shadow(-${3.2 * s}px -${3.2 * s}px 0 #ffffff) drop-shadow(${3.2 * s}px -${3.2 * s}px 0 #ffffff) drop-shadow(-${3.2 * s}px ${3.2 * s}px 0 #ffffff) drop-shadow(${6 * s}px ${10 * s}px 0px rgba(15, 23, 42, 0.88)) drop-shadow(0 25px 45px rgba(0, 0, 0, 0.14)) contrast(1.03)`,
                         }}
                     />
                 </div>
