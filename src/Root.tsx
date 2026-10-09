@@ -3,6 +3,7 @@ import { Composition } from "remotion";
 import { MainVideo } from "./MainVideo";
 import { VIDEO_CONFIG } from "./config/videoConfig";
 import { TestMacbookComp } from "./components/3d/TestMacbookComp";
+import { Scene0ProblemHook } from "./components/scenes/Scene0ProblemHook";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -55,6 +56,16 @@ export const RemotionRoot: React.FC = () => {
         fps={60}
         width={2200}
         height={1340}
+      />
+
+      {/* Composition Phân Cảnh 0: Nỗi Đau Khách Hàng (Editorial 2.5D Vector - 730 frames @ 60fps) */}
+      <Composition
+        id="Scene0ProblemHook"
+        component={Scene0ProblemHook}
+        durationInFrames={730}
+        fps={60}
+        width={3840}
+        height={2160}
       />
     </>
   );
