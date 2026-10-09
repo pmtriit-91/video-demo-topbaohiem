@@ -1,6 +1,7 @@
 import React from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig, Easing, Img, staticFile } from 'remotion';
 import { LucideIcon, ShieldAlert, FileText, Clock, AlertTriangle, HelpCircle, Sparkles, Lightbulb } from 'lucide-react';
+import { AlarmClockComicSticker, MagnifyingComicSticker, ContractComicSticker, WarningSweatComicSticker } from '../ui/ComicStickers';
 
 // =========================================================================
 // CẤU HÌNH 4 CÂU HỎI NỖI ĐAU (NEARLY SQUARE BOXES, EXTRA LARGE READABLE TEXT)
@@ -703,8 +704,8 @@ export const Scene0ProblemHook: React.FC = () => {
                 const cornerH = Math.round(card.cornerH * s);
 
                 const centerLeft = cx - targetW / 2;
-                // Đáy đám mây ở ~ 730px trên đỉnh đầu nhân vật -> 3 bong bóng suy nghĩ chúc thẳng xuống đỉnh tóc
-                const centerTop = Math.round(730 * s - targetH);
+                // Đáy đám mây ở ~ 840px trên đỉnh đầu nhân vật -> 3 bong bóng suy nghĩ chúc thẳng xuống đỉnh tóc
+                const centerTop = Math.round(840 * s - targetH);
                 const corner = getCornerCoords(card.cornerKey, cornerW, cornerH);
 
                 // Giai đoạn 1: Bung nổ từ điểm nổ ra TRUNG TÂM TRÊN ĐẦU (Center Pop-in)
@@ -873,7 +874,58 @@ export const Scene0ProblemHook: React.FC = () => {
                             </svg>
                         )}
 
-                        {/* 2. CHÙM SAO VỠ TUNG SẠCH SẼ TẠI A-HA MOMENT */}
+                        {/* 2. STICKER HOẠT HÌNH COMIC ĐỘNG GÁC TRÊN MÉP NGOÀI ĐÁM MÂY (RENG RENG / SOI KÍNH / CHÓNG MẶT / MỒ HÔI) */}
+                        {showTail && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    zIndex: 12,
+                                    pointerEvents: 'none',
+                                    ...(card.id === 1
+                                        ? { top: '-4%', left: '22%' }
+                                        : card.id === 2
+                                        ? { top: '-8%', right: '9%' }
+                                        : card.id === 3
+                                        ? { top: '-7%', left: '13%' } // Đồng hồ vintage nghiêng -15 độ đậu vững trên gờ mây
+                                        : { top: '-8%', right: '9%' }),
+                                }}
+                            >
+                                {card.id === 1 && (
+                                    <MagnifyingComicSticker
+                                        frame={frame}
+                                        isSpotlight={isSpotlight}
+                                        size={Math.round(interpolate(dockProgress, [0, 1], [130 * s, 105 * s]))}
+                                        s={s}
+                                    />
+                                )}
+                                {card.id === 2 && (
+                                    <ContractComicSticker
+                                        frame={frame}
+                                        isSpotlight={isSpotlight}
+                                        size={Math.round(interpolate(dockProgress, [0, 1], [250 * s, 205 * s]))}
+                                        s={s}
+                                    />
+                                )}
+                                {card.id === 3 && (
+                                    <AlarmClockComicSticker
+                                        frame={frame}
+                                        isSpotlight={isSpotlight}
+                                        size={Math.round(interpolate(dockProgress, [0, 1], [135 * s, 110 * s]))}
+                                        s={s}
+                                    />
+                                )}
+                                {card.id === 4 && (
+                                    <WarningSweatComicSticker
+                                        frame={frame}
+                                        isSpotlight={isSpotlight}
+                                        size={Math.round(interpolate(dockProgress, [0, 1], [240 * s, 195 * s]))}
+                                        s={s}
+                                    />
+                                )}
+                            </div>
+                        )}
+
+                        {/* 3. CHÙM SAO VỠ TUNG SẠCH SẼ TẠI A-HA MOMENT */}
                         {showBurstSparks && (
                             <div
                                 style={{
@@ -890,7 +942,7 @@ export const Scene0ProblemHook: React.FC = () => {
                             </div>
                         )}
 
-                        {/* 3. NỘI DUNG TRỌNG TÂM: CÂU HỎI ĐỘC THOẠI TO RÕ RÀNG, HOÀN TOÀN KHÔNG CÒN GẠCH ĐẦU DÒNG */}
+                        {/* 4. NỘI DUNG TRỌNG TÂM: CÂU HỎI ĐỘC THOẠI TO RÕ RÀNG, HOÀN TOÀN KHÔNG CÒN GẠCH ĐẦU DÒNG */}
                         <div
                             style={{
                                 position: 'absolute',
@@ -908,13 +960,12 @@ export const Scene0ProblemHook: React.FC = () => {
                                 pointerEvents: 'none',
                             }}
                         >
-                            {/* BADGE TAG KÈM ICON GỌN GÀNG, ĐẬM CHẤT COMIC POP-ART */}
+                            {/* BADGE TAG RỰC RỠ, GỌN GÀNG, ĐẬM CHẤT COMIC POP-ART */}
                             <div
                                 style={{
                                     display: 'inline-flex',
                                     alignItems: 'center',
-                                    gap: Math.round(interpolate(dockProgress, [0, 1], [10 * s, 8 * s])),
-                                    padding: `${Math.round(interpolate(dockProgress, [0, 1], [8 * s, 6 * s]))}px ${Math.round(interpolate(dockProgress, [0, 1], [22 * s, 18 * s]))}px`,
+                                    padding: `${Math.round(interpolate(dockProgress, [0, 1], [7 * s, 5 * s]))}px ${Math.round(interpolate(dockProgress, [0, 1], [22 * s, 18 * s]))}px`,
                                     borderRadius: 999,
                                     background: card.badgeColor,
                                     border: `${Math.max(2.2, 2.8 * s)}px solid #0f172a`,
@@ -922,7 +973,6 @@ export const Scene0ProblemHook: React.FC = () => {
                                     color: '#ffffff',
                                 }}
                             >
-                                <IconComponent size={Math.round(interpolate(dockProgress, [0, 1], [26 * s, 22 * s]))} strokeWidth={2.8} />
                                 <span
                                     style={{
                                         fontSize: badgeSize,
