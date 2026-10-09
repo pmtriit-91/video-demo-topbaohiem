@@ -100,6 +100,7 @@ Tọa lạc tại thư mục: `/Users/phamminhtri/Desktop/train/crawl4ai/output/
 > - **Kịch bản động (Evolving & Agile)**: Không có kịch bản nào là cố định 100%. Kịch bản thay đổi và nâng cấp liên tục tùy theo cảm hứng, thử nghiệm và đóng góp sáng tạo qua từng phiên làm việc.
 
 - **Khung các phân cảnh tham khảo (Modular Scenes - Cập nhật linh hoạt theo thực tế)**:
+    - **Tài liệu chiến lược & Lộ trình 2 phong cách**: [Audit Chiến Lược & Tích Hợp Canva MCP](file:///Users/phamminhtri/Desktop/project/quancao-topbaohiem/docs/audits/audit_strategic_alignment_canva_integration.md) (Quyết định dồn lực hoàn thiện Phong cách 1 trước khi mở rộng Phong cách 2).
     - **Scene 0 (Đã hoàn thiện & kiểm định)**: [Problem Hook - Khơi dậy nỗi đau bảo hiểm truyền thống](file:///Users/phamminhtri/Desktop/project/quancao-topbaohiem/docs/audits/scene0/audit_scene0_problem_hook.md) (4 đám mây suy nghĩ Comic Pop-Art, 4 sticker động, nhân vật trung tâm bối rối).
     - **Scene 1 (Đang triển khai & hoàn thiện)**: [Interactive Product Showcase](file:///Users/phamminhtri/Desktop/project/quancao-topbaohiem/docs/audits/scene1/plan_scene1_interactive_showcase.md) (Mở nắp MacBook 3D, thức tỉnh màn hình Retina, iPhone đồng bộ, tương tác rê chuột nhóm bảo hiểm chủ lực).
     - **Các Scene tiếp theo (Dự kiến mở rộng)**:
