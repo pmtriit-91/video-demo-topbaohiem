@@ -33,9 +33,9 @@ const CARDS_DATA: CardConfig[] = [
         icon: ShieldAlert,
         iconBg: '#fef3c7',
         iconColor: '#d97706',
-        popFrame: 200,
-        holdUntil: 305, // Giữ ở tâm ~1.75s để đọc trọn vẹn
-        dockEnd: 330,   // Lướt về góc trong 25 frames
+        popFrame: 260,
+        holdUntil: 370, // Giữ ở tâm ~1.83s để đọc trọn vẹn
+        dockEnd: 395,   // Lướt về góc trong 25 frames
         cornerKey: 'top-left',
         spotlightW: 860,
         spotlightH: 560,
@@ -50,9 +50,9 @@ const CARDS_DATA: CardConfig[] = [
         icon: FileText,
         iconBg: '#fee2e2',
         iconColor: '#dc2626',
-        popFrame: 340,
-        holdUntil: 445, // Giữ ở tâm ~1.75s để đọc
-        dockEnd: 470,   // Lướt về góc trong 25 frames
+        popFrame: 405,
+        holdUntil: 515, // Giữ ở tâm ~1.83s để đọc
+        dockEnd: 540,   // Lướt về góc trong 25 frames
         cornerKey: 'top-right',
         spotlightW: 860,
         spotlightH: 560,
@@ -67,9 +67,9 @@ const CARDS_DATA: CardConfig[] = [
         icon: Clock,
         iconBg: '#e0e7ff',
         iconColor: '#4f46e5',
-        popFrame: 480,
-        holdUntil: 585, // Giữ ở tâm ~1.75s để đọc
-        dockEnd: 610,   // Lướt về góc trong 25 frames
+        popFrame: 550,
+        holdUntil: 660, // Giữ ở tâm ~1.83s để đọc
+        dockEnd: 685,   // Lướt về góc trong 25 frames
         cornerKey: 'bottom-left',
         spotlightW: 880,
         spotlightH: 570,
@@ -84,9 +84,9 @@ const CARDS_DATA: CardConfig[] = [
         icon: AlertTriangle,
         iconBg: '#cffafe',
         iconColor: '#0891b2',
-        popFrame: 620,
-        holdUntil: 725, // Giữ ở tâm ~1.75s để đọc
-        dockEnd: 750,   // Lướt về góc trong 25 frames
+        popFrame: 695,
+        holdUntil: 805, // Giữ ở tâm ~1.83s để đọc
+        dockEnd: 830,   // Lướt về góc trong 25 frames
         cornerKey: 'bottom-right',
         spotlightW: 860,
         spotlightH: 560,
@@ -94,6 +94,30 @@ const CARDS_DATA: CardConfig[] = [
         cornerH: 480,
     },
 ];
+
+// =========================================================================
+// HÀM & ĐƯỜNG DẪN KHỐI NỔ 3D COMIC STARBURST (DYNAMIC IMPACT BLAST BADGE)
+// Thiết kế đa giác góc cạnh uy lực, chiều sâu 3D nội tại, triệt tiêu mọi cảm giác dẹt
+// =========================================================================
+const COMIC_BLAST_PATH_D = `
+    M 28,95
+    L 76,52
+    L 125,22
+    L 188,38
+    L 260,12
+    L 332,36
+    L 395,20
+    L 444,52
+    L 492,95
+    L 444,138
+    L 395,170
+    L 332,154
+    L 260,178
+    L 188,152
+    L 125,168
+    L 76,138
+    Z
+`.replace(/\s+/g, ' ').trim();
 
 // =========================================================================
 // HÀM RENDER ĐÁM MÂY SUY NGHĨ COMIC (THOUGHT CLOUD SVG + 3 CHẤM TRÒN DẪN HƯỚNG)
@@ -170,41 +194,58 @@ export const Scene0ProblemHook: React.FC = () => {
     // =========================================================================
     // 1. TIMELINE & ANIMATION CỦA CẢNH
     // =========================================================================
-    // Tổng thời lượng: 730 frames (~12.16s @ 60fps)
+    // Tổng thời lượng: 900 frames (15.0s @ 60fps)
 
-    // A. Máy đánh chữ gõ "Muốn Mua Bảo Hiểm Online," ở trung tâm chậm rãi (Frame 12 -> 76 ~1.1s)
+    // A. Máy đánh chữ gõ "Muốn Mua Bảo Hiểm Online," ở trung tâm chậm rãi (Frame 12 -> 78 ~1.1s)
     const fullPrefixText = 'Muốn Mua Bảo Hiểm Online,';
-    const typingProgress = interpolate(frame, [12, 76], [0, fullPrefixText.length], {
+    const typingProgress = interpolate(frame, [12, 78], [0, fullPrefixText.length], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
     const charCount = Math.floor(typingProgress);
     const typedText = fullPrefixText.slice(0, charCount);
-    const showCursor = frame >= 8 && frame < 80 && Math.floor(frame / 5) % 2 === 0;
+    const showCursor = frame >= 8 && frame < 82 && Math.floor(frame / 6) % 2 === 0;
 
-    // B. Cú đục thủng lỗ "NHƯNG...?" tại trung tâm (Hole Punch Impact: Frame 80+)
+    // B. Cú nổ xé toạc background 3D & Cú BUZZ Yahoo Messenger chấn động (Frame 82+)
+    const PUNCH_FRAME = 82;
     const punchSpring = spring({
-        frame: Math.max(0, frame - 80),
+        frame: Math.max(0, frame - PUNCH_FRAME),
         fps,
         config: { damping: 9, mass: 0.45, stiffness: 140 },
     });
-    const punchShake =
-        frame >= 80 && frame < 96
-            ? Math.sin((frame - 80) * 2.2) * Math.max(0, 1 - (frame - 80) / 16) * (8 * s)
-            : 0;
 
-    // C. Quỹ đạo lướt từ Trung tâm lên Đỉnh (Docking to Top Header: Frame 140 -> 175)
+    // Yahoo BUZZ: Rung chấn động kịch liệt đa chiều, giật nảy tần số cao rồi tắt dần
+    const BUZZ_DURATION = 28;
+    const buzzElapsed = frame - PUNCH_FRAME;
+    const isBuzzing = buzzElapsed >= 0 && buzzElapsed < BUZZ_DURATION;
+    const buzzDecay = isBuzzing ? Math.pow(1 - buzzElapsed / BUZZ_DURATION, 1.8) : 0;
+    const buzzX = isBuzzing ? Math.sin(buzzElapsed * 3.8) * buzzDecay * (28 * s) : 0;
+    const buzzY = isBuzzing ? Math.cos(buzzElapsed * 4.4) * buzzDecay * (20 * s) : 0;
+    const buzzRot = isBuzzing ? Math.sin(buzzElapsed * 3.2) * buzzDecay * 4.2 : 0;
+
+    // Rung camera toàn cảnh nhẹ (Camera Shake) tăng uy lực chấn động
+    const globalShakeX = isBuzzing ? buzzX * 0.35 : 0;
+    const globalShakeY = isBuzzing ? buzzY * 0.35 : 0;
+
+    // C. Dwell Time: Giữ ở trung tâm đến Frame 195 (~1.88s) để khắc sâu vào tâm trí người xem
+    // Nhịp thở cảnh báo phập phồng (pulseScale) như quả bom hẹn giờ
+    const DWELL_START = PUNCH_FRAME + BUZZ_DURATION;
+    const DWELL_END = 195;
+    const isDwelling = frame >= DWELL_START && frame < DWELL_END;
+    const pulseScale = isDwelling ? 1 + Math.sin((frame - DWELL_START) * 0.16) * 0.038 : 1;
+
+    // D. Quỹ đạo lướt từ Trung tâm lên Đỉnh (Docking to Top Header: Frame 195 -> 235)
     const dockSpring = spring({
-        frame: Math.max(0, frame - 140),
+        frame: Math.max(0, frame - 195),
         fps,
-        config: { damping: 15, mass: 0.85, stiffness: 75 },
+        config: { damping: 14, mass: 0.9, stiffness: 70 },
     });
     const headerY = interpolate(dockSpring, [0, 1], [cy - 60 * s, height * 0.045]);
     const headerScale = interpolate(dockSpring, [0, 1], [1.18, 1.0]);
 
-    // D. Nhân vật trung tâm xuất hiện sau khi tiêu đề đã lướt lên đỉnh (Frame 165 -> 200)
+    // E. Nhân vật trung tâm xuất hiện sau khi tiêu đề đã lướt lên đỉnh (Frame 225 -> 260)
     const characterEntrance = spring({
-        frame: Math.max(0, frame - 165),
+        frame: Math.max(0, frame - 225),
         fps,
         config: { damping: 15, mass: 0.95, stiffness: 80 },
     });
@@ -286,8 +327,8 @@ export const Scene0ProblemHook: React.FC = () => {
     // =========================================================================
     // 3. CAO TRÀO QUÁ TẢI (OVERLOAD) & A-HA MOMENT GIẢI PHÓNG
     // =========================================================================
-    const OVERLOAD_START = 655;
-    const AHA_START = 678;
+    const OVERLOAD_START = 830;
+    const AHA_START = 855;
 
     // Chùng vai bối rối khi cả 4 bóng chat đã bao vây
     const overloadDip = interpolate(frame, [OVERLOAD_START, OVERLOAD_START + 18], [0, 10 * s], {
@@ -327,7 +368,7 @@ export const Scene0ProblemHook: React.FC = () => {
     });
 
     // Fade out êm đềm chuyển sang Scene 1
-    const sceneFadeOut = interpolate(frame, [712, 730], [1, 0], {
+    const sceneFadeOut = interpolate(frame, [882, 900], [1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -345,11 +386,11 @@ export const Scene0ProblemHook: React.FC = () => {
     const originX = cx + Math.round(200 * s);
     const originY = Math.round(height * 0.36);
 
-    // Hàm tính tọa độ 4 góc: Đám mây suy nghĩ ôm lấy nhân vật tự nhiên, chuỗi bong bóng hướng vào trung tâm
+    // Hàm tính tọa độ 4 góc: Đám mây suy nghĩ ôm lấy nhân vật tự nhiên, khoảng thở trung tâm rộng thoáng
     const getCornerCoords = (key: CardConfig['cornerKey'], cW: number, cH: number) => {
-        const marginX = Math.round(520 * s);
-        const topY = Math.round(200 * s);
-        const bottomY = Math.round(1100 * s);
+        const marginX = Math.round(440 * s); // Đẩy nhẹ về 4 góc để trung tâm thoáng đãng, sang trọng
+        const topY = Math.round(180 * s);
+        const bottomY = Math.round(1120 * s);
 
         switch (key) {
             case 'top-left':
@@ -377,6 +418,7 @@ export const Scene0ProblemHook: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 opacity: sceneFadeOut,
+                transform: `translate(${globalShakeX}px, ${globalShakeY}px)`, // Yahoo BUZZ Camera Shake toàn cảnh!
                 zIndex: 1,
             }}
         >
@@ -415,7 +457,7 @@ export const Scene0ProblemHook: React.FC = () => {
             />
 
             {/* ============================================================= */}
-            {/* 1. KHỐI CÂU HỎI LỚN: GÕ CHỮ TRUNG TÂM -> ĐỤC THỦNG NHƯNG -> LƯỚT LÊN ĐỈNH */}
+            {/* 1. KHỐI CÂU HỎI LỚN: GÕ CHỮ TRUNG TÂM -> XÉ TOẠC BACKGROUND 3D -> LƯỚT LÊN ĐỈNH */}
             {/* ============================================================= */}
             {frame >= 8 && (
                 <div
@@ -423,26 +465,26 @@ export const Scene0ProblemHook: React.FC = () => {
                         position: 'absolute',
                         top: headerY,
                         left: '50%',
-                        transform: `translateX(-50%) scale(${headerScale})`,
+                        transform: `translateX(-50%) scale(${headerScale * pulseScale})`,
                         transformOrigin: 'center center',
                         zIndex: 25,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        gap: 22 * s,
+                        gap: 20 * s,
                         whiteSpace: 'nowrap',
                         pointerEvents: 'none',
                     }}
                 >
-                    {/* Vế 1: Chữ gõ Typewriter từng ký tự */}
+                    {/* Vế 1: Chữ gõ Typewriter từng ký tự chậm rãi */}
                     <span
                         style={{
                             fontFamily: '"Plus Jakarta Sans", sans-serif',
-                            fontSize: Math.max(28, 54 * s),
+                            fontSize: Math.max(30, 56 * s),
                             fontWeight: 900,
                             color: '#0f172a',
                             letterSpacing: '-0.03em',
-                            textShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
+                            textShadow: '0 2px 10px rgba(0, 0, 0, 0.06)',
                             display: 'inline-flex',
                             alignItems: 'center',
                         }}
@@ -452,8 +494,8 @@ export const Scene0ProblemHook: React.FC = () => {
                             <span
                                 style={{
                                     display: 'inline-block',
-                                    width: 4 * s,
-                                    height: 52 * s,
+                                    width: 4.5 * s,
+                                    height: 54 * s,
                                     backgroundColor: '#ed017c',
                                     marginLeft: 6 * s,
                                     borderRadius: 2 * s,
@@ -462,82 +504,181 @@ export const Scene0ProblemHook: React.FC = () => {
                         )}
                     </span>
 
-                    {/* Vế 2: Cú đục thủng lỗ trên Background dành riêng cho "NHƯNG...?" */}
-                    {frame >= 78 && (
+                    {/* Vế 2: Cú Nổ Comic Starburst 3D (Impact Blast Badge) + Yahoo BUZZ */}
+                    {frame >= 80 && (
                         <div
                             style={{
                                 position: 'relative',
+                                width: Math.round(490 * s),
+                                height: Math.round(180 * s),
                                 display: 'inline-flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                gap: 14 * s,
-                                padding: `${10 * s}px ${34 * s}px`,
-                                borderRadius: 24 * s,
-                                // Hiệu ứng khoét thủng nền: Nền đỏ rực cảnh báo bên trong hố sâu
-                                background: 'linear-gradient(145deg, #b91c1c 0%, #ef4444 55%, #991b1b 100%)',
-                                // Inset Shadow tạo cảm giác thành hố bị khoét sâu xuống bề mặt giấy
-                                boxShadow: `
-                                    inset 0px ${6 * s}px ${16 * s}px rgba(0, 0, 0, 0.8),
-                                    inset 0px -${3 * s}px ${8 * s}px rgba(255, 255, 255, 0.3),
-                                    0px ${12 * s}px ${30 * s}px rgba(220, 38, 38, 0.55),
-                                    0px 0px ${60 * s}px rgba(239, 68, 68, 0.4)
-                                `,
-                                border: `${Math.max(2, 3.5 * s)}px dashed #ffffff`,
-                                transform: `scale(${punchSpring}) rotate(${interpolate(punchSpring, [0, 1], [-18, -3.5])}deg) translate(${punchShake}px, ${punchShake}px)`,
+                                transform: `scale(${punchSpring}) rotate(${interpolate(punchSpring, [0, 1], [-18, -3.2]) + buzzRot}deg) translate(${buzzX}px, ${buzzY}px)`,
                                 transformOrigin: 'center center',
+                                pointerEvents: 'none',
                             }}
                         >
-                            {/* Tia nứt rạn xung quanh mép lỗ thủng */}
+                            {/* SVG KHỐI NỔ 3D COMIC: VIỀN STICKER TRẮNG, KHỐI 3D DÀY, LÕI ĐỎ RỰC & RÃNH NỨT NỘI TẠI */}
                             <svg
                                 style={{
                                     position: 'absolute',
-                                    width: '140%',
-                                    height: '200%',
-                                    top: '-50%',
-                                    left: '-20%',
-                                    pointerEvents: 'none',
+                                    inset: 0,
+                                    width: '100%',
+                                    height: '100%',
                                     overflow: 'visible',
+                                    pointerEvents: 'none',
                                 }}
+                                viewBox="0 0 520 190"
                             >
+                                <defs>
+                                    {/* Gradient đỏ tươi năng lượng rực rỡ, không xỉn màu */}
+                                    <linearGradient id="comicBlastGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stopColor="#ff2a5f" />
+                                        <stop offset="42%" stopColor="#ef4444" />
+                                        <stop offset="100%" stopColor="#ea580c" />
+                                    </linearGradient>
+
+                                    {/* Vầng sáng tâm hố nổ */}
+                                    <radialGradient id="blastCoreGlow" cx="50%" cy="50%" r="50%">
+                                        <stop offset="0%" stopColor="#fef08a" stopOpacity="0.45" />
+                                        <stop offset="60%" stopColor="#ef4444" stopOpacity="0.1" />
+                                        <stop offset="100%" stopColor="transparent" stopOpacity="0" />
+                                    </radialGradient>
+
+                                    {/* Họa tiết chấm Halftone Comic */}
+                                    <pattern id="blastHalftone" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+                                        <circle cx="7" cy="7" r="2.0" fill="rgba(0, 0, 0, 0.22)" />
+                                    </pattern>
+                                </defs>
+
+                                {/* A. TIA NĂNG LƯỢNG ACTION BURST (CHỈ BÙNG LÊN KHI NỔ RỒI BIẾN MẤT) */}
+                                {frame >= 80 && frame < 108 && (
+                                    <g
+                                        stroke="#fef08a"
+                                        strokeWidth={Math.max(2.5, 3.8 * s)}
+                                        strokeLinecap="round"
+                                        opacity={interpolate(frame, [80, 88, 108], [0, 1, 0])}
+                                    >
+                                        <line x1="260" y1="-5" x2="260" y2="-35" />
+                                        <line x1="105" y1="12" x2="80" y2="-22" />
+                                        <line x1="415" y1="12" x2="440" y2="-22" />
+                                        <line x1="12" y1="95" x2="-28" y2="95" />
+                                        <line x1="508" y1="95" x2="548" y2="95" />
+                                        <line x1="105" y1="178" x2="80" y2="212" />
+                                        <line x1="415" y1="178" x2="440" y2="212" />
+                                        <line x1="260" y1="195" x2="260" y2="225" />
+                                    </g>
+                                )}
+
+                                {/* B. 4 MẢNH VỠ 3D BAY LƠ LỬNG GÓC TẠO LỰC NỔ CHÂN THẬT (KHÔNG PHẢI CHÂN CÔN TRÙNG) */}
+                                <g fill="#ef4444" stroke="#0f172a" strokeWidth={Math.max(2, 2.8 * s)} strokeLinejoin="round">
+                                    {/* Mảnh trên trái */}
+                                    <polygon points="18,34 36,24 28,44" filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`} />
+                                    {/* Mảnh trên phải */}
+                                    <polygon points="488,32 506,42 494,54" filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`} />
+                                    {/* Mảnh dưới trái */}
+                                    <polygon points="22,154 38,166 18,172" filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`} />
+                                    {/* Mảnh dưới phải */}
+                                    <polygon points="486,148 506,160 488,170" filter={`drop-shadow(${2 * s}px ${3 * s}px 0px #0f172a)`} />
+                                </g>
+
+                                {/* C. LỚP BÓNG ĐỔ 3D EXTRUSION KHỐI DÀY (GÓC 45 ĐỘ COMIC) */}
+                                <g transform={`translate(${9 * s}, ${13 * s})`}>
+                                    <path d={COMIC_BLAST_PATH_D} fill="#0f172a" opacity={0.96} />
+                                </g>
+
+                                {/* D. LỚP THÀNH VÁCH NGHIÊNG 3D BEVEL RIM */}
+                                <g transform={`translate(${4.5 * s}, ${6.5 * s})`}>
+                                    <path d={COMIC_BLAST_PATH_D} fill="#991b1b" />
+                                </g>
+
+                                {/* E. VIỀN STICKER TRẮNG NGOÀI CÙNG (ĐỒNG BỘ 100% VỚI DNA COMIC POP-ART CỦA BỐ CỤC) */}
                                 <path
-                                    d="M 15 35 L 35 15 L 60 22"
+                                    d={COMIC_BLAST_PATH_D}
                                     fill="none"
-                                    stroke="#dc2626"
-                                    strokeWidth={Math.max(1.5, 2.5 * s)}
+                                    stroke="#ffffff"
+                                    strokeWidth={Math.max(7, 10 * s)}
+                                    strokeLinejoin="round"
+                                />
+
+                                {/* F. MẶT KHỐI ĐỎ RỰC NĂNG LƯỢNG VỚI VIỀN ĐEN MỰC TRUYỆN TRANH DÀY */}
+                                <path
+                                    d={COMIC_BLAST_PATH_D}
+                                    fill="url(#comicBlastGrad)"
+                                    stroke="#0f172a"
+                                    strokeWidth={Math.max(4, 5.5 * s)}
+                                    strokeLinejoin="round"
                                     strokeLinecap="round"
                                 />
-                                <path
-                                    d="M 320 60 L 350 78 L 380 68"
-                                    fill="none"
-                                    stroke="#dc2626"
-                                    strokeWidth={Math.max(1.5, 2.5 * s)}
-                                    strokeLinecap="round"
-                                />
+
+                                {/* G. VẦNG HÀO QUANG & HỌA TIẾT HALFTONE BÊN TRONG LÕI */}
+                                <path d={COMIC_BLAST_PATH_D} fill="url(#blastCoreGlow)" />
+                                <path d={COMIC_BLAST_PATH_D} fill="url(#blastHalftone)" opacity={0.75} />
+
+                                {/* H. RÃNH NỨT 3D NỘI TẠI (FRACTURE CREVICES CHẠY TRONG THÂN, KHÔNG CHÌA RA NGOÀI) */}
+                                <g strokeLinecap="round" strokeLinejoin="round">
+                                    {/* Rãnh nứt nhánh trái - Đường rãnh tối 3D */}
+                                    <path d="M 125 22 L 180 68 L 210 92 L 235 125" fill="none" stroke="#0f172a" strokeWidth={Math.max(3, 4.2 * s)} />
+                                    {/* Mép phản quang rãnh nứt sáng màu vàng neon */}
+                                    <path d="M 127 22 L 182 68 L 212 92 L 237 125" fill="none" stroke="#fef08a" strokeWidth={Math.max(1.5, 2 * s)} />
+
+                                    {/* Rãnh nứt nhánh phải - Đường rãnh tối 3D */}
+                                    <path d="M 395 170 L 350 125 L 315 95" fill="none" stroke="#0f172a" strokeWidth={Math.max(3, 4.2 * s)} />
+                                    {/* Mép phản quang rãnh nứt sáng màu vàng neon */}
+                                    <path d="M 397 170 L 352 125 L 317 95" fill="none" stroke="#fef08a" strokeWidth={Math.max(1.5, 2 * s)} />
+                                </g>
                             </svg>
 
-                            {/* Icon cảnh báo rung nhẹ trong lỗ thủng */}
-                            <AlertTriangle
-                                size={Math.max(24, 42 * s)}
-                                color="#fef08a"
+                            {/* I. NỘI DUNG CHỮ NHƯNG...? & ICON CẢNH BÁO NỔI BẬT NẰM TRÊN MẶT KHỐI */}
+                            <div
                                 style={{
-                                    filter: 'drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6))',
-                                    transform: `rotate(${Math.sin(frame * 0.25) * 8}deg)`,
-                                }}
-                            />
-
-                            {/* Chữ NHƯNG...? nổi bật trong hố thủng */}
-                            <span
-                                style={{
-                                    fontFamily: '"Plus Jakarta Sans", sans-serif',
-                                    fontSize: Math.max(34, 62 * s),
-                                    fontWeight: 950,
-                                    color: '#ffffff',
-                                    letterSpacing: '0.04em',
-                                    textShadow: `0 3px 6px rgba(0, 0, 0, 0.8), 0 0 ${20 * s}px #fef08a`,
+                                    position: 'absolute',
+                                    inset: 0,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: 14 * s,
+                                    zIndex: 5,
+                                    pointerEvents: 'none',
                                 }}
                             >
-                                NHƯNG...?
-                            </span>
+                                {/* Icon cảnh báo màu vàng neon viền đen comic */}
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        transform: `rotate(${Math.sin(frame * 0.3) * 8}deg)`,
+                                        filter: `drop-shadow(${2.5 * s}px ${3.5 * s}px 0px #0f172a)`,
+                                    }}
+                                >
+                                    <AlertTriangle
+                                        size={Math.max(26, 44 * s)}
+                                        color="#fef08a"
+                                        strokeWidth={2.8}
+                                        style={{
+                                            filter: 'drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7))',
+                                        }}
+                                    />
+                                </div>
+
+                                {/* Chữ NHƯNG...? 3D Comic siêu to đậm, viền đen mực truyện tranh, bóng đổ 3D extrusion */}
+                                <span
+                                    style={{
+                                        fontFamily: '"Plus Jakarta Sans", sans-serif',
+                                        fontSize: Math.max(34, 62 * s),
+                                        fontWeight: 950,
+                                        color: '#ffffff',
+                                        letterSpacing: '0.04em',
+                                        WebkitTextStroke: `${Math.max(2.6, 4 * s)}px #0f172a`,
+                                        filter: `drop-shadow(${5 * s}px ${6 * s}px 0px #0f172a) drop-shadow(0 0 ${16 * s}px rgba(254, 240, 138, 0.6))`,
+                                        transform: 'translateY(-1px)',
+                                    }}
+                                >
+                                    NHƯNG...?
+                                </span>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -894,6 +1035,7 @@ export const Scene0ProblemHook: React.FC = () => {
                                     overflow: 'visible',
                                     pointerEvents: 'none',
                                     zIndex: 1,
+                                    filter: 'drop-shadow(0 24px 48px rgba(15, 23, 42, 0.08))', // Lớp bóng mờ khuếch tán mềm sang trọng kiểu Studio
                                 }}
                                 viewBox="0 0 850 560"
                             >
@@ -958,7 +1100,7 @@ export const Scene0ProblemHook: React.FC = () => {
                                         : card.id === 2
                                         ? { top: '-8%', right: '9%' }
                                         : card.id === 3
-                                        ? { top: '-7%', left: '13%' } // Đồng hồ vintage nghiêng -15 độ đậu vững trên gờ mây
+                                        ? { top: '-12%', left: '8%' } // Đồng hồ vintage nghiêng -24 độ sang trái, kích thước lớn nổi bật
                                         : { top: '-8%', right: '9%' }),
                                 }}
                             >
@@ -982,7 +1124,7 @@ export const Scene0ProblemHook: React.FC = () => {
                                     <AlarmClockComicSticker
                                         frame={frame}
                                         isSpotlight={isSpotlight}
-                                        size={Math.round(interpolate(dockProgress, [0, 1], [135 * s, 110 * s]))}
+                                        size={Math.round(interpolate(dockProgress, [0, 1], [175 * s, 140 * s]))}
                                         s={s}
                                     />
                                 )}

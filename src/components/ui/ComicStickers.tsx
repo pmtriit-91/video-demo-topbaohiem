@@ -11,17 +11,17 @@ export const AlarmClockComicSticker: React.FC<{
     size: number;
     s: number;
 }> = ({ frame, isSpotlight, size, s }) => {
-    // Trục đồng hồ nghiêng sang trái 15 độ (-15deg), tạo độ lắc nhẹ nhàng tự nhiên
+    // Trục đồng hồ nghiêng sang trái 24 độ (-24deg), tạo độ ngả năng động và lắc nhẹ nhàng
     const wiggle = isSpotlight
         ? Math.sin(frame * 0.16) * 4.5
         : Math.sin(frame * 0.08) * 2.2;
-    const rotate = -15 + wiggle;
+    const rotate = -24 + wiggle;
 
     // Nhịp thở vi mô rất nhẹ
     const breathe = 1 + Math.sin(frame * 0.1) * 0.02;
 
-    // Kích thước chuẩn đẹp, sắc nét từng con số và quai chuông vintage
-    const widthPx = Math.round(size * 1.06);
+    // Tăng kích thước chiếc đồng hồ to rõ, sắc nét từng con số và quai chuông vintage
+    const widthPx = Math.round(size * 1.36);
     const heightPx = Math.round(widthPx * (854 / 642));
 
     return (
@@ -33,7 +33,7 @@ export const AlarmClockComicSticker: React.FC<{
                 transform: `rotate(${rotate}deg) scale(${breathe})`,
                 transformOrigin: 'bottom center',
                 pointerEvents: 'none',
-                filter: 'drop-shadow(4px 6px 0px rgba(15, 23, 42, 0.85)) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15))',
+                filter: 'drop-shadow(5px 8px 0px rgba(15, 23, 42, 0.9)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.18))',
             }}
         >
             <Img
