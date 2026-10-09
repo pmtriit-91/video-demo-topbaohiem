@@ -4,10 +4,21 @@ import { MainVideo } from "./MainVideo";
 import { VIDEO_CONFIG } from "./config/videoConfig";
 import { TestMacbookComp } from "./components/3d/TestMacbookComp";
 import { Scene0ProblemHook } from "./components/scenes/Scene0ProblemHook";
+import { MasterStoryboardDraft } from "./components/scenes/MasterStoryboardDraft";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* 🌟 BẢN PHÁC THẢO TOÀN CẢNH 6 HỒI KỊCH BẢN CHUẨN (2600 frames @ 60fps ~ 43.3s) 🌟 */}
+      <Composition
+        id="MasterStoryboardDraft4K"
+        component={MasterStoryboardDraft}
+        durationInFrames={2600}
+        fps={60}
+        width={3840}
+        height={2160}
+      />
+
       {/* Composition 4K UHD Master (3840 x 2160 @ 60fps) - Đạt chuẩn điện ảnh siêu sắc nét */}
       <Composition
         id="TopBaoHiemPromo4K"

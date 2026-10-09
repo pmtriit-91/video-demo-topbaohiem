@@ -69,11 +69,35 @@ graph LR
 
 ---
 
-## 5. NHIỆM VỤ KỸ THUẬT TIẾP THEO (NEXT ACTION ITEMS)
+## 5. BẢNG KHỚP NỐI CHI TIẾT 6 NHỊP KỊCH BẢN CHUẨN LÊN VIDEO (MASTER 6-ACT MAPPING)
+
+Để khắc phục tình trạng phân cảnh 1 và 2 trước đây chưa ăn khớp hoặc bị chồng chéo, Người dùng và Agent đã chuẩn hóa toàn bộ dòng chảy video thành 6 nhịp kịch bản rõ ràng, tận dụng triệt để mã nguồn và kho tài nguyên 4K sẵn có:
+
+| Nhịp Kịch Bản Chuẩn | Vai Trò Nội Dung | Phương Án Triển Khai & Khớp Nối Mã Nguồn |
+| :--- | :--- | :--- |
+| **Nhịp 1: Băn khoăn** | Nỗi đau ma trận bảo hiểm truyền thống | **Scene 0 hiện tại** (`Scene0ProblemHook.tsx`): Cô gái người thật + 4 đám mây câu hỏi bối rối dạt về 4 góc. |
+| **Nhịp 2: Búng tay tìm ra TOPbaohiem** | Khoảnh khắc Eureka bừng sáng | **Đặt ở cuối Scene 0**: Búng tay *Snap!* $\rightarrow$ Đón chiếc MacBook 3D mở nắp thức tỉnh màn hình Liquid Retina của **Scene 1** (`Scene1Hook.tsx`). |
+| **Nhịp 3: Các câu chuyện bảo hiểm vui nhộn** | Tiểu cảnh đời thường (Du lịch biển, xe cộ, sức khỏe...) | Biến các thẻ bung ra của **Scene 1** hoặc cánh lật **Scene 2** thành các câu chuyện nhỏ sinh động, sau đó **thu gọn về đúng thẻ sản phẩm trên website**. |
+| **Nhịp 4: Website xử lý đơn giản 1-chạm** | Quy trình mua thật trên web (Chọn $\rightarrow$ So sánh $\rightarrow$ Điền $\rightarrow$ Cấp đơn) | Lướt giao diện thật trên màn hình MacBook & iPhone Retina (kho tư liệu 4K: `compare_matrix.png`, `checkout_ocr_form.png`, `ecertificate_result.png`). |
+| **Nhịp 5: CMS vận hành phía sau** | Cỗ máy ngầm quản trị tự động cho nhà đầu tư | Lật không gian 3D sang **CMS Dashboard Dark Mode** (`dashboard_panoramic.png`, `contracts_list.png`, cây hoa hồng `kol_tree.png`). |
+| **Nhịp 6: Thông điệp kết & CTA** | Khẳng định giải pháp toàn diện | Logo TOPbaohiem + Hệ sinh thái đa thiết bị (Web + Mobile + CMS) + Kêu gọi hành động / đầu tư sở hữu nền tảng. |
+
+---
+
+## 6. HIỆN THỰC HÓA BẢN PHÁC THẢO TOÀN CẢNH (MASTER STORYBOARD DRAFT 4K)
+
+Đã khởi tạo thành công Composition phác thảo toàn bộ 6 nhịp kịch bản trực tiếp trên Remotion preview:
+- **File thành phần:** [MasterStoryboardDraft.tsx](file:///Users/phamminhtri/Desktop/project/quancao-topbaohiem/src/components/scenes/MasterStoryboardDraft.tsx)
+- **Đăng ký trong Remotion:** [Root.tsx](file:///Users/phamminhtri/Desktop/project/quancao-topbaohiem/src/Root.tsx) với ID `MasterStoryboardDraft4K` (2600 frames @ 60fps ~ 43.3 giây).
+- **Thanh điều hướng HUD:** Tích hợp HUD Tracker trên cùng hiển thị tiến trình của 6 hồi thời gian thực giúp kiểm tra nhịp điệu (pacing) và visual từ 0s đến hết video.
+
+---
+
+## 7. NHIỆM VỤ KỸ THUẬT TIẾP THEO (NEXT ACTION ITEMS)
 
 Bất kỳ Agent nào tiếp tục phiên làm việc cần bám sát hành động sau:
 - **Tập trung vào Giai đoạn 1**: Không đề xuất chuyển sang Phong cách 2 trước khi Phong cách 1 hoàn thành 100%.
 - **Vị trí xử lý code tiếp theo:**
-  - Kiểm tra `Scene0ProblemHook.tsx` (tại khung hình cuối `frame >= 655` khi 4 thẻ đã dock về góc).
-  - Lập trình hiệu ứng chuyển tiếp: Zoom camera hoặc gom thẻ + nhân vật mờ dần/thu nhỏ để mở đường cho `Scene1Hook.tsx` (Spotlight search / MacBook xuất hiện).
-  - Đồng bộ sequence trong `MainVideo.tsx` hoặc `Root.tsx` để 2 scene nối tiếp tự nhiên.
+  - Nhận feedback từ người dùng sau khi xem bản phác thảo `MasterStoryboardDraft4K`.
+  - Tinh chỉnh chi tiết hoạt ảnh chuyển tiếp Búng tay (Act 2) và tiểu cảnh vui nhộn (Act 3).
+  - Tích hợp hoàn thiện vào Master Video chính thức.
