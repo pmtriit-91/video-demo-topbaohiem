@@ -350,7 +350,19 @@ export const Scene0ProblemHook: React.FC = () => {
     const overloadJitter =
         frame >= OVERLOAD_START && frame <= AHA_START ? (Math.sin(frame * 1.6) * 3 * (frame - OVERLOAD_START)) / 23 : 0;
 
-    // Hiệu ứng bừng sáng A-ha Moment
+    // Hiệu ứng bừng sáng A-ha Moment (Eureka)
+    const isAha = frame >= AHA_START;
+
+    // Cú nảy năng lượng khi bừng sáng ý tưởng (Stop-motion Spring Pop)
+    const ahaPunch = isAha
+        ? spring({
+              frame: frame - AHA_START,
+              fps,
+              config: { damping: 12, mass: 0.55, stiffness: 220 },
+          })
+        : 0;
+    const ahaCharacterScale = isAha ? interpolate(ahaPunch, [0, 1], [0.96, 1.0]) : 1;
+
     const ahaProgress = interpolate(frame, [AHA_START, AHA_START + 22], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
@@ -724,7 +736,8 @@ export const Scene0ProblemHook: React.FC = () => {
                         position: 'absolute',
                         top: '5%',
                         left: '-8%',
-                        transform: `scale(${1 + Math.sin(frame * 0.1) * 0.08}) translateY(${Math.sin(frame * 0.05) * 5 * s}px)`,
+                        transform: `scale(${(1 + Math.sin(frame * 0.1) * 0.08) * questionDisperse}) translateY(${Math.sin(frame * 0.05) * 5 * s}px)`,
+                        opacity: questionDisperse,
                         width: 52 * s,
                         height: 52 * s,
                         borderRadius: '50%',
@@ -818,23 +831,43 @@ export const Scene0ProblemHook: React.FC = () => {
                     </span>
                 </div>
 
-                {/* D. HÌNH ẢNH NHÂN VẬT THỰC TẾ SẮC NÉT (ÁNH MẮT NGƯỚC LÊN NHÌN BOX CHAT) */}
+                {/* D. HÌNH ẢNH NHÂN VẬT THỰC TẾ SẮC NÉT (BĂN KHOĂN -> EUREKA BỪNG SÁNG Ý TƯỞNG) */}
                 <div
                     style={{
                         position: 'relative',
                         width: '100%',
                         height: '100%',
-                        transform: `rotate(${headTilt}deg)`,
+                        transform: `rotate(${isAha ? headTilt * 0.35 : headTilt}deg) scale(${ahaCharacterScale})`,
                         transformOrigin: 'bottom center',
                     }}
                 >
+                    {/* Trạng thái 1: Băn khoăn suy nghĩ nhìn 4 đám mây nỗi lo (Frame < 855) */}
                     <Img
                         src={staticFile('assets/anh-doituong-cutout.png')}
                         style={{
+                            position: 'absolute',
+                            inset: 0,
                             width: '100%',
                             height: '100%',
                             objectFit: 'contain',
-                            filter: `drop-shadow(${4.5 * s}px 0 0 #ffffff) drop-shadow(-${4.5 * s}px 0 0 #ffffff) drop-shadow(0 ${4.5 * s}px 0 #ffffff) drop-shadow(0 -${4.5 * s}px 0 #ffffff) drop-shadow(${3.2 * s}px ${3.2 * s}px 0 #ffffff) drop-shadow(-${3.2 * s}px -${3.2 * s}px 0 #ffffff) drop-shadow(${3.2 * s}px -${3.2 * s}px 0 #ffffff) drop-shadow(-${3.2 * s}px ${3.2 * s}px 0 #ffffff) drop-shadow(${6 * s}px ${10 * s}px 0px rgba(15, 23, 42, 0.88)) drop-shadow(0 25px 45px rgba(0, 0, 0, 0.14)) contrast(1.03)`,
+                            opacity: isAha ? 0 : 1,
+                            pointerEvents: 'none',
+                            filter: `drop-shadow(${4.5 * s}px 0 0 #ffffff) drop-shadow(-${4.5 * s}px 0 0 #ffffff) drop-shadow(0 ${4.5 * s}px 0 #ffffff) drop-shadow(0 -${4.5 * s}px 0 #ffffff) drop-shadow(${3.2 * s}px ${3.2 * s}px 0 #ffffff) drop-shadow(-${3.2 * s}px -${3.2 * s}px 0 #ffffff) drop-shadow(${3.2 * s}px -${3.2 * s}px 0 #ffffff) drop-shadow(-${3.2 * s}px -${3.2 * s}px 0 #ffffff) drop-shadow(${6 * s}px ${10 * s}px 0px rgba(15, 23, 42, 0.88)) drop-shadow(0 25px 45px rgba(0, 0, 0, 0.14)) contrast(1.03)`,
+                        }}
+                    />
+
+                    {/* Trạng thái 2: Eureka! Nảy ra ý tưởng & cầm smartphone (Frame >= 855) */}
+                    <Img
+                        src={staticFile('assets/anh-doituong-eureka-cutout.png')}
+                        style={{
+                            position: 'absolute',
+                            inset: 0,
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                            opacity: isAha ? 1 : 0,
+                            pointerEvents: 'none',
+                            filter: `drop-shadow(${4.5 * s}px 0 0 #ffffff) drop-shadow(-${4.5 * s}px 0 0 #ffffff) drop-shadow(0 ${4.5 * s}px 0 #ffffff) drop-shadow(0 -${4.5 * s}px 0 #ffffff) drop-shadow(${3.2 * s}px ${3.2 * s}px 0 #ffffff) drop-shadow(-${3.2 * s}px -${3.2 * s}px 0 #ffffff) drop-shadow(${3.2 * s}px -${3.2 * s}px 0 #ffffff) drop-shadow(-${3.2 * s}px -${3.2 * s}px 0 #ffffff) drop-shadow(${6 * s}px ${10 * s}px 0px rgba(15, 23, 42, 0.88)) drop-shadow(0 25px 45px rgba(0, 0, 0, 0.14)) contrast(1.03)`,
                         }}
                     />
                 </div>
@@ -844,20 +877,20 @@ export const Scene0ProblemHook: React.FC = () => {
                     <div
                         style={{
                             position: 'absolute',
-                            top: '-8%',
-                            left: '56%',
+                            top: '-13%',
+                            left: '55%',
                             transform: 'translateX(-50%)',
                             zIndex: 40,
                         }}
                     >
                         <div
                             style={{
-                                width: 72 * s,
-                                height: 72 * s,
+                                width: 84 * s,
+                                height: 84 * s,
                                 borderRadius: '50%',
                                 background: 'linear-gradient(135deg, #f59e0b 0%, #ed017c 100%)',
-                                border: `${Math.max(2.5, 3.2 * s)}px solid #0f172a`,
-                                boxShadow: `${4 * s}px ${4 * s}px 0px #0f172a, 0 0 45px rgba(245, 158, 11, 0.8)`,
+                                border: `${Math.max(2.8, 3.6 * s)}px solid #0f172a`,
+                                boxShadow: `${4 * s}px ${4 * s}px 0px #0f172a, 0 0 50px rgba(245, 158, 11, 0.85)`,
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -865,7 +898,7 @@ export const Scene0ProblemHook: React.FC = () => {
                                 transform: `scale(${interpolate(ahaProgress, [0, 0.45, 1], [0.4, 1.25, 1])})`,
                             }}
                         >
-                            <Lightbulb size={40 * s} strokeWidth={2.5} />
+                            <Lightbulb size={46 * s} strokeWidth={2.5} />
                         </div>
 
                         {/* Vòng sóng xung kích xua tan nỗi lo */}
