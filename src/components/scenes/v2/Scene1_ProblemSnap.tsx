@@ -191,14 +191,49 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         position: 'relative',
                     }}
                 >
-                    <Img
-                        src={staticFile('assets/elements/screen1/anh2k.png')}
+                    {/* 1. Trạng thái Băn khoăn / Suy nghĩ (Frames 0 - 480) */}
+                    <div
                         style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'contain',
+                            position: 'absolute',
+                            inset: 0,
+                            opacity: interpolate(frame, [475, 485], [1, 0], {
+                                extrapolateLeft: 'clamp',
+                                extrapolateRight: 'clamp',
+                            }),
+                            pointerEvents: 'none',
                         }}
-                    />
+                    >
+                        <Img
+                            src={staticFile('assets/elements/screen1/thinking.png')}
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'contain',
+                            }}
+                        />
+                    </div>
+
+                    {/* 2. Trạng thái Lóe sáng & Búng tay Snap (Frames 480+) */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            inset: 0,
+                            opacity: interpolate(frame, [475, 485], [0, 1], {
+                                extrapolateLeft: 'clamp',
+                                extrapolateRight: 'clamp',
+                            }),
+                            pointerEvents: 'none',
+                        }}
+                    >
+                        <Img
+                            src={staticFile('assets/elements/screen1/anh2k.png')}
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'contain',
+                            }}
+                        />
+                    </div>
 
                     {/* Dấu chấm hỏi giấy xoay quanh đầu nhân vật khi đang phân vân (Frames 0 - 480) */}
                     {frame < 480 && (
@@ -234,28 +269,30 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         </>
                     )}
 
-                    {/* NGÔI SAO Ý TƯỞNG EUREKA BÙNG LÊN TRÊN ĐẦU (Frames 480+) */}
+                    {/* BÓNG ĐÈN Ý TƯỞNG EUREKA BÙNG LÊN TRÊN ĐẦU (Frames 480+) */}
                     {frame >= 480 && (
                         <div
                             style={{
                                 position: 'absolute',
-                                top: -40,
-                                right: 80,
-                                transform: `scale(${eurekaSpring}) rotate(${starRotation}deg)`,
+                                top: -80,
+                                right: 60,
+                                width: 320,
+                                height: 320,
+                                transform: `scale(${eurekaSpring}) rotate(${Math.sin((frame - 480) * 0.08) * 3}deg)`,
+                                transformOrigin: 'bottom left',
                                 opacity: eurekaSpring,
                                 pointerEvents: 'none',
-                                filter: 'drop-shadow(0 15px 30px rgba(225, 29, 72, 0.5))',
+                                filter: 'drop-shadow(0 20px 35px rgba(225, 29, 72, 0.4)) drop-shadow(0 4px 10px rgba(0,0,0,0.08))',
                             }}
                         >
-                            <svg width="220" height="220" viewBox="0 0 200 200" fill="none">
-                                <polygon
-                                    points="100,10 125,70 190,75 140,120 155,185 100,150 45,185 60,120 10,75 75,70"
-                                    fill="#E11D48"
-                                    stroke="#FFFFFF"
-                                    strokeWidth="8"
-                                />
-                                <circle cx="100" cy="100" r="32" fill="#FBBF24" />
-                            </svg>
+                            <Img
+                                src={staticFile('assets/elements/screen1/idea.png')}
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'contain',
+                                }}
+                            />
                         </div>
                     )}
                 </div>
