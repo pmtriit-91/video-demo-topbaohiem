@@ -1,80 +1,106 @@
 import React from "react";
 import { Composition } from "remotion";
-import { MainVideo } from "./MainVideo";
-import { VIDEO_CONFIG } from "./config/videoConfig";
-import { TestMacbookComp } from "./components/3d/TestMacbookComp";
-import { Scene0ProblemHook } from "./components/scenes/Scene0ProblemHook";
-import { MasterStoryboardDraft } from "./components/scenes/MasterStoryboardDraft";
+import { MainVideoV2 } from "./MainVideoV2";
+import { VIDEO_CONFIG_V2 } from "./config/videoConfigV2";
+import { Scene1_ProblemSnap } from "./components/scenes/v2/Scene1_ProblemSnap";
+import { Scene2_TopBaoHiemShowcase } from "./components/scenes/v2/Scene2_TopBaoHiemShowcase";
+import { Scene3_TravelAdventure } from "./components/scenes/v2/Scene3_TravelAdventure";
+import { Scene4_InsuranceCategories } from "./components/scenes/v2/Scene4_InsuranceCategories";
+import { Scene5_PurchaseFlowCMS } from "./components/scenes/v2/Scene5_PurchaseFlowCMS";
+import { Scene6_OutroCTA } from "./components/scenes/v2/Scene6_OutroCTA";
 
 export const RemotionRoot: React.FC = () => {
+  const { totalFrames, fps, scenes } = VIDEO_CONFIG_V2;
+
   return (
     <>
-      {/* 🌟 BẢN PHÁC THẢO TOÀN CẢNH 6 HỒI KỊCH BẢN CHUẨN (2840 frames @ 60fps ~ 47.3s) 🌟 */}
+      {/* 🌟 1. MASTER VIDEO PHONG CÁCH 2 - 4K UHD (3840 x 2160 @ 60fps) 🌟 */}
       <Composition
-        id="MasterStoryboardDraft4K"
-        component={MasterStoryboardDraft}
-        durationInFrames={2840}
-        fps={60}
+        id="TopBaoHiemV2-4K"
+        component={MainVideoV2}
+        durationInFrames={totalFrames}
+        fps={fps}
         width={3840}
         height={2160}
       />
 
-      {/* Composition 4K UHD Master (3840 x 2160 @ 60fps) - Đạt chuẩn điện ảnh siêu sắc nét */}
+      {/* 🌟 2. MASTER VIDEO PHONG CÁCH 2 - 2K QHD (2560 x 1440 @ 60fps) 🌟 */}
       <Composition
-        id="TopBaoHiemPromo4K"
-        component={MainVideo}
-        durationInFrames={VIDEO_CONFIG.totalFrames}
-        fps={VIDEO_CONFIG.fps}
-        width={3840}
-        height={2160}
-      />
-
-      {/* Composition 2K QHD (2560 x 1440 @ 60fps) - Chuẩn màn hình hội nghị & laptop 2K */}
-      <Composition
-        id="TopBaoHiemPromo2K"
-        component={MainVideo}
-        durationInFrames={VIDEO_CONFIG.totalFrames}
-        fps={VIDEO_CONFIG.fps}
+        id="TopBaoHiemV2-2K"
+        component={MainVideoV2}
+        durationInFrames={totalFrames}
+        fps={fps}
         width={2560}
         height={1440}
       />
 
-      {/* Composition Full HD (1920 x 1080 @ 60fps) - Chuẩn tương thích 100% mạng xã hội & preview siêu tốc */}
+      {/* 🌟 3. MASTER VIDEO PHONG CÁCH 2 - Full HD (1920 x 1080 @ 60fps) - Siêu mượt 🌟 */}
       <Composition
-        id="TopBaoHiemPromo1080p"
-        component={MainVideo}
-        durationInFrames={VIDEO_CONFIG.totalFrames}
-        fps={VIDEO_CONFIG.fps}
+        id="TopBaoHiemV2-1080p"
+        component={MainVideoV2}
+        durationInFrames={totalFrames}
+        fps={fps}
         width={1920}
         height={1080}
       />
 
-      {/* Composition Test 3D MacBook mở 0 -> 90 độ */}
+      {/* 🎯 TỪNG PHÂN CẢNH ĐỘC LẬP ĐỂ TEST NHANH TRÊN REMOTION PREVIEW 🎯 */}
+      {/* Cảnh 1: Băn khoăn -> Búng tay SNAP! (14s | 840 frames) */}
       <Composition
-        id="TestMacbook3D"
-        component={TestMacbookComp}
-        durationInFrames={110}
-        fps={60}
-        width={3456}
-        height={1824}
+        id="Scene1-ProblemSnap"
+        component={Scene1_ProblemSnap}
+        durationInFrames={scenes.scene1_problem_snap.duration}
+        fps={fps}
+        width={3840}
+        height={2160}
       />
 
-      {/* Composition Master MacBook 90 độ Standby Pixel-Perfect (2200 x 1340) */}
+      {/* Cảnh 2: Trình diễn Laptop & Mobile (29s | 1740 frames) */}
       <Composition
-        id="Laptop90Master"
-        component={require("./components/ui/Laptop90Standalone").Laptop90Standalone}
-        durationInFrames={1}
-        fps={60}
-        width={2200}
-        height={1340}
+        id="Scene2-TopBaoHiemShowcase"
+        component={Scene2_TopBaoHiemShowcase}
+        durationInFrames={scenes.scene2_showcase.duration}
+        fps={fps}
+        width={3840}
+        height={2160}
       />
 
-      {/* Composition Phân Cảnh 0: Nỗi Đau Khách Hàng (Editorial 2.5D Vector - 900 frames @ 60fps) */}
+      {/* Cảnh 3: Tiểu cảnh Bảo hiểm Du lịch (20s | 1200 frames) */}
       <Composition
-        id="Scene0ProblemHook"
-        component={Scene0ProblemHook}
-        durationInFrames={900}
-        fps={60}
+        id="Scene3-TravelAdventure"
+        component={Scene3_TravelAdventure}
+        durationInFrames={scenes.scene3_travel.duration}
+        fps={fps}
+        width={3840}
+        height={2160}
+      />
+
+      {/* Cảnh 4: Các nhóm sản phẩm Xe cộ, Sức khỏe, Nhà cửa (36s | 2160 frames) */}
+      <Composition
+        id="Scene4-InsuranceCategories"
+        component={Scene4_InsuranceCategories}
+        durationInFrames={scenes.scene4_categories.duration}
+        fps={fps}
+        width={3840}
+        height={2160}
+      />
+
+      {/* Cảnh 5: Hành trình mua 1-chạm & CMS Dashboard (46s | 2760 frames) */}
+      <Composition
+        id="Scene5-PurchaseFlowCMS"
+        component={Scene5_PurchaseFlowCMS}
+        durationInFrames={scenes.scene5_purchase_cms.duration}
+        fps={fps}
+        width={3840}
+        height={2160}
+      />
+
+      {/* Cảnh 6: Outro & Kêu gọi hành động CTA (25s | 1500 frames) */}
+      <Composition
+        id="Scene6-OutroCTA"
+        component={Scene6_OutroCTA}
+        durationInFrames={scenes.scene6_outro_cta.duration}
+        fps={fps}
         width={3840}
         height={2160}
       />
