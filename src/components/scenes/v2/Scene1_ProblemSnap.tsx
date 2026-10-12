@@ -1,339 +1,450 @@
-import React from "react";
-import {
-  interpolate,
-  spring,
-  useCurrentFrame,
-  useVideoConfig,
-  staticFile,
-  Img,
-} from "remotion";
-import { VIDEO_CONFIG_V2 } from "../../../config/videoConfigV2";
+import React from 'react';
+import { interpolate, spring, useCurrentFrame, useVideoConfig, staticFile, Img } from 'remotion';
+import { VIDEO_CONFIG_V2 } from '../../../config/videoConfigV2';
+import { PaperCard } from '../../ui/v2/PaperCard';
+import { PaperCloud } from '../../ui/v2/PaperCloud';
 
 export const Scene1_ProblemSnap: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { fps, width, height } = useVideoConfig();
-  const colors = VIDEO_CONFIG_V2.colors;
+    const frame = useCurrentFrame();
+    const { fps, width, height } = useVideoConfig();
+    const colors = VIDEO_CONFIG_V2.colors;
 
-  // 1. Nhịp 1: Các thẻ câu hỏi bối rối trượt vào (0s - 8s | frames 0 - 480)
-  const card1Spring = spring({
-    frame: frame - 15,
-    fps,
-    config: { damping: 14, stiffness: 90 },
-  });
-  const card2Spring = spring({
-    frame: frame - 45,
-    fps,
-    config: { damping: 14, stiffness: 90 },
-  });
-  const card3Spring = spring({
-    frame: frame - 75,
-    fps,
-    config: { damping: 14, stiffness: 90 },
-  });
+    // Stop-motion frame jitter nhẹ mô phỏng hoạt hình giấy thủ công 12fps/24fps feel
+    const jitterX = Math.sin(frame * 0.4) * 2;
+    const jitterY = Math.cos(frame * 0.3) * 2;
 
-  // Rung lắc nhẹ mô phỏng hoạt hình thủ công (paper stop-motion effect)
-  const wiggleAngle = Math.sin(frame * 0.25) * 1.5;
+    // 1. NHỊP 1: 3 THẺ CÂU HỎI TRƯỢT VÀO LỆCH NHỊP (Frames 0 - 480 ~ 0s - 8s)
+    const card1Spring = spring({
+        frame: frame - 15,
+        fps,
+        config: { damping: 14, stiffness: 90 },
+    });
+    const card2Spring = spring({
+        frame: frame - 45,
+        fps,
+        config: { damping: 14, stiffness: 90 },
+    });
+    const card3Spring = spring({
+        frame: frame - 75,
+        fps,
+        config: { damping: 14, stiffness: 90 },
+    });
 
-  // 2. Nhịp 2: Ý tưởng bừng sáng Eureka (8s - 11.5s | frames 480 - 690)
-  const eurekaProgress = spring({
-    frame: frame - 480,
-    fps,
-    config: { damping: 12, stiffness: 140 },
-  });
-  const starRotate = frame * 3;
+    // Chuyển động thở của nhân vật
+    const charBreathing = Math.sin(frame * 0.08) * 8;
+    const charScale = 1 + Math.sin(frame * 0.06) * 0.015;
 
-  // 3. Nhịp 3: Cú Búng Tay SNAP! (11.5s - 14s | frames 690 - 840)
-  const snapFrame = frame - 690;
-  const isSnapTriggered = snapFrame >= 0;
+    // 2. NHỊP 2: Ý TƯỞNG EUREKA BÙNG SÁNG (Frames 480 - 690 ~ 8s - 11.5s)
+    const eurekaFrame = frame - 480;
+    const eurekaSpring = spring({
+        frame: eurekaFrame,
+        fps,
+        config: { damping: 11, stiffness: 150 },
+    });
+    const starRotation = (frame * 2.5) % 360;
 
-  const snapScale = spring({
-    frame: snapFrame,
-    fps,
-    config: { damping: 10, stiffness: 220 },
-  });
+    // 3. NHỊP 3: CÚ BÚNG TAY SNAP! (Frames 690 - 840 ~ 11.5s - 14s)
+    const snapFrame = frame - 690;
+    const isSnap = snapFrame >= 0;
 
-  // Hiệu ứng sóng năng lượng hồng tỏa ra sau cú búng tay
-  const waveRadius = interpolate(snapFrame, [0, 60], [0, 2400], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const waveOpacity = interpolate(snapFrame, [0, 20, 60], [0.9, 0.6, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+    const snapSpring = spring({
+        frame: snapFrame,
+        fps,
+        config: { damping: 10, stiffness: 220 },
+    });
 
-  // Độ mờ khi chuyển tiếp sang Cảnh 2
-  const transitionToScene2 = interpolate(frame, [780, 840], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+    // Sóng năng lượng hồng mở rộng sau cú búng tay
+    const shockwaveRadius = interpolate(snapFrame, [0, 50], [0, 3200], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const shockwaveOpacity = interpolate(snapFrame, [0, 15, 50], [0.95, 0.6, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
 
-  return (
-    <div
-      style={{
-        position: "relative",
-        width,
-        height,
-        backgroundColor: colors.bgLight,
-        overflow: "hidden",
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
-      }}
-    >
-      {/* NỀN: Paper Texture & Gradient Hồng Mềm */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: `radial-gradient(circle at 50% 40%, ${colors.brandPinkSoft} 0%, ${colors.bgLight} 75%)`,
-        }}
-      />
+    // Thu nhỏ các thẻ câu hỏi khi búng tay để nhường chỗ cho Cảnh 2
+    const cardsExitScale = interpolate(snapFrame, [0, 30], [1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
 
-      {/* Grid họa tiết chấm bi Paper Craft tinh tế */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: `radial-gradient(${colors.brandPink}22 1.5px, transparent 1.5px)`,
-          backgroundSize: "40px 40px",
-          opacity: 0.6,
-        }}
-      />
+    // Chuyển tiếp trắng/hồng mềm sang Cảnh 2 (Frames 800 - 840)
+    const fadeToScene2 = interpolate(frame, [800, 840], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
 
-      {/* KHỐI TRUNG TÂM: Nhân vật & Storyboard Canva Visual */}
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: `translate(-50%, -50%) scale(${1 + Math.sin(frame * 0.05) * 0.015})`,
-          width: 1400,
-          height: 800,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {/* Bản vẽ Storyboard Canva Slide 2 gốc làm lớp visual trung tâm */}
+    return (
         <div
-          style={{
-            position: "relative",
-            width: 1200,
-            height: 675,
-            borderRadius: 32,
-            overflow: "hidden",
-            boxShadow: "0 25px 60px -15px rgba(225, 29, 72, 0.25), 0 10px 25px rgba(0, 0, 0, 0.08)",
-            border: `6px solid ${colors.bgWhite}`,
-            transform: `rotate(${wiggleAngle}deg)`,
-            transition: "transform 0.1s ease-out",
-          }}
+            style={{
+                position: 'relative',
+                width,
+                height,
+                backgroundColor: colors.bgLight,
+                overflow: 'hidden',
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+            }}
         >
-          <Img
-            src={staticFile("assets/canva_v2/slide2_problem_snap.png")}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-
-          {/* Viền sáng bao quanh thẻ Paper Cut */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              boxShadow: "inset 0 0 0 2px rgba(225, 29, 72, 0.15)",
-              pointerEvents: "none",
-            }}
-          />
-        </div>
-      </div>
-
-      {/* 3 THẺ CÂU HỎI TRÔI VÀO (Diễn hoạt bổ trợ Paper-Cut sống động) */}
-      {/* Thẻ 1: Chọn loại nào? */}
-      <div
-        style={{
-          position: "absolute",
-          top: 240,
-          left: interpolate(card1Spring, [0, 1], [-400, 200]),
-          transform: `rotate(${-6 + wiggleAngle}deg)`,
-          opacity: card1Spring,
-          backgroundColor: colors.bgWhite,
-          padding: "24px 38px",
-          borderRadius: 24,
-          boxShadow: "0 18px 35px rgba(0,0,0,0.1), 0 4px 10px rgba(225,29,72,0.12)",
-          border: `3px solid ${colors.brandPinkSoft}`,
-          display: "flex",
-          alignItems: "center",
-          gap: 16,
-        }}
-      >
-        <span style={{ fontSize: 44, color: colors.brandPink, fontWeight: 800 }}>❓</span>
-        <div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: colors.textPrimary }}>
-            Chọn loại nào?
-          </div>
-          <div style={{ fontSize: 20, color: colors.textSecondary, fontWeight: 500 }}>
-            Quá nhiều hãng & gói cước
-          </div>
-        </div>
-      </div>
-
-      {/* Thẻ 2: Quyền lợi ra sao? */}
-      <div
-        style={{
-          position: "absolute",
-          top: 360,
-          right: interpolate(card2Spring, [0, 1], [-400, 220]),
-          transform: `rotate(${5 - wiggleAngle}deg)`,
-          opacity: card2Spring,
-          backgroundColor: colors.bgWhite,
-          padding: "24px 38px",
-          borderRadius: 24,
-          boxShadow: "0 18px 35px rgba(0,0,0,0.1), 0 4px 10px rgba(225,29,72,0.12)",
-          border: `3px solid ${colors.brandPinkSoft}`,
-          display: "flex",
-          alignItems: "center",
-          gap: 16,
-        }}
-      >
-        <span style={{ fontSize: 44, color: colors.accentYellow, fontWeight: 800 }}>📑</span>
-        <div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: colors.textPrimary }}>
-            Quyền lợi ra sao?
-          </div>
-          <div style={{ fontSize: 20, color: colors.textSecondary, fontWeight: 500 }}>
-            Điều khoản dài dòng khó hiểu
-          </div>
-        </div>
-      </div>
-
-      {/* Thẻ 3: Thủ tục có phức tạp không? */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 240,
-          left: interpolate(card3Spring, [0, 1], [-400, 320]),
-          transform: `rotate(${-3 + wiggleAngle * 0.8}deg)`,
-          opacity: card3Spring,
-          backgroundColor: colors.bgWhite,
-          padding: "24px 38px",
-          borderRadius: 24,
-          boxShadow: "0 18px 35px rgba(0,0,0,0.1), 0 4px 10px rgba(225,29,72,0.12)",
-          border: `3px solid ${colors.brandPinkSoft}`,
-          display: "flex",
-          alignItems: "center",
-          gap: 16,
-        }}
-      >
-        <span style={{ fontSize: 44, color: colors.brandPink, fontWeight: 800 }}>⏳</span>
-        <div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: colors.textPrimary }}>
-            Thủ tục có phức tạp?
-          </div>
-          <div style={{ fontSize: 20, color: colors.textSecondary, fontWeight: 500 }}>
-            Chờ đợi giấy tờ, bồi thường lâu
-          </div>
-        </div>
-      </div>
-
-      {/* NGÔI SAO Ý TƯỞNG EUREKA (Frames 480 - 690) */}
-      {frame >= 480 && (
-        <div
-          style={{
-            position: "absolute",
-            top: 260,
-            left: "50%",
-            transform: `translateX(-50%) scale(${eurekaProgress}) rotate(${starRotate}deg)`,
-            opacity: eurekaProgress,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            pointerEvents: "none",
-          }}
-        >
-          <div
-            style={{
-              fontSize: 120,
-              filter: "drop-shadow(0 10px 25px rgba(251, 191, 36, 0.6))",
-            }}
-          >
-            💡
-          </div>
-        </div>
-      )}
-
-      {/* CÚ BÚNG TAY SNAP! & SÓNG FLASH MỞ MÀN (Frames 690 - 840) */}
-      {isSnapTriggered && (
-        <>
-          {/* Vòng sóng năng lượng hồng bùng nổ */}
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: waveRadius,
-              height: waveRadius,
-              borderRadius: "50%",
-              border: `8px solid ${colors.brandPink}`,
-              backgroundColor: `${colors.brandPink}15`,
-              opacity: waveOpacity,
-              pointerEvents: "none",
-            }}
-          />
-
-          {/* Banner chữ SNAP! BÚNG TAY ĐỂ BẮT ĐẦU */}
-          <div
-            style={{
-              position: "absolute",
-              top: "45%",
-              left: "50%",
-              transform: `translate(-50%, -50%) scale(${snapScale})`,
-              backgroundColor: colors.brandPink,
-              color: colors.bgWhite,
-              padding: "24px 60px",
-              borderRadius: 36,
-              boxShadow: "0 25px 60px rgba(225, 29, 72, 0.5)",
-              display: "flex",
-              alignItems: "center",
-              gap: 24,
-              border: `4px solid ${colors.bgWhite}`,
-            }}
-          >
-            <span style={{ fontSize: 60 }}>✨</span>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 52, fontWeight: 900, letterSpacing: "-1px" }}>
-                BÚNG TAY ĐỂ BẮT ĐẦU!
-              </div>
-              <div
+            {/* 1. NỀN GIẤY PAPER-CRAFT (Radial Soft Pink & Dấu Chấm Bi Thủ Công) */}
+            <div
                 style={{
-                  fontSize: 26,
-                  fontWeight: 600,
-                  opacity: 0.95,
-                  letterSpacing: "2px",
-                  textTransform: "uppercase",
+                    position: 'absolute',
+                    inset: 0,
+                    background: `radial-gradient(circle at 50% 40%, ${colors.brandPinkSoft} 0%, ${colors.bgLight} 80%)`,
                 }}
-              >
-                TOPbaohiem.vn
-              </div>
-            </div>
-            <span style={{ fontSize: 60 }}>🤌</span>
-          </div>
-        </>
-      )}
+            />
+            <div
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    backgroundImage: `radial-gradient(${colors.brandPink}22 2px, transparent 2px)`,
+                    backgroundSize: '44px 44px',
+                    opacity: 0.5,
+                }}
+            />
 
-      {/* LỚP FADE CHUYỂN TIẾP TRẮNG/HỒNG SANG CẢNH 2 */}
-      {transitionToScene2 > 0 && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundColor: colors.bgWhite,
-            opacity: transitionToScene2,
-            pointerEvents: "none",
-          }}
-        />
-      )}
-    </div>
-  );
+            {/* 2. CÁC ĐÁM MÂY GIẤY TRÔI PARALLAX NHẸ NHÀNG */}
+            <PaperCloud x={120} y={140} scale={1.4} speed={0.4} opacity={0.9} />
+            <PaperCloud x={3100} y={180} scale={1.6} speed={0.3} opacity={0.85} />
+            <PaperCloud x={3200} y={950} scale={1.1} speed={0.5} opacity={0.65} />
+            <PaperCloud x={400} y={1400} scale={1.3} speed={0.35} opacity={0.7} />
+
+            {/* 3. HEADER ĐỊNH VỊ CHƯƠNG */}
+            <div
+                style={{
+                    position: 'absolute',
+                    top: 70,
+                    left: 100,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 16,
+                }}
+            >
+                <div
+                    style={{
+                        backgroundColor: colors.brandPink,
+                        color: colors.bgWhite,
+                        padding: '8px 24px',
+                        borderRadius: 99,
+                        fontSize: 22,
+                        fontWeight: 800,
+                        letterSpacing: '1px',
+                        boxShadow: '0 6px 16px rgba(225, 29, 72, 0.3)',
+                    }}
+                >
+                    CẢNH 1
+                </div>
+                <div
+                    style={{
+                        fontSize: 32,
+                        fontWeight: 800,
+                        color: colors.textPrimary,
+                    }}
+                >
+                    Băn khoăn $\rightarrow$ Búng tay
+                </div>
+            </div>
+
+            {/* 3.5. DẢI CÁNH GIẤY GẤP NỔI KHỐI ORIGAMI PHÍA PHẢI (PAPER RIBBON WING) */}
+            <div
+                style={{
+                    position: 'absolute',
+                    top: 140,
+                    right: -40,
+                    width: 1480,
+                    height: 1640,
+                    pointerEvents: 'none',
+                    transform: `translateY(${Math.sin(frame * 0.05) * 6 + jitterY}px) rotate(${Math.cos(frame * 0.03) * 0.6}deg)`,
+                    filter: 'drop-shadow(-25px 35px 50px rgba(225, 29, 72, 0.22)) drop-shadow(-8px 12px 18px rgba(0,0,0,0.07))',
+                    zIndex: 2,
+                }}
+            >
+                <Img
+                    src={staticFile('assets/elements/screen1/maybay_giay.png')}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                    }}
+                />
+            </div>
+
+            {/* 4. KHỐI TRUNG TÂM: MẢNH GHÉP NHÂN VẬT 2.5D ÁO HỒNG TÁCH RỜI */}
+            <div
+                style={{
+                    position: 'absolute',
+                    bottom: 120,
+                    left: '50%',
+                    transform: `translateX(-50%) translateY(${charBreathing + jitterY}px) scale(${charScale})`,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    filter: 'drop-shadow(0 30px 45px rgba(225, 29, 72, 0.22)) drop-shadow(0 10px 20px rgba(0,0,0,0.06))',
+                }}
+            >
+                {/* Hình ảnh nhân vật chính áo hồng */}
+                <div
+                    style={{
+                        width: 720,
+                        height: 1080,
+                        position: 'relative',
+                    }}
+                >
+                    <Img
+                        src={staticFile('assets/elements/screen1/anh2k.png')}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                        }}
+                    />
+
+                    {/* Dấu chấm hỏi giấy xoay quanh đầu nhân vật khi đang phân vân (Frames 0 - 480) */}
+                    {frame < 480 && (
+                        <>
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: 100,
+                                    left: 80,
+                                    fontSize: 72,
+                                    color: colors.brandPink,
+                                    fontWeight: 900,
+                                    transform: `rotate(${Math.sin(frame * 0.1) * 15}deg)`,
+                                    filter: 'drop-shadow(0 4px 10px rgba(225, 29, 72, 0.3))',
+                                }}
+                            >
+                                ❓
+                            </div>
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: 60,
+                                    right: 120,
+                                    fontSize: 64,
+                                    color: colors.accentYellow,
+                                    fontWeight: 900,
+                                    transform: `rotate(${Math.cos(frame * 0.1) * 15}deg)`,
+                                    filter: 'drop-shadow(0 4px 10px rgba(251, 191, 36, 0.4))',
+                                }}
+                            >
+                                💭
+                            </div>
+                        </>
+                    )}
+
+                    {/* NGÔI SAO Ý TƯỞNG EUREKA BÙNG LÊN TRÊN ĐẦU (Frames 480+) */}
+                    {frame >= 480 && (
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: -40,
+                                right: 80,
+                                transform: `scale(${eurekaSpring}) rotate(${starRotation}deg)`,
+                                opacity: eurekaSpring,
+                                pointerEvents: 'none',
+                                filter: 'drop-shadow(0 15px 30px rgba(225, 29, 72, 0.5))',
+                            }}
+                        >
+                            <svg width="220" height="220" viewBox="0 0 200 200" fill="none">
+                                <polygon
+                                    points="100,10 125,70 190,75 140,120 155,185 100,150 45,185 60,120 10,75 75,70"
+                                    fill="#E11D48"
+                                    stroke="#FFFFFF"
+                                    strokeWidth="8"
+                                />
+                                <circle cx="100" cy="100" r="32" fill="#FBBF24" />
+                            </svg>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* 5. 3 MẢNH GHÉP THẺ BÀI CÂU HỎI CẮT GIẤY THỦ CÔNG (ĐỘC LẬP) */}
+            {/* THẺ 1: Chọn loại nào? (Góc trái trên) */}
+            <div
+                style={{
+                    position: 'absolute',
+                    top: 360,
+                    left: interpolate(card1Spring, [0, 1], [-600, 320]),
+                    opacity: card1Spring,
+                    transform: `scale(${cardsExitScale})`,
+                    transition: 'transform 0.1s ease-out',
+                }}
+            >
+                <PaperCard
+                    title="Chọn loại nào?"
+                    subtitle="Quá nhiều hãng & biểu phí rối rắm"
+                    icon="❓"
+                    badge="Bối rối"
+                    angle={-6}
+                    wiggle={true}
+                    style={{ width: 560 }}
+                />
+            </div>
+
+            {/* THẺ 2: Quyền lợi ra sao? (Góc phải giữa) */}
+            <div
+                style={{
+                    position: 'absolute',
+                    top: 540,
+                    right: interpolate(card2Spring, [0, 1], [-600, 340]),
+                    opacity: card2Spring,
+                    transform: `scale(${cardsExitScale})`,
+                    transition: 'transform 0.1s ease-out',
+                }}
+            >
+                <PaperCard
+                    title="Quyền lợi ra sao?"
+                    subtitle="Điều khoản dài dòng khó nắm bắt"
+                    icon="📑"
+                    badge="Phức tạp"
+                    angle={5}
+                    wiggle={true}
+                    accentColor={colors.accentYellow}
+                    style={{ width: 580 }}
+                />
+            </div>
+
+            {/* THẺ 3: Thủ tục có phức tạp không? (Góc trái dưới) */}
+            <div
+                style={{
+                    position: 'absolute',
+                    bottom: 300,
+                    left: interpolate(card3Spring, [0, 1], [-600, 420]),
+                    opacity: card3Spring,
+                    transform: `scale(${cardsExitScale})`,
+                    transition: 'transform 0.1s ease-out',
+                }}
+            >
+                <PaperCard
+                    title="Thủ tục phức tạp?"
+                    subtitle="Giấy tờ thủ công, bồi thường chậm"
+                    icon="⏳"
+                    badge="Lo lắng"
+                    angle={-3}
+                    wiggle={true}
+                    style={{ width: 590 }}
+                />
+            </div>
+
+            {/* 6. BANNER PHỤ ĐỀ VOICE-OVER CHUẨN THEO KỊCH BẢN (CHÂN MÀN HÌNH) */}
+            <div
+                style={{
+                    position: 'absolute',
+                    bottom: 60,
+                    left: 0,
+                    right: 0,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    pointerEvents: 'none',
+                }}
+            >
+                <div
+                    style={{
+                        backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                        backdropFilter: 'blur(12px)',
+                        color: colors.bgWhite,
+                        padding: '16px 48px',
+                        borderRadius: 99,
+                        fontSize: 28,
+                        fontWeight: 700,
+                        boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+                        border: '1px solid rgba(255,255,255,0.15)',
+                        maxWidth: 1600,
+                        textAlign: 'center',
+                    }}
+                >
+                    {frame < 480
+                        ? '“Mình muốn mua bảo hiểm, nhưng chưa biết nên chọn loại nào. Càng tìm hiểu càng dễ bị rối...”'
+                        : frame < 690
+                          ? '“Khoan! Mình có thể bắt đầu đơn giản hơn với TOPbaohiem.”'
+                          : '“BÚNG TAY ĐỂ BẮT ĐẦU — TOPBAOHIEM.VN!”'}
+                </div>
+            </div>
+
+            {/* 7. HIỆU ỨNG BÚNG TAY SNAP! BÙNG NỔ SÓNG NĂNG LƯỢNG HỒNG (Frames 690 - 840) */}
+            {isSnap && (
+                <>
+                    {/* Vòng tròn sóng hồng bung tỏa toàn màn hình */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: shockwaveRadius,
+                            height: shockwaveRadius,
+                            borderRadius: '50%',
+                            border: `12px solid ${colors.brandPink}`,
+                            backgroundColor: `${colors.brandPink}18`,
+                            opacity: shockwaveOpacity,
+                            pointerEvents: 'none',
+                        }}
+                    />
+
+                    {/* Thẻ SNAP! BÚNG TAY ĐỂ BẮT ĐẦU */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: '42%',
+                            left: '50%',
+                            transform: `translate(-50%, -50%) scale(${snapSpring})`,
+                            backgroundColor: colors.brandPink,
+                            color: colors.bgWhite,
+                            padding: '28px 72px',
+                            borderRadius: 40,
+                            boxShadow: '0 30px 80px rgba(225, 29, 72, 0.55), 0 10px 25px rgba(0,0,0,0.15)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 28,
+                            border: `5px solid ${colors.bgWhite}`,
+                            pointerEvents: 'none',
+                        }}
+                    >
+                        <span style={{ fontSize: 72 }}>✨</span>
+                        <div style={{ textAlign: 'center' }}>
+                            <div
+                                style={{
+                                    fontSize: 60,
+                                    fontWeight: 900,
+                                    letterSpacing: '-1.5px',
+                                    lineHeight: 1.1,
+                                }}
+                            >
+                                BÚNG TAY ĐỂ BẮT ĐẦU!
+                            </div>
+                            <div
+                                style={{
+                                    fontSize: 30,
+                                    fontWeight: 700,
+                                    letterSpacing: '3px',
+                                    opacity: 0.95,
+                                    textTransform: 'uppercase',
+                                    marginTop: 8,
+                                }}
+                            >
+                                TOPbaohiem.vn
+                            </div>
+                        </div>
+                        <span style={{ fontSize: 72 }}>🤌</span>
+                    </div>
+                </>
+            )}
+
+            {/* 8. MÀN CHUYỂN TIẾP TRẮNG/HỒNG SANG CẢNH 2 */}
+            {fadeToScene2 > 0 && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        backgroundColor: colors.bgLight,
+                        opacity: fadeToScene2,
+                        pointerEvents: 'none',
+                    }}
+                />
+            )}
+        </div>
+    );
 };
