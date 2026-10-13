@@ -1,5 +1,6 @@
 import React from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig, staticFile, Img } from 'remotion';
+import { Search, Lock, CheckCircle2 } from 'lucide-react';
 import { VIDEO_CONFIG_V2 } from '../../../config/videoConfigV2';
 
 export const Scene1_ProblemSnap: React.FC = () => {
@@ -75,14 +76,18 @@ export const Scene1_ProblemSnap: React.FC = () => {
 
     // B. Sóng trào điểm nhấn cao trào (Dynamic Surge Events):
     // 1. Surge khi MacBook trượt vào từ phải (Frames 365 - 435): Sóng phải dâng trào đón laptop
-    const mbSurgeProgress = Math.max(0, Math.min(1, (frame - 365) / 60));
-    const mbSurge = frame >= 365 && frame <= 435 ? Math.sin(mbSurgeProgress * Math.PI) * -52 : 0;
-    const mbSurgeL2 = frame >= 365 && frame <= 435 ? Math.sin(mbSurgeProgress * Math.PI) * -35 : 0;
+    // 1. Surge khi MacBook trượt vào từ phải (Frames 160 - 230): Sóng phải dâng trào đón laptop
+    const mbSurgeProgress = Math.max(0, Math.min(1, (frame - 160) / 60));
+    const mbSurge = frame >= 160 && frame <= 230 ? Math.sin(mbSurgeProgress * Math.PI) * -52 : 0;
+    const mbSurgeL2 = frame >= 160 && frame <= 230 ? Math.sin(mbSurgeProgress * Math.PI) * -35 : 0;
 
-    // 2. Surge khi búng tay Eureka Snap! (Frames 480 - 550): Sóng cuộn trào lan tỏa toàn màn hình
-    const snapSurgeProgress = Math.max(0, Math.min(1, (frame - 480) / 60));
-    const snapSurgeMid = frame >= 480 && frame <= 550 ? Math.sin(snapSurgeProgress * Math.PI) * -45 : 0;
-    const snapSurgeSides = frame >= 480 && frame <= 550 ? Math.sin(snapSurgeProgress * Math.PI) * -28 : 0;
+    // 2. MỐC NHỊP BÚNG TAY EUREKA (Chuyển sang giải pháp sau khi toàn cảnh băn khoăn diễn ra chậm rãi, thư thả)
+    const EUREKA_START_FRAME = 630;
+
+    // Surge khi búng tay Eureka Snap! (Frames EUREKA_START_FRAME -> +70): Sóng cuộn trào lan tỏa toàn màn hình
+    const snapSurgeProgress = Math.max(0, Math.min(1, (frame - EUREKA_START_FRAME) / 60));
+    const snapSurgeMid = frame >= EUREKA_START_FRAME && frame <= EUREKA_START_FRAME + 70 ? Math.sin(snapSurgeProgress * Math.PI) * -45 : 0;
+    const snapSurgeSides = frame >= EUREKA_START_FRAME && frame <= EUREKA_START_FRAME + 70 ? Math.sin(snapSurgeProgress * Math.PI) * -28 : 0;
 
     // C. Tọa độ động cho Layer 1 (Tiền cảnh)
     const l1_p0_y = 220 + waveL1_left + snapSurgeSides * 0.5;
@@ -127,9 +132,9 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const maybayOpacity = interpolate(maybayEntrance, [0, 1], [0, 1]);
     const maybayScale = interpolate(maybayEntrance, [0, 1], [0.88, 1]);
 
-    // 0.5. HIỆU ỨNG LAPTOP MACBOOK MOCK UI (Lướt nhẹ từ phải vào sau khi 3 thẻ tiếp đất: Frame 365+)
+    // 0.5. HIỆU ỨNG LAPTOP MACBOOK MOCK UI (Xuất hiện cùng nhịp với trang giấy câu hỏi đầu tiên: Frame 160+)
     const laptopEntrance = spring({
-        frame: frame - 365,
+        frame: frame - 160,
         fps,
         config: { damping: 14, stiffness: 50 },
     });
@@ -152,15 +157,15 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const charEntranceY = interpolate(charEntranceSpring, [0, 1], [400, 0]);
     const charEntranceOpacity = interpolate(charEntranceSpring, [0, 1], [0, 1]);
 
-    // 1. NHỊP 1: 3 THẺ CÂU HỎI RƠI TRỌNG LỰC 2.5D & VẬT LÝ GIẤY THỦ CÔNG (GRAVITY DROP & PAPER PHYSICS - HƯỚNG 3 MỞ RỘNG DURATION)
-    // Thẻ 1: Rơi từ frame 160 (chao liệng ~40f), ghim kẹp dập đanh tại frame 200
+    // 1. NHỊP 1: 3 THẺ CÂU HỎI RƠI TRỌNG LỰC 2.5D & VẬT LÝ GIẤY THỦ CÔNG (CHẬM RÃI, THƯ THẢ TOÀN CẢNH)
+    // Thẻ 1: Rơi từ frame 160 (chao liệng ~40f), ghim kẹp dập đanh tại frame 205 (dừng đọc thư thả đến 275)
     const card1Spring = spring({
         frame: frame - 160,
         fps,
         config: { damping: 14, mass: 1.15, stiffness: 45 },
     });
     const clip1Spring = spring({
-        frame: frame - 200,
+        frame: frame - 205,
         fps,
         config: { damping: 9, mass: 0.6, stiffness: 130 },
     });
@@ -175,14 +180,14 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const clip1Scale = interpolate(clip1Spring, [0, 0.4, 1], [1.45, 0.94, 1]);
     const clip1Opacity = interpolate(clip1Spring, [0, 0.2], [0, 1], { extrapolateRight: 'clamp' });
 
-    // Thẻ 2: Rơi từ frame 235 (chao liệng ~40f), băng dính hồng dán đè tại frame 275
+    // Thẻ 2: Rơi từ frame 275 (chao liệng ~40f), băng dính hồng dán đè tại frame 320 (dừng đọc thư thả đến 395)
     const card2Spring = spring({
-        frame: frame - 235,
+        frame: frame - 275,
         fps,
         config: { damping: 14, mass: 1.15, stiffness: 45 },
     });
     const tape2Spring = spring({
-        frame: frame - 275,
+        frame: frame - 320,
         fps,
         config: { damping: 10, mass: 0.7, stiffness: 120 },
     });
@@ -191,19 +196,19 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const card2RotX = interpolate(card2Spring, [0, 1], [44, 0]);
     const card2RotY = interpolate(card2Spring, [0, 1], [-20, 0]);
     const card2Scale = interpolate(card2Spring, [0, 1], [1.18, 1]);
-    const card2Flutter = Math.sin(Math.max(0, frame - 235) * 0.18) * (1 - Math.min(1, card2Spring)) * 16;
+    const card2Flutter = Math.sin(Math.max(0, frame - 275) * 0.18) * (1 - Math.min(1, card2Spring)) * 16;
     const card2Opacity = interpolate(card2Spring, [0, 0.2], [0, 1], { extrapolateRight: 'clamp' });
     const tape2Scale = interpolate(tape2Spring, [0, 0.35, 1], [1.4, 0.95, 1]);
     const tape2Opacity = interpolate(tape2Spring, [0, 0.2], [0, 1], { extrapolateRight: 'clamp' });
 
-    // Thẻ 3: Rơi từ frame 310 (chao liệng ~40f), băng dính xanh dán đè tại frame 350
+    // Thẻ 3: Rơi từ frame 395 (chao liệng ~40f), băng dính xanh dán đè tại frame 440 (dừng đọc thư thả đến 520)
     const card3Spring = spring({
-        frame: frame - 310,
+        frame: frame - 395,
         fps,
         config: { damping: 14, mass: 1.15, stiffness: 45 },
     });
     const tape3Spring = spring({
-        frame: frame - 350,
+        frame: frame - 440,
         fps,
         config: { damping: 10, mass: 0.7, stiffness: 120 },
     });
@@ -212,7 +217,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const card3RotX = interpolate(card3Spring, [0, 1], [45, 0]);
     const card3RotY = interpolate(card3Spring, [0, 1], [-22, 0]);
     const card3Scale = interpolate(card3Spring, [0, 1], [1.18, 1]);
-    const card3Flutter = Math.sin(Math.max(0, frame - 310) * 0.18) * (1 - Math.min(1, card3Spring)) * 16;
+    const card3Flutter = Math.sin(Math.max(0, frame - 395) * 0.18) * (1 - Math.min(1, card3Spring)) * 16;
     const card3Opacity = interpolate(card3Spring, [0, 0.2], [0, 1], { extrapolateRight: 'clamp' });
     const tape3Scale = interpolate(tape3Spring, [0, 0.35, 1], [1.4, 0.95, 1]);
     const tape3Opacity = interpolate(tape3Spring, [0, 0.2], [0, 1], { extrapolateRight: 'clamp' });
@@ -221,8 +226,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const charBreathing = Math.sin(frame * 0.08) * 8;
     const charScale = 1 + Math.sin(frame * 0.06) * 0.015;
 
-    // 2. NHỊP 2: Ý TƯỞNG EUREKA BÙNG SÁNG (Frames 480 - 690 ~ 8s - 11.5s)
-    const eurekaFrame = frame - 480;
+    // 2. NHỊP 2: Ý TƯỞNG EUREKA BÙNG SÁNG (Búng tay Snap tìm ra giải pháp: Frame 525 - 690 ~ 8.75s - 11.5s)
+    const eurekaFrame = frame - EUREKA_START_FRAME;
     const eurekaSpring = spring({
         frame: eurekaFrame,
         fps,
@@ -230,8 +235,117 @@ export const Scene1_ProblemSnap: React.FC = () => {
     });
     const starRotation = (frame * 2.5) % 360;
 
-    // 3. NHỊP 3: CÚ BÚNG TAY SNAP! (Frames 690 - 840 ~ 11.5s - 14s)
-    const snapFrame = frame - 690;
+    // 2.5. HOẠT CẢNH MÀN HÌNH MACBOOK THEO CONCEPT MINH HỌA (SEARCH CAPSULE + SPINNER + DẤU HỎI ? BĂN KHOĂN)
+    // A. Entrance của thanh tìm kiếm nổi 2.5D (khi laptop bắt đầu vào sân khấu cùng Thẻ 1: Frame 170+)
+    const searchEntranceSpring = spring({
+        frame: Math.max(0, frame - 170),
+        fps,
+        config: { damping: 13, mass: 0.8, stiffness: 110 },
+    });
+
+    // B. ĐỒNG BỘ NỘI DUNG THANH TÌM KIẾM TƯƠNG ỨNG TỪNG MẪU GIẤY (CHẬM RÃI, THƯ THẢ TOÀN CẢNH):
+    // - Phase 1 (Frame 170 -> 274): Thẻ 1 xuất hiện -> gõ "Mua ở đâu uy tín?" (~105 frames ~ 1.75s)
+    // - Phase 2 (Frame 275 -> 394): Thẻ 2 xuất hiện -> gõ "Quyền lợi ra sao?" (~120 frames = 2.0s)
+    // - Phase 3 (Frame 395 -> 519): Thẻ 3 xuất hiện -> gõ "Thủ tục có phức tạp không?" (~125 frames ~ 2.08s)
+    // - Phase 4 (Frame 520 -> 629): Chốt hạ băn khoăn -> quay lại "Mua bảo hiểm online ở đâu uy tín?" kéo dài 1.83s (110 frames) rồi mới sang nhịp búng tay
+    let typedSearchQuery = '';
+    let isTypingActive = false;
+
+    if (frame < 170) {
+        typedSearchQuery = '';
+        isTypingActive = false;
+    } else if (frame < 275) {
+        // Thẻ 1: "Mua ở đâu uy tín?"
+        const text1 = 'Mua ở đâu uy tín?';
+        const p1 = Math.floor(
+            interpolate(frame, [175, 215], [0, text1.length], {
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+            })
+        );
+        typedSearchQuery = text1.slice(0, p1);
+        isTypingActive = frame >= 175 && frame < 275;
+    } else if (frame < 395) {
+        // Thẻ 2: "Quyền lợi ra sao?"
+        const text2 = 'Quyền lợi ra sao?';
+        const p2 = Math.floor(
+            interpolate(frame, [285, 325], [0, text2.length], {
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+            })
+        );
+        typedSearchQuery = text2.slice(0, p2);
+        isTypingActive = frame >= 285 && frame < 395;
+    } else if (frame < 520) {
+        // Thẻ 3: "Thủ tục có phức tạp không?" (Kéo dài đọc thoải mái thư thả)
+        const text3 = 'Thủ tục có phức tạp không?';
+        const p3 = Math.floor(
+            interpolate(frame, [405, 450], [0, text3.length], {
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+            })
+        );
+        typedSearchQuery = text3.slice(0, p3);
+        isTypingActive = frame >= 405 && frame < 520;
+    } else {
+        // Sau khi mẫu giấy cuối dán xong & đọc trọn vẹn: Quay lại câu hỏi chốt tổng quát (Frame 520 -> 630, đúng 1.83s ~ 110 frames rồi mới sang búng tay)
+        const textFinal = 'Mua bảo hiểm online ở đâu uy tín?';
+        const pFinal = Math.floor(
+            interpolate(frame, [525, 565], [0, textFinal.length], {
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+            })
+        );
+        typedSearchQuery = textFinal.slice(0, pFinal);
+        isTypingActive = frame >= 525 && frame < EUREKA_START_FRAME;
+    }
+
+    const showSearchCursor = isTypingActive && Math.floor(frame / 6) % 2 === 0;
+
+    // C. Lần lượt 4 dấu chấm hỏi ? nảy ra đồng điệu cùng 3 mẫu giấy & câu hỏi chốt
+    const q1Spring = spring({
+        frame: Math.max(0, frame - 190),
+        fps,
+        config: { damping: 10, mass: 0.7, stiffness: 130 },
+    });
+    const q2Spring = spring({
+        frame: Math.max(0, frame - 305),
+        fps,
+        config: { damping: 10, mass: 0.7, stiffness: 130 },
+    });
+    const q3Spring = spring({
+        frame: Math.max(0, frame - 425),
+        fps,
+        config: { damping: 10, mass: 0.7, stiffness: 130 },
+    });
+    const q4Spring = spring({
+        frame: Math.max(0, frame - 535),
+        fps,
+        config: { damping: 10, mass: 0.7, stiffness: 130 },
+    });
+
+    // C. Dao động băn khoăn chao đảo 2.5D của các dấu hỏi
+    const qFloat1 = Math.sin(frame * 0.12) * 8;
+    const qRot1 = Math.cos(frame * 0.09) * 5;
+    const qFloat2 = Math.sin(frame * 0.11 + 1.2) * 6;
+    const qRot2 = Math.cos(frame * 0.08 + 1.0) * -5;
+    const qFloat4 = Math.sin(frame * 0.1 + 2.5) * 6;
+
+    // D. Chuyển tiếp khi Búng tay / Eureka: cụm băn khoăn tan biến, giải pháp TOPBAOHIEM hiện lên
+    const confusionExitOpacity = interpolate(eurekaSpring, [0, 0.4], [1, 0], {
+        extrapolateRight: 'clamp',
+    });
+    const confusionExitScale = interpolate(eurekaSpring, [0, 1], [1, 0.65], {
+        extrapolateRight: 'clamp',
+    });
+    const solutionEntranceSpring = spring({
+        frame: Math.max(0, frame - (EUREKA_START_FRAME + 4)),
+        fps,
+        config: { damping: 12, mass: 0.8, stiffness: 120 },
+    });
+
+    // 3. NHỊP 3: CÚ BÚNG TAY SNAP! (Frames 740 - 840 ~ 12.3s - 14s)
+    const snapFrame = frame - 740;
     const isSnap = snapFrame >= 0;
 
     const snapSpring = spring({
@@ -380,7 +494,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     </div>
                 )}
 
-                {/* 3.8. CHIẾC LAPTOP MACBOOK TRẮNG MOCK UI (LƯỚT NHẸ VÀO TỪ PHẢI + 2.5D PERSPECTIVE) */}
+                {/* 3.8. CHIẾC LAPTOP MACBOOK TRẮNG MOCK UI (LƯỚT NHẸ VÀO TỪ PHẢI + 2.5D PERSPECTIVE + MÀN HÌNH BĂN KHOĂN) */}
                 <div
                     style={{
                         position: 'absolute',
@@ -391,18 +505,348 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         pointerEvents: 'none',
                         opacity: laptopOpacity,
                         transform: `translateX(${laptopSlideX}px) translateY(${laptopFloatY + jitterY}px) rotate(${laptopTilt}deg) perspective(1400px) rotateY(${laptopRotateY}deg)`,
+                        transformStyle: 'preserve-3d',
                         filter: 'drop-shadow(0 25px 45px rgba(0, 0, 0, 0.12)) drop-shadow(0 8px 16px rgba(225, 29, 72, 0.06))',
                         zIndex: 3,
                     }}
                 >
+                    {/* KHUNG LAPTOP MACBOOK GỐC */}
                     <Img
                         src={staticFile('assets/elements/screen1/macbook_3.png')}
                         style={{
+                            position: 'absolute',
+                            inset: 0,
                             width: '100%',
                             height: '100%',
                             objectFit: 'contain',
+                            transform: 'translateZ(0px)',
                         }}
                     />
+
+                    {/* VÙNG MÀN HÌNH RETINA (SPINNER & DẤU HỎI ? BĂN KHOĂN) */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: '6.6%',
+                            left: '36.4%',
+                            width: '51.0%',
+                            height: '63.4%',
+                            borderRadius: '10px 10px 4px 4px',
+                            overflow: 'hidden',
+                            zIndex: 2,
+                            transform: 'translateZ(15px)',
+                            pointerEvents: 'none',
+                        }}
+                    >
+                        {/* 1. CỤM BĂN KHOĂN: LOADING SPINNER & CÁC DẤU CHẤM HỎI ? HỖN LOẠN (FRAMES 0 - 480) */}
+                        {confusionExitOpacity > 0.001 && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    opacity: confusionExitOpacity,
+                                    transform: `scale(${confusionExitScale})`,
+                                    transformOrigin: 'center center',
+                                }}
+                            >
+                                {/* Vòng xoay Loading Spinner ở trung tâm lệch phải (chuẩn theo ảnh minh họa) */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        top: '43%',
+                                        left: '58%',
+                                        transform: 'translate(-50%, -50%)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08))',
+                                    }}
+                                >
+                                    <svg
+                                        width={92}
+                                        height={92}
+                                        viewBox="0 0 100 100"
+                                        style={{
+                                            transform: `rotate(${(frame * 12) % 360}deg)`,
+                                        }}
+                                    >
+                                        {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => (
+                                            <rect
+                                                key={deg}
+                                                x={46.5}
+                                                y={10}
+                                                width={7}
+                                                height={22}
+                                                rx={3.5}
+                                                fill="#334155"
+                                                opacity={0.16 + (i / 11) * 0.84}
+                                                transform={`rotate(${deg} 50 50)`}
+                                            />
+                                        ))}
+                                    </svg>
+                                </div>
+
+                                {/* Dấu hỏi 1 (Lớn nhất, màu hồng đỏ #ED017C - đúng vị trí ảnh minh họa) */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        left: '26%',
+                                        top: '30%',
+                                        fontSize: 120,
+                                        fontWeight: 900,
+                                        lineHeight: 1,
+                                        color: '#ED017C',
+                                        filter: 'drop-shadow(0 8px 16px rgba(237, 1, 124, 0.3))',
+                                        transform: `translateY(${qFloat1}px) rotate(${qRot1}deg) scale(${q1Spring})`,
+                                        opacity: q1Spring,
+                                        transformOrigin: 'bottom center',
+                                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                    }}
+                                >
+                                    ?
+                                </div>
+
+                                {/* Dấu hỏi 2 (Trung bình, màu đỏ đậm #E11D48 - ở góc trên phải) */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        left: '42%',
+                                        top: '18%',
+                                        fontSize: 72,
+                                        fontWeight: 900,
+                                        lineHeight: 1,
+                                        color: '#E11D48',
+                                        filter: 'drop-shadow(0 6px 12px rgba(225, 29, 72, 0.25))',
+                                        transform: `translateY(${qFloat2}px) rotate(${qRot2}deg) scale(${q2Spring})`,
+                                        opacity: q2Spring,
+                                        transformOrigin: 'bottom center',
+                                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                    }}
+                                >
+                                    ?
+                                </div>
+
+                                {/* Dấu hỏi 3 (Nhỏ, màu đỏ hồng #F43F5E - góc trên xa) */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        left: '84%',
+                                        top: '23%',
+                                        fontSize: 58,
+                                        fontWeight: 900,
+                                        lineHeight: 1,
+                                        color: '#F43F5E',
+                                        filter: 'drop-shadow(0 4px 10px rgba(244, 63, 94, 0.2))',
+                                        transform: `translateY(${qFloat1 * 0.7}px) rotate(${-qRot1}deg) scale(${q3Spring})`,
+                                        opacity: q3Spring,
+                                        transformOrigin: 'bottom center',
+                                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                    }}
+                                >
+                                    ?
+                                </div>
+
+                                {/* Dấu hỏi 4 (Trung bình, màu xám #64748B - góc dưới phải) */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        left: '78%',
+                                        top: '52%',
+                                        fontSize: 84,
+                                        fontWeight: 900,
+                                        lineHeight: 1,
+                                        color: '#64748B',
+                                        filter: 'drop-shadow(0 6px 14px rgba(100, 116, 139, 0.2))',
+                                        transform: `translateY(${qFloat4}px) rotate(${qRot2 * 0.8}deg) scale(${q4Spring})`,
+                                        opacity: q4Spring,
+                                        transformOrigin: 'bottom center',
+                                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                    }}
+                                >
+                                    ?
+                                </div>
+                            </div>
+                        )}
+
+                        {/* 2. CẢNH BÚNG TAY / EUREKA: GIẢI LẬP KẾT QUẢ TOPBAOHIEM TỐI GIẢN (FRAMES 480+) */}
+                        {solutionEntranceSpring > 0.001 && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    opacity: solutionEntranceSpring,
+                                    transform: `scale(${interpolate(solutionEntranceSpring, [0, 1], [0.92, 1])})`,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+                                    backdropFilter: 'blur(8px)',
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        padding: '28px 38px',
+                                        borderRadius: 20,
+                                        backgroundColor: '#FFFFFF',
+                                        border: '1.5px solid rgba(237, 1, 124, 0.25)',
+                                        boxShadow: '0 16px 40px rgba(237, 1, 124, 0.16)',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        gap: 12,
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                        <CheckCircle2 size={20} color="#10B981" strokeWidth={2.6} />
+                                        <span
+                                            style={{
+                                                fontSize: 13,
+                                                fontWeight: 800,
+                                                letterSpacing: '0.1em',
+                                                color: '#059669',
+                                                textTransform: 'uppercase',
+                                            }}
+                                        >
+                                            ĐÃ XÁC THỰC GIẢI PHÁP
+                                        </span>
+                                    </div>
+
+                                    <div
+                                        style={{
+                                            fontSize: 38,
+                                            fontWeight: 900,
+                                            color: '#ED017C',
+                                            letterSpacing: '-0.02em',
+                                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                        }}
+                                    >
+                                        TOPBAOHIEM.VN
+                                    </div>
+
+                                    <span
+                                        style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            color: '#64748B',
+                                        }}
+                                    >
+                                        Nền tảng so sánh bảo hiểm trực tuyến minh bạch
+                                    </span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* THANH TÌM KIẾM NỔI 2.5D FLOATING SEARCH CAPSULE VẮT TRÊN MÉP MÀN HÌNH (CHUẨN THEO ẢNH MINH HỌA) */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: '2.0%',
+                            left: '42.0%',
+                            width: 820,
+                            height: 74,
+                            borderRadius: 37,
+                            backgroundColor: '#FFFFFF',
+                            border: '1.5px solid rgba(225, 29, 72, 0.24)',
+                            boxShadow:
+                                '0 18px 38px rgba(0, 0, 0, 0.14), 0 6px 16px rgba(225, 29, 72, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.9)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: '0 14px 0 8px',
+                            gap: 16,
+                            zIndex: 10,
+                            transform: `translateZ(45px) scale(${searchEntranceSpring})`,
+                            opacity: searchEntranceSpring,
+                            transformOrigin: 'center center',
+                        }}
+                    >
+                        {/* Nút kính lúp màu hồng bo tròn bên trái */}
+                        <div
+                            style={{
+                                width: 58,
+                                height: 58,
+                                borderRadius: 29,
+                                backgroundColor: frame < EUREKA_START_FRAME ? '#ED017C' : '#059669',
+                                background:
+                                    frame < EUREKA_START_FRAME
+                                        ? 'linear-gradient(135deg, #FF2E79 0%, #ED017C 100%)'
+                                        : 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                boxShadow:
+                                    frame < EUREKA_START_FRAME
+                                        ? '0 4px 12px rgba(237, 1, 124, 0.4)'
+                                        : '0 4px 12px rgba(16, 185, 129, 0.4)',
+                                flexShrink: 0,
+                                transition: 'all 0.3s ease',
+                            }}
+                        >
+                            {frame < EUREKA_START_FRAME ? (
+                                <Search size={28} color="#FFFFFF" strokeWidth={2.8} />
+                            ) : (
+                                <Lock size={26} color="#FFFFFF" strokeWidth={2.8} />
+                            )}
+                        </div>
+
+                        {/* Nội dung thanh tìm kiếm */}
+                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+                            {frame < EUREKA_START_FRAME ? (
+                                <span
+                                    style={{
+                                        fontSize: 40,
+                                        fontWeight: 900,
+                                        color: '#1E293B',
+                                        letterSpacing: '-0.02em',
+                                        whiteSpace: 'nowrap',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    {typedSearchQuery}
+                                    {showSearchCursor && (
+                                        <span
+                                            style={{
+                                                display: 'inline-block',
+                                                width: 3.5,
+                                                height: 38,
+                                                backgroundColor: '#ED017C',
+                                                marginLeft: 4,
+                                                borderRadius: 2,
+                                            }}
+                                        />
+                                    )}
+                                </span>
+                            ) : (
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                                    <span
+                                        style={{
+                                            fontSize: 25,
+                                            fontWeight: 800,
+                                            color: '#0F172A',
+                                            letterSpacing: '-0.01em',
+                                        }}
+                                    >
+                                        https://topbaohiem.vn
+                                    </span>
+                                    <span
+                                        style={{
+                                            fontSize: 12,
+                                            fontWeight: 800,
+                                            color: '#ED017C',
+                                            backgroundColor: '#FDF2F8',
+                                            padding: '3px 8px',
+                                            borderRadius: 6,
+                                            border: '1px solid rgba(237, 1, 124, 0.2)',
+                                        }}
+                                    >
+                                        GIẢI PHÁP TỐI ƯU
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 {/* 0. CỤM HOOK DẪN CHUYỆN: "Muốn mua bảo hiểm online," -> "NHƯNG..." (DOCKING LÊN ĐỈNH) */}
@@ -499,15 +943,20 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             position: 'relative',
                         }}
                     >
-                        {/* 1. Trạng thái Băn khoăn / Suy nghĩ (Frames 0 - 480) */}
+                        {/* 1. Trạng thái Băn khoăn / Suy nghĩ (Frames 0 -> EUREKA_START_FRAME) */}
                         <div
                             style={{
                                 position: 'absolute',
                                 inset: 0,
-                                opacity: interpolate(frame, [475, 485], [1, 0], {
-                                    extrapolateLeft: 'clamp',
-                                    extrapolateRight: 'clamp',
-                                }),
+                                opacity: interpolate(
+                                    frame,
+                                    [EUREKA_START_FRAME - 5, EUREKA_START_FRAME + 5],
+                                    [1, 0],
+                                    {
+                                        extrapolateLeft: 'clamp',
+                                        extrapolateRight: 'clamp',
+                                    }
+                                ),
                                 pointerEvents: 'none',
                             }}
                         >
@@ -521,15 +970,20 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             />
                         </div>
 
-                        {/* 2. Trạng thái Lóe sáng & Búng tay Snap (Frames 480+) */}
+                        {/* 2. Trạng thái Lóe sáng & Búng tay Snap (Frames EUREKA_START_FRAME+) */}
                         <div
                             style={{
                                 position: 'absolute',
                                 inset: 0,
-                                opacity: interpolate(frame, [475, 485], [0, 1], {
-                                    extrapolateLeft: 'clamp',
-                                    extrapolateRight: 'clamp',
-                                }),
+                                opacity: interpolate(
+                                    frame,
+                                    [EUREKA_START_FRAME - 5, EUREKA_START_FRAME + 5],
+                                    [0, 1],
+                                    {
+                                        extrapolateLeft: 'clamp',
+                                        extrapolateRight: 'clamp',
+                                    }
+                                ),
                                 pointerEvents: 'none',
                             }}
                         >
@@ -543,8 +997,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             />
                         </div>
 
-                        {/* Dấu chấm hỏi giấy xoay quanh đầu nhân vật khi đang phân vân (Frames 0 - 480) */}
-                        {frame < 480 && (
+                        {/* Dấu chấm hỏi giấy xoay quanh đầu nhân vật khi đang phân vân */}
+                        {frame < EUREKA_START_FRAME && (
                             <>
                                 <div
                                     style={{
@@ -563,8 +1017,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             </>
                         )}
 
-                        {/* BÓNG ĐÈN Ý TƯỞNG EUREKA BÙNG LÊN TRÊN ĐẦU (Frames 480+) - Khớp chuẩn đỉnh đường nét đứt chỉ tay */}
-                        {frame >= 480 && (
+                        {/* BÓNG ĐÈN Ý TƯỞNG EUREKA BÙNG LÊN TRÊN ĐẦU (Frames EUREKA_START_FRAME+) */}
+                        {frame >= EUREKA_START_FRAME && (
                             <div
                                 style={{
                                     position: 'absolute',
@@ -572,7 +1026,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                     right: -80,
                                     width: 540,
                                     height: 540,
-                                    transform: `scale(${eurekaSpring}) rotate(${Math.sin((frame - 480) * 0.08) * 3}deg)`,
+                                    transform: `scale(${eurekaSpring}) rotate(${Math.sin((frame - EUREKA_START_FRAME) * 0.08) * 3}deg)`,
                                     transformOrigin: 'bottom left',
                                     opacity: eurekaSpring,
                                     pointerEvents: 'none',
