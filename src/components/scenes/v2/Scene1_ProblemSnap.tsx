@@ -74,10 +74,10 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const waveL2_right = Math.cos(frame * 0.036 + 1.9) * 22;
 
     // B. Sóng trào điểm nhấn cao trào (Dynamic Surge Events):
-    // 1. Surge khi MacBook trượt vào từ phải (Frames 180 - 250): Sóng phải dâng trào đón laptop
-    const mbSurgeProgress = Math.max(0, Math.min(1, (frame - 180) / 60));
-    const mbSurge = frame >= 180 && frame <= 250 ? Math.sin(mbSurgeProgress * Math.PI) * -52 : 0;
-    const mbSurgeL2 = frame >= 180 && frame <= 250 ? Math.sin(mbSurgeProgress * Math.PI) * -35 : 0;
+    // 1. Surge khi MacBook trượt vào từ phải (Frames 365 - 435): Sóng phải dâng trào đón laptop
+    const mbSurgeProgress = Math.max(0, Math.min(1, (frame - 365) / 60));
+    const mbSurge = frame >= 365 && frame <= 435 ? Math.sin(mbSurgeProgress * Math.PI) * -52 : 0;
+    const mbSurgeL2 = frame >= 365 && frame <= 435 ? Math.sin(mbSurgeProgress * Math.PI) * -35 : 0;
 
     // 2. Surge khi búng tay Eureka Snap! (Frames 480 - 550): Sóng cuộn trào lan tỏa toàn màn hình
     const snapSurgeProgress = Math.max(0, Math.min(1, (frame - 480) / 60));
@@ -117,9 +117,9 @@ export const Scene1_ProblemSnap: React.FC = () => {
 
     const pathWaveLayer2 = `M 0, ${l2_p0_y.toFixed(1)} C 450, ${l2_c1_y.toFixed(1)} 900, ${l2_c2_y.toFixed(1)} 1480, ${l2_p1_y.toFixed(1)} C 2050, ${l2_c3_y.toFixed(1)} 2600, ${l2_c4_y.toFixed(1)} 3150, ${l2_p2_y.toFixed(1)} C 3500, ${l2_c5_y.toFixed(1)} 3720, ${l2_c6_y.toFixed(1)} 3840, ${l2_p3_y.toFixed(1)} L 3840, 960 L 0, 960 Z`;
 
-    // 0.3. ENTRANCE CỦA DẢI CÁNH MÁY BAY GIẤY ORIGAMI PHÍA PHẢI (Chỉ xuất hiện sau khi dẫn chuyện xong và lướt lên đỉnh: Frame 150+)
+    // 0.3. ENTRANCE CỦA DẢI CÁNH MÁY BAY GIẤY ORIGAMI PHÍA PHẢI (Xuất hiện cùng nhịp mở rộng công nghệ: Frame 340+)
     const maybayEntrance = spring({
-        frame: frame - 150,
+        frame: frame - 340,
         fps,
         config: { damping: 15, mass: 0.9, stiffness: 65 },
     });
@@ -127,11 +127,11 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const maybayOpacity = interpolate(maybayEntrance, [0, 1], [0, 1]);
     const maybayScale = interpolate(maybayEntrance, [0, 1], [0.88, 1]);
 
-    // 0.5. HIỆU ỨNG LAPTOP MACBOOK MOCK UI (Lướt nhẹ từ phải vào sau khi hook lên đỉnh: Frame 180+)
+    // 0.5. HIỆU ỨNG LAPTOP MACBOOK MOCK UI (Lướt nhẹ từ phải vào sau khi 3 thẻ tiếp đất: Frame 365+)
     const laptopEntrance = spring({
-        frame: frame - 180,
+        frame: frame - 365,
         fps,
-        config: { damping: 14, stiffness: 60 },
+        config: { damping: 14, stiffness: 50 },
     });
     const laptopSlideX = interpolate(laptopEntrance, [0, 1], [500, 0]);
     const laptopRotateY = interpolate(laptopEntrance, [0, 1], [-14, 0]);
@@ -152,22 +152,70 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const charEntranceY = interpolate(charEntranceSpring, [0, 1], [400, 0]);
     const charEntranceOpacity = interpolate(charEntranceSpring, [0, 1], [0, 1]);
 
-    // 1. NHỊP 1: 3 THẺ CÂU HỎI TRƯỢT VÀO SAU KHI DẪN CHUYỆN (Frames 165, 195, 225)
+    // 1. NHỊP 1: 3 THẺ CÂU HỎI RƠI TRỌNG LỰC 2.5D & VẬT LÝ GIẤY THỦ CÔNG (GRAVITY DROP & PAPER PHYSICS - HƯỚNG 3 MỞ RỘNG DURATION)
+    // Thẻ 1: Rơi từ frame 160 (chao liệng ~40f), ghim kẹp dập đanh tại frame 200
     const card1Spring = spring({
-        frame: frame - 165,
+        frame: frame - 160,
         fps,
-        config: { damping: 14, stiffness: 90 },
+        config: { damping: 14, mass: 1.15, stiffness: 45 },
     });
+    const clip1Spring = spring({
+        frame: frame - 200,
+        fps,
+        config: { damping: 9, mass: 0.6, stiffness: 130 },
+    });
+    const card1Y = interpolate(card1Spring, [0, 1], [-480, 0]);
+    const card1X = interpolate(card1Spring, [0, 1], [-90, 0]);
+    const card1RotX = interpolate(card1Spring, [0, 1], [42, 0]);
+    const card1RotY = interpolate(card1Spring, [0, 1], [-24, 0]);
+    const card1Scale = interpolate(card1Spring, [0, 1], [1.18, 1]);
+    const card1Flutter = Math.sin(Math.max(0, frame - 160) * 0.18) * (1 - Math.min(1, card1Spring)) * 16;
+    const card1Opacity = interpolate(card1Spring, [0, 0.2], [0, 1], { extrapolateRight: 'clamp' });
+    const clip1Y = interpolate(clip1Spring, [0, 1], [-140, 0]);
+    const clip1Scale = interpolate(clip1Spring, [0, 0.4, 1], [1.45, 0.94, 1]);
+    const clip1Opacity = interpolate(clip1Spring, [0, 0.2], [0, 1], { extrapolateRight: 'clamp' });
+
+    // Thẻ 2: Rơi từ frame 235 (chao liệng ~40f), băng dính hồng dán đè tại frame 275
     const card2Spring = spring({
-        frame: frame - 195,
+        frame: frame - 235,
         fps,
-        config: { damping: 14, stiffness: 90 },
+        config: { damping: 14, mass: 1.15, stiffness: 45 },
     });
+    const tape2Spring = spring({
+        frame: frame - 275,
+        fps,
+        config: { damping: 10, mass: 0.7, stiffness: 120 },
+    });
+    const card2Y = interpolate(card2Spring, [0, 1], [-500, 0]);
+    const card2X = interpolate(card2Spring, [0, 1], [-110, 0]);
+    const card2RotX = interpolate(card2Spring, [0, 1], [44, 0]);
+    const card2RotY = interpolate(card2Spring, [0, 1], [-20, 0]);
+    const card2Scale = interpolate(card2Spring, [0, 1], [1.18, 1]);
+    const card2Flutter = Math.sin(Math.max(0, frame - 235) * 0.18) * (1 - Math.min(1, card2Spring)) * 16;
+    const card2Opacity = interpolate(card2Spring, [0, 0.2], [0, 1], { extrapolateRight: 'clamp' });
+    const tape2Scale = interpolate(tape2Spring, [0, 0.35, 1], [1.4, 0.95, 1]);
+    const tape2Opacity = interpolate(tape2Spring, [0, 0.2], [0, 1], { extrapolateRight: 'clamp' });
+
+    // Thẻ 3: Rơi từ frame 310 (chao liệng ~40f), băng dính xanh dán đè tại frame 350
     const card3Spring = spring({
-        frame: frame - 225,
+        frame: frame - 310,
         fps,
-        config: { damping: 14, stiffness: 90 },
+        config: { damping: 14, mass: 1.15, stiffness: 45 },
     });
+    const tape3Spring = spring({
+        frame: frame - 350,
+        fps,
+        config: { damping: 10, mass: 0.7, stiffness: 120 },
+    });
+    const card3Y = interpolate(card3Spring, [0, 1], [-520, 0]);
+    const card3X = interpolate(card3Spring, [0, 1], [-100, 0]);
+    const card3RotX = interpolate(card3Spring, [0, 1], [45, 0]);
+    const card3RotY = interpolate(card3Spring, [0, 1], [-22, 0]);
+    const card3Scale = interpolate(card3Spring, [0, 1], [1.18, 1]);
+    const card3Flutter = Math.sin(Math.max(0, frame - 310) * 0.18) * (1 - Math.min(1, card3Spring)) * 16;
+    const card3Opacity = interpolate(card3Spring, [0, 0.2], [0, 1], { extrapolateRight: 'clamp' });
+    const tape3Scale = interpolate(tape3Spring, [0, 0.35, 1], [1.4, 0.95, 1]);
+    const tape3Opacity = interpolate(tape3Spring, [0, 0.2], [0, 1], { extrapolateRight: 'clamp' });
 
     // Chuyển động thở của nhân vật
     const charBreathing = Math.sin(frame * 0.08) * 8;
@@ -304,8 +352,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     </svg>
                 </div>
 
-                {/* 3.5. DẢI CÁNH GIẤY GẤP NỔI KHỐI ORIGAMI PHÍA PHẢI (PAPER RIBBON WING - XUẤT HIỆN SAU KHI DẪN CHUYỆN LÊN ĐỈNH) */}
-                {frame >= 150 && (
+                {/* 3.5. DẢI CÁNH GIẤY GẤP NỔI KHỐI ORIGAMI PHÍA PHẢI (PAPER RIBBON WING - XUẤT HIỆN CÙNG NHỊP CÔNG NGHỆ: FRAME 340+) */}
+                {frame >= 340 && (
                     <div
                         style={{
                             position: 'absolute',
@@ -551,14 +599,14 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     style={{
                         position: 'absolute',
                         top: 260,
-                        left: interpolate(card1Spring, [0, 1], [-800, 220]),
+                        left: 220,
                         width: 580,
                         height: 390,
-                        opacity: card1Spring,
-                        transform: `scale(${cardsExitScale}) rotate(-5deg)`,
-                        transition: 'transform 0.1s ease-out',
+                        opacity: card1Opacity,
+                        transform: `perspective(1200px) translateX(${card1X}px) translateY(${card1Y}px) scale(${cardsExitScale * card1Scale}) rotateX(${card1RotX}deg) rotateY(${card1RotY}deg) rotate(${-5 + card1Flutter}deg)`,
+                        transformOrigin: 'top center',
                         zIndex: 5,
-                        filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.09)) drop-shadow(0 4px 10px rgba(225, 29, 72, 0.06))',
+                        filter: `drop-shadow(0 ${interpolate(card1Spring, [0, 1], [40, 15])}px ${interpolate(card1Spring, [0, 1], [50, 30])}px rgba(0,0,0,${interpolate(card1Spring, [0, 1], [0.04, 0.09])})) drop-shadow(0 4px 10px rgba(225, 29, 72, 0.06))`,
                     }}
                 >
                     {/* Nền giấy xé giay.png */}
@@ -573,7 +621,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         }}
                     />
 
-                    {/* Ghim kẹp giấy hồng gym_giay.png */}
+                    {/* Ghim kẹp giấy hồng gym_giay.png (Dập đanh một nhịp sau khi giấy tiếp đất) */}
                     <div
                         style={{
                             position: 'absolute',
@@ -581,7 +629,9 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             left: 42,
                             width: 80,
                             height: 130,
-                            transform: 'rotate(-8deg)',
+                            transform: `translateY(${clip1Y}px) scale(${clip1Scale}) rotate(-8deg)`,
+                            transformOrigin: 'top center',
+                            opacity: clip1Opacity,
                             zIndex: 2,
                             filter: 'drop-shadow(0 6px 10px rgba(0,0,0,0.18))',
                         }}
@@ -639,14 +689,14 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     style={{
                         position: 'absolute',
                         top: 680,
-                        left: interpolate(card2Spring, [0, 1], [-800, 180]),
+                        left: 180,
                         width: 600,
                         height: 400,
-                        opacity: card2Spring,
-                        transform: `scale(${cardsExitScale}) rotate(4deg)`,
-                        transition: 'transform 0.1s ease-out',
+                        opacity: card2Opacity,
+                        transform: `perspective(1200px) translateX(${card2X}px) translateY(${card2Y}px) scale(${cardsExitScale * card2Scale}) rotateX(${card2RotX}deg) rotateY(${card2RotY}deg) rotate(${4 + card2Flutter}deg)`,
+                        transformOrigin: 'top center',
                         zIndex: 5,
-                        filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.09)) drop-shadow(0 4px 10px rgba(225, 29, 72, 0.06))',
+                        filter: `drop-shadow(0 ${interpolate(card2Spring, [0, 1], [40, 15])}px ${interpolate(card2Spring, [0, 1], [50, 30])}px rgba(0,0,0,${interpolate(card2Spring, [0, 1], [0.04, 0.09])})) drop-shadow(0 4px 10px rgba(225, 29, 72, 0.06))`,
                     }}
                 >
                     {/* Nền giấy xé giay.png */}
@@ -661,7 +711,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         }}
                     />
 
-                    {/* Miếng băng dính washi tape hồng bangkeohong.png */}
+                    {/* Miếng băng dính washi tape hồng bangkeohong.png (Dán đè ép dính sau khi giấy rơi) */}
                     <div
                         style={{
                             position: 'absolute',
@@ -669,7 +719,9 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             left: -20,
                             width: 170,
                             height: 114,
-                            transform: 'rotate(-24deg)',
+                            transform: `scale(${tape2Scale}) rotate(-24deg)`,
+                            transformOrigin: 'center center',
+                            opacity: tape2Opacity,
                             zIndex: 2,
                             filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))',
                         }}
@@ -734,14 +786,14 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     style={{
                         position: 'absolute',
                         top: 1120,
-                        left: interpolate(card3Spring, [0, 1], [-800, 240]),
+                        left: 240,
                         width: 610,
                         height: 410,
-                        opacity: card3Spring,
-                        transform: `scale(${cardsExitScale}) rotate(-3deg)`,
-                        transition: 'transform 0.1s ease-out',
+                        opacity: card3Opacity,
+                        transform: `perspective(1200px) translateX(${card3X}px) translateY(${card3Y}px) scale(${cardsExitScale * card3Scale}) rotateX(${card3RotX}deg) rotateY(${card3RotY}deg) rotate(${-3 + card3Flutter}deg)`,
+                        transformOrigin: 'top center',
                         zIndex: 5,
-                        filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.09)) drop-shadow(0 4px 10px rgba(225, 29, 72, 0.06))',
+                        filter: `drop-shadow(0 ${interpolate(card3Spring, [0, 1], [40, 15])}px ${interpolate(card3Spring, [0, 1], [50, 30])}px rgba(0,0,0,${interpolate(card3Spring, [0, 1], [0.04, 0.09])})) drop-shadow(0 4px 10px rgba(225, 29, 72, 0.06))`,
                     }}
                 >
                     {/* Nền giấy xé giay.png */}
@@ -756,7 +808,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         }}
                     />
 
-                    {/* Miếng băng dính washi tape xanh bangkeoxanh.png */}
+                    {/* Miếng băng dính washi tape xanh bangkeoxanh.png (Dán đè ép dính tựa đỉnh sóng mint) */}
                     <div
                         style={{
                             position: 'absolute',
@@ -764,7 +816,9 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             left: -28,
                             width: 190,
                             height: 94,
-                            transform: 'rotate(-10deg)',
+                            transform: `scale(${tape3Scale}) rotate(-10deg)`,
+                            transformOrigin: 'center center',
+                            opacity: tape3Opacity,
                             zIndex: 2,
                             filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))',
                         }}
