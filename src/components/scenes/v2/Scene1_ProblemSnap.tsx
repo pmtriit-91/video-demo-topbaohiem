@@ -141,30 +141,56 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     }}
                 />
 
-                {/* 1.5. LỚP ĐỒI SÓNG GIẤY XANH MINT Ở ĐÁY MÀN HÌNH (LAYERED PAPER WAVE - ENTRANCE DÂNG LÊN & GỢN SÓNG) */}
+                {/* 1.5. LỚP ĐỒI SÓNG GIẤY XANH MINT Ở ĐÁY MÀN HÌNH (LAYERED PAPER WAVE - CHUẨN PHỐI CẢNH CANVA STORYBOARD) */}
                 <div
                     style={{
                         position: 'absolute',
                         bottom: 0,
                         left: 0,
                         width: 3840,
-                        height: 380,
+                        height: 960,
                         pointerEvents: 'none',
                         zIndex: 1,
                         transform: `translateY(${waveEntranceY + waveFloatY}px)`,
-                        filter: 'drop-shadow(0 -10px 25px rgba(16, 185, 129, 0.08))',
+                        filter: 'drop-shadow(0 -12px 28px rgba(16, 185, 129, 0.12))',
                     }}
                 >
-                    <svg width="3840" height="380" viewBox="0 0 3840 380" fill="none">
+                    <svg width="3840" height="960" viewBox="0 0 3840 960" fill="none">
+                        <defs>
+                            {/* Gradient xanh mint pastel tươi sáng đặc trưng Canva */}
+                            <linearGradient id="mintWaveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stopColor="#C4EFE3" />
+                                <stop offset="40%" stopColor="#B3EADB" />
+                                <stop offset="75%" stopColor="#C6EFE4" />
+                                <stop offset="100%" stopColor="#A8E4D3" />
+                            </linearGradient>
+                            <linearGradient id="mintWaveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stopColor="#D8F7EE" stopOpacity="0.85" />
+                                <stop offset="50%" stopColor="#C7F1E5" stopOpacity="0.9" />
+                                <stop offset="100%" stopColor="#B6ECDE" stopOpacity="0.85" />
+                            </linearGradient>
+                        </defs>
+
+                        {/* Lớp sóng giấy mint nền sau (Layer 2 - dâng nhẹ tạo nếp gấp giấy thủ công) */}
                         <path
-                            d="M0,180 C800,90 1400,280 2400,200 C3100,140 3600,260 3840,240 L3840,380 L0,380 Z"
-                            fill="#E2F7F2"
+                            d="M 0, 280 C 450, 290 900, 540 1480, 620 C 2050, 700 2600, 380 3150, 320 C 3500, 280 3720, 320 3840, 340 L 3840, 960 L 0, 960 Z"
+                            fill="url(#mintWaveGrad2)"
+                            transform={`translate(${waveLayer2FloatX * 0.7}, 0)`}
                         />
+
+                        {/* Lớp sóng giấy mint chính tiền cảnh (Layer 1 - Mép trái đỡ Thẻ 3, trũng qua chân Hero, vểnh đỡ đế MacBook) */}
                         <path
-                            d="M0,260 C600,190 1200,320 2000,270 C2800,220 3400,310 3840,290 L3840,380 L0,380 Z"
-                            fill="#D1F2EA"
+                            d="M 0, 220 C 420, 230 880, 520 1520, 660 C 2100, 780 2650, 420 3180, 360 C 3520, 320 3740, 370 3840, 390 L 3840, 960 L 0, 960 Z"
+                            fill="url(#mintWaveGrad1)"
+                        />
+
+                        {/* Đường viền nếp gấp giấy mỏng tạo cảm giác gập nếp thủ công tinh tế */}
+                        <path
+                            d="M 0, 220 C 420, 230 880, 520 1520, 660 C 2100, 780 2650, 420 3180, 360 C 3520, 320 3740, 370 3840, 390"
+                            stroke="#8CE0CB"
+                            strokeWidth="3.5"
+                            fill="none"
                             opacity="0.6"
-                            transform={`translate(${waveLayer2FloatX}, 0)`}
                         />
                     </svg>
                 </div>
@@ -218,25 +244,26 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     />
                 </div>
 
-                {/* 4. KHỐI TRUNG TÂM: MẢNH GHÉP NHÂN VẬT 2.5D ÁO HỒNG TÁCH RỜI */}
+                {/* 4. KHỐI TRUNG TÂM: MẢNH GHÉP NHÂN VẬT HERO CHỦ THỂ 2.5D ÁO HỒNG (CHUẨN TỶ LỆ 75% CHIỀU CAO KHUNG HÌNH) */}
                 <div
                     style={{
                         position: 'absolute',
-                        bottom: 80,
-                        left: 1500,
+                        bottom: 0,
+                        left: 1540,
                         transform: `translateX(-50%) translateY(${charBreathing + jitterY}px) scale(${charScale})`,
+                        transformOrigin: 'bottom center',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        filter: 'drop-shadow(0 30px 45px rgba(225, 29, 72, 0.22)) drop-shadow(0 10px 20px rgba(0,0,0,0.06))',
+                        filter: 'drop-shadow(0 35px 50px rgba(0, 0, 0, 0.18)) drop-shadow(0 12px 25px rgba(225, 29, 72, 0.16))',
                         zIndex: 4,
                     }}
                 >
-                    {/* Hình ảnh nhân vật chính áo hồng */}
+                    {/* Container nhân vật Hero: Kích thước 1020 x 1650 khớp chuẩn độ phân giải gốc ảnh 972 x 1620 */}
                     <div
                         style={{
-                            width: 760,
-                            height: 1140,
+                            width: 1020,
+                            height: 1650,
                             position: 'relative',
                         }}
                     >
@@ -290,13 +317,13 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                 <div
                                     style={{
                                         position: 'absolute',
-                                        top: 100,
-                                        left: 80,
-                                        fontSize: 72,
+                                        top: 140,
+                                        left: 100,
+                                        fontSize: 90,
                                         color: colors.brandPink,
                                         fontWeight: 900,
                                         transform: `rotate(${Math.sin(frame * 0.1) * 15}deg)`,
-                                        filter: 'drop-shadow(0 4px 10px rgba(225, 29, 72, 0.3))',
+                                        filter: 'drop-shadow(0 4px 12px rgba(225, 29, 72, 0.35))',
                                     }}
                                 >
                                     ❓
@@ -304,13 +331,13 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                 <div
                                     style={{
                                         position: 'absolute',
-                                        top: 60,
-                                        right: 120,
-                                        fontSize: 64,
+                                        top: 90,
+                                        right: 180,
+                                        fontSize: 80,
                                         color: colors.accentYellow,
                                         fontWeight: 900,
                                         transform: `rotate(${Math.cos(frame * 0.1) * 15}deg)`,
-                                        filter: 'drop-shadow(0 4px 10px rgba(251, 191, 36, 0.4))',
+                                        filter: 'drop-shadow(0 4px 12px rgba(251, 191, 36, 0.45))',
                                     }}
                                 >
                                     💭
@@ -318,20 +345,20 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             </>
                         )}
 
-                        {/* BÓNG ĐÈN Ý TƯỞNG EUREKA BÙNG LÊN TRÊN ĐẦU (Frames 480+) */}
+                        {/* BÓNG ĐÈN Ý TƯỞNG EUREKA BÙNG LÊN TRÊN ĐẦU (Frames 480+) - Khớp chuẩn đỉnh đường nét đứt chỉ tay */}
                         {frame >= 480 && (
                             <div
                                 style={{
                                     position: 'absolute',
-                                    top: -90,
-                                    right: 60,
-                                    width: 340,
-                                    height: 340,
+                                    top: -170,
+                                    right: -80,
+                                    width: 540,
+                                    height: 540,
                                     transform: `scale(${eurekaSpring}) rotate(${Math.sin((frame - 480) * 0.08) * 3}deg)`,
                                     transformOrigin: 'bottom left',
                                     opacity: eurekaSpring,
                                     pointerEvents: 'none',
-                                    filter: 'drop-shadow(0 20px 35px rgba(225, 29, 72, 0.4)) drop-shadow(0 4px 10px rgba(0,0,0,0.08))',
+                                    filter: 'drop-shadow(0 25px 45px rgba(225, 29, 72, 0.45)) drop-shadow(0 6px 14px rgba(0,0,0,0.12))',
                                 }}
                             >
                                 <Img
@@ -340,6 +367,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                         width: '100%',
                                         height: '100%',
                                         objectFit: 'contain',
+                                        translate: '251.2px -72.2px'
                                     }}
                                 />
                             </div>
