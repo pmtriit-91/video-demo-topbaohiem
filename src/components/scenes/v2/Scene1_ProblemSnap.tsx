@@ -64,6 +64,16 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const waveFloatY = Math.sin(frame * 0.04) * 8;
     const waveLayer2FloatX = Math.cos(frame * 0.03) * 15;
 
+    // 0.3. ENTRANCE CỦA DẢI CÁNH MÁY BAY GIẤY ORIGAMI PHÍA PHẢI (Chỉ xuất hiện sau khi dẫn chuyện xong và lướt lên đỉnh: Frame 150+)
+    const maybayEntrance = spring({
+        frame: frame - 150,
+        fps,
+        config: { damping: 15, mass: 0.9, stiffness: 65 },
+    });
+    const maybaySlideX = interpolate(maybayEntrance, [0, 1], [850, 0]);
+    const maybayOpacity = interpolate(maybayEntrance, [0, 1], [0, 1]);
+    const maybayScale = interpolate(maybayEntrance, [0, 1], [0.88, 1]);
+
     // 0.5. HIỆU ỨNG LAPTOP MACBOOK MOCK UI (Lướt nhẹ từ phải vào sau khi hook lên đỉnh: Frame 180+)
     const laptopEntrance = spring({
         frame: frame - 180,
@@ -250,29 +260,32 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     </svg>
                 </div>
 
-                {/* 3.5. DẢI CÁNH GIẤY GẤP NỔI KHỐI ORIGAMI PHÍA PHẢI (PAPER RIBBON WING) */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: 100,
-                        right: -60,
-                        width: 1560,
-                        height: 1730,
-                        pointerEvents: 'none',
-                        transform: `translateY(${Math.sin(frame * 0.05) * 6 + jitterY}px) rotate(${Math.cos(frame * 0.03) * 0.6}deg)`,
-                        filter: 'drop-shadow(-25px 35px 50px rgba(225, 29, 72, 0.22)) drop-shadow(-8px 12px 18px rgba(0,0,0,0.07))',
-                        zIndex: 2,
-                    }}
-                >
-                    <Img
-                        src={staticFile('assets/elements/screen1/maybay_giay.png')}
+                {/* 3.5. DẢI CÁNH GIẤY GẤP NỔI KHỐI ORIGAMI PHÍA PHẢI (PAPER RIBBON WING - XUẤT HIỆN SAU KHI DẪN CHUYỆN LÊN ĐỈNH) */}
+                {frame >= 150 && (
+                    <div
                         style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'contain',
+                            position: 'absolute',
+                            top: 100,
+                            right: -60,
+                            width: 1560,
+                            height: 1730,
+                            pointerEvents: 'none',
+                            opacity: maybayOpacity,
+                            transform: `translateX(${maybaySlideX}px) translateY(${Math.sin(frame * 0.05) * 6 + jitterY}px) scale(${maybayScale}) rotate(${Math.cos(frame * 0.03) * 0.6}deg)`,
+                            filter: 'drop-shadow(-25px 35px 50px rgba(225, 29, 72, 0.22)) drop-shadow(-8px 12px 18px rgba(0,0,0,0.07))',
+                            zIndex: 2,
                         }}
-                    />
-                </div>
+                    >
+                        <Img
+                            src={staticFile('assets/elements/screen1/maybay_giay.png')}
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'contain',
+                            }}
+                        />
+                    </div>
+                )}
 
                 {/* 3.8. CHIẾC LAPTOP MACBOOK TRẮNG MOCK UI (LƯỚT NHẸ VÀO TỪ PHẢI + 2.5D PERSPECTIVE) */}
                 <div
@@ -440,7 +453,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         {/* Dấu chấm hỏi giấy xoay quanh đầu nhân vật khi đang phân vân (Frames 0 - 480) */}
                         {frame < 480 && (
                             <>
-                                <div
+                                {/* <div
                                     style={{
                                         position: 'absolute',
                                         top: 140,
@@ -453,7 +466,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                     }}
                                 >
                                     ❓
-                                </div>
+                                </div> */}
                                 <div
                                     style={{
                                         position: 'absolute',
@@ -493,7 +506,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                         width: '100%',
                                         height: '100%',
                                         objectFit: 'contain',
-                                        translate: '251.2px -72.2px'
+                                        translate: '251.2px -72.2px',
                                     }}
                                 />
                             </div>
@@ -548,7 +561,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         />
                     </div>
 
-                    {/* Nội dung chữ: Chọn hãng nào? */}
+                    {/* Nội dung chữ: Mua ở đâu uy tín? */}
                     <div
                         style={{
                             position: 'absolute',
@@ -564,18 +577,18 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             transform: 'rotate(-4.2deg)',
                             transformOrigin: 'left center',
                             zIndex: 1,
-                            marginLeft: 60,
+                            marginLeft: 10,
                         }}
                     >
-                        <span style={{ fontSize: 76, fontWeight: 900 }}>Chọn</span>
-                        <span style={{ fontSize: 62, fontWeight: 800, marginTop: 8 }}>hãng nào?</span>
+                        <span style={{ fontSize: 76, fontWeight: 900 }}>Mua ở đâu</span>
+                        <span style={{ fontSize: 62, fontWeight: 800, marginTop: 8 }}>uy tín?</span>
                     </div>
 
                     {/* Dấu hỏi chấm to màu xanh navy đậm bên cạnh */}
                     <div
                         style={{
                             position: 'absolute',
-                            right: 10,
+                            right: -10,
                             top: 20,
                             fontSize: 150,
                             fontWeight: 900,
@@ -778,7 +791,6 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         ?
                     </div>
                 </div>
-
 
                 {/* 7. HIỆU ỨNG BÚNG TAY SNAP! BÙNG NỔ SÓNG NĂNG LƯỢNG HỒNG (Frames 690 - 840) */}
                 {isSnap && (
