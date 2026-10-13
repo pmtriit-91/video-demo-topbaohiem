@@ -173,4 +173,19 @@ const mintWaveSvgPath = `
    - Sau khi bạn nghiệm thu bố cục và camera của Bước 1 & 2, chúng ta sẽ bắt tay vào hiệu ứng bóc tách 3 dải lụa máy bay giấy (`maybay_giay.png`) và particle nổ bừng sáng lúc búng tay.
 
 ---
-*Báo cáo được lập để bạn thẩm định và cùng trao đổi phương hướng trước khi tiến hành viết bất kỳ dòng code nào.*
+
+## VI. NHẬT KÝ THỰC THI BƯỚC 1 (STEP 1 EXECUTION LOG)
+
+Đã hoàn thành và tinh chỉnh toàn diện Bước 1 theo phản hồi thực tế:
+1. **Hero Character Upgrade:**
+   - Kích thước nhân vật tăng lên `1020 x 1650px` (~76% chiều cao 4K), neo đáy `bottom: 0px`.
+   - Cánh tay phải nhân vật gác tự nhiên lên góc trái đế MacBook, loại bỏ hoàn toàn cảm giác sticker lơ lửng.
+2. **Organic Mint Ribbon Horizon:**
+   - Thiết kế lại dải lụa sóng mint 2 lớp với cao độ đỉnh 1420px (nâng đỡ Thẻ 3) và dốc lên 1560px (đỡ MacBook).
+3. **Cụm Dẫn Chuyện (Narrative Hook - Phương án A):**
+   - Loại bỏ hoàn toàn khối chip trắng rỗng ở những frame đầu tiên (`charCount > 0 && frame >= 10`).
+   - Kiểu chữ Typewriter sắc nét, thanh thoát hiển thị trực tiếp trên nền giấy kem ngà.
+   - Tag nhãn dán `NHƯNG...` dập nổ bằng Washi tape đỏ hồng tại frame 72, sau đó cả cụm nhẹ nhàng lướt lên vị trí tiêu đề đỉnh (`Y: 130px`).
+4. **Loại bỏ Hoàn toàn Cụm Chip Đen ở Chân màn hình:**
+   - Đã xóa dứt điểm thanh phụ đề voice-over ở chân màn hình, trả lại không gian thoáng đãng, sang trọng cho toàn bộ bố cục.
+

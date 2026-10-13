@@ -12,7 +12,49 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const baseHeight = 2160;
     const scale = width / baseWidth;
 
-    // 0. HIỆU ỨNG DẢI SÓNG GIẤY XANH MINT Ở ĐÁY (Entrance cuộn dâng lên & sóng gợn nhẹ)
+    // =========================================================================
+    // 0. CỤM HOOK DẪN CHUYỆN: "Muốn mua bảo hiểm online," -> "NHƯNG..."
+    // =========================================================================
+    const fullPrefixText = 'Muốn mua bảo hiểm online,';
+    const typingProgress = interpolate(frame, [10, 65], [0, fullPrefixText.length], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const charCount = Math.floor(typingProgress);
+    const typedText = fullPrefixText.slice(0, charCount);
+    const showCursor = charCount > 0 && frame < 72 && Math.floor(frame / 6) % 2 === 0;
+
+    // Fade-in êm ái cho cụm dẫn chuyện ngay khi bắt đầu gõ (không xuất hiện chip trắng rỗng ở frame 0)
+    const hookEntranceOpacity = interpolate(frame, [10, 16], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+
+    // Chữ "NHƯNG..." bùng nổ ở Frame 72
+    const punchSpring = spring({
+        frame: Math.max(0, frame - 72),
+        fps,
+        config: { damping: 9, mass: 0.45, stiffness: 180 },
+    });
+
+    // Yahoo Buzz Shake chấn động nhẹ tần số cao tắt dần
+    const buzzElapsed = frame - 72;
+    const isBuzzing = buzzElapsed >= 0 && buzzElapsed < 24;
+    const buzzDecay = isBuzzing ? Math.pow(1 - buzzElapsed / 24, 1.8) : 0;
+    const buzzX = isBuzzing ? Math.sin(buzzElapsed * 3.8) * buzzDecay * 16 : 0;
+    const buzzY = isBuzzing ? Math.cos(buzzElapsed * 4.4) * buzzDecay * 10 : 0;
+    const buzzRot = isBuzzing ? Math.sin(buzzElapsed * 3.2) * buzzDecay * 2.5 : 0;
+
+    // Quỹ đạo lướt từ Trung tâm lên Đỉnh (Docking to Top Header: Frames 135 -> 175)
+    const dockSpring = spring({
+        frame: Math.max(0, frame - 135),
+        fps,
+        config: { damping: 14, mass: 0.9, stiffness: 65 },
+    });
+    const hookY = interpolate(dockSpring, [0, 1], [940, 130]);
+    const hookScale = interpolate(dockSpring, [0, 1], [1.18, 0.88]);
+
+    // 0.2. HIỆU ỨNG DẢI SÓNG GIẤY XANH MINT Ở ĐÁY (Entrance cuộn dâng lên & sóng gợn nhẹ)
     const waveEntrance = spring({
         frame,
         fps,
@@ -22,9 +64,9 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const waveFloatY = Math.sin(frame * 0.04) * 8;
     const waveLayer2FloatX = Math.cos(frame * 0.03) * 15;
 
-    // 0.5. HIỆU ỨNG LAPTOP MACBOOK MOCK UI (Lướt nhẹ từ phải vào + Xoay 3D nhẹ)
+    // 0.5. HIỆU ỨNG LAPTOP MACBOOK MOCK UI (Lướt nhẹ từ phải vào sau khi hook lên đỉnh: Frame 180+)
     const laptopEntrance = spring({
-        frame: frame - 25,
+        frame: frame - 180,
         fps,
         config: { damping: 14, stiffness: 60 },
     });
@@ -38,19 +80,28 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const jitterX = Math.sin(frame * 0.4) * 2;
     const jitterY = Math.cos(frame * 0.3) * 2;
 
-    // 1. NHỊP 1: 3 THẺ CÂU HỎI TRƯỢT VÀO LỆCH NHỊP (Frames 0 - 480 ~ 0s - 8s)
+    // 0.8. ENTRANCE CỦA NHÂN VẬT HERO CHỦ THỂ (Dâng lên tiếp đất sát đáy khi hook lướt lên đỉnh)
+    const charEntranceSpring = spring({
+        frame: Math.max(0, frame - 125),
+        fps,
+        config: { damping: 16, mass: 0.95, stiffness: 75 },
+    });
+    const charEntranceY = interpolate(charEntranceSpring, [0, 1], [400, 0]);
+    const charEntranceOpacity = interpolate(charEntranceSpring, [0, 1], [0, 1]);
+
+    // 1. NHỊP 1: 3 THẺ CÂU HỎI TRƯỢT VÀO SAU KHI DẪN CHUYỆN (Frames 165, 195, 225)
     const card1Spring = spring({
-        frame: frame - 15,
+        frame: frame - 165,
         fps,
         config: { damping: 14, stiffness: 90 },
     });
     const card2Spring = spring({
-        frame: frame - 45,
+        frame: frame - 195,
         fps,
         config: { damping: 14, stiffness: 90 },
     });
     const card3Spring = spring({
-        frame: frame - 75,
+        frame: frame - 225,
         fps,
         config: { damping: 14, stiffness: 90 },
     });
@@ -88,8 +139,12 @@ export const Scene1_ProblemSnap: React.FC = () => {
         extrapolateRight: 'clamp',
     });
 
-    // Thu nhỏ các thẻ câu hỏi khi búng tay để nhường chỗ cho Cảnh 2
+    // Thu nhỏ các thẻ câu hỏi và hook khi búng tay để nhường chỗ cho Cảnh 2
     const cardsExitScale = interpolate(snapFrame, [0, 30], [1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const hookExitOpacity = interpolate(snapFrame, [0, 20], [1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -244,17 +299,88 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     />
                 </div>
 
+                {/* 0. CỤM HOOK DẪN CHUYỆN: "Muốn mua bảo hiểm online," -> "NHƯNG..." (DOCKING LÊN ĐỈNH) */}
+                {frame >= 10 && charCount > 0 && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: hookY,
+                            left: '50%',
+                            transform: `translateX(-50%) translateY(${buzzY}px) translateX(${buzzX}px) scale(${hookScale * cardsExitScale})`,
+                            opacity: hookExitOpacity * hookEntranceOpacity,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: 28,
+                            zIndex: 10,
+                            pointerEvents: 'none',
+                            whiteSpace: 'nowrap',
+                        }}
+                    >
+                        {/* Chữ Typewriter thanh thoát, sắc nét (không bọc trong chip/pill trắng rỗng gây chấm trắng ở frame đầu) */}
+                        <span
+                            style={{
+                                fontSize: 68,
+                                fontWeight: 800,
+                                color: '#1E293B',
+                                letterSpacing: '-0.5px',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                textShadow: '0 2px 12px rgba(0, 0, 0, 0.05)',
+                            }}
+                        >
+                            {typedText}
+                            {showCursor && (
+                                <span
+                                    style={{
+                                        fontSize: 68,
+                                        fontWeight: 900,
+                                        color: colors.brandPink,
+                                        marginLeft: 6,
+                                    }}
+                                >
+                                    |
+                                </span>
+                            )}
+                        </span>
+
+                        {/* Tag nhãn "NHƯNG..." dập nổ phong cách Washi Tape đỏ hồng */}
+                        {frame >= 72 && (
+                            <div
+                                style={{
+                                    transform: `scale(${punchSpring}) rotate(${-3.5 + buzzRot}deg)`,
+                                    backgroundColor: colors.brandPink,
+                                    color: '#FFFFFF',
+                                    padding: '16px 42px 18px',
+                                    borderRadius: 18,
+                                    fontSize: 68,
+                                    fontWeight: 900,
+                                    letterSpacing: '1.5px',
+                                    boxShadow: '0 15px 35px rgba(225, 29, 72, 0.42)',
+                                    border: '4px solid #FFFFFF',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                NHƯNG...
+                            </div>
+                        )}
+                    </div>
+                )}
+
                 {/* 4. KHỐI TRUNG TÂM: MẢNH GHÉP NHÂN VẬT HERO CHỦ THỂ 2.5D ÁO HỒNG (CHUẨN TỶ LỆ 75% CHIỀU CAO KHUNG HÌNH) */}
                 <div
                     style={{
                         position: 'absolute',
                         bottom: 0,
                         left: 1540,
-                        transform: `translateX(-50%) translateY(${charBreathing + jitterY}px) scale(${charScale})`,
+                        transform: `translateX(-50%) translateY(${charEntranceY + charBreathing + jitterY}px) scale(${charScale})`,
                         transformOrigin: 'bottom center',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
+                        opacity: charEntranceOpacity,
                         filter: 'drop-shadow(0 35px 50px rgba(0, 0, 0, 0.18)) drop-shadow(0 12px 25px rgba(225, 29, 72, 0.16))',
                         zIndex: 4,
                     }}
@@ -653,40 +779,6 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     </div>
                 </div>
 
-                {/* 6. BANNER PHỤ ĐỀ VOICE-OVER CHUẨN THEO KỊCH BẢN (CHÂN MÀN HÌNH) */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        bottom: 60,
-                        left: 0,
-                        right: 0,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        pointerEvents: 'none',
-                    }}
-                >
-                    <div
-                        style={{
-                            backgroundColor: 'rgba(15, 23, 42, 0.85)',
-                            backdropFilter: 'blur(12px)',
-                            color: colors.bgWhite,
-                            padding: '16px 48px',
-                            borderRadius: 99,
-                            fontSize: 28,
-                            fontWeight: 700,
-                            boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
-                            border: '1px solid rgba(255,255,255,0.15)',
-                            maxWidth: 1600,
-                            textAlign: 'center',
-                        }}
-                    >
-                        {frame < 480
-                            ? '“Mình muốn mua bảo hiểm, nhưng chưa biết nên chọn loại nào. Càng tìm hiểu càng dễ bị rối...”'
-                            : frame < 690
-                              ? '“Khoan! Mình có thể bắt đầu đơn giản hơn với TOPbaohiem.”'
-                              : '“BÚNG TAY ĐỂ BẮT ĐẦU — TOPBAOHIEM.VN!”'}
-                    </div>
-                </div>
 
                 {/* 7. HIỆU ỨNG BÚNG TAY SNAP! BÙNG NỔ SÓNG NĂNG LƯỢNG HỒNG (Frames 690 - 840) */}
                 {isSnap && (
