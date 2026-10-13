@@ -6,44 +6,44 @@ export interface SceneTimeline {
 
 export const VIDEO_CONFIG_V2 = {
   fps: 60,
-  totalFrames: 10200, // 2 phút 50 giây @ 60fps (chuẩn theo kịch bản Canva)
-  durationInSeconds: 170,
+  totalFrames: 10380, // 2 phút 53 giây @ 60fps
+  durationInSeconds: 173,
 
   // 6 Hồi Kịch Bản Chuẩn Theo Storyboard Canva
   scenes: {
-    // 0:00 - 0:14 (14s | 840 frames): Băn khoăn trước ma trận giấy -> Ý tưởng lóe sáng -> Cú búng tay Snap!
+    // 0:00 - 0:17 (17s | 1020 frames): Băn khoăn trước ma trận giấy -> Ý tưởng lóe sáng -> Cú búng tay Snap!
     scene1_problem_snap: {
       start: 0,
-      duration: 840,
+      duration: 1020,
       name: "Cảnh 1: Băn khoăn -> Búng tay Snap!",
     },
-    // 0:14 - 0:43 (29s | 1740 frames): TOPbaohiem xuất hiện trên Laptop & Mobile, khám phá danh mục
+    // 0:17 - 0:46 (29s | 1740 frames): TOPbaohiem xuất hiện trên Laptop & Mobile, khám phá danh mục
     scene2_showcase: {
-      start: 840,
+      start: 1020,
       duration: 1740,
       name: "Cảnh 2: Trình diễn TOPbaohiem Laptop & Mobile",
     },
-    // 0:43 - 1:03 (20s | 1200 frames): Tiểu cảnh Bảo hiểm Du lịch (Cặp đôi kéo vali, sóng giấy, phao vịt)
+    // 0:46 - 1:06 (20s | 1200 frames): Tiểu cảnh Bảo hiểm Du lịch (Cặp đôi kéo vali, sóng giấy, phao vịt)
     scene3_travel: {
-      start: 2580,
+      start: 2760,
       duration: 1200,
       name: "Cảnh 3: Tiểu cảnh Bảo hiểm Du lịch Paper-Cut",
     },
-    // 1:03 - 1:39 (36s | 2160 frames): Các nhóm sản phẩm: Xe cộ, Sức khỏe, Tài sản/Nhà cửa
+    // 1:06 - 1:42 (36s | 2160 frames): Các nhóm sản phẩm: Xe cộ, Sức khỏe, Tài sản/Nhà cửa
     scene4_categories: {
-      start: 3780,
+      start: 3960,
       duration: 2160,
       name: "Cảnh 4: Các nhóm sản phẩm Xe cộ, Sức khỏe, Nhà cửa",
     },
-    // 1:39 - 2:25 (46s | 2760 frames): Hành trình mua 1-chạm (4 bước) -> Cú búng tay lật mặt sau sang CMS Dashboard Dark Mode
+    // 1:42 - 2:28 (46s | 2760 frames): Hành trình mua 1-chạm (4 bước) -> Cú búng tay lật mặt sau sang CMS Dashboard Dark Mode
     scene5_purchase_cms: {
-      start: 5940,
+      start: 6120,
       duration: 2760,
       name: "Cảnh 5: Hành trình mua 1-chạm & CMS Dashboard",
     },
-    // 2:25 - 2:50 (25s | 1500 frames): Hệ sinh thái toàn diện + Nhân vật tự tin + Logo TOPbaohiem & CTA
+    // 2:28 - 2:53 (25s | 1500 frames): Hệ sinh thái toàn diện + Nhân vật tự tin + Logo TOPbaohiem & CTA
     scene6_outro_cta: {
-      start: 8700,
+      start: 8880,
       duration: 1500,
       name: "Cảnh 6: Hệ sinh thái trọn gói & Kêu gọi hành động",
     },
