@@ -122,11 +122,11 @@ export const Scene1_ProblemSnap: React.FC = () => {
 
     const pathWaveLayer2 = `M 0, ${l2_p0_y.toFixed(1)} C 450, ${l2_c1_y.toFixed(1)} 900, ${l2_c2_y.toFixed(1)} 1480, ${l2_p1_y.toFixed(1)} C 2050, ${l2_c3_y.toFixed(1)} 2600, ${l2_c4_y.toFixed(1)} 3150, ${l2_p2_y.toFixed(1)} C 3500, ${l2_c5_y.toFixed(1)} 3720, ${l2_c6_y.toFixed(1)} 3840, ${l2_p3_y.toFixed(1)} L 3840, 960 L 0, 960 Z`;
 
-    // 0.3. ENTRANCE CỦA DẢI CÁNH MÁY BAY GIẤY ORIGAMI PHÍA PHẢI (Xuất hiện cùng nhịp mở rộng công nghệ: Frame 340+)
+    // 0.3. ENTRANCE CỦA DẢI CÁNH MÁY BAY GIẤY ORIGAMI PHÍA PHẢI (Xuất hiện đồng điệu cùng nhịp búng tay Eureka tông hồng: Frame EUREKA_START_FRAME+)
     const maybayEntrance = spring({
-        frame: frame - 340,
+        frame: Math.max(0, frame - EUREKA_START_FRAME),
         fps,
-        config: { damping: 15, mass: 0.9, stiffness: 65 },
+        config: { damping: 14, mass: 0.85, stiffness: 70 },
     });
     const maybaySlideX = interpolate(maybayEntrance, [0, 1], [850, 0]);
     const maybayOpacity = interpolate(maybayEntrance, [0, 1], [0, 1]);
@@ -348,12 +348,6 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const snapFrame = frame - 740;
     const isSnap = snapFrame >= 0;
 
-    const snapSpring = spring({
-        frame: snapFrame,
-        fps,
-        config: { damping: 10, stiffness: 220 },
-    });
-
     // Sóng năng lượng hồng mở rộng sau cú búng tay
     const shockwaveRadius = interpolate(snapFrame, [0, 50], [0, 3200], {
         extrapolateLeft: 'clamp',
@@ -466,8 +460,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     </svg>
                 </div>
 
-                {/* 3.5. DẢI CÁNH GIẤY GẤP NỔI KHỐI ORIGAMI PHÍA PHẢI (PAPER RIBBON WING - XUẤT HIỆN CÙNG NHỊP CÔNG NGHỆ: FRAME 340+) */}
-                {frame >= 340 && (
+                {/* 3.5. DẢI CÁNH GIẤY GẤP NỔI KHỐI ORIGAMI PHÍA PHẢI (PAPER RIBBON WING - XUẤT HIỆN ĐỒNG ĐIỆU CÙNG NHỊP BÚNG TAY EUREKA TÔNG HỒNG) */}
+                {frame >= EUREKA_START_FRAME && (
                     <div
                         style={{
                             position: 'absolute',
@@ -1331,74 +1325,23 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     </div>
                 </div>
 
-                {/* 7. HIỆU ỨNG BÚNG TAY SNAP! BÙNG NỔ SÓNG NĂNG LƯỢNG HỒNG (Frames 690 - 840) */}
+                {/* 7. HIỆU ỨNG BÚNG TAY SNAP! BÙNG NỔ SÓNG NĂNG LƯỢNG HỒNG (Frames 740 - 840) */}
                 {isSnap && (
-                    <>
-                        {/* Vòng tròn sóng hồng bung tỏa toàn màn hình */}
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                width: shockwaveRadius,
-                                height: shockwaveRadius,
-                                borderRadius: '50%',
-                                border: `12px solid ${colors.brandPink}`,
-                                backgroundColor: `${colors.brandPink}18`,
-                                opacity: shockwaveOpacity,
-                                pointerEvents: 'none',
-                            }}
-                        />
-
-                        {/* Thẻ SNAP! BÚNG TAY ĐỂ BẮT ĐẦU */}
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: '28%',
-                                left: '50%',
-                                transform: `translate(-50%, -50%) scale(${snapSpring})`,
-                                backgroundColor: colors.brandPink,
-                                color: colors.bgWhite,
-                                padding: '28px 72px',
-                                borderRadius: 40,
-                                boxShadow: '0 30px 80px rgba(225, 29, 72, 0.55), 0 10px 25px rgba(0,0,0,0.15)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 28,
-                                border: `5px solid ${colors.bgWhite}`,
-                                zIndex: 20,
-                                pointerEvents: 'none',
-                            }}
-                        >
-                            <span style={{ fontSize: 72 }}>✨</span>
-                            <div style={{ textAlign: 'center' }}>
-                                <div
-                                    style={{
-                                        fontSize: 60,
-                                        fontWeight: 900,
-                                        letterSpacing: '-1.5px',
-                                        lineHeight: 1.1,
-                                    }}
-                                >
-                                    BÚNG TAY ĐỂ BẮT ĐẦU!
-                                </div>
-                                <div
-                                    style={{
-                                        fontSize: 30,
-                                        fontWeight: 700,
-                                        letterSpacing: '3px',
-                                        opacity: 0.95,
-                                        textTransform: 'uppercase',
-                                        marginTop: 8,
-                                    }}
-                                >
-                                    TOPbaohiem.vn
-                                </div>
-                            </div>
-                            <span style={{ fontSize: 72 }}>🤌</span>
-                        </div>
-                    </>
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: shockwaveRadius,
+                            height: shockwaveRadius,
+                            borderRadius: '50%',
+                            border: `12px solid ${colors.brandPink}`,
+                            backgroundColor: `${colors.brandPink}18`,
+                            opacity: shockwaveOpacity,
+                            pointerEvents: 'none',
+                        }}
+                    />
                 )}
 
                 {/* 8. MÀN CHUYỂN TIẾP TRẮNG/HỒNG SANG CẢNH 2 */}
