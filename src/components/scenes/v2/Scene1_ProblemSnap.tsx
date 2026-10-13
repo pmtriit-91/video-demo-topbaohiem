@@ -54,15 +54,68 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const hookY = interpolate(dockSpring, [0, 1], [940, 130]);
     const hookScale = interpolate(dockSpring, [0, 1], [1.18, 0.88]);
 
-    // 0.2. HIỆU ỨNG DẢI SÓNG GIẤY XANH MINT Ở ĐÁY (Entrance cuộn dâng lên & sóng gợn nhẹ)
+    // 0.2. HIỆU ỨNG DẢI SÓNG GIẤY XANH MINT Ở ĐÁY (Phương án B: Dynamic Surge + Bézier Morphing)
     const waveEntrance = spring({
         frame,
         fps,
         config: { damping: 15, stiffness: 70 },
     });
     const waveEntranceY = interpolate(waveEntrance, [0, 1], [300, 0]);
-    const waveFloatY = Math.sin(frame * 0.04) * 8;
-    const waveLayer2FloatX = Math.cos(frame * 0.03) * 15;
+    const waveFloatY = Math.sin(frame * 0.035) * 6;
+    const waveLayer2FloatX = Math.cos(frame * 0.03) * 18;
+
+    // A. Sóng cuộn dập dờn điều hòa tuần hoàn (Harmonic Undulation)
+    const waveL1_left = Math.sin(frame * 0.045) * 18;
+    const waveL1_mid = Math.sin(frame * 0.04 + 1.3) * 28;
+    const waveL1_right = Math.cos(frame * 0.042 + 0.6) * 24;
+
+    const waveL2_left = Math.sin(frame * 0.038 + 1.8) * 16;
+    const waveL2_mid = Math.sin(frame * 0.044 + 2.7) * 26;
+    const waveL2_right = Math.cos(frame * 0.036 + 1.9) * 22;
+
+    // B. Sóng trào điểm nhấn cao trào (Dynamic Surge Events):
+    // 1. Surge khi MacBook trượt vào từ phải (Frames 180 - 250): Sóng phải dâng trào đón laptop
+    const mbSurgeProgress = Math.max(0, Math.min(1, (frame - 180) / 60));
+    const mbSurge = frame >= 180 && frame <= 250 ? Math.sin(mbSurgeProgress * Math.PI) * -52 : 0;
+    const mbSurgeL2 = frame >= 180 && frame <= 250 ? Math.sin(mbSurgeProgress * Math.PI) * -35 : 0;
+
+    // 2. Surge khi búng tay Eureka Snap! (Frames 480 - 550): Sóng cuộn trào lan tỏa toàn màn hình
+    const snapSurgeProgress = Math.max(0, Math.min(1, (frame - 480) / 60));
+    const snapSurgeMid = frame >= 480 && frame <= 550 ? Math.sin(snapSurgeProgress * Math.PI) * -45 : 0;
+    const snapSurgeSides = frame >= 480 && frame <= 550 ? Math.sin(snapSurgeProgress * Math.PI) * -28 : 0;
+
+    // C. Tọa độ động cho Layer 1 (Tiền cảnh)
+    const l1_p0_y = 220 + waveL1_left + snapSurgeSides * 0.5;
+    const l1_c1_y = 230 + waveL1_left * 0.9 + snapSurgeSides * 0.6;
+    const l1_c2_y = 520 + waveL1_mid * 0.8 + snapSurgeMid * 0.7;
+    const l1_p1_y = 660 + waveL1_mid + snapSurgeMid; // Trũng giữa dưới chân Hero
+
+    const l1_c3_y = 780 + waveL1_mid * 0.7 + snapSurgeMid * 0.8;
+    const l1_c4_y = 420 + waveL1_right * 0.8 + mbSurge * 0.7;
+    const l1_p2_y = 360 + waveL1_right + mbSurge; // Đỉnh đỡ MacBook
+
+    const l1_c5_y = 320 + waveL1_right * 0.9 + mbSurge * 0.8;
+    const l1_c6_y = 370 + waveL1_right * 0.7 + mbSurge * 0.5;
+    const l1_p3_y = 390 + waveL1_right * 0.5 + mbSurge * 0.4;
+
+    const pathWaveLayer1 = `M 0, ${l1_p0_y.toFixed(1)} C 420, ${l1_c1_y.toFixed(1)} 880, ${l1_c2_y.toFixed(1)} 1520, ${l1_p1_y.toFixed(1)} C 2100, ${l1_c3_y.toFixed(1)} 2650, ${l1_c4_y.toFixed(1)} 3180, ${l1_p2_y.toFixed(1)} C 3520, ${l1_c5_y.toFixed(1)} 3740, ${l1_c6_y.toFixed(1)} 3840, ${l1_p3_y.toFixed(1)} L 3840, 960 L 0, 960 Z`;
+    const crestLineLayer1 = `M 0, ${l1_p0_y.toFixed(1)} C 420, ${l1_c1_y.toFixed(1)} 880, ${l1_c2_y.toFixed(1)} 1520, ${l1_p1_y.toFixed(1)} C 2100, ${l1_c3_y.toFixed(1)} 2650, ${l1_c4_y.toFixed(1)} 3180, ${l1_p2_y.toFixed(1)} C 3520, ${l1_c5_y.toFixed(1)} 3740, ${l1_c6_y.toFixed(1)} 3840, ${l1_p3_y.toFixed(1)}`;
+
+    // D. Tọa độ động cho Layer 2 (Hậu cảnh - lệch pha)
+    const l2_p0_y = 280 + waveL2_left;
+    const l2_c1_y = 290 + waveL2_left * 0.9;
+    const l2_c2_y = 540 + waveL2_mid * 0.8;
+    const l2_p1_y = 620 + waveL2_mid + snapSurgeMid * 0.7;
+
+    const l2_c3_y = 700 + waveL2_mid * 0.7 + snapSurgeMid * 0.5;
+    const l2_c4_y = 380 + waveL2_right * 0.8 + mbSurgeL2 * 0.7;
+    const l2_p2_y = 320 + waveL2_right + mbSurgeL2;
+
+    const l2_c5_y = 280 + waveL2_right * 0.9 + mbSurgeL2 * 0.8;
+    const l2_c6_y = 320 + waveL2_right * 0.7 + mbSurgeL2 * 0.5;
+    const l2_p3_y = 340 + waveL2_right * 0.5 + mbSurgeL2 * 0.4;
+
+    const pathWaveLayer2 = `M 0, ${l2_p0_y.toFixed(1)} C 450, ${l2_c1_y.toFixed(1)} 900, ${l2_c2_y.toFixed(1)} 1480, ${l2_p1_y.toFixed(1)} C 2050, ${l2_c3_y.toFixed(1)} 2600, ${l2_c4_y.toFixed(1)} 3150, ${l2_p2_y.toFixed(1)} C 3500, ${l2_c5_y.toFixed(1)} 3720, ${l2_c6_y.toFixed(1)} 3840, ${l2_p3_y.toFixed(1)} L 3840, 960 L 0, 960 Z`;
 
     // 0.3. ENTRANCE CỦA DẢI CÁNH MÁY BAY GIẤY ORIGAMI PHÍA PHẢI (Chỉ xuất hiện sau khi dẫn chuyện xong và lướt lên đỉnh: Frame 150+)
     const maybayEntrance = spring({
@@ -236,27 +289,18 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             </linearGradient>
                         </defs>
 
-                        {/* Lớp sóng giấy mint nền sau (Layer 2 - dâng nhẹ tạo nếp gấp giấy thủ công) */}
+                        {/* Lớp sóng giấy mint nền sau (Layer 2 - Sóng cuộn dập dờn & dâng trào 3D Parallax) */}
                         <path
-                            d="M 0, 280 C 450, 290 900, 540 1480, 620 C 2050, 700 2600, 380 3150, 320 C 3500, 280 3720, 320 3840, 340 L 3840, 960 L 0, 960 Z"
+                            d={pathWaveLayer2}
                             fill="url(#mintWaveGrad2)"
                             transform={`translate(${waveLayer2FloatX * 0.7}, 0)`}
                         />
 
-                        {/* Lớp sóng giấy mint chính tiền cảnh (Layer 1 - Mép trái đỡ Thẻ 3, trũng qua chân Hero, vểnh đỡ đế MacBook) */}
-                        <path
-                            d="M 0, 220 C 420, 230 880, 520 1520, 660 C 2100, 780 2650, 420 3180, 360 C 3520, 320 3740, 370 3840, 390 L 3840, 960 L 0, 960 Z"
-                            fill="url(#mintWaveGrad1)"
-                        />
+                        {/* Lớp sóng giấy mint chính tiền cảnh (Layer 1 - Sóng trào theo nhịp xuất hiện MacBook & Eureka Snap) */}
+                        <path d={pathWaveLayer1} fill="url(#mintWaveGrad1)" />
 
-                        {/* Đường viền nếp gấp giấy mỏng tạo cảm giác gập nếp thủ công tinh tế */}
-                        <path
-                            d="M 0, 220 C 420, 230 880, 520 1520, 660 C 2100, 780 2650, 420 3180, 360 C 3520, 320 3740, 370 3840, 390"
-                            stroke="#8CE0CB"
-                            strokeWidth="3.5"
-                            fill="none"
-                            opacity="0.6"
-                        />
+                        {/* Đường viền nếp gấp giấy mỏng uốn lượn đồng bộ trên đỉnh sóng */}
+                        <path d={crestLineLayer1} stroke="#8CE0CB" strokeWidth="3.5" fill="none" opacity="0.6" />
                     </svg>
                 </div>
 
@@ -282,6 +326,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                 width: '100%',
                                 height: '100%',
                                 objectFit: 'contain',
+                                translate: '53.5px -201.4px',
                             }}
                         />
                     </div>
@@ -293,8 +338,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         position: 'absolute',
                         top: 760,
                         left: 1720,
-                        width: 1540,
-                        height: 860,
+                        width: 1848,
+                        height: 1032,
                         pointerEvents: 'none',
                         opacity: laptopOpacity,
                         transform: `translateX(${laptopSlideX}px) translateY(${laptopFloatY + jitterY}px) rotate(${laptopTilt}deg) perspective(1400px) rotateY(${laptopRotateY}deg)`,
@@ -388,7 +433,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         position: 'absolute',
                         bottom: 0,
                         left: 1540,
-                        transform: `translateX(-50%) translateY(${charEntranceY + charBreathing + jitterY}px) scale(${charScale})`,
+                        transform: `translateX(-50%) translateY(${charEntranceY}px) scale(${charScale})`,
                         transformOrigin: 'bottom center',
                         display: 'flex',
                         flexDirection: 'column',
@@ -453,20 +498,6 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         {/* Dấu chấm hỏi giấy xoay quanh đầu nhân vật khi đang phân vân (Frames 0 - 480) */}
                         {frame < 480 && (
                             <>
-                                {/* <div
-                                    style={{
-                                        position: 'absolute',
-                                        top: 140,
-                                        left: 100,
-                                        fontSize: 90,
-                                        color: colors.brandPink,
-                                        fontWeight: 900,
-                                        transform: `rotate(${Math.sin(frame * 0.1) * 15}deg)`,
-                                        filter: 'drop-shadow(0 4px 12px rgba(225, 29, 72, 0.35))',
-                                    }}
-                                >
-                                    ❓
-                                </div> */}
                                 <div
                                     style={{
                                         position: 'absolute',
