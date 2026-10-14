@@ -32,32 +32,71 @@
 
 ---
 
-## 3. CHỈ ĐẠO NGHỆ THUẬT & PHONG CÁCH HÌNH ẢNH (ART DIRECTION)
+## 3. CHỈ ĐẠO NGHỆ THUẬT & ĐỊNH HƯỚNG ĐỒ HỌA 3D CHUYÊN SÂU (ART & 3D CINEMATOGRAPHY DIRECTION)
 
-- **Concept cốt lõi**: **3D Isometric Bento Grid & Dual-Layer Parallax (Đan xen 2 mặt Âm - Dương)**.
-    - _Mặt trước (Web sáng)_: Thao tác người dùng 1-chạm cực kỳ tinh gọn.
-    - _Mặt sau (CMS tối Dark Mode)_: Cỗ máy vận hành ngầm nhảy số doanh thu, tự động hóa xử lý hợp đồng.
-- **Kỹ thuật xử lý hình ảnh**:
-    - Không để nguyên ảnh chụp màn hình tĩnh đơn điệu.
-    - **Cắt lát (Slice & Crop)** các phân mảnh UI tinh hoa: Khung quét AI OCR, Thẻ so sánh đối đầu 3 hãng, Thẻ Giấy chứng nhận điện tử QR code, Biểu đồ cột doanh thu 12 tháng, Cây hoa hồng đại lý KOL.
-    - **Tạo nếp gấp không gian (Origami Fold / Accordion Transitions)**: Các thẻ UI gấp khúc, nghiêng 3D, bay lơ lửng (Floating Glass Cards) kết nối nhau bằng đường truyền dữ liệu neon phát sáng.
-- **Chuẩn hình ảnh & Render**: 4K UHD (`3840 x 2160`) & 2K QHD (`2560 x 1440`) @ 60 FPS.
+> [!IMPORTANT]
+> ### TRIẾT LÝ CỐT LÕI: VIDEO ĐỒ HỌA 3D THỰC THỤ — TUYỆT ĐỐI KHÔNG LÀM SLIDE CHUYỂN CẢNH 2D
+> - **Không phải video slide thuyết trình**: Tuyệt đối không dùng các hiệu ứng CSS 2D phẳng, fade/slide đơn điệu, hay các khối hộp giao diện cắt dán tĩnh.
+> - **Đồ họa 3D & Chiều sâu không gian thực (True 3D Spatial Depth)**: Mọi thành phần UI, thẻ chức năng, thiết bị đều phải tham gia vào không gian 3 chiều (`perspective`, `transformStyle: 'preserve-3d'`, tọa độ trục Z thực thụ `translateZ`).
+> - **Góc quay & Kỹ thuật điện ảnh chuyên nghiệp (Cinematography Camera Rig)**: Sử dụng các góc máy Pitch (chúc/ngửa), Yaw (xoay phối cảnh 3/4), Roll (nghiêng chân trời), và Camera Pan Tracking bám sát chuyển động của con trỏ chuột (`cursor-flyover`).
+> - **Vật lý có trọng lượng (Physical Weight & Impact)**: Mọi chuyển động rơi, đáp, bấm đều phải có xung lực vật lý (`stackPress`), chấn động đàn hồi (`impact recoil & settle`), và bóng đổ động theo khoảng cách thực (Contact Shadow & Ambient Depth Shadow).
+> - **Đẳng cấp hoàn thiện chuẩn Apple Keynote / Linear**: Đưa người xem vào trải nghiệm "mổ xẻ cấu trúc công nghệ" sinh động, sang trọng, đẳng cấp quốc tế.
+
+- **Concept nghệ thuật chủ đạo**: **3D Isometric Bento Grid & Dual-Layer Parallax (Đan xen 2 mặt Âm - Dương)** kết hợp **3D Exploded-View Architecture**.
+    - _Mặt trước (Web sáng)_: Thao tác người dùng 1-chạm cực kỳ tinh gọn, trực quan, tin cậy.
+    - _Mặt sau (CMS tối Dark Mode)_: Cỗ máy vận hành ngầm nhảy số doanh thu, tự động hóa xử lý hợp đồng, phân quyền đại lý.
+- **Kỹ thuật xử lý giao diện & Phối cảnh**:
+    - **Cắt lát (Slice & Crop) & Tách lớp 3D (Exploded View)**: Tách các phân mảnh UI tinh hoa (Khung quét AI OCR, Thẻ so sánh 15+ hãng, Giấy chứng nhận điện tử QR code, Biểu đồ doanh thu 12 tháng, Cây hoa hồng đại lý KOL...) thành các khối độc lập bay lơ lửng trên không trung dọc theo trục Z.
+    - **Tạo nếp gấp không gian (Origami Fold / Accordion Transitions)**: Các thẻ UI gấp khúc, nghiêng phối cảnh 3D, kết nối nhau bằng đường truyền dữ liệu neon phát sáng và vệt quét sáng quang học (`Glaze Sheen`).
+    - **Chuyển cảnh tốc độ cao (Hyperdrive Warp Speed Tunnel)**: Hội tụ năng lượng và phóng xuyên không gian 3D đưa người xem đi từ tổng quan vào chi tiết từng tính năng cốt lõi.
+- **Chuẩn hình ảnh & Render**: 4K UHD (`3840 x 2160`) & 2K QHD (`2560 x 1440`) @ 60 FPS (Chuẩn khung hình điện ảnh siêu mượt).
 
 ---
 
-## 4. BỘ CÔNG NGHỆ SẢN XUẤT VIDEO (TECH STACK TỪ DỰ ÁN MẪU ĐÃ AUDIT)
+## 4. BỘ CÔNG NGHỆ SẢN XUẤT VIDEO (TECH STACK & CINEMATIC TOOLKIT BẮT BUỘC)
 
-Từ dự án chuẩn `/Users/phamminhtri/Desktop/project/wedding/project-video-sao-roi`:
+Hệ thống kết hợp sức mạnh giữa **Remotion Engine**, **Đồ họa WebGL 3D thực thụ từ Three.js**, và **Kho tàng công nghệ quay phim điện ảnh từ repo `video-shotcraft`**:
 
+### A. Core Engine & Render Pipeline
 - **Engine**: **Remotion (`v4.0.218`) + React 18 + TypeScript**.
-- **Đồ họa 3D/Hiệu ứng**: **Three.js (`v0.186.0`)** kết hợp WebGL Custom Shaders & Canvas Sprites.
+- **Tính tất định tuyệt đối (Deterministic Rendering - Chuẩn Quy tắc #9 video-shotcraft)**:
+    - Cấm dùng `Math.random()` và `Date.now()`.
+    - Mọi chuyển động hạt, tia sáng và độ trôi đều dùng thuật toán giả ngẫu nhiên có seed cố định (`mulberry32`), đảm bảo render từng frame độc lập, đa luồng 100% khớp nhau, không bao giờ bị rung lắc hay sai lệch frame.
 - **Cấu hình Render chuyên sâu (`remotion.config.ts`)**:
     - Codec: `H.264`, Pixel Format: `yuv420p`, CRF: `18` (Visually Lossless).
     - Tăng tốc phần cứng GPU: `Config.setChromiumOpenGlRenderer("angle")` (chống crash WebGL context).
     - Đa luồng an toàn: `Config.setConcurrency(4)`.
-    - Audio: AAC Bitrate `320kbps`.
-    - Quản lý tải Font: `@remotion/google-fonts` kết hợp `delayRender` / `continueRender` (loại bỏ 100% giật/lệch layout).
-    - Quản lý bộ nhớ: Cơ chế giải phóng WebGL Context triệt để (`forceContextLoss`, `dispose`) tránh tràn RAM.
+    - Quản lý tải Font: `@remotion/google-fonts` (`delayRender` / `continueRender`).
+
+### B. Nền Tảng Đồ Họa 3D WebGL: Three.js (`v0.186.0`)
+- **WebGL Canvas trực tiếp trong Video**: Tích hợp trực tiếp các Scene, PerspectiveCamera, Points, LineSegments vào vòng đời render của Remotion (deterministic render theo `frame`).
+- **Ambient 3D Floating Bokeh**: Ma trận hàng ngàn hạt 3D bồng bềnh trong không gian có chiều sâu Z thực (`THREE.Points`, gradient canvas texture mềm, additive blending).
+- **Hyperdrive Warp Speed Tunnel**: Hệ thống hàng trăm tia sáng xuyên tâm gia tốc cao (`THREE.LineSegments`) và Camera phi thuyền lao vút theo trục Z (`speed = warpProgress^2.2 * 240`), tạo cảm giác bẻ cong không gian khi chuyển cảnh.
+- **Quản lý bộ nhớ WebGL nghiêm ngặt**: Giải phóng triệt để tài nguyên khi component unmount (`forceContextLoss`, `geometry.dispose()`, `material.dispose()`, `texture.dispose()`) chống tràn RAM/VRAM.
+
+### C. Kỹ Thuật Quay Phim Điện Ảnh Từ Repository `video-shotcraft`
+Được khai thác trực tiếp từ kho tàng công nghệ cục bộ: `/Users/phamminhtri/.gemini/config/skills/video-shotcraft/`
+
+1. **Hệ Thống Camera Rig 3D (`space-camera-moves`, `PageCam`)**:
+   - Khung phối cảnh 3D chuyên sâu: `perspective` từ `1800` đến `2600`, `perspectiveOrigin: 50% 50%`.
+   - Điều khiển góc máy 3 trục liên tục:
+     * **Pitch (rotateX)**: Nghiêng từ `0°` (trực diện) đến `10.5° - 16°` (chúc xuống để lộ chiều sâu tách lớp).
+     * **Yaw (rotateY)**: Xoay phối cảnh 3/4 từ `-6.0°` đến `-10°` (tạo độ xa - gần điện ảnh).
+     * **Roll (rotateZ)**: Nghiêng chân trời tinh tế `-0.6°` đến `1.5°` tạo nhịp chuyển động sống động.
+   - **Camera Pan Tracking (`cursor-flyover`)**: Camera Rig tịnh tiến theo thời gian thực (`camTargetX`, `camTargetY`) bám theo trọng tâm chú ý của con trỏ chuột.
+
+2. **Kỹ Thuật Xếp Chồng Vật Lý 3D (`list-stack-press`)**:
+   - Thẻ bay từ không trung rơi đập vào vị trí với cao độ trục Z thực (`translateZ(120px) → 0`) kèm gia tốc đàn hồi `FLY_EASE = bezier(0.35, 0.05, 0.22, 1.15)`.
+   - **Xung lực nén lún (Stack-Press)**: Khi mỗi thẻ mới tiếp đất, khay đỡ và toàn bộ các thẻ đã cố định trước đó bị nén lún xuống (`5px - 6px`) rồi nảy hồi đàn hồi (mang lại cảm giác vật lý đầm chắc, có khối lượng thật).
+   - **Vệt sáng Glaze Sheen**: Quét chéo góc 14° - 22° dọc theo bề mặt thẻ sau khi chuỗi thẻ đã hoàn thành tiếp đất.
+
+3. **Kỹ Thuật Mổ Xẻ Không Gian (`exploded-view`)**:
+   - Bóc tách các thành phần giao diện theo trục Z (`translateZ: 50px - 150px`), kết hợp góc quay 3/4 để người xem quan sát cấu trúc đa tầng của hệ thống.
+   - **Đổ bóng đa lớp (Dynamic Elevation Shadows)**: Bóng tiếp xúc (Contact shadow) + bóng môi trường (Ambient shadow) thay đổi kích thước và độ mờ theo cao độ `translateZ`.
+   - **Tương tác nhấc lớp (Hover Elevation)**: Khi con trỏ chuột rà qua phân đoạn nào, phân đoạn đó tự động nhấc bổng trục Z (`+55px`) và tỏa sáng viền.
+
+4. **Kỹ Thuật Tác Động Va Chạm & Lún Nút (Impact Settle & Click Bounce)**:
+   - Khi có hành động click/bấm chuột: Nút nén lún (scale `0.93`), Camera Rig giật rung phản lực theo hàm suy giảm `8 * Math.exp(-t / 3) * Math.cos(t * 0.9)`, kích hoạt sóng xung kích ánh sáng (Pulse Ripple).
 
 ---
 

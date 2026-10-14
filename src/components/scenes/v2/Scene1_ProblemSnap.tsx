@@ -1,7 +1,9 @@
 import React from 'react';
-import { interpolate, spring, useCurrentFrame, useVideoConfig, staticFile, Img } from 'remotion';
+import { interpolate, spring, useCurrentFrame, useVideoConfig, staticFile, Img, Easing } from 'remotion';
 import { Search, Lock, CheckCircle2, ArrowRight } from 'lucide-react';
 import { VIDEO_CONFIG_V2 } from '../../../config/videoConfigV2';
+import { DropdownStackPress } from './DropdownStackPress';
+import { WarpHyperdrive3D } from '../../3d/WarpHyperdrive3D';
 
 export const Scene1_ProblemSnap: React.FC = () => {
     const frame = useCurrentFrame();
@@ -366,35 +368,49 @@ export const Scene1_ProblemSnap: React.FC = () => {
         config: { damping: 14, mass: 0.85, stiffness: 120 },
     });
 
-    // C. Typewriter gõ link "https://topbaohiem.vn" (Frames 665 -> 755: 90 frames ~ 1.5s gõ chậm rãi, rõ ràng)
+    // C. Typewriter gõ link "https://topbaohiem.vn" (Frames 665 -> 742: nhịp gõ đĩnh đạc)
     const heroUrlText = 'https://topbaohiem.vn';
     const heroUrlCharCount = Math.floor(
-        interpolate(frame, [665, 755], [0, heroUrlText.length], {
+        interpolate(frame, [665, 742], [0, heroUrlText.length], {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
         }),
     );
     const typedHeroUrl = heroUrlText.slice(0, heroUrlCharCount);
-    // Con trỏ nhấp nháy trong lúc gõ (665-755) và đứng nhấp nháy chờ mắt người đọc (755-870)
-    const showHeroCursor = frame >= 665 && frame < 870 && Math.floor(frame / 8) % 2 === 0;
+    // Con trỏ nhấp nháy trong lúc gõ (665-742) và đứng nhấp nháy chờ mắt người đọc (742-880)
+    const showHeroCursor = frame >= 665 && frame < 880 && Math.floor(frame / 8) % 2 === 0;
 
-    // D. HIỆU ỨNG CON TRỎ CHUỘT (MOUSE POINTER) TƯƠNG TÁC (Frames 775 -> 960):
-    // Tổng thời gian từ khi gõ xong (Frame 755) đến khi Click (Frame 930) là 175 frames (~2.92 giây)
-    // 1. Con trỏ chuột xuất hiện nhẹ nhàng bên dưới mép trái khung input (dưới "https://"): Frame 775 -> 785
-    const cursorOpacity = interpolate(frame, [775, 785], [0, 1], {
+    // D. DROPDOWN STACK-PRESS KÍCH HOẠT KHI VỪA GÕ XONG "topbaohiem" (Frame 736)
+    const dropdownTriggerFrame = 736;
+
+    // Xác định activeHoverIndex khi con trỏ chuột rà qua 3 thẻ tính năng (Frames 798 -> 880)
+    let activeHoverIndex = -1;
+    if (frame >= 798 && frame < 826) {
+        activeHoverIndex = 1; // So sánh đa hãng
+    } else if (frame >= 826 && frame < 854) {
+        activeHoverIndex = 2; // Tiết kiệm chi phí
+    } else if (frame >= 854 && frame < 880) {
+        activeHoverIndex = 3; // Cấp đơn 1-chạm & An toàn
+    }
+
+    // E. HIỆU ỨNG CON TRỎ CHUỘT (MOUSE POINTER) TƯƠNG TÁC (Frames 792 -> 960):
+    // 1. Con trỏ chuột xuất hiện nhẹ nhàng tại mép trái Dropdown: Frame 792 -> 800
+    const cursorOpacity = interpolate(frame, [792, 800], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
     // 2. Tọa độ X của chuột:
-    // - 775 -> 780: Đứng yên tại -740px (dưới chữ "https://")
-    // - 780 -> 870: Di chuyển mượt mà từ trái sang phải bên dưới khung input (-740px -> +450px)
-    // - 870 -> 910: Lượn chếch lên tâm nút "Truy cập" (+450px -> +750px)
-    // - 910+: Đứng tại tâm nút (+750px)
+    // - 792 -> 800: Xuất hiện ở -520px (bên trái Thẻ 1)
+    // - 800 -> 826: Rà qua Thẻ 1 (-520px -> -140px)
+    // - 826 -> 854: Rà qua Thẻ 2 (-140px -> +180px)
+    // - 854 -> 880: Rà qua Thẻ 3 (+180px -> +440px)
+    // - 880 -> 924: Lượn vòng chếch lên nút "Truy cập" (+440px -> +750px)
+    // - 924+: Đứng tại tâm nút (+750px)
     const cursorX = interpolate(
         frame,
-        [775, 780, 870, 910],
-        [-740, -740, 450, 750],
+        [792, 800, 826, 854, 880, 924],
+        [-520, -520, -140, 180, 440, 750],
         {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
@@ -403,50 +419,125 @@ export const Scene1_ProblemSnap: React.FC = () => {
     );
 
     // 3. Tọa độ Y của chuột:
-    // - 775 -> 870: Ở bên dưới khung input (Y = +122px, kèm vi rung nhẹ nhấp nhô tự nhiên)
-    // - 870 -> 910: Lượn từ dưới khung input (+122px) lên giữa nút (+8px)
-    // - 910+: Đứng tại +8px
+    // - 792 -> 800: Ở Y = 205px (mức Thẻ 1 trong khay dropdown)
+    // - 800 -> 826: Giữ ở Y = 205px (lướt ngang Thẻ 1)
+    // - 826 -> 854: Lướt xuống Y = 320px (Thẻ 2)
+    // - 854 -> 880: Lướt xuống Y = 435px (Thẻ 3)
+    // - 880 -> 924: Lượn vút từ +435px lên tâm nút "Truy cập" (+8px)
+    // - 924+: Đứng tại +8px
     const baseY = interpolate(
         frame,
-        [775, 870, 910],
-        [122, 122, 8],
+        [792, 800, 826, 854, 880, 924],
+        [205, 205, 320, 435, 435, 8],
         {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
             easing: (t) => t * t * (3 - 2 * t),
         },
     );
-    const cursorWiggle = frame >= 780 && frame <= 870 ? Math.sin((frame - 780) * 0.14) * 2.5 : 0;
+    const cursorWiggle = frame >= 798 && frame <= 880 ? Math.sin((frame - 798) * 0.16) * 2.2 : 0;
     const cursorY = baseY + cursorWiggle;
 
-    // 4. Trạng thái Hover trên nút "Truy cập" (Frames 910 -> 930)
-    const isHoveringButton = frame >= 910;
+    // 4. Trạng thái Hover trên nút "Truy cập" (Frames 922+)
+    const isHoveringButton = frame >= 922;
 
-    // 5. Thao tác Click chuột vào nút "Truy cập" (Frames 930 -> 946: 16 frames ~ 0.27s)
-    const isClicking = frame >= 930 && frame <= 946;
+    // 5. Thao tác Click chuột vào nút "Truy cập" (Frames 932 -> 948: 16 frames ~ 0.27s)
+    const isClicking = frame >= 932 && frame <= 948;
 
     // Scale của nút "Truy cập":
     const buttonScale = isClicking
         ? 0.93
         : isHoveringButton
-        ? (frame < 930 ? 1.05 : 1.02)
+        ? (frame < 932 ? 1.05 : 1.02)
         : 1.0;
 
     // Scale của con trỏ chuột khi click
     const cursorScale = isClicking ? 0.86 : 1.0;
 
-    // 6. Sóng sáng Pulse Ripple tỏa ra từ nút khi bấm (Frames 930 -> 958)
-    const clickPulse = interpolate(frame, [930, 958], [0, 1], {
+    // 6. Sóng sáng Pulse Ripple tỏa ra từ nút khi bấm (Frames 932 -> 962)
+    const clickPulse = interpolate(frame, [932, 962], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
-    // Vệt sáng rà soát (Scan Beam) lướt dưới khung input theo con trỏ chuột (Frames 780 -> 870)
-    const scanProgress = interpolate(frame, [780, 870], [0, 1], {
+    // F. CAMERA RIG 3D ĐIỆN ẢNH (Kế thừa từ Video-Shotcraft: space-camera-moves & cursor-flyover):
+    // 1. Góc ngửa/chúc (Pitch - rotateX):
+    // - 650 -> 735: 0deg (nhìn trực diện khi gõ link)
+    // - 736 -> 785: 0deg -> 9.0deg (chúc xuống để lộ rõ độ sâu 3D của các lớp thẻ Dropdown)
+    // - 785 -> 880: Theo dõi chuột rà soát (9.0deg -> 10.5deg)
+    // - 880 -> 924: Trả về 2.0deg (xoay trực diện nút Truy cập)
+    // - 932 -> 948: Giật nhẹ impact khi bấm (-0.8deg)
+    // - 948+: Giữ thẳng hướng tâm khi lao xuyên qua (0deg)
+    const camPitch = interpolate(
+        frame,
+        [650, 735, 785, 826, 854, 880, 924, 936, 948],
+        [0, 0, 9.0, 9.8, 10.5, 10.5, 2.0, 1.2, 0],
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
+    );
+
+    // 2. Góc xoay ngang (Yaw - rotateY):
+    // - 650 -> 735: 0deg
+    // - 736 -> 785: 0deg -> -6.0deg (góc nghiêng phối cảnh 3D 3/4)
+    // - 785 -> 880: Chuột rà soát Dropdown (-6.0deg -> -4.0deg)
+    // - 880 -> 924: Xoay thẳng về hướng nút "Truy cập" ở bên phải (-4.0deg -> +2.6deg)
+    // - 948+: 0deg
+    const camYaw = interpolate(
+        frame,
+        [650, 735, 785, 880, 924, 948],
+        [0, 0, -6.0, -4.0, 2.6, 0],
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
+    );
+
+    // 3. Góc nghiêng chân trời (Roll - rotateZ):
+    const camRoll = interpolate(
+        frame,
+        [735, 785, 924, 948],
+        [0, -0.6, 0.4, 0],
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
+    );
+
+    // 4. Camera Tracking vị trí (Tịnh tiến theo con trỏ chuột - Camera Rig pan):
+    const camTargetX = interpolate(
+        frame,
+        [735, 785, 880, 924, 948],
+        [0, 40, 50, -110, 0],
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
+    );
+    const camTargetY = interpolate(
+        frame,
+        [735, 785, 826, 854, 880, 924, 948],
+        [0, -35, -50, -65, -65, 0, 0],
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
+    );
+
+    // 5. Cú nảy giật camera khi click nút (Camera Impact Bounce):
+    const clickBounce = frame >= 932 && frame <= 946
+        ? Math.sin((frame - 932) * 0.45) * 4.5
+        : 0;
+
+    // 7. HYBRID ZOOM-THROUGH WARP PORTAL (Frames 948 -> 1010):
+    // Phóng to thanh Hero Search và lao xuyên qua tâm nút "Truy cập" sang Cảnh 2
+    const warpProgress = interpolate(frame, [948, 995], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.55, 0, 0.82, 0.45),
+    });
+    const warpScale = interpolate(warpProgress, [0, 1], [1, 5.8]);
+    const warpBlur = interpolate(warpProgress, [0, 0.4, 1], [0, 4, 28]);
+    const warpOpacity = interpolate(warpProgress, [0, 0.65, 0.95, 1], [1, 1, 0.3, 0]);
+
+    // Ánh sáng cổng Portal Flash bùng nổ từ vị trí nút "Truy cập"
+    const portalFlashOpacity = interpolate(frame, [948, 982, 1010], [0, 0.96, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const showScanBeam = frame >= 780 && frame <= 880;
+
+    // Vệt sáng rà soát (Scan Beam) mờ lướt dưới khung input theo con trỏ chuột (Frames 798 -> 880)
+    const scanProgress = interpolate(frame, [798, 880], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const showScanBeam = frame >= 798 && frame <= 880;
 
     // 3. NHỊP 3: CÚ BÚNG TAY SNAP! & CHUYỂN TIẾP TRẮNG/HỒNG SANG CẢNH 2
     const snapFrame = frame - EUREKA_START_FRAME;
@@ -1438,7 +1529,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     />
                 )}
 
-                {/* 7.5. CINEMA FOCUS BACKDROP & HERO SEARCH CAPSULE (Frames 650 - 745) */}
+                {/* 7.5. CINEMA FOCUS BACKDROP, HERO SEARCH & DROPDOWN STACK-PRESS (Frames 650 - 1020) */}
                 {frame >= 650 && (
                     <div
                         style={{
@@ -1460,210 +1551,328 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             }}
                         />
 
-                        {/* Thanh Hero Search Bar ở trung tâm màn hình cỡ lớn */}
-                        {heroSearchEntrance > 0.001 && (
+                        {/* LAYER THREE.JS: KHÔNG GIAN HẠT 3D & HYPERDRIVE WARP SPEED TUNNEL */}
+                        <WarpHyperdrive3D
+                            frame={frame}
+                            width={3840}
+                            height={2160}
+                            warpStartFrame={932}
+                            warpEndFrame={1010}
+                        />
+
+                        {/* HỆ THỐNG CAMERA RIG 3D ĐIỆN ẢNH (KẾ THỪA VIDEO-SHOTCRAFT: SPACE-CAMERA-MOVES & CURSOR-FLYOVER) */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                inset: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                perspective: 2600,
+                                perspectiveOrigin: '50% 50%',
+                                pointerEvents: 'none',
+                            }}
+                        >
                             <div
                                 style={{
                                     position: 'absolute',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: `translate(-50%, -50%) scale(${heroSearchEntrance})`,
-                                    width: 1840,
-                                    height: 164,
-                                    borderRadius: 82,
-                                    backgroundColor: '#FFFFFF',
-                                    border: '3.5px solid rgba(225, 29, 72, 0.35)',
-                                    boxShadow:
-                                        '0 45px 120px rgba(0, 0, 0, 0.18), 0 16px 45px rgba(225, 29, 72, 0.2), inset 0 2px 5px rgba(255, 255, 255, 0.95)',
+                                    inset: 0,
                                     display: 'flex',
                                     alignItems: 'center',
-                                    padding: '0 28px 0 24px',
-                                    gap: 28,
-                                    opacity: heroSearchEntrance,
+                                    justifyContent: 'center',
+                                    transformStyle: 'preserve-3d',
+                                    transform: `translate3d(${camTargetX}px, ${camTargetY + clickBounce}px, 0) rotateX(${camPitch}deg) rotateY(${camYaw}deg) rotateZ(${camRoll}deg) scale(${warpScale})`,
+                                    transformOrigin: warpScale > 1.001 ? 'calc(50% + 750px) 50%' : '50% 50%',
+                                    filter: warpBlur > 0.1 ? `blur(${warpBlur}px)` : undefined,
+                                    opacity: warpOpacity,
                                 }}
                             >
-                                {/* Ổ khóa xanh lá bảo mật (Green Security Lock) */}
-                                <div
-                                    style={{
-                                        width: 112,
-                                        height: 112,
-                                        borderRadius: 56,
-                                        background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        boxShadow: '0 10px 24px rgba(16, 185, 129, 0.42)',
-                                        flexShrink: 0,
-                                    }}
-                                >
-                                    <Lock size={56} color="#FFFFFF" strokeWidth={2.8} />
-                                </div>
-
-                                {/* Text gõ URL https://topbaohiem.vn cỡ lớn */}
-                                <div style={{ flex: 1, display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-                                    <span
-                                        style={{
-                                            fontSize: 78,
-                                            fontWeight: 900,
-                                            color: '#0F172A',
-                                            letterSpacing: '-0.025em',
-                                            whiteSpace: 'nowrap',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                        }}
-                                    >
-                                        {typedHeroUrl}
-                                        {showHeroCursor && (
-                                            <span
-                                                style={{
-                                                    display: 'inline-block',
-                                                    width: 6,
-                                                    height: 72,
-                                                    backgroundColor: '#ED017C',
-                                                    marginLeft: 8,
-                                                    borderRadius: 3,
-                                                }}
-                                            />
-                                        )}
-                                    </span>
-                                </div>
-
-                                {/* Nút "Truy cập" màu hồng bên phải cỡ lớn */}
-                                <div
-                                    style={{
-                                        position: 'relative',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 14,
-                                        height: 108,
-                                        padding: '0 46px',
-                                        borderRadius: 54,
-                                        background: isHoveringButton
-                                            ? 'linear-gradient(135deg, #FF1464 0%, #D8006F 100%)'
-                                            : 'linear-gradient(135deg, #FF2E79 0%, #ED017C 100%)',
-                                        color: '#FFFFFF',
-                                        transform: `scale(${buttonScale})`,
-                                        transformOrigin: 'center center',
-                                        boxShadow: isClicking
-                                            ? '0 0 55px rgba(237, 1, 124, 0.95), 0 0 110px rgba(237, 1, 124, 0.55)'
-                                            : isHoveringButton
-                                            ? '0 16px 42px rgba(237, 1, 124, 0.65), 0 0 30px rgba(237, 1, 124, 0.45)'
-                                            : '0 10px 30px rgba(237, 1, 124, 0.45)',
-                                        transition: 'transform 0.08s ease, box-shadow 0.15s ease',
-                                        flexShrink: 0,
-                                    }}
-                                >
-                                    <span
-                                        style={{
-                                            fontSize: 36,
-                                            fontWeight: 800,
-                                            letterSpacing: '0.01em',
-                                            fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                        }}
-                                    >
-                                        Truy cập
-                                    </span>
-                                    <ArrowRight
-                                        size={36}
-                                        color="#FFFFFF"
-                                        strokeWidth={3.2}
-                                        style={{
-                                            transform: `translateX(${isHoveringButton ? 5 : 0}px)`,
-                                            transition: 'transform 0.15s ease',
-                                        }}
-                                    />
-
-                                    {/* Ripple sáng khi bấm */}
-                                    {clickPulse > 0 && clickPulse < 1 && (
-                                        <div
-                                            style={{
-                                                position: 'absolute',
-                                                inset: -10,
-                                                borderRadius: 64,
-                                                border: '3.5px solid rgba(237, 1, 124, 0.9)',
-                                                boxShadow: '0 0 32px rgba(237, 1, 124, 0.85)',
-                                                opacity: 1 - clickPulse,
-                                                transform: `scale(${1 + clickPulse * 0.35})`,
-                                                pointerEvents: 'none',
-                                            }}
-                                        />
-                                    )}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Vệt sáng rà soát (Scan Beam) mờ mờ lướt dưới mép khung input theo con trỏ chuột */}
-                        {showScanBeam && (
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: 'translate(-50%, -50%)',
-                                    width: 1840,
-                                    height: 164,
-                                    pointerEvents: 'none',
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        bottom: -8,
-                                        left: `${interpolate(scanProgress, [0, 1], [160, 1380])}px`,
-                                        width: 200,
-                                        height: 5,
-                                        borderRadius: 3,
-                                        background:
-                                            'linear-gradient(90deg, transparent 0%, rgba(237, 1, 124, 0.85) 50%, transparent 100%)',
-                                        filter: 'blur(1.5px) drop-shadow(0 0 10px rgba(237, 1, 124, 0.85))',
-                                    }}
-                                />
-                            </div>
-                        )}
-
-                        {/* Con trỏ chuột tương tác (Di chuyển từ trái sang phải bên dưới khung input rồi trỏ lên nút Truy cập) */}
-                        {cursorOpacity > 0.01 && (
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: `translate(${cursorX}px, ${cursorY}px) scale(${cursorScale})`,
-                                    opacity: cursorOpacity,
-                                    zIndex: 40,
-                                    filter: 'drop-shadow(0 10px 22px rgba(0, 0, 0, 0.38))',
-                                    pointerEvents: 'none',
-                                    transition: isClicking ? 'transform 0.06s ease' : undefined,
-                                }}
-                            >
-                                {/* Đốm sáng hồng theo mũi chuột khi rà soát dưới input */}
-                                {frame >= 780 && frame <= 870 && (
+                                {/* Thanh Hero Search Bar ở trung tâm màn hình cỡ lớn */}
+                                {heroSearchEntrance > 0.001 && (
                                     <div
                                         style={{
                                             position: 'absolute',
-                                            top: -5,
-                                            left: -5,
-                                            width: 24,
-                                            height: 24,
-                                            borderRadius: '50%',
-                                            backgroundColor: 'rgba(237, 1, 124, 0.42)',
-                                            filter: 'blur(4px)',
-                                            pointerEvents: 'none',
+                                            top: '50%',
+                                            left: '50%',
+                                            transform: `translate(-50%, -50%) scale(${heroSearchEntrance})`,
+                                            width: 1840,
+                                            height: 164,
+                                            borderRadius: 82,
+                                            backgroundColor: '#FFFFFF',
+                                            border: '3.5px solid rgba(225, 29, 72, 0.35)',
+                                            boxShadow:
+                                                '0 45px 120px rgba(0, 0, 0, 0.18), 0 16px 45px rgba(225, 29, 72, 0.2), inset 0 2px 5px rgba(255, 255, 255, 0.95)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            padding: '0 28px 0 24px',
+                                            gap: 28,
+                                            opacity: heroSearchEntrance,
+                                            zIndex: 39,
                                         }}
-                                    />
+                                    >
+                                        {/* Ổ khóa xanh lá bảo mật (Green Security Lock) */}
+                                        <div
+                                            style={{
+                                                width: 112,
+                                                height: 112,
+                                                borderRadius: 56,
+                                                background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                boxShadow: '0 10px 24px rgba(16, 185, 129, 0.42)',
+                                                flexShrink: 0,
+                                            }}
+                                        >
+                                            <Lock size={56} color="#FFFFFF" strokeWidth={2.8} />
+                                        </div>
+
+                                        {/* Text gõ URL https://topbaohiem.vn cỡ lớn */}
+                                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+                                            <span
+                                                style={{
+                                                    fontSize: 78,
+                                                    fontWeight: 900,
+                                                    color: '#0F172A',
+                                                    letterSpacing: '-0.025em',
+                                                    whiteSpace: 'nowrap',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                }}
+                                            >
+                                                {typedHeroUrl}
+                                                {showHeroCursor && (
+                                                    <span
+                                                        style={{
+                                                            display: 'inline-block',
+                                                            width: 6,
+                                                            height: 72,
+                                                            backgroundColor: '#ED017C',
+                                                            marginLeft: 8,
+                                                            borderRadius: 3,
+                                                        }}
+                                                    />
+                                                )}
+                                            </span>
+                                        </div>
+
+                                        {/* Nút "Truy cập" màu hồng bên phải cỡ lớn */}
+                                        <div
+                                            style={{
+                                                position: 'relative',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 14,
+                                                height: 108,
+                                                padding: '0 46px',
+                                                borderRadius: 54,
+                                                background: isHoveringButton
+                                                    ? 'linear-gradient(135deg, #FF1464 0%, #D8006F 100%)'
+                                                    : 'linear-gradient(135deg, #FF2E79 0%, #ED017C 100%)',
+                                                color: '#FFFFFF',
+                                                transform: `scale(${buttonScale})`,
+                                                transformOrigin: 'center center',
+                                                boxShadow: isClicking
+                                                    ? '0 0 55px rgba(237, 1, 124, 0.95), 0 0 110px rgba(237, 1, 124, 0.55)'
+                                                    : isHoveringButton
+                                                    ? '0 16px 42px rgba(237, 1, 124, 0.65), 0 0 30px rgba(237, 1, 124, 0.45)'
+                                                    : '0 10px 30px rgba(237, 1, 124, 0.45)',
+                                                transition: 'transform 0.08s ease, box-shadow 0.15s ease',
+                                                flexShrink: 0,
+                                            }}
+                                        >
+                                            <span
+                                                style={{
+                                                    fontSize: 36,
+                                                    fontWeight: 800,
+                                                    letterSpacing: '0.01em',
+                                                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                }}
+                                            >
+                                                Truy cập
+                                            </span>
+                                            <ArrowRight
+                                                size={36}
+                                                color="#FFFFFF"
+                                                strokeWidth={3.2}
+                                                style={{
+                                                    transform: `translateX(${isHoveringButton ? 5 : 0}px)`,
+                                                    transition: 'transform 0.15s ease',
+                                                }}
+                                            />
+
+                                            {/* Ripple sáng khi bấm */}
+                                            {clickPulse > 0 && clickPulse < 1 && (
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        inset: -10,
+                                                        borderRadius: 64,
+                                                        border: '3.5px solid rgba(237, 1, 124, 0.9)',
+                                                        boxShadow: '0 0 32px rgba(237, 1, 124, 0.85)',
+                                                        opacity: 1 - clickPulse,
+                                                        transform: `scale(${1 + clickPulse * 0.35})`,
+                                                        pointerEvents: 'none',
+                                                    }}
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
                                 )}
-                                <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
-                                    <path
-                                        d="M3 3L10.07 20.97L13.58 13.58L20.97 10.07L3 3Z"
-                                        fill="#0F172A"
-                                        stroke="#FFFFFF"
-                                        strokeWidth="2.2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
+
+                                {/* DROPDOWN 3D MODULAR STACK-PRESS (4 THẺ RƠI VÀO VỊ TRÍ + VỆT SÁNG GLAZE SHEEN) */}
+                                <DropdownStackPress
+                                    frame={frame}
+                                    fps={fps}
+                                    triggerFrame={dropdownTriggerFrame}
+                                    activeHoverIndex={activeHoverIndex}
+                                />
+
+                                {/* Vệt sáng rà soát (Scan Beam) mờ mờ lướt dưới mép khung input theo con trỏ chuột */}
+                                {showScanBeam && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            top: '50%',
+                                            left: '50%',
+                                            transform: 'translate(-50%, -50%)',
+                                            width: 1840,
+                                            height: 164,
+                                            pointerEvents: 'none',
+                                            zIndex: 39,
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                bottom: -8,
+                                                left: `${interpolate(scanProgress, [0, 1], [160, 1380])}px`,
+                                                width: 200,
+                                                height: 5,
+                                                borderRadius: 3,
+                                                background:
+                                                    'linear-gradient(90deg, transparent 0%, rgba(237, 1, 124, 0.85) 50%, transparent 100%)',
+                                                filter: 'blur(1.5px) drop-shadow(0 0 10px rgba(237, 1, 124, 0.85))',
+                                            }}
+                                        />
+                                    </div>
+                                )}
+
+                                {/* Con trỏ chuột tương tác (Rà soát 3 thẻ Dropdown rồi lượn lên nút Truy cập) */}
+                                {cursorOpacity > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            top: '50%',
+                                            left: '50%',
+                                            transform: `translate(${cursorX}px, ${cursorY}px) scale(${cursorScale})`,
+                                            opacity: cursorOpacity,
+                                            zIndex: 45,
+                                            filter: 'drop-shadow(0 10px 22px rgba(0, 0, 0, 0.38))',
+                                            pointerEvents: 'none',
+                                            transition: isClicking ? 'transform 0.06s ease' : undefined,
+                                        }}
+                                    >
+                                        {/* Đốm sáng hồng theo mũi chuột khi rà soát */}
+                                        {frame >= 798 && frame <= 880 && (
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    top: -5,
+                                                    left: -5,
+                                                    width: 24,
+                                                    height: 24,
+                                                    borderRadius: '50%',
+                                                    backgroundColor: 'rgba(237, 1, 124, 0.42)',
+                                                    filter: 'blur(4px)',
+                                                    pointerEvents: 'none',
+                                                }}
+                                            />
+                                        )}
+                                        <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
+                                            <path
+                                                d="M3 3L10.07 20.97L13.58 13.58L20.97 10.07L3 3Z"
+                                                fill="#0F172A"
+                                                stroke="#FFFFFF"
+                                                strokeWidth="2.2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* HIỆU ỨNG TIA SÁNG WARP SPEED LINES (HƯỚNG TÂM TỪ NÚT TRUY CẬP) */}
+                        {warpProgress > 0.04 && warpProgress < 0.96 && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    pointerEvents: 'none',
+                                    zIndex: 48,
+                                    opacity: interpolate(warpProgress, [0.04, 0.25, 0.75, 0.96], [0, 0.95, 0.95, 0]),
+                                }}
+                            >
+                                <svg width="3840" height="2160" viewBox="0 0 3840 2160" fill="none">
+                                    {/* Vòng sóng xung kích tỏa ra */}
+                                    <circle
+                                        cx={3840 / 2 + 750}
+                                        cy={2160 / 2}
+                                        r={interpolate(warpProgress, [0, 1], [40, 2600])}
+                                        stroke="rgba(237, 1, 124, 0.7)"
+                                        strokeWidth={interpolate(warpProgress, [0, 1], [16, 2])}
+                                        fill="none"
                                     />
+                                    <circle
+                                        cx={3840 / 2 + 750}
+                                        cy={2160 / 2}
+                                        r={interpolate(warpProgress, [0, 1], [10, 1800])}
+                                        stroke="rgba(255, 255, 255, 0.9)"
+                                        strokeWidth={interpolate(warpProgress, [0, 1], [10, 1])}
+                                        fill="none"
+                                    />
+                                    {/* 20 tia sáng xuyên tâm tốc độ cao */}
+                                    {[...Array(20)].map((_, i) => {
+                                        const angle = (i * 360) / 20;
+                                        const rad = (angle * Math.PI) / 180;
+                                        const r1 = interpolate(warpProgress, [0, 1], [60, 220]);
+                                        const r2 = interpolate(warpProgress, [0, 1], [350, 2800]);
+                                        const x1 = 3840 / 2 + 750 + Math.cos(rad) * r1;
+                                        const y1 = 2160 / 2 + Math.sin(rad) * r1;
+                                        const x2 = 3840 / 2 + 750 + Math.cos(rad) * r2;
+                                        const y2 = 2160 / 2 + Math.sin(rad) * r2;
+                                        return (
+                                            <line
+                                                key={i}
+                                                x1={x1}
+                                                y1={y1}
+                                                x2={x2}
+                                                y2={y2}
+                                                stroke={i % 2 === 0 ? 'rgba(237, 1, 124, 0.75)' : 'rgba(255, 255, 255, 0.9)'}
+                                                strokeWidth={interpolate(warpProgress, [0, 0.5, 1], [2, 5, 1])}
+                                                strokeLinecap="round"
+                                            />
+                                        );
+                                    })}
                                 </svg>
                             </div>
+                        )}
+
+                        {/* CỔNG ÁNH SÁNG PORTAL FLASH BÙNG NỔ TỪ TÂM NÚT TRUY CẬP */}
+                        {portalFlashOpacity > 0.001 && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    background: `radial-gradient(circle at calc(50% + 750px) 50%, rgba(255, 255, 255, 1) 0%, rgba(255, 228, 235, 0.92) 35%, rgba(255, 255, 255, 0.96) 70%, ${colors.bgLight} 100%)`,
+                                    opacity: portalFlashOpacity,
+                                    pointerEvents: 'none',
+                                    zIndex: 50,
+                                }}
+                            />
                         )}
                     </div>
                 )}
