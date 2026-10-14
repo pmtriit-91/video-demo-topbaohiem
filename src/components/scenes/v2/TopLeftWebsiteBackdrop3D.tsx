@@ -52,86 +52,66 @@ export const TopLeftWebsiteBackdrop3D: React.FC<TopLeftWebsiteBackdrop3DProps> =
                 left: 0,
                 width: 3840,
                 height: 2160,
-                perspective: 2800,
-                perspectiveOrigin: '20% 25%', // Góc nhìn từ trên cao phía trước bên trái nhìn xuống
+                perspective: 3200,
+                perspectiveOrigin: '35% 35%', // Góc nhìn phối cảnh 3D điện ảnh từ trên cao chếch xuống
                 pointerEvents: 'none',
-                zIndex: 10, // Lớp layout trang chủ có zIndex nhỏ hơn nhóm input (luôn nằm dưới)
+                zIndex: 10, // Nằm dưới nhóm input & dropdown (zIndex: 50)
+                overflow: 'hidden',
             }}
         >
-            {/* CONTAINER BẢNG 3D NEO SÁT GÓC TOP-LEFT, GÓC NGHIÊNG CỐ ĐỊNH CHUẨN THEO ẢNH 3 */}
+            {/* CONTAINER BẢNG 3D PHỦ TOÀN BỘ KHUNG HÌNH (GÓC NGHIÊNG CỐ ĐỊNH CHUẨN ẢNH 3, KHÔNG BỊ CẮT XÉN) */}
             <div
                 style={{
                     position: 'absolute',
-                    top: 200,
-                    left: -540, // Neo chuẩn xác để Logo TOPbaohiem hiển thị trọn vẹn tại góc trên-trái (X ~ 130px, Y ~ 45px), không bị khuất và không lấn vào giữa
-                    width: 2280,
-                    height: 1420,
-                    transformOrigin: '0% 0%',
+                    top: -1000,
+                    left: -1050,
+                    width: 6200,
+                    height: 4800,
+                    transformOrigin: '2200px 1400px',
                     // GÓC PHỐI CẢNH 3D CHUẨN XÁC THEO ẢNH 3:
-                    // - rotateX(43deg): ngả nằm trên mặt phẳng không gian giống tablet / slab trên bàn
-                    // - rotateY(-12deg): cạnh phải lùi sâu vào chiều xa
-                    // - rotateZ(-10deg): cạnh trên dốc nhẹ hướng lên trên sang phải (~16°), cạnh trái dốc xuống dưới sang phải (~75°)
-                    transform: `translate3d(${flyInX}px, ${flyInY}px, 0) rotateX(43deg) rotateY(-2deg) rotateZ(-20deg)`,
+                    // Dãn trải bao phủ toàn bộ 4 cạnh màn hình 3840x2160, không để lộ viền mép hay cắt xén
+                    transform: `translate3d(${flyInX}px, ${flyInY}px, -350px) rotateX(24deg) rotateY(-3deg) rotateZ(-15deg)`,
                     transformStyle: 'preserve-3d',
                     opacity: totalOpacity,
+                    backgroundColor: '#FFFFFF',
+                    overflow: 'hidden',
                 }}
             >
-                {/* KHUNG THIẾT BỊ MOCKUP KÍNH BO GÓC TRẮNG SANG TRỌNG (NHƯ ẢNH 3) */}
+                {/* HÌNH ẢNH TRANG CHỦ ĐƯỢC PHÓNG TO RÕ RÀNG (FULL CHIỀU RỘNG, KHÔNG BỊ CẮT XÉN NỘI DUNG) */}
+                {/* Hiển thị trọn vẹn từ Logo TOPbaohiem, Menu, Slogan đến nhóm Card và Banner gia đình/bác sĩ bên phải */}
                 <div
                     style={{
-                        position: 'relative',
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: 44,
-                        overflow: 'hidden',
-                        backgroundColor: '#FFFFFF',
-                        border: '4.5px solid rgba(255, 255, 255, 0.98)',
-                        boxShadow:
-                            '0 3px 0 #FFFFFF, 0 7px 0 #F1F5F9, 0 12px 0 #E2E8F0, 0 16px 0 #CBD5E1, 0 20px 0 #94A3B8, 0 45px 120px rgba(15, 23, 42, 0.22), 0 16px 45px rgba(225, 29, 72, 0.10), inset 0 3px 8px rgba(255, 255, 255, 1)',
-                        // MẶT NẠ GRADIENT MỜ DẦN VỀ TÂM:
-                        // Sát góc Top-Left rõ nét chuẩn 4K, tan biến êm dịu sớm hơn khi chạm tới vùng giữa màn hình
-                        maskImage:
-                            'linear-gradient(135deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.90) 25%, rgba(0, 0, 0, 0.28) 48%, rgba(0, 0, 0, 0) 66%)',
-                        WebkitMaskImage:
-                            'linear-gradient(135deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.90) 25%, rgba(0, 0, 0, 0.28) 48%, rgba(0, 0, 0, 0) 66%)',
+                        position: 'absolute',
+                        top: 500,
+                        left: 150,
+                        width: 5200,
+                        transform: `translateY(${scrollY}px)`,
+                        transformOrigin: 'top left',
                     }}
                 >
-                    {/* HÌNH ẢNH TRANG CHỦ ĐƯỢC PHÓNG TO RÕ RÀNG (ZOOM-IN ĐẶC TẢ CHI TIẾT ĐẦU TRANG) */}
-                    {/* Chiều rộng tăng lên 3200px để Logo, Menu, Slogan và các Card to rõ, sắc nét chuẩn 4K */}
-                    <div
+                    <Img
+                        src={staticFile('assets/trangchu/fullsize-trangchu.png')}
                         style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: 3200,
-                            transform: `translateY(${scrollY}px)`,
-                            transformOrigin: 'top left',
-                        }}
-                    >
-                        <Img
-                            src={staticFile('assets/trangchu/fullsize-trangchu.png')}
-                            style={{
-                                width: '100%',
-                                height: 'auto',
-                                display: 'block',
-                            }}
-                        />
-                    </div>
-
-                    {/* VỆT QUÉT SÁNG QUANG HỌC KÍNH (GLAZE ACCENT) NHẸ Ở VIỀN TRÊN */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            height: 140,
-                            background:
-                                'linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 100%)',
-                            pointerEvents: 'none',
+                            width: '100%',
+                            height: 'auto',
+                            display: 'block',
                         }}
                     />
                 </div>
+
+                {/* VỆT QUÉT SÁNG QUANG HỌC KÍNH (GLAZE ACCENT) NHẸ Ở VIỀN TRÊN */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: 220,
+                        background:
+                            'linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 100%)',
+                        pointerEvents: 'none',
+                    }}
+                />
             </div>
         </div>
     );
