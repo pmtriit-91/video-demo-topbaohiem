@@ -141,9 +141,21 @@ Tọa lạc tại thư mục: `/Users/phamminhtri/Desktop/train/crawl4ai/output/
 - **Khung các phân cảnh tham khảo (Modular Scenes - Cập nhật linh hoạt theo thực tế)**:
     - **Tài liệu chiến lược & Lộ trình 2 phong cách**: [Audit Chiến Lược & Tích Hợp Canva MCP](file:///Users/phamminhtri/Desktop/project/quancao-topbaohiem/docs/audits/audit_strategic_alignment_canva_integration.md) (Quyết định dồn lực hoàn thiện Phong cách 1 trước khi mở rộng Phong cách 2).
     - **Scene 0 (Đã hoàn thiện & kiểm định)**: [Problem Hook - Khơi dậy nỗi đau bảo hiểm truyền thống](file:///Users/phamminhtri/Desktop/project/quancao-topbaohiem/docs/audits/scene0/audit_scene0_problem_hook.md) (4 đám mây suy nghĩ Comic Pop-Art, 4 sticker động, nhân vật trung tâm bối rối).
-    - **Scene 1 (Đang triển khai & hoàn thiện)**: [Interactive Product Showcase](file:///Users/phamminhtri/Desktop/project/quancao-topbaohiem/docs/audits/scene1/plan_scene1_interactive_showcase.md) (Mở nắp MacBook 3D, thức tỉnh màn hình Retina, iPhone đồng bộ, tương tác rê chuột nhóm bảo hiểm chủ lực).
+    - **Scene 1 (Đã hoàn thiện & nghiệm thu 100%)**: [Interactive Product Showcase & 3D Staggered Hero Dock](file:///Users/phamminhtri/Desktop/project/quancao-topbaohiem/docs/audits/scene1/plan_scene1_interactive_showcase.md)
+      * **Mở nắp MacBook 3D & Thức tỉnh Retina**: Camera 3D pan tracking, màn hình hiển thị trực quan.
+      * **Triệt tiêu chấm bi hồng & Làm sạch visual**: Xóa bỏ toàn bộ lưới chấm bi CSS và 1.200 hạt Three.js bokeh; tối ưu không gian nền sang trọng, tinh tế chuẩn Apple Keynote.
+      * **Dâng thanh tìm kiếm (Input Elevation -600px, Frames 765-795)**: Nhấc bổng Search Bar kích thước lớn (width 2560px, height 200px, font URL 92px, nút Truy cập 136px), giải phóng không gian trung tâm làm sân khấu trình diễn 3D.
+      * **Khay Kính Mờ Rộng 2560px & Huy Hiệu Bộ Công Thương (Frame 765)**: Định vị khay dock với 3 Ghost slots nét đứt chờ đón thẻ.
+      * **3 Thẻ Tính Năng Chủ Lực - Staggered 3D Hero Spotlight (Frames 790-1015)**:
+        - Mỗi thẻ phóng lớn hoành tráng ra tâm màn hình (`HERO_Y = 660px`, `HERO_Z = 380px`, `scale: 1.12`, `rotateX: 8.5°`, `rotateY: -4.0°`, `height: 210px`, icon `128x128px`, font `48px / 34px`).
+        - Dừng lơ lửng 35 frames (~0.6s) phô diễn hiệu ứng: Vệt bút quang (Highlighter marker 20px) quét dưới câu chữ đắt giá, Chip quyền lợi 34px nảy rung (`scale: 1.16`) kèm sao phát quang (sparkle flash), ánh sáng viền kính 3D và bóng đổ tách tầng.
+        - Lao vút (`slam down`) đập vào ô dock tương ứng (`height: 144px`, icon `88x88px`), kích hoạt xung lực nén lún `stackPress(5px)` cho toàn bộ khay.
+      * **Quét sáng Glaze Sheen & Rà soát chuột (Frames 1012-1092)**: Con trỏ chuột lướt kiểm tra 3 thẻ trong dock 2560px, thẻ nhấc trục Z `+48px`.
+      * **Nén lún nút "Truy cập" (Frames 1105-1120)**: Chuột click chuẩn tâm nút tại tọa độ `(X = +1072px, Y = -600px)`, nút lún `scale: 0.93`, giật rung phản lực camera.
+      * **Three.js WebGL Hyperdrive Warp Tunnel (Frames 1105-1150)**: 320 tia sáng laser streaks xuyên tâm gia tốc cao bùng nổ từ tâm nút Truy cập, bẻ cong không gian và chuyển giao mượt mà sang Cảnh 2.
     - **Các Scene tiếp theo (Dự kiến mở rộng)**:
         - Trải nghiệm Frontend 1-chạm (AI OCR quét Cà vẹt, ma trận so sánh đa hãng, cấp GCN điện tử QR code).
         - Khám phá cỗ máy CMS Dark Mode (Doanh thu nhảy số thời gian thực, tự động hóa duyệt đơn & bồi thường).
         - Scale Engine (Mạng lưới CTV Affiliate, API kết nối các hãng bảo hiểm lớn).
         - Outro / Kêu gọi đầu tư sở hữu nền tảng trọn gói (Turnkey InsurTech).
+

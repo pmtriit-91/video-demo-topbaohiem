@@ -377,40 +377,48 @@ export const Scene1_ProblemSnap: React.FC = () => {
         }),
     );
     const typedHeroUrl = heroUrlText.slice(0, heroUrlCharCount);
-    // Con trỏ nhấp nháy trong lúc gõ (665-742) và đứng nhấp nháy chờ mắt người đọc (742-880)
-    const showHeroCursor = frame >= 665 && frame < 880 && Math.floor(frame / 8) % 2 === 0;
+    // Con trỏ nhấp nháy trong lúc gõ (665-742) và đứng nhấp nháy chờ mắt người đọc (742-765)
+    const showHeroCursor = frame >= 665 && frame < 765 && Math.floor(frame / 8) % 2 === 0;
 
-    // D. DROPDOWN STACK-PRESS KÍCH HOẠT KHI VỪA GÕ XONG "topbaohiem" (Frame 736)
-    const dropdownTriggerFrame = 736;
+    // GÕ XONG LINK "https://topbaohiem.vn" -> DÂNG KHUNG SEARCH LÊN CAO (Frames 765 -> 795)
+    // Dịch chuyển input lên phía trên (-600px) để mở rộng toàn bộ không gian trung tâm cho sân khấu 3D cắt lớp
+    const inputElevation = interpolate(frame, [765, 795], [0, -600], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.33, 1, 0.68, 1),
+    });
 
-    // Xác định activeHoverIndex khi con trỏ chuột rà qua 3 thẻ tính năng (Frames 798 -> 880)
+    // D. DROPDOWN STACK-PRESS KÍCH HOẠT ĐỒNG THỜI KHI SEARCH BAR DÂNG LÊN (Frame 765)
+    const dropdownTriggerFrame = 765;
+
+    // Xác định activeHoverIndex khi con trỏ chuột rà qua 3 thẻ tính năng sau khi Glaze Sheen hoàn tất (Frames 1032 -> 1092)
     let activeHoverIndex = -1;
-    if (frame >= 798 && frame < 826) {
+    if (frame >= 1032 && frame < 1052) {
         activeHoverIndex = 1; // So sánh đa hãng
-    } else if (frame >= 826 && frame < 854) {
+    } else if (frame >= 1052 && frame < 1072) {
         activeHoverIndex = 2; // Tiết kiệm chi phí
-    } else if (frame >= 854 && frame < 880) {
+    } else if (frame >= 1072 && frame < 1092) {
         activeHoverIndex = 3; // Cấp đơn 1-chạm & An toàn
     }
 
-    // E. HIỆU ỨNG CON TRỎ CHUỘT (MOUSE POINTER) TƯƠNG TÁC (Frames 792 -> 960):
-    // 1. Con trỏ chuột xuất hiện nhẹ nhàng tại mép trái Dropdown: Frame 792 -> 800
-    const cursorOpacity = interpolate(frame, [792, 800], [0, 1], {
+    // E. HIỆU ỨNG CON TRỎ CHUỘT (MOUSE POINTER) TƯƠNG TÁC (Frames 1024 -> 1150):
+    // 1. Con trỏ chuột xuất hiện nhẹ nhàng tại mép trái Dropdown: Frame 1024 -> 1032
+    const cursorOpacity = interpolate(frame, [1024, 1032], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
     // 2. Tọa độ X của chuột:
-    // - 792 -> 800: Xuất hiện ở -520px (bên trái Thẻ 1)
-    // - 800 -> 826: Rà qua Thẻ 1 (-520px -> -140px)
-    // - 826 -> 854: Rà qua Thẻ 2 (-140px -> +180px)
-    // - 854 -> 880: Rà qua Thẻ 3 (+180px -> +440px)
-    // - 880 -> 924: Lượn vòng chếch lên nút "Truy cập" (+440px -> +750px)
-    // - 924+: Đứng tại tâm nút (+750px)
+    // - 1024 -> 1032: Xuất hiện ở -700px (bên trái Thẻ 1)
+    // - 1032 -> 1052: Rà qua Thẻ 1 (-700px -> -180px)
+    // - 1052 -> 1072: Lướt sang Thẻ 2 (-180px -> +240px)
+    // - 1072 -> 1092: Lướt sang Thẻ 3 (+240px -> +620px)
+    // - 1092 -> 1104: Lượn vòng chếch lên nút "Truy cập" (+620px -> +1072px)
+    // - 1104+: Đứng tại tâm nút (+1072px)
     const cursorX = interpolate(
         frame,
-        [792, 800, 826, 854, 880, 924],
-        [-520, -520, -140, 180, 440, 750],
+        [1024, 1032, 1052, 1072, 1092, 1104],
+        [-700, -700, -180, 240, 620, 1072],
         {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
@@ -419,105 +427,106 @@ export const Scene1_ProblemSnap: React.FC = () => {
     );
 
     // 3. Tọa độ Y của chuột:
-    // - 792 -> 800: Ở Y = 205px (mức Thẻ 1 trong khay dropdown)
-    // - 800 -> 826: Giữ ở Y = 205px (lướt ngang Thẻ 1)
-    // - 826 -> 854: Lướt xuống Y = 320px (Thẻ 2)
-    // - 854 -> 880: Lướt xuống Y = 435px (Thẻ 3)
-    // - 880 -> 924: Lượn vút từ +435px lên tâm nút "Truy cập" (+8px)
-    // - 924+: Đứng tại +8px
+    // Khay dock bắt đầu ở top: calc(50% + 120px - 600px) = calc(50% - 480px)
+    // Slot 1 (Thẻ 1): center Y ≈ -292px
+    // Slot 2 (Thẻ 2): center Y ≈ -128px
+    // Slot 3 (Thẻ 3): center Y ≈ +36px
+    // Nút "Truy cập": center Y ≈ -600px
     const baseY = interpolate(
         frame,
-        [792, 800, 826, 854, 880, 924],
-        [205, 205, 320, 435, 435, 8],
+        [1024, 1032, 1052, 1072, 1092, 1104],
+        [-292, -292, -128, 36, 36, -600],
         {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
             easing: (t) => t * t * (3 - 2 * t),
         },
     );
-    const cursorWiggle = frame >= 798 && frame <= 880 ? Math.sin((frame - 798) * 0.16) * 2.2 : 0;
+    const cursorWiggle = frame >= 1032 && frame <= 1092 ? Math.sin((frame - 1032) * 0.16) * 2.2 : 0;
     const cursorY = baseY + cursorWiggle;
 
-    // 4. Trạng thái Hover trên nút "Truy cập" (Frames 922+)
-    const isHoveringButton = frame >= 922;
+    // 4. Trạng thái Hover trên nút "Truy cập" (Frames 1102+)
+    const isHoveringButton = frame >= 1102;
 
-    // 5. Thao tác Click chuột vào nút "Truy cập" (Frames 932 -> 948: 16 frames ~ 0.27s)
-    const isClicking = frame >= 932 && frame <= 948;
+    // 5. Thao tác Click chuột vào nút "Truy cập" (Frames 1105 -> 1120: 15 frames ~ 0.25s)
+    const isClicking = frame >= 1105 && frame <= 1120;
 
     // Scale của nút "Truy cập":
     const buttonScale = isClicking
         ? 0.93
         : isHoveringButton
-        ? (frame < 932 ? 1.05 : 1.02)
+        ? (frame < 1105 ? 1.05 : 1.02)
         : 1.0;
 
     // Scale của con trỏ chuột khi click
     const cursorScale = isClicking ? 0.86 : 1.0;
 
-    // 6. Sóng sáng Pulse Ripple tỏa ra từ nút khi bấm (Frames 932 -> 962)
-    const clickPulse = interpolate(frame, [932, 962], [0, 1], {
+    // 6. Sóng sáng Pulse Ripple tỏa ra từ nút khi bấm (Frames 1105 -> 1135)
+    const clickPulse = interpolate(frame, [1105, 1135], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
     // F. CAMERA RIG 3D ĐIỆN ẢNH (Kế thừa từ Video-Shotcraft: space-camera-moves & cursor-flyover):
     // 1. Góc ngửa/chúc (Pitch - rotateX):
-    // - 650 -> 735: 0deg (nhìn trực diện khi gõ link)
-    // - 736 -> 785: 0deg -> 9.0deg (chúc xuống để lộ rõ độ sâu 3D của các lớp thẻ Dropdown)
-    // - 785 -> 880: Theo dõi chuột rà soát (9.0deg -> 10.5deg)
-    // - 880 -> 924: Trả về 2.0deg (xoay trực diện nút Truy cập)
-    // - 932 -> 948: Giật nhẹ impact khi bấm (-0.8deg)
-    // - 948+: Giữ thẳng hướng tâm khi lao xuyên qua (0deg)
+    // - 650 -> 765: 0deg (nhìn trực diện khi gõ link)
+    // - 765 -> 795: 0deg -> 8.5deg (chúc xuống để đón khay dock và tạo chiều sâu khi input dâng lên)
+    // - 795 -> 1009: 8.5deg -> 10.5deg (giữ góc nghiêng 3D điện ảnh khi 3 thẻ lần lượt phóng lớn và đập vào khay)
+    // - 1009 -> 1092: 10.5deg (theo dõi chuột rà soát khay)
+    // - 1092 -> 1104: Trả về 2.0deg (hướng trực diện về nút Truy cập ở trên cao)
+    // - 1105 -> 1120: Giật nhẹ impact khi bấm (-0.8deg)
+    // - 1120+: Giữ thẳng hướng tâm khi lao xuyên qua (0deg)
     const camPitch = interpolate(
         frame,
-        [650, 735, 785, 826, 854, 880, 924, 936, 948],
-        [0, 0, 9.0, 9.8, 10.5, 10.5, 2.0, 1.2, 0],
+        [650, 765, 795, 860, 930, 1009, 1092, 1104, 1112, 1120],
+        [0, 0, 8.5, 9.8, 10.5, 10.5, 10.5, 2.0, 1.2, 0],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
     );
 
     // 2. Góc xoay ngang (Yaw - rotateY):
-    // - 650 -> 735: 0deg
-    // - 736 -> 785: 0deg -> -6.0deg (góc nghiêng phối cảnh 3D 3/4)
-    // - 785 -> 880: Chuột rà soát Dropdown (-6.0deg -> -4.0deg)
-    // - 880 -> 924: Xoay thẳng về hướng nút "Truy cập" ở bên phải (-4.0deg -> +2.6deg)
-    // - 948+: 0deg
+    // - 650 -> 765: 0deg
+    // - 765 -> 795: 0deg -> -6.0deg (phối cảnh 3/4 điện ảnh)
+    // - 795 -> 1009: -6.0deg -> -4.5deg
+    // - 1009 -> 1092: -4.5deg
+    // - 1092 -> 1104: Xoay về hướng nút "Truy cập" ở góc phải trên (+2.6deg)
+    // - 1120+: 0deg
     const camYaw = interpolate(
         frame,
-        [650, 735, 785, 880, 924, 948],
-        [0, 0, -6.0, -4.0, 2.6, 0],
+        [650, 765, 795, 1009, 1092, 1104, 1120],
+        [0, 0, -6.0, -4.5, -4.5, 2.6, 0],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
     );
 
     // 3. Góc nghiêng chân trời (Roll - rotateZ):
     const camRoll = interpolate(
         frame,
-        [735, 785, 924, 948],
-        [0, -0.6, 0.4, 0],
+        [765, 795, 1092, 1104, 1120],
+        [0, -0.6, -0.6, 0.4, 0],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
     );
 
     // 4. Camera Tracking vị trí (Tịnh tiến theo con trỏ chuột - Camera Rig pan):
     const camTargetX = interpolate(
         frame,
-        [735, 785, 880, 924, 948],
-        [0, 40, 50, -110, 0],
+        [765, 795, 1009, 1092, 1104, 1120],
+        [0, 30, 40, 50, -110, 0],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
     );
     const camTargetY = interpolate(
         frame,
-        [735, 785, 826, 854, 880, 924, 948],
-        [0, -35, -50, -65, -65, 0, 0],
+        [765, 795, 1009, 1052, 1072, 1092, 1104, 1120],
+        [0, 60, 60, 50, 35, 15, 0, 0],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
     );
 
     // 5. Cú nảy giật camera khi click nút (Camera Impact Bounce):
-    const clickBounce = frame >= 932 && frame <= 946
-        ? Math.sin((frame - 932) * 0.45) * 4.5
+    const clickBounce = frame >= 1105 && frame <= 1120
+        ? Math.sin((frame - 1105) * 0.45) * 4.5
         : 0;
 
-    // 7. HYBRID ZOOM-THROUGH WARP PORTAL (Frames 948 -> 1010):
+    // 7. HYBRID ZOOM-THROUGH WARP PORTAL (Frames 1105 -> 1150):
     // Phóng to thanh Hero Search và lao xuyên qua tâm nút "Truy cập" sang Cảnh 2
-    const warpProgress = interpolate(frame, [948, 995], [0, 1], {
+    const warpProgress = interpolate(frame, [1105, 1145], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.55, 0, 0.82, 0.45),
@@ -527,17 +536,17 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const warpOpacity = interpolate(warpProgress, [0, 0.65, 0.95, 1], [1, 1, 0.3, 0]);
 
     // Ánh sáng cổng Portal Flash bùng nổ từ vị trí nút "Truy cập"
-    const portalFlashOpacity = interpolate(frame, [948, 982, 1010], [0, 0.96, 0], {
+    const portalFlashOpacity = interpolate(frame, [1105, 1125, 1150], [0, 0.98, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
-    // Vệt sáng rà soát (Scan Beam) mờ lướt dưới khung input theo con trỏ chuột (Frames 798 -> 880)
-    const scanProgress = interpolate(frame, [798, 880], [0, 1], {
+    // Vệt sáng rà soát (Scan Beam) mờ lướt dưới khung input theo con trỏ chuột
+    const scanProgress = interpolate(frame, [1032, 1092], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const showScanBeam = frame >= 798 && frame <= 880;
+    const showScanBeam = frame >= 1032 && frame <= 1092;
 
     // 3. NHỊP 3: CÚ BÚNG TAY SNAP! & CHUYỂN TIẾP TRẮNG/HỒNG SANG CẢNH 2
     const snapFrame = frame - EUREKA_START_FRAME;
@@ -563,8 +572,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
         extrapolateRight: 'clamp',
     });
 
-    // Chuyển tiếp trắng/hồng mềm sang Cảnh 2 (Frames 980 -> 1020)
-    const fadeToScene2 = interpolate(frame, [980, 1020], [0, 1], {
+    // Chuyển tiếp trắng/hồng mềm sang Cảnh 2 (Frames 1130 -> 1150)
+    const fadeToScene2 = interpolate(frame, [1130, 1150], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -600,15 +609,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         background: `radial-gradient(circle at 50% 40%, ${colors.brandPinkSoft} 0%, ${colors.bgLight} 80%)`,
                     }}
                 />
-                <div
-                    style={{
-                        position: 'absolute',
-                        inset: 0,
-                        backgroundImage: `radial-gradient(${colors.brandPink}22 2px, transparent 2px)`,
-                        backgroundSize: '44px 44px',
-                        opacity: 0.5,
-                    }}
-                />
+
 
                 {/* 1.5. LỚP ĐỒI SÓNG GIẤY XANH MINT Ở ĐÁY MÀN HÌNH (LAYERED PAPER WAVE - CHUẨN PHỐI CẢNH CANVA STORYBOARD) */}
                 <div
@@ -1556,8 +1557,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             frame={frame}
                             width={3840}
                             height={2160}
-                            warpStartFrame={932}
-                            warpEndFrame={1010}
+                            warpStartFrame={1105}
+                            warpEndFrame={1150}
                         />
 
                         {/* HỆ THỐNG CAMERA RIG 3D ĐIỆN ẢNH (KẾ THỪA VIDEO-SHOTCRAFT: SPACE-CAMERA-MOVES & CURSOR-FLYOVER) */}
@@ -1582,30 +1583,30 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                     justifyContent: 'center',
                                     transformStyle: 'preserve-3d',
                                     transform: `translate3d(${camTargetX}px, ${camTargetY + clickBounce}px, 0) rotateX(${camPitch}deg) rotateY(${camYaw}deg) rotateZ(${camRoll}deg) scale(${warpScale})`,
-                                    transformOrigin: warpScale > 1.001 ? 'calc(50% + 750px) 50%' : '50% 50%',
+                                    transformOrigin: warpScale > 1.001 ? 'calc(50% + 1072px) calc(50% - 600px)' : '50% 50%',
                                     filter: warpBlur > 0.1 ? `blur(${warpBlur}px)` : undefined,
                                     opacity: warpOpacity,
                                 }}
                             >
-                                {/* Thanh Hero Search Bar ở trung tâm màn hình cỡ lớn */}
+                                {/* Thanh Hero Search Bar dâng lên mở rộng không gian 3D */}
                                 {heroSearchEntrance > 0.001 && (
                                     <div
                                         style={{
                                             position: 'absolute',
                                             top: '50%',
                                             left: '50%',
-                                            transform: `translate(-50%, -50%) scale(${heroSearchEntrance})`,
-                                            width: 1840,
-                                            height: 164,
-                                            borderRadius: 82,
+                                            transform: `translate(-50%, calc(-50% + ${inputElevation}px)) scale(${heroSearchEntrance})`,
+                                            width: 2560,
+                                            height: 200,
+                                            borderRadius: 100,
                                             backgroundColor: '#FFFFFF',
-                                            border: '3.5px solid rgba(225, 29, 72, 0.35)',
+                                            border: '4px solid rgba(225, 29, 72, 0.35)',
                                             boxShadow:
-                                                '0 45px 120px rgba(0, 0, 0, 0.18), 0 16px 45px rgba(225, 29, 72, 0.2), inset 0 2px 5px rgba(255, 255, 255, 0.95)',
+                                                '0 50px 140px rgba(0, 0, 0, 0.18), 0 20px 50px rgba(225, 29, 72, 0.22), inset 0 2px 6px rgba(255, 255, 255, 0.95)',
                                             display: 'flex',
                                             alignItems: 'center',
-                                            padding: '0 28px 0 24px',
-                                            gap: 28,
+                                            padding: '0 32px 0 28px',
+                                            gap: 32,
                                             opacity: heroSearchEntrance,
                                             zIndex: 39,
                                         }}
@@ -1613,25 +1614,25 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                         {/* Ổ khóa xanh lá bảo mật (Green Security Lock) */}
                                         <div
                                             style={{
-                                                width: 112,
-                                                height: 112,
-                                                borderRadius: 56,
+                                                width: 136,
+                                                height: 136,
+                                                borderRadius: 68,
                                                 background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
-                                                boxShadow: '0 10px 24px rgba(16, 185, 129, 0.42)',
+                                                boxShadow: '0 12px 28px rgba(16, 185, 129, 0.45)',
                                                 flexShrink: 0,
                                             }}
                                         >
-                                            <Lock size={56} color="#FFFFFF" strokeWidth={2.8} />
+                                            <Lock size={68} color="#FFFFFF" strokeWidth={3} />
                                         </div>
 
                                         {/* Text gõ URL https://topbaohiem.vn cỡ lớn */}
                                         <div style={{ flex: 1, display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
                                             <span
                                                 style={{
-                                                    fontSize: 78,
+                                                    fontSize: 92,
                                                     fontWeight: 900,
                                                     color: '#0F172A',
                                                     letterSpacing: '-0.025em',
@@ -1646,11 +1647,11 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                                     <span
                                                         style={{
                                                             display: 'inline-block',
-                                                            width: 6,
-                                                            height: 72,
+                                                            width: 8,
+                                                            height: 86,
                                                             backgroundColor: '#ED017C',
-                                                            marginLeft: 8,
-                                                            borderRadius: 3,
+                                                            marginLeft: 10,
+                                                            borderRadius: 4,
                                                         }}
                                                     />
                                                 )}
@@ -1663,10 +1664,10 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                                 position: 'relative',
                                                 display: 'flex',
                                                 alignItems: 'center',
-                                                gap: 14,
-                                                height: 108,
-                                                padding: '0 46px',
-                                                borderRadius: 54,
+                                                gap: 16,
+                                                height: 136,
+                                                padding: '0 56px',
+                                                borderRadius: 68,
                                                 background: isHoveringButton
                                                     ? 'linear-gradient(135deg, #FF1464 0%, #D8006F 100%)'
                                                     : 'linear-gradient(135deg, #FF2E79 0%, #ED017C 100%)',
@@ -1674,18 +1675,18 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                                 transform: `scale(${buttonScale})`,
                                                 transformOrigin: 'center center',
                                                 boxShadow: isClicking
-                                                    ? '0 0 55px rgba(237, 1, 124, 0.95), 0 0 110px rgba(237, 1, 124, 0.55)'
+                                                    ? '0 0 65px rgba(237, 1, 124, 0.95), 0 0 130px rgba(237, 1, 124, 0.55)'
                                                     : isHoveringButton
-                                                    ? '0 16px 42px rgba(237, 1, 124, 0.65), 0 0 30px rgba(237, 1, 124, 0.45)'
-                                                    : '0 10px 30px rgba(237, 1, 124, 0.45)',
+                                                    ? '0 18px 48px rgba(237, 1, 124, 0.65), 0 0 35px rgba(237, 1, 124, 0.45)'
+                                                    : '0 12px 35px rgba(237, 1, 124, 0.45)',
                                                 transition: 'transform 0.08s ease, box-shadow 0.15s ease',
                                                 flexShrink: 0,
                                             }}
                                         >
                                             <span
                                                 style={{
-                                                    fontSize: 36,
-                                                    fontWeight: 800,
+                                                    fontSize: 48,
+                                                    fontWeight: 900,
                                                     letterSpacing: '0.01em',
                                                     fontFamily: "'Plus Jakarta Sans', sans-serif",
                                                 }}
@@ -1693,11 +1694,11 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                                 Truy cập
                                             </span>
                                             <ArrowRight
-                                                size={36}
+                                                size={46}
                                                 color="#FFFFFF"
-                                                strokeWidth={3.2}
+                                                strokeWidth={3.4}
                                                 style={{
-                                                    transform: `translateX(${isHoveringButton ? 5 : 0}px)`,
+                                                    transform: `translateX(${isHoveringButton ? 6 : 0}px)`,
                                                     transition: 'transform 0.15s ease',
                                                 }}
                                             />
@@ -1707,10 +1708,10 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                                 <div
                                                     style={{
                                                         position: 'absolute',
-                                                        inset: -10,
-                                                        borderRadius: 64,
-                                                        border: '3.5px solid rgba(237, 1, 124, 0.9)',
-                                                        boxShadow: '0 0 32px rgba(237, 1, 124, 0.85)',
+                                                        inset: -12,
+                                                        borderRadius: 80,
+                                                        border: '4px solid rgba(237, 1, 124, 0.9)',
+                                                        boxShadow: '0 0 40px rgba(237, 1, 124, 0.85)',
                                                         opacity: 1 - clickPulse,
                                                         transform: `scale(${1 + clickPulse * 0.35})`,
                                                         pointerEvents: 'none',
@@ -1721,12 +1722,13 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                     </div>
                                 )}
 
-                                {/* DROPDOWN 3D MODULAR STACK-PRESS (4 THẺ RƠI VÀO VỊ TRÍ + VỆT SÁNG GLAZE SHEEN) */}
+                                {/* DROPDOWN 3D MODULAR STACK-PRESS (PHƯƠNG ÁN B: 3D HERO EXPLODED + SLAM DOWN STACK-PRESS) */}
                                 <DropdownStackPress
                                     frame={frame}
                                     fps={fps}
                                     triggerFrame={dropdownTriggerFrame}
                                     activeHoverIndex={activeHoverIndex}
+                                    inputElevation={inputElevation}
                                 />
 
                                 {/* Vệt sáng rà soát (Scan Beam) mờ mờ lướt dưới mép khung input theo con trỏ chuột */}
@@ -1736,9 +1738,9 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                             position: 'absolute',
                                             top: '50%',
                                             left: '50%',
-                                            transform: 'translate(-50%, -50%)',
-                                            width: 1840,
-                                            height: 164,
+                                            transform: `translate(-50%, calc(-50% + ${inputElevation}px))`,
+                                            width: 2560,
+                                            height: 200,
                                             pointerEvents: 'none',
                                             zIndex: 39,
                                         }}
@@ -1747,13 +1749,13 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                             style={{
                                                 position: 'absolute',
                                                 bottom: -8,
-                                                left: `${interpolate(scanProgress, [0, 1], [160, 1380])}px`,
-                                                width: 200,
-                                                height: 5,
+                                                left: `${interpolate(scanProgress, [0, 1], [220, 2100])}px`,
+                                                width: 260,
+                                                height: 6,
                                                 borderRadius: 3,
                                                 background:
                                                     'linear-gradient(90deg, transparent 0%, rgba(237, 1, 124, 0.85) 50%, transparent 100%)',
-                                                filter: 'blur(1.5px) drop-shadow(0 0 10px rgba(237, 1, 124, 0.85))',
+                                                filter: 'blur(2px) drop-shadow(0 0 12px rgba(237, 1, 124, 0.85))',
                                             }}
                                         />
                                     </div>
@@ -1775,7 +1777,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                         }}
                                     >
                                         {/* Đốm sáng hồng theo mũi chuột khi rà soát */}
-                                        {frame >= 798 && frame <= 880 && (
+                                        {frame >= 1032 && frame <= 1092 && (
                                             <div
                                                 style={{
                                                     position: 'absolute',
@@ -1819,16 +1821,16 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                 <svg width="3840" height="2160" viewBox="0 0 3840 2160" fill="none">
                                     {/* Vòng sóng xung kích tỏa ra */}
                                     <circle
-                                        cx={3840 / 2 + 750}
-                                        cy={2160 / 2}
+                                        cx={3840 / 2 + 1072}
+                                        cy={2160 / 2 - 600}
                                         r={interpolate(warpProgress, [0, 1], [40, 2600])}
                                         stroke="rgba(237, 1, 124, 0.7)"
                                         strokeWidth={interpolate(warpProgress, [0, 1], [16, 2])}
                                         fill="none"
                                     />
                                     <circle
-                                        cx={3840 / 2 + 750}
-                                        cy={2160 / 2}
+                                        cx={3840 / 2 + 1072}
+                                        cy={2160 / 2 - 600}
                                         r={interpolate(warpProgress, [0, 1], [10, 1800])}
                                         stroke="rgba(255, 255, 255, 0.9)"
                                         strokeWidth={interpolate(warpProgress, [0, 1], [10, 1])}
@@ -1840,10 +1842,10 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                         const rad = (angle * Math.PI) / 180;
                                         const r1 = interpolate(warpProgress, [0, 1], [60, 220]);
                                         const r2 = interpolate(warpProgress, [0, 1], [350, 2800]);
-                                        const x1 = 3840 / 2 + 750 + Math.cos(rad) * r1;
-                                        const y1 = 2160 / 2 + Math.sin(rad) * r1;
-                                        const x2 = 3840 / 2 + 750 + Math.cos(rad) * r2;
-                                        const y2 = 2160 / 2 + Math.sin(rad) * r2;
+                                        const x1 = 3840 / 2 + 1072 + Math.cos(rad) * r1;
+                                        const y1 = 2160 / 2 - 600 + Math.sin(rad) * r1;
+                                        const x2 = 3840 / 2 + 1072 + Math.cos(rad) * r2;
+                                        const y2 = 2160 / 2 - 600 + Math.sin(rad) * r2;
                                         return (
                                             <line
                                                 key={i}
@@ -1867,7 +1869,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                 style={{
                                     position: 'absolute',
                                     inset: 0,
-                                    background: `radial-gradient(circle at calc(50% + 750px) 50%, rgba(255, 255, 255, 1) 0%, rgba(255, 228, 235, 0.92) 35%, rgba(255, 255, 255, 0.96) 70%, ${colors.bgLight} 100%)`,
+                                    background: `radial-gradient(circle at calc(50% + 1072px) calc(50% - 600px), rgba(255, 255, 255, 1) 0%, rgba(255, 228, 235, 0.92) 35%, rgba(255, 255, 255, 0.96) 70%, ${colors.bgLight} 100%)`,
                                     opacity: portalFlashOpacity,
                                     pointerEvents: 'none',
                                     zIndex: 50,
