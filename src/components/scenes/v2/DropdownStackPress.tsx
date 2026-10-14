@@ -5,7 +5,7 @@ import { ShieldCheck, BadgePercent, Zap, CheckCircle2, Sparkles, Star } from 'lu
 interface DropdownStackPressProps {
     frame: number;
     fps: number;
-    triggerFrame?: number; // 765: khi input bắt đầu dâng lên và mở khay
+    triggerFrame?: number; // 885: khi input bắt đầu dâng lên và mở khay
     activeHoverIndex?: number; // 1, 2, 3 khi chuột rà qua
     inputElevation?: number; // Tọa độ dâng lên của input (-600px)
 }
@@ -13,7 +13,7 @@ interface DropdownStackPressProps {
 export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
     frame,
     fps,
-    triggerFrame = 765,
+    triggerFrame = 885,
     activeHoverIndex = -1,
     inputElevation = -600,
 }) => {
@@ -21,61 +21,66 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
     const dockEntrance = spring({
         frame: Math.max(0, frame - triggerFrame),
         fps,
-        config: { damping: 14, mass: 0.8, stiffness: 120 },
+        config: { damping: 16, mass: 0.9, stiffness: 100 },
     });
 
     if (dockEntrance <= 0.001) {
         return null;
     }
 
-    // 2. TIMELINE ĐỒ HỌA 3D CHUYÊN SÂU (PHƯƠNG ÁN B: STAGGERED 3D HERO EXPLODED SEQUENCE)
-    // - Frame 765 -> 790: Khay dock + Thẻ Huy hiệu Bộ Công Thương xuất hiện định vị
+    // 2. TIMELINE ĐỒ HỌA 3D CHUYÊN SÂU (DÃN TRÃI NHỊP THỜ ĐIỆN ẢNH - MỖI THẺ CÓ 2.0S ĐỌC VÀ THẨM THẤU)
+    // - Frame 885 -> 925: Khay dock + Thẻ Huy hiệu Bộ Công Thương xuất hiện định vị
+    // - Frame 925 -> 980: Dừng thở để nhận diện khay dock uy tín
     // - Thẻ 1 (So sánh đa hãng):
-    //   * Fly-in: 790 -> 810 (20f)
-    //   * 3D Mid-Air Hero Hold & Highlight: 810 -> 845 (35f ~ 0.6s)
-    //   * Slam Down & Stack-press: 845 -> 863 (18f)
+    //   * Fly-in: 980 -> 1015 (35f)
+    //   * 3D Mid-Air Hero Hold & Highlight: 1015 -> 1135 (120f = đúng 2.0s)
+    //   * Slam Down & Stack-press: 1135 -> 1162 (27f)
+    //   * Nghỉ thở: 1162 -> 1195 (33f)
     // - Thẻ 2 (Tiết kiệm chi phí):
-    //   * Fly-in: 863 -> 883 (20f)
-    //   * 3D Mid-Air Hero Hold & Highlight: 883 -> 918 (35f ~ 0.6s)
-    //   * Slam Down & Stack-press: 918 -> 936 (18f)
+    //   * Fly-in: 1195 -> 1230 (35f)
+    //   * 3D Mid-Air Hero Hold & Highlight: 1230 -> 1350 (120f = đúng 2.0s)
+    //   * Slam Down & Stack-press: 1350 -> 1377 (27f)
+    //   * Nghỉ thở: 1377 -> 1410 (33f)
     // - Thẻ 3 (Cấp đơn 1-chạm & Bảo mật):
-    //   * Fly-in: 936 -> 956 (20f)
-    //   * 3D Mid-Air Hero Hold & Highlight: 956 -> 991 (35f ~ 0.6s)
-    //   * Slam Down & Stack-press: 991 -> 1009 (18f)
-    // - Glaze Sheen quét qua cả khay: 1012 -> 1032
+    //   * Fly-in: 1410 -> 1445 (35f)
+    //   * 3D Mid-Air Hero Hold & Highlight: 1445 -> 1565 (120f = đúng 2.0s)
+    //   * Slam Down & Stack-press: 1565 -> 1592 (27f)
+    //   * Nghỉ thở: 1592 -> 1630 (38f)
+    // - Glaze Sheen quét qua cả khay: 1630 -> 1675 (45f)
+    // - Dừng ngắm toàn khay: 1675 -> 1720 (45f)
     const TIMING = [
         {
-            // Thẻ 1
-            flyStart: 790,
-            heroArrive: 810,
-            slamStart: 845,
-            slamEnd: 863,
-            hlStart: 814,
-            hlEnd: 838,
-            sparkleStart: 818,
-            sparkleEnd: 842,
+            // Thẻ 1: So sánh đa hãng
+            flyStart: 980,
+            heroArrive: 1015,
+            slamStart: 1135,
+            slamEnd: 1162,
+            hlStart: 1025,
+            hlEnd: 1095,
+            sparkleStart: 1040,
+            sparkleEnd: 1110,
         },
         {
-            // Thẻ 2
-            flyStart: 863,
-            heroArrive: 883,
-            slamStart: 918,
-            slamEnd: 936,
-            hlStart: 887,
-            hlEnd: 911,
-            sparkleStart: 891,
-            sparkleEnd: 915,
+            // Thẻ 2: Tiết kiệm chi phí
+            flyStart: 1195,
+            heroArrive: 1230,
+            slamStart: 1350,
+            slamEnd: 1377,
+            hlStart: 1240,
+            hlEnd: 1310,
+            sparkleStart: 1255,
+            sparkleEnd: 1325,
         },
         {
-            // Thẻ 3
-            flyStart: 936,
-            heroArrive: 956,
-            slamStart: 991,
-            slamEnd: 1009,
-            hlStart: 960,
-            hlEnd: 984,
-            sparkleStart: 964,
-            sparkleEnd: 988,
+            // Thẻ 3: Cấp đơn 1-chạm & Bảo mật
+            flyStart: 1410,
+            heroArrive: 1445,
+            slamStart: 1565,
+            slamEnd: 1592,
+            hlStart: 1455,
+            hlEnd: 1525,
+            sparkleStart: 1470,
+            sparkleEnd: 1540,
         },
     ];
 
@@ -83,8 +88,8 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
     const SLAM_CUES = [TIMING[0].slamEnd, TIMING[1].slamEnd, TIMING[2].slamEnd];
     let dockPressY = 0;
     for (const cue of SLAM_CUES) {
-        if (frame >= cue && frame <= cue + 10) {
-            const p = interpolate(frame, [cue, cue + 3, cue + 10], [0, 6.0, 0], {
+        if (frame >= cue && frame <= cue + 14) {
+            const p = interpolate(frame, [cue, cue + 4, cue + 14], [0, 6.0, 0], {
                 extrapolateLeft: 'clamp',
                 extrapolateRight: 'clamp',
                 easing: Easing.inOut(Easing.sin),
@@ -94,8 +99,8 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
     }
 
     // Vệt sáng Glaze Sheen quét qua toàn bộ khay sau khi Thẻ 3 đã tiếp đất
-    const glazeStart = 1012;
-    const glazeEnd = 1032;
+    const glazeStart = 1630;
+    const glazeEnd = 1675;
     const glazeX = interpolate(frame, [glazeStart, glazeEnd], [-400, 3000], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
@@ -103,8 +108,8 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
     });
     const glazeOpacity = interpolate(
         frame,
-        [glazeStart, glazeStart + 4, glazeEnd - 4, glazeEnd],
-        [0, 0.88, 0.88, 0],
+        [glazeStart, glazeStart + 6, glazeEnd - 6, glazeEnd],
+        [0, 0.92, 0.92, 0],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
     );
 

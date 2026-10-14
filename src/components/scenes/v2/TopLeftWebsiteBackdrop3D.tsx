@@ -20,8 +20,8 @@ export const TopLeftWebsiteBackdrop3D: React.FC<TopLeftWebsiteBackdrop3DProps> =
         config: { damping: 18, mass: 0.85, stiffness: 90 },
     });
 
-    // 3. MỜ DẦN KHI LAO VÀO CỔNG CHUYỂN CẢNH WARP (Frames 1105 -> 1135)
-    const warpExitOpacity = interpolate(frame, [1105, 1135], [1, 0], {
+    // 3. MỜ DẦN KHI LAO VÀO CỔNG CHUYỂN CẢNH WARP (Frames 1955 -> 2010)
+    const warpExitOpacity = interpolate(frame, [1955, 2010], [1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -37,8 +37,8 @@ export const TopLeftWebsiteBackdrop3D: React.FC<TopLeftWebsiteBackdrop3DProps> =
 
     // 5. HIỆU ỨNG TRƯỢT TRANG CHẬM RÃI ĐẶC TẢ PHẦN ĐẦU TRANG CHỦ (Slow Continuous Page Glide)
     // - Bắt đầu show trọn vẹn Header hồng và Logo TOPbaohiem sắc nét ngay từ vị trí đầu
-    // - Trượt êm ái với biên độ vừa vặn từ 0px đến -240px trong suốt 500 frames để người xem kịp ngắm Logo và lướt qua Slogan
-    const scrollY = interpolate(frame, [startFrame, 1150], [0, -240], {
+    // - Trượt êm ái với tốc độ cực kỳ chậm rãi từ 0px đến -320px trong suốt gần 1400 frames (23 giây)
+    const scrollY = interpolate(frame, [startFrame, 2040], [0, -320], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
