@@ -187,18 +187,18 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                 zIndex: 38,
             }}
         >
-            {/* 1. LỚP NỀN KÍNH MỜ (GLASS DOCK PLATE CỠ LỚN) */}
+            {/* 1. LỚP NỀN KÍNH MỜ (GLASS DOCK PLATE CỠ LỚN KHỐI 3D) */}
             <div
                 style={{
                     position: 'absolute',
                     inset: 0,
                     borderRadius: 48,
-                    backgroundColor: 'rgba(255, 255, 255, 0.97)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.98)',
                     backdropFilter: 'blur(36px)',
                     WebkitBackdropFilter: 'blur(36px)',
-                    border: '3.5px solid rgba(225, 29, 72, 0.24)',
+                    border: '4px solid rgba(255, 255, 255, 0.95)',
                     boxShadow:
-                        '0 45px 120px rgba(0, 0, 0, 0.16), 0 18px 50px rgba(225, 29, 72, 0.12), inset 0 2px 5px rgba(255, 255, 255, 0.95)',
+                        '0 3px 0 #FFFFFF, 0 6px 0 #F1F5F9, 0 10px 0 #E2E8F0, 0 14px 0 #CBD5E1, 0 18px 0 #94A3B8, 0 45px 120px rgba(15, 23, 42, 0.22), 0 18px 45px rgba(225, 29, 72, 0.12), inset 0 3px 8px rgba(255, 255, 255, 1)',
                     overflow: 'hidden',
                     pointerEvents: 'none',
                     height: DOCK_HEIGHT,
@@ -246,8 +246,9 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                         height: 72,
                         borderRadius: 36,
                         background: 'linear-gradient(90deg, #FFF1F2 0%, #FFE4E6 50%, #FFF1F2 100%)',
-                        border: '2px solid rgba(225, 29, 72, 0.32)',
-                        boxShadow: '0 6px 18px rgba(225, 29, 72, 0.1)',
+                        border: '2.5px solid rgba(255, 255, 255, 0.95)',
+                        boxShadow:
+                            '0 2px 0 #FECDD3, 0 5px 0 #FDA4AF, 0 8px 18px rgba(225, 29, 72, 0.12), inset 0 2px 4px rgba(255, 255, 255, 0.95)',
                     }}
                 >
                     <div
@@ -464,13 +465,13 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                                 border: isHovered
                                     ? '3px solid #E11D48'
                                     : isHeroPhase
-                                    ? '3.5px solid rgba(255, 255, 255, 0.95)'
-                                    : '2px solid rgba(225, 29, 72, 0.14)',
+                                    ? '4px solid rgba(255, 255, 255, 0.98)'
+                                    : '2.5px solid rgba(225, 29, 72, 0.16)',
                                 boxShadow: isHeroPhase
-                                    ? `0 60px 160px rgba(0, 0, 0, 0.4), 0 24px 60px rgba(0, 0, 0, 0.25), 0 0 50px ${item.accentGlow}, inset 0 2px 8px rgba(255, 255, 255, 0.95)`
+                                    ? `0 3px 0 #FFFFFF, 0 7px 0 #F1F5F9, 0 12px 0 #E2E8F0, 0 16px 0 #CBD5E1, 0 20px 0 #94A3B8, 0 60px 160px rgba(0, 0, 0, 0.38), 0 24px 60px rgba(0, 0, 0, 0.22), 0 0 60px ${item.accentGlow}, inset 0 3px 8px rgba(255, 255, 255, 1)`
                                     : isHovered
-                                    ? `0 24px 50px rgba(225, 29, 72, 0.22), 0 0 35px ${item.accentGlow}, inset 0 2px 4px rgba(255, 255, 255, 0.9)`
-                                    : '0 8px 24px rgba(0, 0, 0, 0.05)',
+                                    ? `0 3px 0 #FFE4E6, 0 6px 0 #FECDD3, 0 10px 0 #FDA4AF, 0 24px 55px rgba(225, 29, 72, 0.24), 0 0 40px ${item.accentGlow}, inset 0 2px 6px rgba(255, 255, 255, 0.95)`
+                                    : '0 2px 0 #F8FAFC, 0 5px 0 #E2E8F0, 0 8px 0 #CBD5E1, 0 12px 28px rgba(0, 0, 0, 0.08), inset 0 2px 4px rgba(255, 255, 255, 0.95)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 padding: isHeroPhase ? '0 44px' : '0 36px',

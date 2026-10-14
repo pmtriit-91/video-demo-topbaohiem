@@ -4,6 +4,7 @@ import { Search, Lock, CheckCircle2, ArrowRight } from 'lucide-react';
 import { VIDEO_CONFIG_V2 } from '../../../config/videoConfigV2';
 import { DropdownStackPress } from './DropdownStackPress';
 import { WarpHyperdrive3D } from '../../3d/WarpHyperdrive3D';
+import { TopLeftWebsiteBackdrop3D } from './TopLeftWebsiteBackdrop3D';
 
 export const Scene1_ProblemSnap: React.FC = () => {
     const frame = useCurrentFrame();
@@ -1561,6 +1562,13 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             warpEndFrame={1150}
                         />
 
+                        {/* TẤM NỀN TRANG CHỦ 3D ĐỘC LẬP (GÓC CỐ ĐỊNH CHUẨN ẢNH 3, KHÔNG BỊ XOAY THEO CAMERA RIG CỦA NHÓM INPUT) */}
+                        <TopLeftWebsiteBackdrop3D
+                            frame={frame}
+                            fps={fps}
+                            startFrame={652}
+                        />
+
                         {/* HỆ THỐNG CAMERA RIG 3D ĐIỆN ẢNH (KẾ THỪA VIDEO-SHOTCRAFT: SPACE-CAMERA-MOVES & CURSOR-FLYOVER) */}
                         <div
                             style={{
@@ -1572,6 +1580,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                 perspective: 2600,
                                 perspectiveOrigin: '50% 50%',
                                 pointerEvents: 'none',
+                                zIndex: 50, // Nhóm input & dropdown có zIndex lớn nhất, luôn hiển thị trên lớp layout trang chủ
                             }}
                         >
                             <div
@@ -1600,9 +1609,9 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                             height: 200,
                                             borderRadius: 100,
                                             backgroundColor: '#FFFFFF',
-                                            border: '4px solid rgba(225, 29, 72, 0.35)',
+                                            border: '4px solid rgba(255, 255, 255, 0.98)',
                                             boxShadow:
-                                                '0 50px 140px rgba(0, 0, 0, 0.18), 0 20px 50px rgba(225, 29, 72, 0.22), inset 0 2px 6px rgba(255, 255, 255, 0.95)',
+                                                '0 3px 0 #FFF1F2, 0 6px 0 #FFE4E6, 0 10px 0 #FECDD3, 0 14px 0 #FDA4AF, 0 18px 0 #FB7185, 0 45px 110px rgba(15, 23, 42, 0.24), 0 16px 40px rgba(225, 29, 72, 0.22), inset 0 3px 8px rgba(255, 255, 255, 1), inset 0 -3px 6px rgba(225, 29, 72, 0.08)',
                                             display: 'flex',
                                             alignItems: 'center',
                                             padding: '0 32px 0 28px',
