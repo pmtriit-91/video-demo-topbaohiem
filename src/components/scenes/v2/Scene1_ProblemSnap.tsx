@@ -606,8 +606,11 @@ export const Scene1_ProblemSnap: React.FC = () => {
                 />
 
 
-                {/* 1.5. LỚP ĐỒI SÓNG GIẤY XANH MINT Ở ĐÁY MÀN HÌNH (LAYERED PAPER WAVE - CHUẨN PHỐI CẢNH CANVA STORYBOARD) */}
-                <div
+                {/* TOÀN BỘ CỤM PART 1 (BĂN KHOĂN, LAPTOP, SÓNG MINT, NHÂN VẬT, 3 THẺ GIẤY XÉ): UNMOUNT HOÀN TOÀN TẠI FRAME 665 KHI BẮT ĐẦU CẢNH 2 ĐỂ GIẢI PHÓNG VRAM GPU */}
+                {frame < 665 && (
+                    <>
+                        {/* 1.5. LỚP ĐỒI SÓNG GIẤY XANH MINT Ở ĐÁY MÀN HÌNH (LAYERED PAPER WAVE - CHUẨN PHỐI CẢNH CANVA STORYBOARD) */}
+                        <div
                     style={{
                         position: 'absolute',
                         bottom: 0,
@@ -965,7 +968,6 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                         ? '0 4px 12px rgba(237, 1, 124, 0.4)'
                                         : '0 4px 12px rgba(16, 185, 129, 0.4)',
                                 flexShrink: 0,
-                                transition: 'all 0.3s ease',
                             }}
                         >
                             {frame < EUREKA_START_FRAME ? (
@@ -1505,9 +1507,11 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         ?
                     </div>
                 </div>
+                    </>
+                )}
 
                 {/* 7. HIỆU ỨNG BÚNG TAY SNAP! BÙNG NỔ SÓNG NĂNG LƯỢNG HỒNG (Frames 740 - 840) */}
-                {isSnap && (
+                {isSnap && shockwaveOpacity > 0.001 && (
                     <div
                         style={{
                             position: 'absolute',
@@ -1540,21 +1544,21 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             style={{
                                 position: 'absolute',
                                 inset: 0,
-                                backgroundColor: 'rgba(250, 249, 246, 0.58)',
-                                backdropFilter: 'blur(14px)',
-                                WebkitBackdropFilter: 'blur(14px)',
+                                backgroundColor: 'rgba(250, 249, 246, 0.65)',
                                 opacity: focusBackdropOpacity,
                             }}
                         />
 
-                        {/* LAYER THREE.JS: KHÔNG GIAN HẠT 3D & HYPERDRIVE WARP SPEED TUNNEL */}
-                        <WarpHyperdrive3D
-                            frame={frame}
-                            width={3840}
-                            height={2160}
-                            warpStartFrame={1955}
-                            warpEndFrame={2030}
-                        />
+                        {/* LAYER THREE.JS: KHÔNG GIAN HẠT 3D & HYPERDRIVE WARP SPEED TUNNEL (CHỈ MOUNT KHI WARP CHUYỂN CẢNH: FRAME >= 1945) */}
+                        {frame >= 1945 && (
+                            <WarpHyperdrive3D
+                                frame={frame}
+                                width={3840}
+                                height={2160}
+                                warpStartFrame={1955}
+                                warpEndFrame={2030}
+                            />
+                        )}
 
                         {/* TẤM NỀN TRANG CHỦ 3D ĐỘC LẬP (GÓC CỐ ĐỊNH CHUẨN ẢNH 3, KHÔNG BỊ XOAY THEO CAMERA RIG CỦA NHÓM INPUT) */}
                         <TopLeftWebsiteBackdrop3D
@@ -1682,7 +1686,6 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                                     : isHoveringButton
                                                     ? '0 18px 48px rgba(237, 1, 124, 0.65), 0 0 35px rgba(237, 1, 124, 0.45)'
                                                     : '0 12px 35px rgba(237, 1, 124, 0.45)',
-                                                transition: 'transform 0.08s ease, box-shadow 0.15s ease',
                                                 flexShrink: 0,
                                             }}
                                         >
@@ -1702,7 +1705,6 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                                 strokeWidth={3.4}
                                                 style={{
                                                     transform: `translateX(${isHoveringButton ? 6 : 0}px)`,
-                                                    transition: 'transform 0.15s ease',
                                                 }}
                                             />
 
@@ -1776,7 +1778,6 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                             zIndex: 45,
                                             filter: 'drop-shadow(0 10px 22px rgba(0, 0, 0, 0.38))',
                                             pointerEvents: 'none',
-                                            transition: isClicking ? 'transform 0.06s ease' : undefined,
                                         }}
                                     >
                                         {/* Đốm sáng hồng theo mũi chuột khi rà soát */}

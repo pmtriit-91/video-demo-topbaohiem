@@ -186,7 +186,7 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                 position: 'absolute',
                 top: `calc(50% + 120px + ${inputElevation}px)`,
                 left: '50%',
-                transform: `translate(-50%, ${dockPressY}px) scale(${dockEntrance})`,
+                transform: `translate(-50%, ${dockPressY}px) scale(${dockEntrance}) translateZ(0)`,
                 transformOrigin: 'top center',
                 width: DOCK_WIDTH,
                 transformStyle: 'preserve-3d',
@@ -199,9 +199,7 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                     position: 'absolute',
                     inset: 0,
                     borderRadius: 48,
-                    backgroundColor: 'rgba(255, 255, 255, 0.98)',
-                    backdropFilter: 'blur(36px)',
-                    WebkitBackdropFilter: 'blur(36px)',
+                    backgroundColor: '#FFFFFF',
                     border: '4px solid rgba(255, 255, 255, 0.95)',
                     boxShadow:
                         '0 3px 0 #FFFFFF, 0 6px 0 #F1F5F9, 0 10px 0 #E2E8F0, 0 14px 0 #CBD5E1, 0 18px 0 #94A3B8, 0 45px 120px rgba(15, 23, 42, 0.22), 0 18px 45px rgba(225, 29, 72, 0.12), inset 0 3px 8px rgba(255, 255, 255, 1)',
@@ -235,7 +233,6 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                     padding: '24px 88px',
                     height: DOCK_HEIGHT,
                     boxSizing: 'border-box',
-                    transformStyle: 'preserve-3d',
                 }}
             >
                 {/* A. THẺ 0: HUY HIỆU BỘ CÔNG THƯƠNG (Xuất hiện trước để định vị) */}
@@ -287,44 +284,59 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                 </div>
 
                 {/* B. 3 GHOST SLOTS (KHUNG CHỜ NÉT ĐỨT SẴN SÀNG ĐÓN 3 THẺ ĐẬP XUỐNG) */}
-                {SLOT_Y.map((y, idx) => (
-                    <div
-                        key={`ghost-${idx}`}
-                        style={{
-                            position: 'absolute',
-                            top: y,
-                            left: 28,
-                            right: 28,
-                            height: CARD_HEIGHT_DOCK,
-                            borderRadius: 32,
-                            border: '2.5px dashed rgba(225, 29, 72, 0.22)',
-                            backgroundColor: 'rgba(255, 241, 242, 0.28)',
-                            boxSizing: 'border-box',
-                            display: 'flex',
-                            alignItems: 'center',
-                            padding: '0 32px',
-                            gap: 24,
-                            pointerEvents: 'none',
-                        }}
-                    >
+                {SLOT_Y.map((y, idx) => {
+                    const t = TIMING[idx];
+                    // Khi thẻ đã tiếp đất xong, ẩn hoàn toàn ghost slot để triệt tiêu 100% Z-fighting
+                    if (frame >= t.slamEnd) {
+                        return null;
+                    }
+                    const ghostOpacity = interpolate(
+                        frame,
+                        [t.slamStart, t.slamEnd],
+                        [1, 0],
+                        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
+                    );
+
+                    return (
                         <div
+                            key={`ghost-${idx}`}
                             style={{
-                                width: 88,
-                                height: 88,
-                                borderRadius: 26,
-                                border: '2.5px dashed rgba(225, 29, 72, 0.25)',
+                                position: 'absolute',
+                                top: y,
+                                left: 28,
+                                right: 28,
+                                height: CARD_HEIGHT_DOCK,
+                                borderRadius: 32,
+                                border: '2.5px dashed rgba(225, 29, 72, 0.22)',
+                                backgroundColor: 'rgba(255, 241, 242, 0.28)',
+                                boxSizing: 'border-box',
+                                display: 'flex',
+                                alignItems: 'center',
+                                padding: '0 32px',
+                                gap: 24,
+                                pointerEvents: 'none',
+                                opacity: ghostOpacity,
                             }}
-                        />
-                        <div
-                            style={{
-                                width: 320,
-                                height: 24,
-                                borderRadius: 12,
-                                backgroundColor: 'rgba(225, 29, 72, 0.08)',
-                            }}
-                        />
-                    </div>
-                ))}
+                        >
+                            <div
+                                style={{
+                                    width: 88,
+                                    height: 88,
+                                    borderRadius: 26,
+                                    border: '2.5px dashed rgba(225, 29, 72, 0.25)',
+                                }}
+                            />
+                            <div
+                                style={{
+                                    width: 320,
+                                    height: 24,
+                                    borderRadius: 12,
+                                    backgroundColor: 'rgba(225, 29, 72, 0.08)',
+                                }}
+                            />
+                        </div>
+                    );
+                })}
 
                 {/* C. 3 THẺ TÍNH NĂNG CHỦ LỰC VỚI HIỆU ỨNG 3D EXPLODED HERO + HIGHLIGHT */}
                 {featureItems.map((item, idx) => {
@@ -425,7 +437,7 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                     // 4. Giai đoạn Đã Yên Vị Trong Dock (Settled in Dock)
                     else {
                         currentY = slotY - hoverProgress * 3;
-                        currentZ = hoverProgress * 28;
+                        currentZ = 4 + hoverProgress * 28;
                         currentScale = 1.0 + hoverProgress * 0.012;
                         currentRotX = 0;
                         currentRotY = 0;
@@ -500,7 +512,6 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                                 height: currentHeight,
                                 transform: `translate3d(0, ${currentY}px, ${currentZ}px) rotateX(${currentRotX}deg) rotateY(${currentRotY}deg) rotateZ(${currentRotZ}deg) scale(${currentScale})`,
                                 transformOrigin: 'center center',
-                                transformStyle: 'preserve-3d',
                                 opacity: currentOpacity,
                                 zIndex: isHeroPhase ? 50 : isHovered ? 40 : 10 + idx,
                                 borderRadius: isHeroPhase ? 40 : 32,
@@ -514,9 +525,6 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                                 boxSizing: 'border-box',
                                 overflow: 'hidden',
                                 WebkitFontSmoothing: 'antialiased',
-                                backfaceVisibility: 'hidden',
-                                WebkitBackfaceVisibility: 'hidden',
-                                outline: '1px solid transparent',
                             }}
                         >
                             {/* Ánh quang Edge Glint quét chéo khi ở pha Hero 3D */}
@@ -617,7 +625,6 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                                                 backgroundColor: item.hlBg,
                                                 borderRadius: 6,
                                                 zIndex: -1,
-                                                transition: 'width 0.05s linear',
                                             }}
                                         />
                                         {item.highlightText}

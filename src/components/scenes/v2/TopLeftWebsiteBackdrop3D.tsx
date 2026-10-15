@@ -71,7 +71,6 @@ export const TopLeftWebsiteBackdrop3D: React.FC<TopLeftWebsiteBackdrop3DProps> =
                     // GÓC PHỐI CẢNH 3D CHUẨN XÁC THEO ẢNH 3:
                     // Dãn trải bao phủ toàn bộ 4 cạnh màn hình 3840x2160, không để lộ viền mép hay cắt xén
                     transform: `translate3d(${flyInX}px, ${flyInY}px, -350px) rotateX(24deg) rotateY(-3deg) rotateZ(-15deg)`,
-                    transformStyle: 'preserve-3d',
                     opacity: totalOpacity,
                     backgroundColor: '#FFFFFF',
                     overflow: 'hidden',
@@ -85,6 +84,8 @@ export const TopLeftWebsiteBackdrop3D: React.FC<TopLeftWebsiteBackdrop3DProps> =
                         top: 500,
                         left: 150,
                         width: 5200,
+                        height: 3800,
+                        overflow: 'hidden',
                         transform: `translateY(${scrollY}px)`,
                         transformOrigin: 'top left',
                     }}
