@@ -720,7 +720,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                     />
                                 )}
 
-                                {/* CONTAINER NỘI DUNG MÀN HÌNH (GÓC PHỐI CẢNH 3D RETINA - KHỚP TRỤC VỚI PLACEHOLDER UI) */}
+                                {/* LAYER 1: THANH TÌM KIẾM TRÊN ĐỈNH & CỤM BĂN KHOĂN (HỆ TRỤC CHUẨN A: rotate(0.95deg) skewX(-2.38deg)) */}
                                 <div
                                     style={{
                                         position: 'absolute',
@@ -728,10 +728,145 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                         left: '62.3%',
                                         width: 910,
                                         height: 652,
-                                        transform: 'translate(-50%, -50%) rotate(1.30deg) skewX(-2.38deg)',
+                                        transform: 'translate(-50%, -50%) rotate(0.95deg) skewX(-2.38deg)',
                                         transformOrigin: 'center center',
                                     }}
                                 >
+                                    {/* LỚP NỀN CHE CỤM 3 CHẤM & THANH XÁM PLACEHOLDER GỐC DƯỚI THANH TÌM KIẾM */}
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            top: 66,
+                                            left: '50%',
+                                            transform: 'translateX(-50%)',
+                                            width: 800,
+                                            height: 76,
+                                            backgroundColor: '#F3F4F8',
+                                            borderRadius: 18,
+                                            zIndex: 1,
+                                        }}
+                                    />
+
+                                    {/* 0. THANH TÌM KIẾM NẰM TRONG MÀN HÌNH MACBOOK (HERO SEARCH CAPSULE RETINA) */}
+                                    {searchEntranceSpring > 0.001 && (
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                top: 56,
+                                                left: '50%',
+                                                width: 760,
+                                                height: 72,
+                                                borderRadius: 36,
+                                                backgroundColor: '#FFFFFF',
+                                                border: '1.5px solid rgba(225, 29, 72, 0.24)',
+                                                boxShadow:
+                                                    '0 12px 28px rgba(0, 0, 0, 0.10), 0 4px 10px rgba(225, 29, 72, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.95)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                padding: '0 14px 0 8px',
+                                                gap: 12,
+                                                zIndex: 10,
+                                                transform: `translateX(-50%) scale(${searchEntranceSpring})`,
+                                                opacity: searchEntranceSpring,
+                                                transformOrigin: 'center center',
+                                            }}
+                                        >
+                                            {/* Nút kính lúp màu hồng bo tròn bên trái / Khóa SSL */}
+                                            <div
+                                                style={{
+                                                    width: 52,
+                                                    height: 52,
+                                                    borderRadius: 26,
+                                                    backgroundColor: frame < EUREKA_START_FRAME ? '#ED017C' : '#059669',
+                                                    background:
+                                                        frame < EUREKA_START_FRAME
+                                                            ? 'linear-gradient(135deg, #FF2E79 0%, #ED017C 100%)'
+                                                            : 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    boxShadow:
+                                                        frame < EUREKA_START_FRAME
+                                                            ? '0 4px 12px rgba(237, 1, 124, 0.4)'
+                                                            : '0 4px 12px rgba(16, 185, 129, 0.4)',
+                                                    flexShrink: 0,
+                                                }}
+                                            >
+                                                {frame < EUREKA_START_FRAME ? (
+                                                    <Search size={25} color="#FFFFFF" strokeWidth={2.8} />
+                                                ) : (
+                                                    <Lock size={23} color="#FFFFFF" strokeWidth={2.8} />
+                                                )}
+                                            </div>
+
+                                            {/* Nội dung thanh tìm kiếm */}
+                                            <div
+                                                style={{
+                                                    flex: 1,
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    overflow: 'hidden',
+                                                }}
+                                            >
+                                                {frame < EUREKA_START_FRAME ? (
+                                                    <span
+                                                        style={{
+                                                            fontSize: 34,
+                                                            fontWeight: 900,
+                                                            color: '#1E293B',
+                                                            letterSpacing: '-0.02em',
+                                                            whiteSpace: 'nowrap',
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                        }}
+                                                    >
+                                                        {typedSearchQuery}
+                                                        {showSearchCursor && (
+                                                            <span
+                                                                style={{
+                                                                    display: 'inline-block',
+                                                                    width: 3.5,
+                                                                    height: 32,
+                                                                    backgroundColor: '#ED017C',
+                                                                    marginLeft: 4,
+                                                                    borderRadius: 2,
+                                                                }}
+                                                            />
+                                                        )}
+                                                    </span>
+                                                ) : (
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                                                        <span
+                                                            style={{
+                                                                fontSize: 38,
+                                                                fontWeight: 800,
+                                                                color: '#0F172A',
+                                                                letterSpacing: '-0.01em',
+                                                                whiteSpace: 'nowrap',
+                                                            }}
+                                                        >
+                                                            https://topbaohiem.vn
+                                                        </span>
+                                                        <span
+                                                            style={{
+                                                                fontSize: 25,
+                                                                fontWeight: 800,
+                                                                color: '#ED017C',
+                                                                backgroundColor: '#FDF2F8',
+                                                                padding: '3px 8px',
+                                                                borderRadius: 6,
+                                                                border: '1px solid rgba(237, 1, 124, 0.2)',
+                                                                whiteSpace: 'nowrap',
+                                                            }}
+                                                        >
+                                                            GIẢI PHÁP TỐI ƯU
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+
                                     {/* 1. CỤM BĂN KHOĂN: LOADING SPINNER & CÁC DẤU CHẤM HỎI ? HỖN LOẠN (FRAMES 0 - 480) */}
                                     {confusionExitOpacity > 0.001 && (
                                         <div
@@ -747,8 +882,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                             <div
                                                 style={{
                                                     position: 'absolute',
-                                                    top: '43%',
-                                                    left: '58%',
+                                                    top: '48%',
+                                                    left: '56%',
                                                     transform: 'translate(-50%, -50%)',
                                                     display: 'flex',
                                                     alignItems: 'center',
@@ -787,7 +922,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                                 style={{
                                                     position: 'absolute',
                                                     left: '26%',
-                                                    top: '30%',
+                                                    top: '34%',
                                                     fontSize: 120,
                                                     fontWeight: 900,
                                                     lineHeight: 1,
@@ -806,8 +941,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                             <div
                                                 style={{
                                                     position: 'absolute',
-                                                    left: '42%',
-                                                    top: '18%',
+                                                    left: '44%',
+                                                    top: '28%',
                                                     fontSize: 72,
                                                     fontWeight: 900,
                                                     lineHeight: 1,
@@ -826,8 +961,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                             <div
                                                 style={{
                                                     position: 'absolute',
-                                                    left: '84%',
-                                                    top: '23%',
+                                                    left: '82%',
+                                                    top: '26%',
                                                     fontSize: 58,
                                                     fontWeight: 900,
                                                     lineHeight: 1,
@@ -847,7 +982,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                                 style={{
                                                     position: 'absolute',
                                                     left: '78%',
-                                                    top: '52%',
+                                                    top: '56%',
                                                     fontSize: 84,
                                                     fontWeight: 900,
                                                     lineHeight: 1,
@@ -863,186 +998,85 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                             </div>
                                         </div>
                                     )}
+                                </div>
 
-                                    {/* 2. CẢNH BÚNG TAY / EUREKA: GIẢI LẬP KẾT QUẢ TOPBAOHIEM TỐI GIẢN (FRAMES 480+) */}
-                                    {solutionEntranceSpring > 0.001 && (
+                                {/* LAYER 2: CARD GIẢI PHÁP TRUNG TÂM (HỆ TRỤC CHUẨN B: rotate(2.35deg) skewX(-1.78deg) skewY(-0.18deg)) */}
+                                {solutionEntranceSpring > 0.001 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            top: '38.6%',
+                                            left: '62.3%',
+                                            width: 910,
+                                            height: 652,
+                                            transform: 'translate(-50%, -50%) rotate(2.35deg) skewX(-1.78deg) skewY(-0.18deg)',
+                                            transformOrigin: 'center center',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            paddingTop: 85,
+                                            opacity: solutionEntranceSpring,
+                                            zIndex: 5,
+                                        }}
+                                    >
                                         <div
                                             style={{
-                                                position: 'absolute',
-                                                inset: 0,
-                                                opacity: solutionEntranceSpring,
-                                                transform: `scale(${interpolate(solutionEntranceSpring, [0, 1], [0.92, 1])})`,
+                                                transform: `scale(${interpolate(solutionEntranceSpring, [0, 0.7], [0.92, 1])})`,
+                                                transformOrigin: 'center center',
+                                                padding: '38px 56px',
+                                                borderRadius: 26,
+                                                backgroundColor: '#FFFFFF',
+                                                border: '2px solid rgba(237, 1, 124, 0.32)',
+                                                boxShadow:
+                                                    '0 22px 55px rgba(237, 1, 124, 0.22), 0 8px 24px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.95)',
                                                 display: 'flex',
+                                                flexDirection: 'column',
                                                 alignItems: 'center',
-                                                justifyContent: 'center',
+                                                gap: 16,
+                                                textAlign: 'center',
                                             }}
                                         >
-                                            <div
-                                                style={{
-                                                    padding: '38px 56px',
-                                                    borderRadius: 26,
-                                                    backgroundColor: '#FFFFFF',
-                                                    border: '2px solid rgba(237, 1, 124, 0.32)',
-                                                    boxShadow:
-                                                        '0 22px 55px rgba(237, 1, 124, 0.22), 0 8px 24px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.95)',
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    alignItems: 'center',
-                                                    gap: 16,
-                                                    textAlign: 'center',
-                                                }}
-                                            >
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                                    <CheckCircle2 size={26} color="#10B981" strokeWidth={2.8} />
-                                                    <span
-                                                        style={{
-                                                            fontSize: 17,
-                                                            fontWeight: 800,
-                                                            letterSpacing: '0.08em',
-                                                            color: '#059669',
-                                                            textTransform: 'uppercase',
-                                                        }}
-                                                    >
-                                                        ĐÃ XÁC THỰC GIẢI PHÁP
-                                                    </span>
-                                                </div>
-
-                                                <div
-                                                    style={{
-                                                        fontSize: 62,
-                                                        fontWeight: 900,
-                                                        color: '#ED017C',
-                                                        letterSpacing: '-0.025em',
-                                                        lineHeight: 1.05,
-                                                        fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                                        filter: 'drop-shadow(0 4px 12px rgba(237, 1, 124, 0.25))',
-                                                    }}
-                                                >
-                                                    TOPBAOHIEM.VN
-                                                </div>
-
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                                                <CheckCircle2 size={26} color="#10B981" strokeWidth={2.8} />
                                                 <span
                                                     style={{
                                                         fontSize: 20,
-                                                        fontWeight: 600,
-                                                        color: '#475569',
+                                                        fontWeight: 800,
+                                                        letterSpacing: '0.08em',
+                                                        color: '#059669',
+                                                        textTransform: 'uppercase',
                                                     }}
                                                 >
-                                                    Nền tảng so sánh bảo hiểm trực tuyến minh bạch
+                                                    ĐÃ XÁC THỰC GIẢI PHÁP
                                                 </span>
                                             </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
 
-                            {/* THANH TÌM KIẾM NỔI 2.5D FLOATING SEARCH CAPSULE VẮT TRÊN MÉP MÀN HÌNH (CHUẨN THEO ẢNH MINH HỌA) */}
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    top: '2.0%',
-                                    left: '42.0%',
-                                    width: 820,
-                                    height: 74,
-                                    borderRadius: 37,
-                                    backgroundColor: '#FFFFFF',
-                                    border: '1.5px solid rgba(225, 29, 72, 0.24)',
-                                    boxShadow:
-                                        '0 18px 38px rgba(0, 0, 0, 0.14), 0 6px 16px rgba(225, 29, 72, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.9)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    padding: '0 14px 0 8px',
-                                    gap: 16,
-                                    zIndex: 10,
-                                    transform: `translateZ(45px) scale(${searchEntranceSpring})`,
-                                    opacity: searchEntranceSpring,
-                                    transformOrigin: 'center center',
-                                }}
-                            >
-                                {/* Nút kính lúp màu hồng bo tròn bên trái */}
-                                <div
-                                    style={{
-                                        width: 58,
-                                        height: 58,
-                                        borderRadius: 29,
-                                        backgroundColor: frame < EUREKA_START_FRAME ? '#ED017C' : '#059669',
-                                        background:
-                                            frame < EUREKA_START_FRAME
-                                                ? 'linear-gradient(135deg, #FF2E79 0%, #ED017C 100%)'
-                                                : 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        boxShadow:
-                                            frame < EUREKA_START_FRAME
-                                                ? '0 4px 12px rgba(237, 1, 124, 0.4)'
-                                                : '0 4px 12px rgba(16, 185, 129, 0.4)',
-                                        flexShrink: 0,
-                                    }}
-                                >
-                                    {frame < EUREKA_START_FRAME ? (
-                                        <Search size={28} color="#FFFFFF" strokeWidth={2.8} />
-                                    ) : (
-                                        <Lock size={26} color="#FFFFFF" strokeWidth={2.8} />
-                                    )}
-                                </div>
-
-                                {/* Nội dung thanh tìm kiếm */}
-                                <div style={{ flex: 1, display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-                                    {frame < EUREKA_START_FRAME ? (
-                                        <span
-                                            style={{
-                                                fontSize: 40,
-                                                fontWeight: 900,
-                                                color: '#1E293B',
-                                                letterSpacing: '-0.02em',
-                                                whiteSpace: 'nowrap',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                            }}
-                                        >
-                                            {typedSearchQuery}
-                                            {showSearchCursor && (
-                                                <span
-                                                    style={{
-                                                        display: 'inline-block',
-                                                        width: 3.5,
-                                                        height: 38,
-                                                        backgroundColor: '#ED017C',
-                                                        marginLeft: 4,
-                                                        borderRadius: 2,
-                                                    }}
-                                                />
-                                            )}
-                                        </span>
-                                    ) : (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                            <span
+                                            <div
                                                 style={{
-                                                    fontSize: 38,
-                                                    fontWeight: 800,
-                                                    color: '#0F172A',
-                                                    letterSpacing: '-0.01em',
-                                                }}
-                                            >
-                                                https://topbaohiem.vn
-                                            </span>
-                                            <span
-                                                style={{
-                                                    fontSize: 25,
-                                                    fontWeight: 800,
+                                                    fontSize: 62,
+                                                    fontWeight: 900,
                                                     color: '#ED017C',
-                                                    backgroundColor: '#FDF2F8',
-                                                    padding: '3px 8px',
-                                                    borderRadius: 6,
-                                                    border: '1px solid rgba(237, 1, 124, 0.2)',
+                                                    letterSpacing: '-0.025em',
+                                                    lineHeight: 1.05,
+                                                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                    filter: 'drop-shadow(0 4px 12px rgba(237, 1, 124, 0.25))',
                                                 }}
                                             >
-                                                GIẢI PHÁP TỐI ƯU
+                                                TOPBAOHIEM.VN
+                                            </div>
+
+                                            <span
+                                                style={{
+                                                    fontSize: 28,
+                                                    fontWeight: 600,
+                                                    color: '#475569',
+                                                }}
+                                            >
+                                                Nền tảng so sánh bảo hiểm trực tuyến minh bạch
                                             </span>
                                         </div>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
