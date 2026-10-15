@@ -429,14 +429,14 @@ export const Scene1_ProblemSnap: React.FC = () => {
 
     // 3. Tọa độ Y của chuột:
     // Khay dock bắt đầu ở top: calc(50% + 120px - 600px) = calc(50% - 480px)
-    // Slot 1 (Thẻ 1): center Y ≈ -292px
-    // Slot 2 (Thẻ 2): center Y ≈ -128px
-    // Slot 3 (Thẻ 3): center Y ≈ +36px
+    // Slot 1 (Thẻ 1): center Y ≈ -275px (-480 + 122 + 83)
+    // Slot 2 (Thẻ 2): center Y ≈ -79px (-480 + 318 + 83)
+    // Slot 3 (Thẻ 3): center Y ≈ +117px (-480 + 514 + 83)
     // Nút "Truy cập": center Y ≈ -600px
     const baseY = interpolate(
         frame,
         [1720, 1730, 1780, 1830, 1880, 1930],
-        [-292, -292, -128, 36, 36, -600],
+        [-275, -275, -79, 117, 117, -600],
         {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',

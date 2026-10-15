@@ -106,12 +106,10 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.42, 0, 0.25, 1),
     });
-    const glazeOpacity = interpolate(
-        frame,
-        [glazeStart, glazeStart + 6, glazeEnd - 6, glazeEnd],
-        [0, 0.92, 0.92, 0],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
-    );
+    const glazeOpacity = interpolate(frame, [glazeStart, glazeStart + 6, glazeEnd - 6, glazeEnd], [0, 0.92, 0.92, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
 
     // Dữ liệu 3 thẻ tính năng
     const featureItems = [
@@ -128,6 +126,7 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
             icon: ShieldCheck,
             iconGrad: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
             accentGlow: 'rgba(16, 185, 129, 0.35)',
+            brandColorRgb: '16, 185, 129',
         },
         {
             id: 2,
@@ -142,6 +141,7 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
             icon: BadgePercent,
             iconGrad: 'linear-gradient(135deg, #FF2E79 0%, #ED017C 100%)',
             accentGlow: 'rgba(225, 29, 72, 0.35)',
+            brandColorRgb: '225, 29, 72',
         },
         {
             id: 3,
@@ -156,23 +156,24 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
             icon: Zap,
             iconGrad: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
             accentGlow: 'rgba(37, 99, 235, 0.35)',
+            brandColorRgb: '37, 99, 235',
         },
     ];
 
-    // Tọa độ Y chuẩn của từng slot trong khay dock (được nâng cấp to lớn, thoải mái)
-    // Huy hiệu: top 24px, cao 72px
-    // Slot 1: top 116px, cao 144px
-    // Slot 2: top 280px, cao 144px
-    // Slot 3: top 444px, cao 144px
-    // Total dock height: 612px
-    const SLOT_Y = [116, 280, 444];
+    // Tọa độ Y chuẩn của từng slot trong khay dock (được nâng cấp to lớn, thoải mái với khoảng cách gapY = 30px)
+    // Huy hiệu: top 24px, cao 72px (đáy 96px)
+    // Slot 1: top 122px, cao 166px (đáy 288px)
+    // Slot 2: top 318px, cao 166px (đáy 484px) - gapY = 30px
+    // Slot 3: top 514px, cao 166px (đáy 680px) - gapY = 30px
+    // Total dock height: 708px (padding đáy 28px)
+    const SLOT_Y = [122, 318, 514];
     const DOCK_WIDTH = 2560;
-    const DOCK_HEIGHT = 612;
-    const CARD_HEIGHT_DOCK = 144;
+    const DOCK_HEIGHT = 708;
+    const CARD_HEIGHT_DOCK = 166;
     const CARD_HEIGHT_HERO = 210;
 
     // Vị trí "3D Hero Mid-Air Spotlight" ở trung tâm màn hình (bên dưới khay dock đã dâng lên cao)
-    const HERO_Y = 660; // Nằm ở giữa khoảng không rộng lớn bên dưới khay dock
+    const HERO_Y = 750; // Nằm ở giữa khoảng không rộng lớn bên dưới khay dock
     const HERO_Z = 380; // Phóng gần camera tạo chiều sâu 3D điện ảnh
     const HERO_SCALE = 1.12; // Phóng lớn uy nghi
     const HERO_ROTX = 8.0; // Góc chúc nhẹ 3D tinh tế, thấy rõ bề dày và viền kính
@@ -227,11 +228,11 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                 )}
             </div>
 
-            {/* 2. KHUNG CHỨA BÊN TRONG CỦA DOCK (Chiều cao 612px) */}
+            {/* 2. KHUNG CHỨA BÊN TRONG CỦA DOCK (Chiều cao 640px) */}
             <div
                 style={{
                     position: 'relative',
-                    padding: '24px 28px',
+                    padding: '24px 88px',
                     height: DOCK_HEIGHT,
                     boxSizing: 'border-box',
                     transformStyle: 'preserve-3d',
@@ -335,6 +336,34 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                         return null;
                     }
 
+                    // TÍNH TOÁN HOVER PROGRESS MƯỢT MÀ TỪNG FRAME (Khử giật và bậc nhảy đột ngột)
+                    const HOVER_TIMING = [
+                        { start: 1730, end: 1780, easeIn: 10, easeOut: 8 },
+                        { start: 1780, end: 1830, easeIn: 10, easeOut: 8 },
+                        { start: 1830, end: 1880, easeIn: 10, easeOut: 8 },
+                    ];
+                    const ht = HOVER_TIMING[idx];
+                    let hoverProgress = 0;
+                    if (frame >= ht.start && frame < ht.end) {
+                        if (frame < ht.start + ht.easeIn) {
+                            hoverProgress = interpolate(frame, [ht.start, ht.start + ht.easeIn], [0, 1], {
+                                extrapolateLeft: 'clamp',
+                                extrapolateRight: 'clamp',
+                                easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+                            });
+                        } else if (frame > ht.end - ht.easeOut) {
+                            hoverProgress = interpolate(frame, [ht.end - ht.easeOut, ht.end], [1, 0], {
+                                extrapolateLeft: 'clamp',
+                                extrapolateRight: 'clamp',
+                                easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+                            });
+                        } else {
+                            hoverProgress = 1.0;
+                        }
+                    } else if (activeHoverIndex === item.id) {
+                        hoverProgress = 1.0;
+                    }
+
                     // TÍNH TOÁN VỊ TRÍ, SCALE, TRỤC Z VÀ GÓC XOAY 3D
                     let currentY = slotY;
                     let currentZ = 0;
@@ -395,9 +424,9 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                     }
                     // 4. Giai đoạn Đã Yên Vị Trong Dock (Settled in Dock)
                     else {
-                        currentY = slotY;
-                        currentZ = 0;
-                        currentScale = 1.0;
+                        currentY = slotY - hoverProgress * 3;
+                        currentZ = hoverProgress * 28;
+                        currentScale = 1.0 + hoverProgress * 0.012;
                         currentRotX = 0;
                         currentRotY = 0;
                         currentRotZ = 0;
@@ -414,12 +443,6 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                                 });
                                 currentY += press;
                             }
-                        }
-
-                        // Khi chuột rà qua thẻ này (Hover Elevation)
-                        if (activeHoverIndex === item.id) {
-                            currentZ = 52; // Nhấc bổng trục Z
-                            currentScale = 1.025;
                         }
                     }
 
@@ -448,8 +471,23 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                     });
                     const glintX = interpolate(edgeGlintProgress, [0, 1], [-300, 2800]);
 
-                    const isHovered = activeHoverIndex === item.id;
+                    const isHovered = hoverProgress > 0.01;
                     const IconComponent = item.icon;
+
+                    // Viền kép siêu mảnh 2px chuẩn Retina, màu sắc chuyển êm ái sang tone brand (khử răng cưa & không lem mực)
+                    const borderColor = isHeroPhase
+                        ? 'rgba(255, 255, 255, 0.98)'
+                        : hoverProgress > 0.01
+                          ? `rgba(${item.brandColorRgb}, ${0.16 + hoverProgress * 0.48})`
+                          : 'rgba(226, 232, 240, 0.92)';
+
+                    // Bóng đổ cao cấp nhiều tầng: Bỏ bóng đỏ cứng xếp tầng & quầng phát sáng 40px gây lem mực
+                    // Thay bằng bóng đổ mềm sâu đa tầng (diffused ambient shadow) + phớt nhẹ ánh sáng môi trường 12%
+                    const cardShadow = isHeroPhase
+                        ? `0 3px 0 #FFFFFF, 0 7px 0 #F1F5F9, 0 12px 0 #E2E8F0, 0 16px 0 #CBD5E1, 0 20px 0 #94A3B8, 0 60px 160px rgba(0, 0, 0, 0.38), 0 24px 60px rgba(0, 0, 0, 0.22), 0 0 60px ${item.accentGlow}, inset 0 3px 8px rgba(255, 255, 255, 1)`
+                        : hoverProgress > 0.01
+                          ? `0 2px 0 #FFFFFF, 0 5px 0 #F1F5F9, 0 8px 0 #E2E8F0, 0 8px 20px rgba(15, 23, 42, ${0.05 + hoverProgress * 0.04}), 0 20px 48px rgba(15, 23, 42, ${0.08 + hoverProgress * 0.08}), 0 12px 30px rgba(${item.brandColorRgb}, ${hoverProgress * 0.12}), inset 0 2px 5px rgba(255, 255, 255, 1)`
+                          : '0 2px 0 #FFFFFF, 0 4px 0 #F1F5F9, 0 7px 0 #E2E8F0, 0 6px 16px rgba(15, 23, 42, 0.05), 0 14px 30px rgba(15, 23, 42, 0.06), inset 0 2px 4px rgba(255, 255, 255, 0.95)';
 
                     return (
                         <div
@@ -467,23 +505,18 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                                 zIndex: isHeroPhase ? 50 : isHovered ? 40 : 10 + idx,
                                 borderRadius: isHeroPhase ? 40 : 32,
                                 backgroundColor: '#FFFFFF',
-                                border: isHovered
-                                    ? '3px solid #E11D48'
-                                    : isHeroPhase
-                                    ? '4px solid rgba(255, 255, 255, 0.98)'
-                                    : '2.5px solid rgba(225, 29, 72, 0.16)',
-                                boxShadow: isHeroPhase
-                                    ? `0 3px 0 #FFFFFF, 0 7px 0 #F1F5F9, 0 12px 0 #E2E8F0, 0 16px 0 #CBD5E1, 0 20px 0 #94A3B8, 0 60px 160px rgba(0, 0, 0, 0.38), 0 24px 60px rgba(0, 0, 0, 0.22), 0 0 60px ${item.accentGlow}, inset 0 3px 8px rgba(255, 255, 255, 1)`
-                                    : isHovered
-                                    ? `0 3px 0 #FFE4E6, 0 6px 0 #FECDD3, 0 10px 0 #FDA4AF, 0 24px 55px rgba(225, 29, 72, 0.24), 0 0 40px ${item.accentGlow}, inset 0 2px 6px rgba(255, 255, 255, 0.95)`
-                                    : '0 2px 0 #F8FAFC, 0 5px 0 #E2E8F0, 0 8px 0 #CBD5E1, 0 12px 28px rgba(0, 0, 0, 0.08), inset 0 2px 4px rgba(255, 255, 255, 0.95)',
+                                border: `${isHeroPhase ? 4 : 2}px solid ${borderColor}`,
+                                boxShadow: cardShadow,
                                 display: 'flex',
                                 alignItems: 'center',
                                 padding: isHeroPhase ? '0 44px' : '0 36px',
                                 gap: isHeroPhase ? 36 : 28,
                                 boxSizing: 'border-box',
                                 overflow: 'hidden',
-                                transition: isHeroPhase ? 'none' : 'box-shadow 0.2s ease, border-color 0.2s ease',
+                                WebkitFontSmoothing: 'antialiased',
+                                backfaceVisibility: 'hidden',
+                                WebkitBackfaceVisibility: 'hidden',
+                                outline: '1px solid transparent',
                             }}
                         >
                             {/* Ánh quang Edge Glint quét chéo khi ở pha Hero 3D */}
@@ -515,9 +548,9 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                                     justifyContent: 'center',
                                     boxShadow: isHeroPhase
                                         ? `0 14px 32px ${item.accentGlow}`
-                                        : `0 8px 18px ${item.accentGlow}`,
+                                        : `0 ${8 + hoverProgress * 4}px ${18 + hoverProgress * 8}px ${item.accentGlow}`,
+                                    transform: !isHeroPhase && hoverProgress > 0.01 ? `scale(${1 + hoverProgress * 0.05})` : 'scale(1)',
                                     flexShrink: 0,
-                                    transition: 'all 0.15s ease-out',
                                 }}
                             >
                                 <IconComponent
@@ -541,7 +574,7 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                                 {/* Tiêu đề chính */}
                                 <div
                                     style={{
-                                        fontSize: isHeroPhase ? 48 : 38,
+                                        fontSize: isHeroPhase ? 48 : 44,
                                         fontWeight: 900,
                                         color: '#0F172A',
                                         letterSpacing: '-0.025em',
@@ -556,7 +589,7 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                                 <div
                                     style={{
                                         position: 'relative',
-                                        fontSize: isHeroPhase ? 34 : 27,
+                                        fontSize: isHeroPhase ? 38 : 34,
                                         color: '#475569',
                                         lineHeight: 1.35,
                                         fontFamily: "'Plus Jakarta Sans', sans-serif",
@@ -607,8 +640,12 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
                                     fontFamily: "'Plus Jakarta Sans', sans-serif",
                                     letterSpacing: '-0.015em',
                                     border: `2px solid ${item.chipColor}33`,
-                                    boxShadow: isHeroPhase ? `0 8px 24px ${item.chipColor}26` : undefined,
-                                    transform: `scale(${chipPulseScale})`,
+                                    boxShadow: isHeroPhase
+                                        ? `0 8px 24px ${item.chipColor}26`
+                                        : hoverProgress > 0.01
+                                          ? `0 4px 14px ${item.chipColor}20`
+                                          : undefined,
+                                    transform: `scale(${isHeroPhase ? chipPulseScale : 1 + hoverProgress * 0.03})`,
                                     transformOrigin: 'right center',
                                     flexShrink: 0,
                                 }}
