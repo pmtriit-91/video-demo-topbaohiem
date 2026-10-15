@@ -1019,7 +1019,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                                             <span
                                                 style={{
-                                                    fontSize: 25,
+                                                    fontSize: 38,
                                                     fontWeight: 800,
                                                     color: '#0F172A',
                                                     letterSpacing: '-0.01em',
@@ -1029,7 +1029,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                             </span>
                                             <span
                                                 style={{
-                                                    fontSize: 12,
+                                                    fontSize: 25,
                                                     fontWeight: 800,
                                                     color: '#ED017C',
                                                     backgroundColor: '#FDF2F8',
