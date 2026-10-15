@@ -412,16 +412,11 @@ export const Scene1_ProblemSnap: React.FC = () => {
     // - 1770 -> 1820: Lướt sang Thẻ 3 (+240px -> +620px)
     // - 1820 -> 1880: Lượn vòng chếch lên nút "Truy cập" (+620px -> +1072px)
     // - 1880+: Đứng tại tâm nút (+1072px)
-    const cursorX = interpolate(
-        frame,
-        [1660, 1670, 1720, 1770, 1820, 1880],
-        [-700, -700, -180, 240, 620, 1072],
-        {
-            extrapolateLeft: 'clamp',
-            extrapolateRight: 'clamp',
-            easing: (t) => t * t * (3 - 2 * t),
-        },
-    );
+    const cursorX = interpolate(frame, [1660, 1670, 1720, 1770, 1820, 1880], [-700, -700, -180, 240, 620, 1072], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: (t) => t * t * (3 - 2 * t),
+    });
 
     // 3. Tọa độ Y của chuột:
     // Khay dock bắt đầu ở top: calc(50% + 120px - 600px) = calc(50% - 480px)
@@ -429,16 +424,11 @@ export const Scene1_ProblemSnap: React.FC = () => {
     // Slot 2 (Thẻ 2): center Y ≈ -79px (-480 + 318 + 83)
     // Slot 3 (Thẻ 3): center Y ≈ +117px (-480 + 514 + 83)
     // Nút "Truy cập": center Y ≈ -600px
-    const baseY = interpolate(
-        frame,
-        [1660, 1670, 1720, 1770, 1820, 1880],
-        [-275, -275, -79, 117, 117, -600],
-        {
-            extrapolateLeft: 'clamp',
-            extrapolateRight: 'clamp',
-            easing: (t) => t * t * (3 - 2 * t),
-        },
-    );
+    const baseY = interpolate(frame, [1660, 1670, 1720, 1770, 1820, 1880], [-275, -275, -79, 117, 117, -600], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: (t) => t * t * (3 - 2 * t),
+    });
     const cursorWiggle = frame >= 1670 && frame <= 1820 ? Math.sin((frame - 1670) * 0.16) * 2.2 : 0;
     const cursorY = baseY + cursorWiggle;
 
@@ -449,11 +439,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const isClicking = frame >= 1955 && frame <= 1975;
 
     // Scale của nút "Truy cập":
-    const buttonScale = isClicking
-        ? 0.93
-        : isHoveringButton
-        ? (frame < 1955 ? 1.05 : 1.02)
-        : 1.0;
+    const buttonScale = isClicking ? 0.93 : isHoveringButton ? (frame < 1955 ? 1.05 : 1.02) : 1.0;
 
     // Scale của con trỏ chuột khi click
     const cursorScale = isClicking ? 0.86 : 1.0;
@@ -477,43 +463,37 @@ export const Scene1_ProblemSnap: React.FC = () => {
         frame,
         [720, 910, 955, 1147, 1352, 1557, 1820, 1880, 1960, 1975],
         [0, 0, 8.5, 9.8, 10.5, 10.5, 10.5, 2.0, 1.2, 0],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) },
     );
 
     // 2. Góc xoay ngang (Yaw - rotateY):
-    const camYaw = interpolate(
-        frame,
-        [720, 910, 955, 1557, 1820, 1880, 1975],
-        [0, 0, -6.0, -4.5, -4.5, 2.6, 0],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
-    );
+    const camYaw = interpolate(frame, [720, 910, 955, 1557, 1820, 1880, 1975], [0, 0, -6.0, -4.5, -4.5, 2.6, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.33, 1, 0.68, 1),
+    });
 
     // 3. Góc nghiêng chân trời (Roll - rotateZ):
-    const camRoll = interpolate(
-        frame,
-        [910, 955, 1820, 1880, 1975],
-        [0, -0.6, -0.6, 0.4, 0],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
-    );
+    const camRoll = interpolate(frame, [910, 955, 1820, 1880, 1975], [0, -0.6, -0.6, 0.4, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
 
     // 4. Camera Tracking vị trí (Tịnh tiến theo con trỏ chuột - Camera Rig pan):
-    const camTargetX = interpolate(
-        frame,
-        [910, 955, 1557, 1820, 1880, 1975],
-        [0, 30, 40, 50, -110, 0],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
-    );
+    const camTargetX = interpolate(frame, [910, 955, 1557, 1820, 1880, 1975], [0, 30, 40, 50, -110, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.33, 1, 0.68, 1),
+    });
     const camTargetY = interpolate(
         frame,
         [910, 955, 1557, 1720, 1770, 1820, 1880, 1975],
         [0, 60, 60, 50, 35, 15, 0, 0],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) },
     );
 
     // 5. Cú nảy giật camera khi click nút (Camera Impact Bounce):
-    const clickBounce = frame >= 1955 && frame <= 1975
-        ? Math.sin((frame - 1955) * 0.45) * 4.5
-        : 0;
+    const clickBounce = frame >= 1955 && frame <= 1975 ? Math.sin((frame - 1955) * 0.45) * 4.5 : 0;
 
     // 7. HYBRID ZOOM-THROUGH WARP PORTAL (Frames 1955 -> 2030):
     // Phóng to thanh Hero Search và lao xuyên qua tâm nút "Truy cập" sang Cảnh 2
@@ -601,908 +581,952 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     }}
                 />
 
-
                 {/* TOÀN BỘ CỤM PART 1 (BĂN KHOĂN, LAPTOP, SÓNG MINT, NHÂN VẬT, 3 THẺ GIẤY XÉ): UNMOUNT TẠI FRAME 740 KHI BẮT ĐẦU CẢNH 2 ĐỂ GIẢI PHÓNG VRAM GPU */}
                 {frame < 740 && (
                     <>
                         {/* 1.5. LỚP ĐỒI SÓNG GIẤY XANH MINT Ở ĐÁY MÀN HÌNH (LAYERED PAPER WAVE - CHUẨN PHỐI CẢNH CANVA STORYBOARD) */}
                         <div
-                    style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        width: 3840,
-                        height: 960,
-                        pointerEvents: 'none',
-                        zIndex: 1,
-                        transform: `translateY(${waveEntranceY + waveFloatY}px)`,
-                        filter: 'drop-shadow(0 -12px 28px rgba(16, 185, 129, 0.12))',
-                    }}
-                >
-                    <svg width="3840" height="960" viewBox="0 0 3840 960" fill="none">
-                        <defs>
-                            {/* Gradient xanh mint pastel tươi sáng đặc trưng Canva */}
-                            <linearGradient id="mintWaveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#C4EFE3" />
-                                <stop offset="40%" stopColor="#B3EADB" />
-                                <stop offset="75%" stopColor="#C6EFE4" />
-                                <stop offset="100%" stopColor="#A8E4D3" />
-                            </linearGradient>
-                            <linearGradient id="mintWaveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#D8F7EE" stopOpacity="0.85" />
-                                <stop offset="50%" stopColor="#C7F1E5" stopOpacity="0.9" />
-                                <stop offset="100%" stopColor="#B6ECDE" stopOpacity="0.85" />
-                            </linearGradient>
-                        </defs>
-
-                        {/* Lớp sóng giấy mint nền sau (Layer 2 - Sóng cuộn dập dờn & dâng trào 3D Parallax) */}
-                        <path
-                            d={pathWaveLayer2}
-                            fill="url(#mintWaveGrad2)"
-                            transform={`translate(${waveLayer2FloatX * 0.7}, 0)`}
-                        />
-
-                        {/* Lớp sóng giấy mint chính tiền cảnh (Layer 1 - Sóng trào theo nhịp xuất hiện MacBook & Eureka Snap) */}
-                        <path d={pathWaveLayer1} fill="url(#mintWaveGrad1)" />
-
-                        {/* Đường viền nếp gấp giấy mỏng uốn lượn đồng bộ trên đỉnh sóng */}
-                        <path d={crestLineLayer1} stroke="#8CE0CB" strokeWidth="3.5" fill="none" opacity="0.6" />
-                    </svg>
-                </div>
-
-                {/* 3.5. DẢI CÁNH GIẤY GẤP NỔI KHỐI ORIGAMI PHÍA PHẢI (PAPER RIBBON WING - XUẤT HIỆN ĐỒNG ĐIỆU CÙNG NHỊP BÚNG TAY EUREKA TÔNG HỒNG) */}
-                {frame >= EUREKA_START_FRAME && (
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: 100,
-                            right: -60,
-                            width: 1560,
-                            height: 1730,
-                            pointerEvents: 'none',
-                            opacity: maybayOpacity,
-                            transform: `translateX(${maybaySlideX}px) translateY(${Math.sin(frame * 0.05) * 6 + jitterY}px) scale(${maybayScale}) rotate(${Math.cos(frame * 0.03) * 0.6}deg)`,
-                            filter: 'drop-shadow(-25px 35px 50px rgba(225, 29, 72, 0.22)) drop-shadow(-8px 12px 18px rgba(0,0,0,0.07))',
-                            zIndex: 2,
-                        }}
-                    >
-                        <Img
-                            src={staticFile('assets/elements/screen1/maybay_giay.png')}
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'contain',
-                                translate: '53.5px -201.4px',
-                            }}
-                        />
-                    </div>
-                )}
-
-                {/* 3.8. CHIẾC LAPTOP MACBOOK TRẮNG MOCK UI (LƯỚT NHẸ VÀO TỪ PHẢI + 2.5D PERSPECTIVE + MÀN HÌNH BĂN KHOĂN) */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: 760,
-                        left: 1720,
-                        width: 1848,
-                        height: 1032,
-                        pointerEvents: 'none',
-                        opacity: laptopOpacity,
-                        transform: `translateX(${laptopSlideX}px) translateY(${laptopFloatY + jitterY}px) rotate(${laptopTilt}deg) perspective(1400px) rotateY(${laptopRotateY}deg)`,
-                        transformStyle: 'preserve-3d',
-                        filter: 'drop-shadow(0 25px 45px rgba(0, 0, 0, 0.12)) drop-shadow(0 8px 16px rgba(225, 29, 72, 0.06))',
-                        zIndex: 3,
-                    }}
-                >
-                    {/* KHUNG LAPTOP MACBOOK GỐC */}
-                    <Img
-                        src={staticFile('assets/elements/screen1/macbook_3.png')}
-                        style={{
-                            position: 'absolute',
-                            inset: 0,
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'contain',
-                            transform: 'translateZ(0px)',
-                        }}
-                    />
-
-                    {/* VÙNG MÀN HÌNH RETINA (SPINNER & DẤU HỎI ? BĂN KHOĂN) */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: '6.6%',
-                            left: '36.4%',
-                            width: '51.0%',
-                            height: '63.4%',
-                            borderRadius: '10px 10px 4px 4px',
-                            overflow: 'hidden',
-                            zIndex: 2,
-                            transform: 'translateZ(15px)',
-                            pointerEvents: 'none',
-                        }}
-                    >
-                        {/* 1. CỤM BĂN KHOĂN: LOADING SPINNER & CÁC DẤU CHẤM HỎI ? HỖN LOẠN (FRAMES 0 - 480) */}
-                        {confusionExitOpacity > 0.001 && (
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    inset: 0,
-                                    opacity: confusionExitOpacity,
-                                    transform: `scale(${confusionExitScale})`,
-                                    transformOrigin: 'center center',
-                                }}
-                            >
-                                {/* Vòng xoay Loading Spinner ở trung tâm lệch phải (chuẩn theo ảnh minh họa) */}
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        top: '43%',
-                                        left: '58%',
-                                        transform: 'translate(-50%, -50%)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08))',
-                                    }}
-                                >
-                                    <svg
-                                        width={92}
-                                        height={92}
-                                        viewBox="0 0 100 100"
-                                        style={{
-                                            transform: `rotate(${(frame * 12) % 360}deg)`,
-                                        }}
-                                    >
-                                        {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => (
-                                            <rect
-                                                key={deg}
-                                                x={46.5}
-                                                y={10}
-                                                width={7}
-                                                height={22}
-                                                rx={3.5}
-                                                fill="#334155"
-                                                opacity={0.16 + (i / 11) * 0.84}
-                                                transform={`rotate(${deg} 50 50)`}
-                                            />
-                                        ))}
-                                    </svg>
-                                </div>
-
-                                {/* Dấu hỏi 1 (Lớn nhất, màu hồng đỏ #ED017C - đúng vị trí ảnh minh họa) */}
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        left: '26%',
-                                        top: '30%',
-                                        fontSize: 120,
-                                        fontWeight: 900,
-                                        lineHeight: 1,
-                                        color: '#ED017C',
-                                        filter: 'drop-shadow(0 8px 16px rgba(237, 1, 124, 0.3))',
-                                        transform: `translateY(${qFloat1}px) rotate(${qRot1}deg) scale(${q1Spring})`,
-                                        opacity: q1Spring,
-                                        transformOrigin: 'bottom center',
-                                        fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                    }}
-                                >
-                                    ?
-                                </div>
-
-                                {/* Dấu hỏi 2 (Trung bình, màu đỏ đậm #E11D48 - ở góc trên phải) */}
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        left: '42%',
-                                        top: '18%',
-                                        fontSize: 72,
-                                        fontWeight: 900,
-                                        lineHeight: 1,
-                                        color: '#E11D48',
-                                        filter: 'drop-shadow(0 6px 12px rgba(225, 29, 72, 0.25))',
-                                        transform: `translateY(${qFloat2}px) rotate(${qRot2}deg) scale(${q2Spring})`,
-                                        opacity: q2Spring,
-                                        transformOrigin: 'bottom center',
-                                        fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                    }}
-                                >
-                                    ?
-                                </div>
-
-                                {/* Dấu hỏi 3 (Nhỏ, màu đỏ hồng #F43F5E - góc trên xa) */}
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        left: '84%',
-                                        top: '23%',
-                                        fontSize: 58,
-                                        fontWeight: 900,
-                                        lineHeight: 1,
-                                        color: '#F43F5E',
-                                        filter: 'drop-shadow(0 4px 10px rgba(244, 63, 94, 0.2))',
-                                        transform: `translateY(${qFloat1 * 0.7}px) rotate(${-qRot1}deg) scale(${q3Spring})`,
-                                        opacity: q3Spring,
-                                        transformOrigin: 'bottom center',
-                                        fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                    }}
-                                >
-                                    ?
-                                </div>
-
-                                {/* Dấu hỏi 4 (Trung bình, màu xám #64748B - góc dưới phải) */}
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        left: '78%',
-                                        top: '52%',
-                                        fontSize: 84,
-                                        fontWeight: 900,
-                                        lineHeight: 1,
-                                        color: '#64748B',
-                                        filter: 'drop-shadow(0 6px 14px rgba(100, 116, 139, 0.2))',
-                                        transform: `translateY(${qFloat4}px) rotate(${qRot2 * 0.8}deg) scale(${q4Spring})`,
-                                        opacity: q4Spring,
-                                        transformOrigin: 'bottom center',
-                                        fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                    }}
-                                >
-                                    ?
-                                </div>
-                            </div>
-                        )}
-
-                        {/* 2. CẢNH BÚNG TAY / EUREKA: GIẢI LẬP KẾT QUẢ TOPBAOHIEM TỐI GIẢN (FRAMES 480+) */}
-                        {solutionEntranceSpring > 0.001 && (
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    inset: 0,
-                                    opacity: solutionEntranceSpring,
-                                    transform: `scale(${interpolate(solutionEntranceSpring, [0, 1], [0.92, 1])})`,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    backgroundColor: 'rgba(255, 255, 255, 0.75)',
-                                    backdropFilter: 'blur(8px)',
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        padding: '28px 38px',
-                                        borderRadius: 20,
-                                        backgroundColor: '#FFFFFF',
-                                        border: '1.5px solid rgba(237, 1, 124, 0.25)',
-                                        boxShadow: '0 16px 40px rgba(237, 1, 124, 0.16)',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        alignItems: 'center',
-                                        gap: 12,
-                                        textAlign: 'center',
-                                    }}
-                                >
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                        <CheckCircle2 size={20} color="#10B981" strokeWidth={2.6} />
-                                        <span
-                                            style={{
-                                                fontSize: 13,
-                                                fontWeight: 800,
-                                                letterSpacing: '0.1em',
-                                                color: '#059669',
-                                                textTransform: 'uppercase',
-                                            }}
-                                        >
-                                            ĐÃ XÁC THỰC GIẢI PHÁP
-                                        </span>
-                                    </div>
-
-                                    <div
-                                        style={{
-                                            fontSize: 38,
-                                            fontWeight: 900,
-                                            color: '#ED017C',
-                                            letterSpacing: '-0.02em',
-                                            fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                        }}
-                                    >
-                                        TOPBAOHIEM.VN
-                                    </div>
-
-                                    <span
-                                        style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            color: '#64748B',
-                                        }}
-                                    >
-                                        Nền tảng so sánh bảo hiểm trực tuyến minh bạch
-                                    </span>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* THANH TÌM KIẾM NỔI 2.5D FLOATING SEARCH CAPSULE VẮT TRÊN MÉP MÀN HÌNH (CHUẨN THEO ẢNH MINH HỌA) */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: '2.0%',
-                            left: '42.0%',
-                            width: 820,
-                            height: 74,
-                            borderRadius: 37,
-                            backgroundColor: '#FFFFFF',
-                            border: '1.5px solid rgba(225, 29, 72, 0.24)',
-                            boxShadow:
-                                '0 18px 38px rgba(0, 0, 0, 0.14), 0 6px 16px rgba(225, 29, 72, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.9)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            padding: '0 14px 0 8px',
-                            gap: 16,
-                            zIndex: 10,
-                            transform: `translateZ(45px) scale(${searchEntranceSpring})`,
-                            opacity: searchEntranceSpring,
-                            transformOrigin: 'center center',
-                        }}
-                    >
-                        {/* Nút kính lúp màu hồng bo tròn bên trái */}
-                        <div
-                            style={{
-                                width: 58,
-                                height: 58,
-                                borderRadius: 29,
-                                backgroundColor: frame < EUREKA_START_FRAME ? '#ED017C' : '#059669',
-                                background:
-                                    frame < EUREKA_START_FRAME
-                                        ? 'linear-gradient(135deg, #FF2E79 0%, #ED017C 100%)'
-                                        : 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                boxShadow:
-                                    frame < EUREKA_START_FRAME
-                                        ? '0 4px 12px rgba(237, 1, 124, 0.4)'
-                                        : '0 4px 12px rgba(16, 185, 129, 0.4)',
-                                flexShrink: 0,
-                            }}
-                        >
-                            {frame < EUREKA_START_FRAME ? (
-                                <Search size={28} color="#FFFFFF" strokeWidth={2.8} />
-                            ) : (
-                                <Lock size={26} color="#FFFFFF" strokeWidth={2.8} />
-                            )}
-                        </div>
-
-                        {/* Nội dung thanh tìm kiếm */}
-                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-                            {frame < EUREKA_START_FRAME ? (
-                                <span
-                                    style={{
-                                        fontSize: 40,
-                                        fontWeight: 900,
-                                        color: '#1E293B',
-                                        letterSpacing: '-0.02em',
-                                        whiteSpace: 'nowrap',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                    }}
-                                >
-                                    {typedSearchQuery}
-                                    {showSearchCursor && (
-                                        <span
-                                            style={{
-                                                display: 'inline-block',
-                                                width: 3.5,
-                                                height: 38,
-                                                backgroundColor: '#ED017C',
-                                                marginLeft: 4,
-                                                borderRadius: 2,
-                                            }}
-                                        />
-                                    )}
-                                </span>
-                            ) : (
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                    <span
-                                        style={{
-                                            fontSize: 25,
-                                            fontWeight: 800,
-                                            color: '#0F172A',
-                                            letterSpacing: '-0.01em',
-                                        }}
-                                    >
-                                        https://topbaohiem.vn
-                                    </span>
-                                    <span
-                                        style={{
-                                            fontSize: 12,
-                                            fontWeight: 800,
-                                            color: '#ED017C',
-                                            backgroundColor: '#FDF2F8',
-                                            padding: '3px 8px',
-                                            borderRadius: 6,
-                                            border: '1px solid rgba(237, 1, 124, 0.2)',
-                                        }}
-                                    >
-                                        GIẢI PHÁP TỐI ƯU
-                                    </span>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-
-                {/* 0. CỤM HOOK DẪN CHUYỆN: "Muốn mua bảo hiểm online," -> "NHƯNG..." (DOCKING LÊN ĐỈNH) */}
-                {frame >= 10 && charCount > 0 && (
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: hookY,
-                            left: '50%',
-                            transform: `translateX(-50%) translateY(${buzzY}px) translateX(${buzzX}px) scale(${hookScale * cardsExitScale})`,
-                            opacity: hookExitOpacity * hookEntranceOpacity,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: 28,
-                            zIndex: 10,
-                            pointerEvents: 'none',
-                            whiteSpace: 'nowrap',
-                        }}
-                    >
-                        {/* Chữ Typewriter thanh thoát, sắc nét (không bọc trong chip/pill trắng rỗng gây chấm trắng ở frame đầu) */}
-                        <span
-                            style={{
-                                fontSize: 68,
-                                fontWeight: 800,
-                                color: '#1E293B',
-                                letterSpacing: '-0.5px',
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                textShadow: '0 2px 12px rgba(0, 0, 0, 0.05)',
-                            }}
-                        >
-                            {typedText}
-                            {showCursor && (
-                                <span
-                                    style={{
-                                        fontSize: 68,
-                                        fontWeight: 900,
-                                        color: colors.brandPink,
-                                        marginLeft: 6,
-                                    }}
-                                >
-                                    |
-                                </span>
-                            )}
-                        </span>
-
-                        {/* Tag nhãn "NHƯNG..." dập nổ phong cách Washi Tape đỏ hồng */}
-                        {frame >= 72 && (
-                            <div
-                                style={{
-                                    transform: `scale(${punchSpring}) rotate(${-3.5 + buzzRot}deg)`,
-                                    backgroundColor: colors.brandPink,
-                                    color: '#FFFFFF',
-                                    padding: '16px 42px 18px',
-                                    borderRadius: 18,
-                                    fontSize: 68,
-                                    fontWeight: 900,
-                                    letterSpacing: '1.5px',
-                                    boxShadow: '0 15px 35px rgba(225, 29, 72, 0.42)',
-                                    border: '4px solid #FFFFFF',
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                NHƯNG...
-                            </div>
-                        )}
-                    </div>
-                )}
-
-                {/* 4. KHỐI TRUNG TÂM: MẢNH GHÉP NHÂN VẬT HERO CHỦ THỂ 2.5D ÁO HỒNG (CHUẨN TỶ LỆ 75% CHIỀU CAO KHUNG HÌNH) */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 1540,
-                        transform: `translateX(-50%) translateY(${charEntranceY}px) scale(${charScale})`,
-                        transformOrigin: 'bottom center',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        opacity: charEntranceOpacity,
-                        filter: 'drop-shadow(0 35px 50px rgba(0, 0, 0, 0.18)) drop-shadow(0 12px 25px rgba(225, 29, 72, 0.16))',
-                        zIndex: 4,
-                    }}
-                >
-                    {/* Container nhân vật Hero: Kích thước 1020 x 1650 khớp chuẩn độ phân giải gốc ảnh 972 x 1620 */}
-                    <div
-                        style={{
-                            width: 1020,
-                            height: 1650,
-                            position: 'relative',
-                        }}
-                    >
-                        {/* 1. Trạng thái Băn khoăn / Suy nghĩ (Frames 0 -> EUREKA_START_FRAME) */}
-                        <div
                             style={{
                                 position: 'absolute',
-                                inset: 0,
-                                opacity: interpolate(frame, [EUREKA_START_FRAME - 5, EUREKA_START_FRAME + 5], [1, 0], {
-                                    extrapolateLeft: 'clamp',
-                                    extrapolateRight: 'clamp',
-                                }),
+                                bottom: 0,
+                                left: 0,
+                                width: 3840,
+                                height: 960,
                                 pointerEvents: 'none',
+                                zIndex: 1,
+                                transform: `translateY(${waveEntranceY + waveFloatY}px)`,
+                                filter: 'drop-shadow(0 -12px 28px rgba(16, 185, 129, 0.12))',
                             }}
                         >
-                            <Img
-                                src={staticFile('assets/elements/screen1/thinking.png')}
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'contain',
-                                }}
-                            />
+                            <svg width="3840" height="960" viewBox="0 0 3840 960" fill="none">
+                                <defs>
+                                    {/* Gradient xanh mint pastel tươi sáng đặc trưng Canva */}
+                                    <linearGradient id="mintWaveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="#C4EFE3" />
+                                        <stop offset="40%" stopColor="#B3EADB" />
+                                        <stop offset="75%" stopColor="#C6EFE4" />
+                                        <stop offset="100%" stopColor="#A8E4D3" />
+                                    </linearGradient>
+                                    <linearGradient id="mintWaveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="#D8F7EE" stopOpacity="0.85" />
+                                        <stop offset="50%" stopColor="#C7F1E5" stopOpacity="0.9" />
+                                        <stop offset="100%" stopColor="#B6ECDE" stopOpacity="0.85" />
+                                    </linearGradient>
+                                </defs>
+
+                                {/* Lớp sóng giấy mint nền sau (Layer 2 - Sóng cuộn dập dờn & dâng trào 3D Parallax) */}
+                                <path
+                                    d={pathWaveLayer2}
+                                    fill="url(#mintWaveGrad2)"
+                                    transform={`translate(${waveLayer2FloatX * 0.7}, 0)`}
+                                />
+
+                                {/* Lớp sóng giấy mint chính tiền cảnh (Layer 1 - Sóng trào theo nhịp xuất hiện MacBook & Eureka Snap) */}
+                                <path d={pathWaveLayer1} fill="url(#mintWaveGrad1)" />
+
+                                {/* Đường viền nếp gấp giấy mỏng uốn lượn đồng bộ trên đỉnh sóng */}
+                                <path
+                                    d={crestLineLayer1}
+                                    stroke="#8CE0CB"
+                                    strokeWidth="3.5"
+                                    fill="none"
+                                    opacity="0.6"
+                                />
+                            </svg>
                         </div>
 
-                        {/* 2. Trạng thái Lóe sáng & Búng tay Snap (Frames EUREKA_START_FRAME+) */}
-                        <div
-                            style={{
-                                position: 'absolute',
-                                inset: 0,
-                                opacity: interpolate(frame, [EUREKA_START_FRAME - 5, EUREKA_START_FRAME + 5], [0, 1], {
-                                    extrapolateLeft: 'clamp',
-                                    extrapolateRight: 'clamp',
-                                }),
-                                pointerEvents: 'none',
-                            }}
-                        >
-                            <Img
-                                src={staticFile('assets/elements/screen1/anh2k.png')}
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'contain',
-                                }}
-                            />
-                        </div>
-
-                        {/* Dấu chấm hỏi giấy xoay quanh đầu nhân vật khi đang phân vân */}
-                        {frame < EUREKA_START_FRAME && (
-                            <>
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        top: 90,
-                                        right: 180,
-                                        fontSize: 80,
-                                        color: colors.accentYellow,
-                                        fontWeight: 900,
-                                        transform: `rotate(${Math.cos(frame * 0.1) * 15}deg)`,
-                                        filter: 'drop-shadow(0 4px 12px rgba(251, 191, 36, 0.45))',
-                                    }}
-                                >
-                                    💭
-                                </div>
-                            </>
-                        )}
-
-                        {/* BÓNG ĐÈN Ý TƯỞNG EUREKA BÙNG LÊN TRÊN ĐẦU (Frames EUREKA_START_FRAME+) */}
+                        {/* 3.5. DẢI CÁNH GIẤY GẤP NỔI KHỐI ORIGAMI PHÍA PHẢI (PAPER RIBBON WING - XUẤT HIỆN ĐỒNG ĐIỆU CÙNG NHỊP BÚNG TAY EUREKA TÔNG HỒNG) */}
                         {frame >= EUREKA_START_FRAME && (
                             <div
                                 style={{
                                     position: 'absolute',
-                                    top: -170,
-                                    right: -80,
-                                    width: 540,
-                                    height: 540,
-                                    transform: `scale(${eurekaSpring}) rotate(${Math.sin((frame - EUREKA_START_FRAME) * 0.08) * 3}deg)`,
-                                    transformOrigin: 'bottom left',
-                                    opacity: eurekaSpring,
+                                    top: 100,
+                                    right: -60,
+                                    width: 1560,
+                                    height: 1730,
                                     pointerEvents: 'none',
-                                    filter: 'drop-shadow(0 25px 45px rgba(225, 29, 72, 0.45)) drop-shadow(0 6px 14px rgba(0,0,0,0.12))',
+                                    opacity: maybayOpacity,
+                                    transform: `translateX(${maybaySlideX}px) translateY(${Math.sin(frame * 0.05) * 6 + jitterY}px) scale(${maybayScale}) rotate(${Math.cos(frame * 0.03) * 0.6}deg)`,
+                                    filter: 'drop-shadow(-25px 35px 50px rgba(225, 29, 72, 0.22)) drop-shadow(-8px 12px 18px rgba(0,0,0,0.07))',
+                                    zIndex: 2,
                                 }}
                             >
                                 <Img
-                                    src={staticFile('assets/elements/screen1/idea.png')}
+                                    src={staticFile('assets/elements/screen1/maybay_giay.png')}
                                     style={{
                                         width: '100%',
                                         height: '100%',
                                         objectFit: 'contain',
-                                        translate: '251.2px -72.2px',
+                                        translate: '53.5px -201.4px',
                                     }}
                                 />
                             </div>
                         )}
-                    </div>
-                </div>
 
-                {/* 5. 3 MẢNH GIẤY XÉ GHI CHÚ BĂN KHOĂN THỦ CÔNG CHUẨN STORYBOARD CANVA (CỘT TRÁI) */}
-                {/* THẺ 1: Chọn loại nào? (Ghim kẹp giấy hồng) */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: 260,
-                        left: 220,
-                        width: 580,
-                        height: 390,
-                        opacity: card1Opacity,
-                        transform: `perspective(1200px) translateX(${card1X}px) translateY(${card1Y}px) scale(${cardsExitScale * card1Scale}) rotateX(${card1RotX}deg) rotateY(${card1RotY}deg) rotate(${-5 + card1Flutter}deg)`,
-                        transformOrigin: 'top center',
-                        zIndex: 5,
-                        filter: `drop-shadow(0 ${interpolate(card1Spring, [0, 1], [40, 15])}px ${interpolate(card1Spring, [0, 1], [50, 30])}px rgba(0,0,0,${interpolate(card1Spring, [0, 1], [0.04, 0.09])})) drop-shadow(0 4px 10px rgba(225, 29, 72, 0.06))`,
-                    }}
-                >
-                    {/* Nền giấy xé giay.png */}
-                    <Img
-                        src={staticFile('assets/elements/screen1/giay.png')}
-                        style={{
-                            position: 'absolute',
-                            inset: 0,
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'fill',
-                        }}
-                    />
-
-                    {/* Ghim kẹp giấy hồng gym_giay.png (Dập đanh một nhịp sau khi giấy tiếp đất) */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: -42,
-                            left: 42,
-                            width: 80,
-                            height: 130,
-                            transform: `translateY(${clip1Y}px) scale(${clip1Scale}) rotate(-8deg)`,
-                            transformOrigin: 'top center',
-                            opacity: clip1Opacity,
-                            zIndex: 2,
-                            filter: 'drop-shadow(0 6px 10px rgba(0,0,0,0.18))',
-                        }}
-                    >
-                        <Img
-                            src={staticFile('assets/elements/screen1/gym_giay.png')}
-                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                        />
-                    </div>
-
-                    {/* Nội dung chữ: Mua ở đâu uy tín? */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            inset: '20px 40px 20px 110px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'flex-start',
-                            justifyContent: 'center',
-                            textAlign: 'left',
-                            color: colors.brandPink,
-                            lineHeight: 1.12,
-                            letterSpacing: '-1px',
-                            transform: 'rotate(-4.2deg)',
-                            transformOrigin: 'left center',
-                            zIndex: 1,
-                            marginLeft: 10,
-                        }}
-                    >
-                        <span style={{ fontSize: 76, fontWeight: 900 }}>Mua ở đâu</span>
-                        <span style={{ fontSize: 62, fontWeight: 800, marginTop: 8 }}>uy tín?</span>
-                    </div>
-
-                    {/* Dấu hỏi chấm to màu xanh navy đậm bên cạnh */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            right: -10,
-                            top: 20,
-                            fontSize: 150,
-                            fontWeight: 900,
-                            color: '#1E293B',
-                            lineHeight: 1,
-                            transform: `rotate(${Math.sin(frame * 0.08) * 8}deg)`,
-                            filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.12))',
-                            zIndex: 3,
-                        }}
-                    >
-                        ?
-                    </div>
-                </div>
-
-                {/* THẺ 2: Quyền lợi ra sao? (Băng keo hồng bangkeohong.png) */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: 680,
-                        left: 180,
-                        width: 600,
-                        height: 400,
-                        opacity: card2Opacity,
-                        transform: `perspective(1200px) translateX(${card2X}px) translateY(${card2Y}px) scale(${cardsExitScale * card2Scale}) rotateX(${card2RotX}deg) rotateY(${card2RotY}deg) rotate(${4 + card2Flutter}deg)`,
-                        transformOrigin: 'top center',
-                        zIndex: 5,
-                        filter: `drop-shadow(0 ${interpolate(card2Spring, [0, 1], [40, 15])}px ${interpolate(card2Spring, [0, 1], [50, 30])}px rgba(0,0,0,${interpolate(card2Spring, [0, 1], [0.04, 0.09])})) drop-shadow(0 4px 10px rgba(225, 29, 72, 0.06))`,
-                    }}
-                >
-                    {/* Nền giấy xé giay.png */}
-                    <Img
-                        src={staticFile('assets/elements/screen1/giay.png')}
-                        style={{
-                            position: 'absolute',
-                            inset: 0,
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'fill',
-                        }}
-                    />
-
-                    {/* Miếng băng dính washi tape hồng bangkeohong.png (Dán đè ép dính sau khi giấy rơi) */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: -32,
-                            left: -20,
-                            width: 170,
-                            height: 114,
-                            transform: `scale(${tape2Scale}) rotate(-24deg)`,
-                            transformOrigin: 'center center',
-                            opacity: tape2Opacity,
-                            zIndex: 2,
-                            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))',
-                        }}
-                    >
-                        <Img
-                            src={staticFile('assets/elements/screen1/bangkeohong.png')}
+                        {/* 3.8. CHIẾC LAPTOP MACBOOK TRẮNG MOCK UI (LƯỚT NHẸ VÀO TỪ PHẢI + 2.5D PERSPECTIVE + MÀN HÌNH BĂN KHOĂN) */}
+                        <div
                             style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'contain',
-                                translate: '-43.4px 48.2px',
-                                rotate: '17.9deg',
-                                scale: 1.062,
+                                position: 'absolute',
+                                top: 760,
+                                left: 1720,
+                                width: 1848,
+                                height: 1032,
+                                pointerEvents: 'none',
+                                opacity: laptopOpacity,
+                                transform: `translateX(${laptopSlideX}px) translateY(${laptopFloatY + jitterY}px) rotate(${laptopTilt}deg) perspective(1400px) rotateY(${laptopRotateY}deg)`,
+                                transformStyle: 'preserve-3d',
+                                filter: 'drop-shadow(0 25px 45px rgba(0, 0, 0, 0.12)) drop-shadow(0 8px 16px rgba(225, 29, 72, 0.06))',
+                                zIndex: 3,
                             }}
-                        />
-                    </div>
+                        >
+                            {/* KHUNG LAPTOP MACBOOK GỐC */}
+                            <Img
+                                src={staticFile('assets/elements/screen1/macbook_3.png')}
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'contain',
+                                    transform: 'translateZ(0px)',
+                                }}
+                            />
 
-                    {/* Nội dung chữ: Quyền lợi ra sao? */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            inset: '20px 40px 20px 110px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'flex-start',
-                            justifyContent: 'center',
-                            textAlign: 'left',
-                            color: '#1E293B',
-                            lineHeight: 1.12,
-                            letterSpacing: '-1px',
-                            transform: 'rotate(-4.2deg)',
-                            transformOrigin: 'left center',
-                            zIndex: 1,
-                            marginLeft: 50,
-                        }}
-                    >
-                        <span style={{ fontSize: 70, fontWeight: 900 }}>Quyền lợi</span>
-                        <span style={{ fontSize: 62, fontWeight: 800, marginTop: 12 }}>ra sao?</span>
-                    </div>
+                            {/* VÙNG MÀN HÌNH RETINA (CẮT KHỚP CHÍNH XÁC THEO POLYGON MÀN HÌNH & OVERFLOW HIDDEN) */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    clipPath:
+                                        'polygon(40.0% 6.9%, 86.8% 7.6%, 87.6% 8.6%, 85.4% 69.8%, 36.8% 64.6%, 39.2% 8.0%)',
+                                    WebkitClipPath:
+                                        'polygon(40.0% 6.9%, 86.8% 7.6%, 87.6% 8.6%, 85.4% 69.8%, 36.8% 64.6%, 39.2% 8.0%)',
+                                    overflow: 'hidden',
+                                    zIndex: 2,
+                                    transform: 'translateZ(15px)',
+                                    pointerEvents: 'none',
+                                }}
+                            >
+                                {/* LỚP NỀN TRẮNG MỜ GIẢI PHÁP TOPBAOHIEM (PHỦ TRỌN MÀN HÌNH, CLIPPED 100% BỞI POLYGON KHUNG MÁY) */}
+                                {solutionEntranceSpring > 0.001 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            inset: 0,
+                                            opacity: solutionEntranceSpring,
+                                            backgroundColor: 'rgba(255, 255, 255, 0.78)',
+                                            backdropFilter: 'blur(8px)',
+                                        }}
+                                    />
+                                )}
 
-                    {/* Dấu hỏi chấm to màu xanh navy đậm bên cạnh */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            right: 10,
-                            top: 25,
-                            fontSize: 150,
-                            fontWeight: 900,
-                            color: '#1E293B',
-                            lineHeight: 1,
-                            transform: `rotate(${Math.cos(frame * 0.08) * 8}deg)`,
-                            filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.12))',
-                            zIndex: 3,
-                        }}
-                    >
-                        ?
-                    </div>
-                </div>
+                                {/* CONTAINER NỘI DUNG MÀN HÌNH (GÓC PHỐI CẢNH 3D RETINA - KHỚP TRỤC VỚI PLACEHOLDER UI) */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        top: '38.6%',
+                                        left: '62.3%',
+                                        width: 910,
+                                        height: 652,
+                                        transform: 'translate(-50%, -50%) rotate(1.30deg) skewX(-2.38deg)',
+                                        transformOrigin: 'center center',
+                                    }}
+                                >
+                                    {/* 1. CỤM BĂN KHOĂN: LOADING SPINNER & CÁC DẤU CHẤM HỎI ? HỖN LOẠN (FRAMES 0 - 480) */}
+                                    {confusionExitOpacity > 0.001 && (
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                inset: 0,
+                                                opacity: confusionExitOpacity,
+                                                transform: `scale(${confusionExitScale})`,
+                                                transformOrigin: 'center center',
+                                            }}
+                                        >
+                                            {/* Vòng xoay Loading Spinner ở trung tâm lệch phải (chuẩn theo ảnh minh họa) */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    top: '43%',
+                                                    left: '58%',
+                                                    transform: 'translate(-50%, -50%)',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08))',
+                                                }}
+                                            >
+                                                <svg
+                                                    width={92}
+                                                    height={92}
+                                                    viewBox="0 0 100 100"
+                                                    style={{
+                                                        transform: `rotate(${(frame * 12) % 360}deg)`,
+                                                    }}
+                                                >
+                                                    {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map(
+                                                        (deg, i) => (
+                                                            <rect
+                                                                key={deg}
+                                                                x={46.5}
+                                                                y={10}
+                                                                width={7}
+                                                                height={22}
+                                                                rx={3.5}
+                                                                fill="#334155"
+                                                                opacity={0.16 + (i / 11) * 0.84}
+                                                                transform={`rotate(${deg} 50 50)`}
+                                                            />
+                                                        ),
+                                                    )}
+                                                </svg>
+                                            </div>
 
-                {/* THẺ 3: Thủ tục có phức tạp không? (Băng keo xanh bangkeoxanh.png) */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: 1120,
-                        left: 240,
-                        width: 610,
-                        height: 410,
-                        opacity: card3Opacity,
-                        transform: `perspective(1200px) translateX(${card3X}px) translateY(${card3Y}px) scale(${cardsExitScale * card3Scale}) rotateX(${card3RotX}deg) rotateY(${card3RotY}deg) rotate(${-3 + card3Flutter}deg)`,
-                        transformOrigin: 'top center',
-                        zIndex: 5,
-                        filter: `drop-shadow(0 ${interpolate(card3Spring, [0, 1], [40, 15])}px ${interpolate(card3Spring, [0, 1], [50, 30])}px rgba(0,0,0,${interpolate(card3Spring, [0, 1], [0.04, 0.09])})) drop-shadow(0 4px 10px rgba(225, 29, 72, 0.06))`,
-                    }}
-                >
-                    {/* Nền giấy xé giay.png */}
-                    <Img
-                        src={staticFile('assets/elements/screen1/giay.png')}
-                        style={{
-                            position: 'absolute',
-                            inset: 0,
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'fill',
-                        }}
-                    />
+                                            {/* Dấu hỏi 1 (Lớn nhất, màu hồng đỏ #ED017C - đúng vị trí ảnh minh họa) */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: '26%',
+                                                    top: '30%',
+                                                    fontSize: 120,
+                                                    fontWeight: 900,
+                                                    lineHeight: 1,
+                                                    color: '#ED017C',
+                                                    filter: 'drop-shadow(0 8px 16px rgba(237, 1, 124, 0.3))',
+                                                    transform: `translateY(${qFloat1}px) rotate(${qRot1}deg) scale(${q1Spring})`,
+                                                    opacity: q1Spring,
+                                                    transformOrigin: 'bottom center',
+                                                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                }}
+                                            >
+                                                ?
+                                            </div>
 
-                    {/* Miếng băng dính washi tape xanh bangkeoxanh.png (Dán đè ép dính tựa đỉnh sóng mint) */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: -26,
-                            left: -28,
-                            width: 190,
-                            height: 94,
-                            transform: `scale(${tape3Scale}) rotate(-10deg)`,
-                            transformOrigin: 'center center',
-                            opacity: tape3Opacity,
-                            zIndex: 2,
-                            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))',
-                        }}
-                    >
-                        <Img
-                            src={staticFile('assets/elements/screen1/bangkeoxanh.png')}
+                                            {/* Dấu hỏi 2 (Trung bình, màu đỏ đậm #E11D48 - ở góc trên phải) */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: '42%',
+                                                    top: '18%',
+                                                    fontSize: 72,
+                                                    fontWeight: 900,
+                                                    lineHeight: 1,
+                                                    color: '#E11D48',
+                                                    filter: 'drop-shadow(0 6px 12px rgba(225, 29, 72, 0.25))',
+                                                    transform: `translateY(${qFloat2}px) rotate(${qRot2}deg) scale(${q2Spring})`,
+                                                    opacity: q2Spring,
+                                                    transformOrigin: 'bottom center',
+                                                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                }}
+                                            >
+                                                ?
+                                            </div>
+
+                                            {/* Dấu hỏi 3 (Nhỏ, màu đỏ hồng #F43F5E - góc trên xa) */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: '84%',
+                                                    top: '23%',
+                                                    fontSize: 58,
+                                                    fontWeight: 900,
+                                                    lineHeight: 1,
+                                                    color: '#F43F5E',
+                                                    filter: 'drop-shadow(0 4px 10px rgba(244, 63, 94, 0.2))',
+                                                    transform: `translateY(${qFloat1 * 0.7}px) rotate(${-qRot1}deg) scale(${q3Spring})`,
+                                                    opacity: q3Spring,
+                                                    transformOrigin: 'bottom center',
+                                                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                }}
+                                            >
+                                                ?
+                                            </div>
+
+                                            {/* Dấu hỏi 4 (Trung bình, màu xám #64748B - góc dưới phải) */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: '78%',
+                                                    top: '52%',
+                                                    fontSize: 84,
+                                                    fontWeight: 900,
+                                                    lineHeight: 1,
+                                                    color: '#64748B',
+                                                    filter: 'drop-shadow(0 6px 14px rgba(100, 116, 139, 0.2))',
+                                                    transform: `translateY(${qFloat4}px) rotate(${qRot2 * 0.8}deg) scale(${q4Spring})`,
+                                                    opacity: q4Spring,
+                                                    transformOrigin: 'bottom center',
+                                                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                }}
+                                            >
+                                                ?
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* 2. CẢNH BÚNG TAY / EUREKA: GIẢI LẬP KẾT QUẢ TOPBAOHIEM TỐI GIẢN (FRAMES 480+) */}
+                                    {solutionEntranceSpring > 0.001 && (
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                inset: 0,
+                                                opacity: solutionEntranceSpring,
+                                                transform: `scale(${interpolate(solutionEntranceSpring, [0, 1], [0.92, 1])})`,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }}
+                                        >
+                                            <div
+                                                style={{
+                                                    padding: '38px 56px',
+                                                    borderRadius: 26,
+                                                    backgroundColor: '#FFFFFF',
+                                                    border: '2px solid rgba(237, 1, 124, 0.32)',
+                                                    boxShadow:
+                                                        '0 22px 55px rgba(237, 1, 124, 0.22), 0 8px 24px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.95)',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    alignItems: 'center',
+                                                    gap: 16,
+                                                    textAlign: 'center',
+                                                }}
+                                            >
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                                                    <CheckCircle2 size={26} color="#10B981" strokeWidth={2.8} />
+                                                    <span
+                                                        style={{
+                                                            fontSize: 17,
+                                                            fontWeight: 800,
+                                                            letterSpacing: '0.08em',
+                                                            color: '#059669',
+                                                            textTransform: 'uppercase',
+                                                        }}
+                                                    >
+                                                        ĐÃ XÁC THỰC GIẢI PHÁP
+                                                    </span>
+                                                </div>
+
+                                                <div
+                                                    style={{
+                                                        fontSize: 62,
+                                                        fontWeight: 900,
+                                                        color: '#ED017C',
+                                                        letterSpacing: '-0.025em',
+                                                        lineHeight: 1.05,
+                                                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                        filter: 'drop-shadow(0 4px 12px rgba(237, 1, 124, 0.25))',
+                                                    }}
+                                                >
+                                                    TOPBAOHIEM.VN
+                                                </div>
+
+                                                <span
+                                                    style={{
+                                                        fontSize: 20,
+                                                        fontWeight: 600,
+                                                        color: '#475569',
+                                                    }}
+                                                >
+                                                    Nền tảng so sánh bảo hiểm trực tuyến minh bạch
+                                                </span>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* THANH TÌM KIẾM NỔI 2.5D FLOATING SEARCH CAPSULE VẮT TRÊN MÉP MÀN HÌNH (CHUẨN THEO ẢNH MINH HỌA) */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: '2.0%',
+                                    left: '42.0%',
+                                    width: 820,
+                                    height: 74,
+                                    borderRadius: 37,
+                                    backgroundColor: '#FFFFFF',
+                                    border: '1.5px solid rgba(225, 29, 72, 0.24)',
+                                    boxShadow:
+                                        '0 18px 38px rgba(0, 0, 0, 0.14), 0 6px 16px rgba(225, 29, 72, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.9)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    padding: '0 14px 0 8px',
+                                    gap: 16,
+                                    zIndex: 10,
+                                    transform: `translateZ(45px) scale(${searchEntranceSpring})`,
+                                    opacity: searchEntranceSpring,
+                                    transformOrigin: 'center center',
+                                }}
+                            >
+                                {/* Nút kính lúp màu hồng bo tròn bên trái */}
+                                <div
+                                    style={{
+                                        width: 58,
+                                        height: 58,
+                                        borderRadius: 29,
+                                        backgroundColor: frame < EUREKA_START_FRAME ? '#ED017C' : '#059669',
+                                        background:
+                                            frame < EUREKA_START_FRAME
+                                                ? 'linear-gradient(135deg, #FF2E79 0%, #ED017C 100%)'
+                                                : 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        boxShadow:
+                                            frame < EUREKA_START_FRAME
+                                                ? '0 4px 12px rgba(237, 1, 124, 0.4)'
+                                                : '0 4px 12px rgba(16, 185, 129, 0.4)',
+                                        flexShrink: 0,
+                                    }}
+                                >
+                                    {frame < EUREKA_START_FRAME ? (
+                                        <Search size={28} color="#FFFFFF" strokeWidth={2.8} />
+                                    ) : (
+                                        <Lock size={26} color="#FFFFFF" strokeWidth={2.8} />
+                                    )}
+                                </div>
+
+                                {/* Nội dung thanh tìm kiếm */}
+                                <div style={{ flex: 1, display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+                                    {frame < EUREKA_START_FRAME ? (
+                                        <span
+                                            style={{
+                                                fontSize: 40,
+                                                fontWeight: 900,
+                                                color: '#1E293B',
+                                                letterSpacing: '-0.02em',
+                                                whiteSpace: 'nowrap',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            {typedSearchQuery}
+                                            {showSearchCursor && (
+                                                <span
+                                                    style={{
+                                                        display: 'inline-block',
+                                                        width: 3.5,
+                                                        height: 38,
+                                                        backgroundColor: '#ED017C',
+                                                        marginLeft: 4,
+                                                        borderRadius: 2,
+                                                    }}
+                                                />
+                                            )}
+                                        </span>
+                                    ) : (
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                                            <span
+                                                style={{
+                                                    fontSize: 25,
+                                                    fontWeight: 800,
+                                                    color: '#0F172A',
+                                                    letterSpacing: '-0.01em',
+                                                }}
+                                            >
+                                                https://topbaohiem.vn
+                                            </span>
+                                            <span
+                                                style={{
+                                                    fontSize: 12,
+                                                    fontWeight: 800,
+                                                    color: '#ED017C',
+                                                    backgroundColor: '#FDF2F8',
+                                                    padding: '3px 8px',
+                                                    borderRadius: 6,
+                                                    border: '1px solid rgba(237, 1, 124, 0.2)',
+                                                }}
+                                            >
+                                                GIẢI PHÁP TỐI ƯU
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 0. CỤM HOOK DẪN CHUYỆN: "Muốn mua bảo hiểm online," -> "NHƯNG..." (DOCKING LÊN ĐỈNH) */}
+                        {frame >= 10 && charCount > 0 && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: hookY,
+                                    left: '50%',
+                                    transform: `translateX(-50%) translateY(${buzzY}px) translateX(${buzzX}px) scale(${hookScale * cardsExitScale})`,
+                                    opacity: hookExitOpacity * hookEntranceOpacity,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: 28,
+                                    zIndex: 10,
+                                    pointerEvents: 'none',
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {/* Chữ Typewriter thanh thoát, sắc nét (không bọc trong chip/pill trắng rỗng gây chấm trắng ở frame đầu) */}
+                                <span
+                                    style={{
+                                        fontSize: 68,
+                                        fontWeight: 800,
+                                        color: '#1E293B',
+                                        letterSpacing: '-0.5px',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        textShadow: '0 2px 12px rgba(0, 0, 0, 0.05)',
+                                    }}
+                                >
+                                    {typedText}
+                                    {showCursor && (
+                                        <span
+                                            style={{
+                                                fontSize: 68,
+                                                fontWeight: 900,
+                                                color: colors.brandPink,
+                                                marginLeft: 6,
+                                            }}
+                                        >
+                                            |
+                                        </span>
+                                    )}
+                                </span>
+
+                                {/* Tag nhãn "NHƯNG..." dập nổ phong cách Washi Tape đỏ hồng */}
+                                {frame >= 72 && (
+                                    <div
+                                        style={{
+                                            transform: `scale(${punchSpring}) rotate(${-3.5 + buzzRot}deg)`,
+                                            backgroundColor: colors.brandPink,
+                                            color: '#FFFFFF',
+                                            padding: '16px 42px 18px',
+                                            borderRadius: 18,
+                                            fontSize: 68,
+                                            fontWeight: 900,
+                                            letterSpacing: '1.5px',
+                                            boxShadow: '0 15px 35px rgba(225, 29, 72, 0.42)',
+                                            border: '4px solid #FFFFFF',
+                                            display: 'inline-flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        NHƯNG...
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* 4. KHỐI TRUNG TÂM: MẢNH GHÉP NHÂN VẬT HERO CHỦ THỂ 2.5D ÁO HỒNG (CHUẨN TỶ LỆ 75% CHIỀU CAO KHUNG HÌNH) */}
+                        <div
                             style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'contain',
-                                translate: '0.8px 42.7px',
+                                position: 'absolute',
+                                bottom: 0,
+                                left: 1540,
+                                transform: `translateX(-50%) translateY(${charEntranceY}px) scale(${charScale})`,
+                                transformOrigin: 'bottom center',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                opacity: charEntranceOpacity,
+                                filter: 'drop-shadow(0 35px 50px rgba(0, 0, 0, 0.18)) drop-shadow(0 12px 25px rgba(225, 29, 72, 0.16))',
+                                zIndex: 4,
                             }}
-                        />
-                    </div>
+                        >
+                            {/* Container nhân vật Hero: Kích thước 1020 x 1650 khớp chuẩn độ phân giải gốc ảnh 972 x 1620 */}
+                            <div
+                                style={{
+                                    width: 1020,
+                                    height: 1650,
+                                    position: 'relative',
+                                }}
+                            >
+                                {/* 1. Trạng thái Băn khoăn / Suy nghĩ (Frames 0 -> EUREKA_START_FRAME) */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        inset: 0,
+                                        opacity: interpolate(
+                                            frame,
+                                            [EUREKA_START_FRAME - 5, EUREKA_START_FRAME + 5],
+                                            [1, 0],
+                                            {
+                                                extrapolateLeft: 'clamp',
+                                                extrapolateRight: 'clamp',
+                                            },
+                                        ),
+                                        pointerEvents: 'none',
+                                    }}
+                                >
+                                    <Img
+                                        src={staticFile('assets/elements/screen1/thinking.png')}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'contain',
+                                        }}
+                                    />
+                                </div>
 
-                    {/* Nội dung chữ: Thủ tục có phức tạp không? */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            inset: '20px 40px 20px 110px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'flex-start',
-                            justifyContent: 'center',
-                            textAlign: 'left',
-                            color: colors.brandPink,
-                            lineHeight: 1.12,
-                            letterSpacing: '-1px',
-                            transform: 'rotate(-4.2deg)',
-                            transformOrigin: 'left center',
-                            zIndex: 1,
-                            paddingLeft: '60px',
-                        }}
-                    >
-                        <span style={{ fontSize: 62, fontWeight: 900 }}>Thủ tục có</span>
-                        <span style={{ fontSize: 62, fontWeight: 900, marginTop: 8 }}>phức tạp</span>
-                        <span style={{ fontSize: 62, fontWeight: 900, marginTop: 8 }}>không?</span>
-                    </div>
+                                {/* 2. Trạng thái Lóe sáng & Búng tay Snap (Frames EUREKA_START_FRAME+) */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        inset: 0,
+                                        opacity: interpolate(
+                                            frame,
+                                            [EUREKA_START_FRAME - 5, EUREKA_START_FRAME + 5],
+                                            [0, 1],
+                                            {
+                                                extrapolateLeft: 'clamp',
+                                                extrapolateRight: 'clamp',
+                                            },
+                                        ),
+                                        pointerEvents: 'none',
+                                    }}
+                                >
+                                    <Img
+                                        src={staticFile('assets/elements/screen1/anh2k.png')}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'contain',
+                                        }}
+                                    />
+                                </div>
 
-                    {/* Dấu hỏi chấm to màu hồng đỏ bên cạnh */}
-                    <div
-                        style={{
-                            position: 'absolute',
-                            right: 10,
-                            top: 40,
-                            fontSize: 150,
-                            fontWeight: 900,
-                            color: colors.brandPink,
-                            lineHeight: 1,
-                            transform: `rotate(${Math.sin(frame * 0.09 + 1) * 8}deg)`,
-                            filter: 'drop-shadow(0 8px 16px rgba(225, 29, 72, 0.3))',
-                            zIndex: 3,
-                        }}
-                    >
-                        ?
-                    </div>
-                </div>
+                                {/* Dấu chấm hỏi giấy xoay quanh đầu nhân vật khi đang phân vân */}
+                                {frame < EUREKA_START_FRAME && (
+                                    <>
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                top: 90,
+                                                right: 180,
+                                                fontSize: 80,
+                                                color: colors.accentYellow,
+                                                fontWeight: 900,
+                                                transform: `rotate(${Math.cos(frame * 0.1) * 15}deg)`,
+                                                filter: 'drop-shadow(0 4px 12px rgba(251, 191, 36, 0.45))',
+                                            }}
+                                        >
+                                            💭
+                                        </div>
+                                    </>
+                                )}
+
+                                {/* BÓNG ĐÈN Ý TƯỞNG EUREKA BÙNG LÊN TRÊN ĐẦU (Frames EUREKA_START_FRAME+) */}
+                                {frame >= EUREKA_START_FRAME && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            top: -170,
+                                            right: -80,
+                                            width: 540,
+                                            height: 540,
+                                            transform: `scale(${eurekaSpring}) rotate(${Math.sin((frame - EUREKA_START_FRAME) * 0.08) * 3}deg)`,
+                                            transformOrigin: 'bottom left',
+                                            opacity: eurekaSpring,
+                                            pointerEvents: 'none',
+                                            filter: 'drop-shadow(0 25px 45px rgba(225, 29, 72, 0.45)) drop-shadow(0 6px 14px rgba(0,0,0,0.12))',
+                                        }}
+                                    >
+                                        <Img
+                                            src={staticFile('assets/elements/screen1/idea.png')}
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'contain',
+                                                translate: '251.2px -72.2px',
+                                            }}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* 5. 3 MẢNH GIẤY XÉ GHI CHÚ BĂN KHOĂN THỦ CÔNG CHUẨN STORYBOARD CANVA (CỘT TRÁI) */}
+                        {/* THẺ 1: Chọn loại nào? (Ghim kẹp giấy hồng) */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 260,
+                                left: 220,
+                                width: 580,
+                                height: 390,
+                                opacity: card1Opacity,
+                                transform: `perspective(1200px) translateX(${card1X}px) translateY(${card1Y}px) scale(${cardsExitScale * card1Scale}) rotateX(${card1RotX}deg) rotateY(${card1RotY}deg) rotate(${-5 + card1Flutter}deg)`,
+                                transformOrigin: 'top center',
+                                zIndex: 5,
+                                filter: `drop-shadow(0 ${interpolate(card1Spring, [0, 1], [40, 15])}px ${interpolate(card1Spring, [0, 1], [50, 30])}px rgba(0,0,0,${interpolate(card1Spring, [0, 1], [0.04, 0.09])})) drop-shadow(0 4px 10px rgba(225, 29, 72, 0.06))`,
+                            }}
+                        >
+                            {/* Nền giấy xé giay.png */}
+                            <Img
+                                src={staticFile('assets/elements/screen1/giay.png')}
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'fill',
+                                }}
+                            />
+
+                            {/* Ghim kẹp giấy hồng gym_giay.png (Dập đanh một nhịp sau khi giấy tiếp đất) */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: -42,
+                                    left: 42,
+                                    width: 80,
+                                    height: 130,
+                                    transform: `translateY(${clip1Y}px) scale(${clip1Scale}) rotate(-8deg)`,
+                                    transformOrigin: 'top center',
+                                    opacity: clip1Opacity,
+                                    zIndex: 2,
+                                    filter: 'drop-shadow(0 6px 10px rgba(0,0,0,0.18))',
+                                }}
+                            >
+                                <Img
+                                    src={staticFile('assets/elements/screen1/gym_giay.png')}
+                                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                                />
+                            </div>
+
+                            {/* Nội dung chữ: Mua ở đâu uy tín? */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    inset: '20px 40px 20px 110px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'flex-start',
+                                    justifyContent: 'center',
+                                    textAlign: 'left',
+                                    color: colors.brandPink,
+                                    lineHeight: 1.12,
+                                    letterSpacing: '-1px',
+                                    transform: 'rotate(-4.2deg)',
+                                    transformOrigin: 'left center',
+                                    zIndex: 1,
+                                    marginLeft: 10,
+                                }}
+                            >
+                                <span style={{ fontSize: 76, fontWeight: 900 }}>Mua ở đâu</span>
+                                <span style={{ fontSize: 62, fontWeight: 800, marginTop: 8 }}>uy tín?</span>
+                            </div>
+
+                            {/* Dấu hỏi chấm to màu xanh navy đậm bên cạnh */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    right: -10,
+                                    top: 20,
+                                    fontSize: 150,
+                                    fontWeight: 900,
+                                    color: '#1E293B',
+                                    lineHeight: 1,
+                                    transform: `rotate(${Math.sin(frame * 0.08) * 8}deg)`,
+                                    filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.12))',
+                                    zIndex: 3,
+                                }}
+                            >
+                                ?
+                            </div>
+                        </div>
+
+                        {/* THẺ 2: Quyền lợi ra sao? (Băng keo hồng bangkeohong.png) */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 680,
+                                left: 180,
+                                width: 600,
+                                height: 400,
+                                opacity: card2Opacity,
+                                transform: `perspective(1200px) translateX(${card2X}px) translateY(${card2Y}px) scale(${cardsExitScale * card2Scale}) rotateX(${card2RotX}deg) rotateY(${card2RotY}deg) rotate(${4 + card2Flutter}deg)`,
+                                transformOrigin: 'top center',
+                                zIndex: 5,
+                                filter: `drop-shadow(0 ${interpolate(card2Spring, [0, 1], [40, 15])}px ${interpolate(card2Spring, [0, 1], [50, 30])}px rgba(0,0,0,${interpolate(card2Spring, [0, 1], [0.04, 0.09])})) drop-shadow(0 4px 10px rgba(225, 29, 72, 0.06))`,
+                            }}
+                        >
+                            {/* Nền giấy xé giay.png */}
+                            <Img
+                                src={staticFile('assets/elements/screen1/giay.png')}
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'fill',
+                                }}
+                            />
+
+                            {/* Miếng băng dính washi tape hồng bangkeohong.png (Dán đè ép dính sau khi giấy rơi) */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: -32,
+                                    left: -20,
+                                    width: 170,
+                                    height: 114,
+                                    transform: `scale(${tape2Scale}) rotate(-24deg)`,
+                                    transformOrigin: 'center center',
+                                    opacity: tape2Opacity,
+                                    zIndex: 2,
+                                    filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))',
+                                }}
+                            >
+                                <Img
+                                    src={staticFile('assets/elements/screen1/bangkeohong.png')}
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'contain',
+                                        translate: '-43.4px 48.2px',
+                                        rotate: '17.9deg',
+                                        scale: 1.062,
+                                    }}
+                                />
+                            </div>
+
+                            {/* Nội dung chữ: Quyền lợi ra sao? */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    inset: '20px 40px 20px 110px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'flex-start',
+                                    justifyContent: 'center',
+                                    textAlign: 'left',
+                                    color: '#1E293B',
+                                    lineHeight: 1.12,
+                                    letterSpacing: '-1px',
+                                    transform: 'rotate(-4.2deg)',
+                                    transformOrigin: 'left center',
+                                    zIndex: 1,
+                                    marginLeft: 50,
+                                }}
+                            >
+                                <span style={{ fontSize: 70, fontWeight: 900 }}>Quyền lợi</span>
+                                <span style={{ fontSize: 62, fontWeight: 800, marginTop: 12 }}>ra sao?</span>
+                            </div>
+
+                            {/* Dấu hỏi chấm to màu xanh navy đậm bên cạnh */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    right: 10,
+                                    top: 25,
+                                    fontSize: 150,
+                                    fontWeight: 900,
+                                    color: '#1E293B',
+                                    lineHeight: 1,
+                                    transform: `rotate(${Math.cos(frame * 0.08) * 8}deg)`,
+                                    filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.12))',
+                                    zIndex: 3,
+                                }}
+                            >
+                                ?
+                            </div>
+                        </div>
+
+                        {/* THẺ 3: Thủ tục có phức tạp không? (Băng keo xanh bangkeoxanh.png) */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 1120,
+                                left: 240,
+                                width: 610,
+                                height: 410,
+                                opacity: card3Opacity,
+                                transform: `perspective(1200px) translateX(${card3X}px) translateY(${card3Y}px) scale(${cardsExitScale * card3Scale}) rotateX(${card3RotX}deg) rotateY(${card3RotY}deg) rotate(${-3 + card3Flutter}deg)`,
+                                transformOrigin: 'top center',
+                                zIndex: 5,
+                                filter: `drop-shadow(0 ${interpolate(card3Spring, [0, 1], [40, 15])}px ${interpolate(card3Spring, [0, 1], [50, 30])}px rgba(0,0,0,${interpolate(card3Spring, [0, 1], [0.04, 0.09])})) drop-shadow(0 4px 10px rgba(225, 29, 72, 0.06))`,
+                            }}
+                        >
+                            {/* Nền giấy xé giay.png */}
+                            <Img
+                                src={staticFile('assets/elements/screen1/giay.png')}
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'fill',
+                                }}
+                            />
+
+                            {/* Miếng băng dính washi tape xanh bangkeoxanh.png (Dán đè ép dính tựa đỉnh sóng mint) */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: -26,
+                                    left: -28,
+                                    width: 190,
+                                    height: 94,
+                                    transform: `scale(${tape3Scale}) rotate(-10deg)`,
+                                    transformOrigin: 'center center',
+                                    opacity: tape3Opacity,
+                                    zIndex: 2,
+                                    filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))',
+                                }}
+                            >
+                                <Img
+                                    src={staticFile('assets/elements/screen1/bangkeoxanh.png')}
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'contain',
+                                        translate: '0.8px 42.7px',
+                                    }}
+                                />
+                            </div>
+
+                            {/* Nội dung chữ: Thủ tục có phức tạp không? */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    inset: '20px 40px 20px 110px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'flex-start',
+                                    justifyContent: 'center',
+                                    textAlign: 'left',
+                                    color: colors.brandPink,
+                                    lineHeight: 1.12,
+                                    letterSpacing: '-1px',
+                                    transform: 'rotate(-4.2deg)',
+                                    transformOrigin: 'left center',
+                                    zIndex: 1,
+                                    paddingLeft: '60px',
+                                }}
+                            >
+                                <span style={{ fontSize: 62, fontWeight: 900 }}>Thủ tục có</span>
+                                <span style={{ fontSize: 62, fontWeight: 900, marginTop: 8 }}>phức tạp</span>
+                                <span style={{ fontSize: 62, fontWeight: 900, marginTop: 8 }}>không?</span>
+                            </div>
+
+                            {/* Dấu hỏi chấm to màu hồng đỏ bên cạnh */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    right: 10,
+                                    top: 40,
+                                    fontSize: 150,
+                                    fontWeight: 900,
+                                    color: colors.brandPink,
+                                    lineHeight: 1,
+                                    transform: `rotate(${Math.sin(frame * 0.09 + 1) * 8}deg)`,
+                                    filter: 'drop-shadow(0 8px 16px rgba(225, 29, 72, 0.3))',
+                                    zIndex: 3,
+                                }}
+                            >
+                                ?
+                            </div>
+                        </div>
                     </>
                 )}
 
@@ -1547,11 +1571,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         )}
 
                         {/* TẤM NỀN TRANG CHỦ 3D ĐỘC LẬP (GÓC CỐ ĐỊNH CHUẨN ẢNH 3, KHÔNG BỊ XOAY THEO CAMERA RIG CỦA NHÓM INPUT) */}
-                        <TopLeftWebsiteBackdrop3D
-                            frame={frame}
-                            fps={fps}
-                            startFrame={725}
-                        />
+                        <TopLeftWebsiteBackdrop3D frame={frame} fps={fps} startFrame={725} />
 
                         {/* HỆ THỐNG CAMERA RIG 3D ĐIỆN ẢNH (KẾ THỪA VIDEO-SHOTCRAFT: SPACE-CAMERA-MOVES & CURSOR-FLYOVER) */}
                         <div
@@ -1576,7 +1596,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                     justifyContent: 'center',
                                     transformStyle: 'preserve-3d',
                                     transform: `translate3d(${camTargetX}px, ${camTargetY + clickBounce}px, 0) rotateX(${camPitch}deg) rotateY(${camYaw}deg) rotateZ(${camRoll}deg) scale(${warpScale})`,
-                                    transformOrigin: warpScale > 1.001 ? 'calc(50% + 1072px) calc(50% - 600px)' : '50% 50%',
+                                    transformOrigin:
+                                        warpScale > 1.001 ? 'calc(50% + 1072px) calc(50% - 600px)' : '50% 50%',
                                     filter: warpBlur > 0.1 ? `blur(${warpBlur}px)` : undefined,
                                     opacity: warpOpacity,
                                 }}
@@ -1622,7 +1643,14 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                         </div>
 
                                         {/* Text gõ URL https://topbaohiem.vn cỡ lớn */}
-                                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+                                        <div
+                                            style={{
+                                                flex: 1,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                overflow: 'hidden',
+                                            }}
+                                        >
                                             <span
                                                 style={{
                                                     fontSize: 92,
@@ -1670,8 +1698,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                                 boxShadow: isClicking
                                                     ? '0 0 65px rgba(237, 1, 124, 0.95), 0 0 130px rgba(237, 1, 124, 0.55)'
                                                     : isHoveringButton
-                                                    ? '0 18px 48px rgba(237, 1, 124, 0.65), 0 0 35px rgba(237, 1, 124, 0.45)'
-                                                    : '0 12px 35px rgba(237, 1, 124, 0.45)',
+                                                      ? '0 18px 48px rgba(237, 1, 124, 0.65), 0 0 35px rgba(237, 1, 124, 0.45)'
+                                                      : '0 12px 35px rgba(237, 1, 124, 0.45)',
                                                 flexShrink: 0,
                                             }}
                                         >
@@ -1843,7 +1871,9 @@ export const Scene1_ProblemSnap: React.FC = () => {
                                                 y1={y1}
                                                 x2={x2}
                                                 y2={y2}
-                                                stroke={i % 2 === 0 ? 'rgba(237, 1, 124, 0.75)' : 'rgba(255, 255, 255, 0.9)'}
+                                                stroke={
+                                                    i % 2 === 0 ? 'rgba(237, 1, 124, 0.75)' : 'rgba(255, 255, 255, 0.9)'
+                                                }
                                                 strokeWidth={interpolate(warpProgress, [0, 0.5, 1], [2, 5, 1])}
                                                 strokeLinecap="round"
                                             />
