@@ -4,10 +4,10 @@ import { interpolate, spring, staticFile, Img, Easing } from 'remotion';
 interface TopLeftWebsiteBackdrop3DProps {
     frame: number;
     fps: number;
-    startFrame?: number; // Frame 652: Xuất hiện đồng thời cùng thanh Search Bar ngay sau cú búng tay Eureka (Frame 630)
+    startFrame?: number; // Frame 725: Xuất hiện đồng thời cùng thanh Search Bar sau nhịp dừng 1.5s chiêm ngưỡng búng tay Eureka (Frame 630 -> 720)
 }
 
-export const TopLeftWebsiteBackdrop3D: React.FC<TopLeftWebsiteBackdrop3DProps> = ({ frame, fps, startFrame = 652 }) => {
+export const TopLeftWebsiteBackdrop3D: React.FC<TopLeftWebsiteBackdrop3DProps> = ({ frame, fps, startFrame = 725 }) => {
     // 1. CHỈ HIỂN THỊ TỪ FRAME STARTFRAME TRỞ ĐI
     if (frame < startFrame) {
         return null;

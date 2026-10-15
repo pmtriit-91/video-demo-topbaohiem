@@ -354,71 +354,67 @@ export const Scene1_ProblemSnap: React.FC = () => {
     });
 
     // =========================================================================
-    // 2.7. CINEMA FOCUS & HERO SEARCH CAPSULE (Frames 650 -> 1020)
+    // 2.7. HERO SEARCH CAPSULE (Frames 725 -> 955)
+    // - Sau cú búng tay Eureka (Frame 630): DỪNG ĐÚNG 1 NHỊP 1.5S (Frames 630 -> 720 = 90 frames)
+    //   để người xem chiêm ngưỡng dải cánh máy bay giấy Origami và bóng đèn ý tưởng bay ra!
     // =========================================================================
-    // A. Lớp phủ làm mờ mềm hậu cảnh (Cinema Focus Backdrop Blur)
-    const focusBackdropOpacity = interpolate(frame, [650, 665], [0, 1], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-    });
-
-    // B. Nảy ra của thanh Hero Search Capsule cỡ lớn giữa màn hình
+    // A. Nảy ra của thanh Hero Search Capsule cỡ lớn giữa màn hình (Frame 725+)
     const heroSearchEntrance = spring({
-        frame: Math.max(0, frame - 652),
+        frame: Math.max(0, frame - 725),
         fps,
         config: { damping: 14, mass: 0.85, stiffness: 120 },
     });
 
-    // C. Typewriter gõ link "https://topbaohiem.vn" (Frames 690 -> 820: nhịp gõ đĩnh đạc, rõ nét từng phím)
+    // C. Typewriter gõ link "https://topbaohiem.vn" (Frames 755 -> 870: nhịp gõ đĩnh đạc, rõ nét từng phím)
     const heroUrlText = 'https://topbaohiem.vn';
     const heroUrlCharCount = Math.floor(
-        interpolate(frame, [690, 820], [0, heroUrlText.length], {
+        interpolate(frame, [755, 870], [0, heroUrlText.length], {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
         }),
     );
     const typedHeroUrl = heroUrlText.slice(0, heroUrlCharCount);
-    // Con trỏ nhấp nháy trong lúc gõ (690-820) và đứng nhấp nháy thở chờ mắt người đọc (820-885)
-    const showHeroCursor = frame >= 690 && frame < 885 && Math.floor(frame / 8) % 2 === 0;
+    // Con trỏ nhấp nháy trong lúc gõ (755-870) và đứng nhấp nháy thở chờ mắt người đọc (870-910)
+    const showHeroCursor = frame >= 755 && frame < 910 && Math.floor(frame / 8) % 2 === 0;
 
-    // GÕ XONG LINK "https://topbaohiem.vn" -> DÂNG KHUNG SEARCH LÊN CAO (Frames 885 -> 930)
+    // GÕ XONG LINK "https://topbaohiem.vn" -> DÂNG KHUNG SEARCH LÊN CAO (Frames 910 -> 955)
     // Dịch chuyển input lên phía trên (-600px) để mở rộng toàn bộ không gian trung tâm cho sân khấu 3D cắt lớp
-    const inputElevation = interpolate(frame, [885, 930], [0, -600], {
+    const inputElevation = interpolate(frame, [910, 955], [0, -600], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.33, 1, 0.68, 1),
     });
 
-    // D. DROPDOWN STACK-PRESS KÍCH HOẠT ĐỒNG THỜI KHI SEARCH BAR DÂNG LÊN (Frame 885)
-    const dropdownTriggerFrame = 885;
+    // D. DROPDOWN STACK-PRESS KÍCH HOẠT ĐỒNG THỜI KHI SEARCH BAR DÂNG LÊN (Frame 910)
+    const dropdownTriggerFrame = 910;
 
-    // Xác định activeHoverIndex khi con trỏ chuột rà qua 3 thẻ tính năng (Frames 1730 -> 1880: nhịp thở thong thả)
+    // Xác định activeHoverIndex khi con trỏ chuột rà qua 3 thẻ tính năng (Frames 1670 -> 1820: nhịp thở thong thả)
     let activeHoverIndex = -1;
-    if (frame >= 1730 && frame < 1780) {
+    if (frame >= 1670 && frame < 1720) {
         activeHoverIndex = 1; // So sánh đa hãng
-    } else if (frame >= 1780 && frame < 1830) {
+    } else if (frame >= 1720 && frame < 1770) {
         activeHoverIndex = 2; // Tiết kiệm chi phí
-    } else if (frame >= 1830 && frame < 1880) {
+    } else if (frame >= 1770 && frame < 1820) {
         activeHoverIndex = 3; // Cấp đơn 1-chạm & An toàn
     }
 
-    // E. HIỆU ỨNG CON TRỎ CHUỘT (MOUSE POINTER) TƯƠNG TÁC (Frames 1720 -> 2040):
-    // 1. Con trỏ chuột xuất hiện nhẹ nhàng tại mép trái Dropdown: Frame 1720 -> 1730
-    const cursorOpacity = interpolate(frame, [1720, 1730], [0, 1], {
+    // E. HIỆU ỨNG CON TRỎ CHUỘT (MOUSE POINTER) TƯƠNG TÁC (Frames 1660 -> 2040):
+    // 1. Con trỏ chuột xuất hiện nhẹ nhàng tại mép trái Dropdown: Frame 1660 -> 1670
+    const cursorOpacity = interpolate(frame, [1660, 1670], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
     // 2. Tọa độ X của chuột:
-    // - 1720 -> 1730: Xuất hiện ở -700px (bên trái Thẻ 1)
-    // - 1730 -> 1780: Rà qua Thẻ 1 (-700px -> -180px)
-    // - 1780 -> 1830: Lướt sang Thẻ 2 (-180px -> +240px)
-    // - 1830 -> 1880: Lướt sang Thẻ 3 (+240px -> +620px)
-    // - 1880 -> 1930: Lượn vòng chếch lên nút "Truy cập" (+620px -> +1072px)
-    // - 1930+: Đứng tại tâm nút (+1072px)
+    // - 1660 -> 1670: Xuất hiện ở -700px (bên trái Thẻ 1)
+    // - 1670 -> 1720: Rà qua Thẻ 1 (-700px -> -180px)
+    // - 1720 -> 1770: Lướt sang Thẻ 2 (-180px -> +240px)
+    // - 1770 -> 1820: Lướt sang Thẻ 3 (+240px -> +620px)
+    // - 1820 -> 1880: Lượn vòng chếch lên nút "Truy cập" (+620px -> +1072px)
+    // - 1880+: Đứng tại tâm nút (+1072px)
     const cursorX = interpolate(
         frame,
-        [1720, 1730, 1780, 1830, 1880, 1930],
+        [1660, 1670, 1720, 1770, 1820, 1880],
         [-700, -700, -180, 240, 620, 1072],
         {
             extrapolateLeft: 'clamp',
@@ -435,7 +431,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
     // Nút "Truy cập": center Y ≈ -600px
     const baseY = interpolate(
         frame,
-        [1720, 1730, 1780, 1830, 1880, 1930],
+        [1660, 1670, 1720, 1770, 1820, 1880],
         [-275, -275, -79, 117, 117, -600],
         {
             extrapolateLeft: 'clamp',
@@ -443,11 +439,11 @@ export const Scene1_ProblemSnap: React.FC = () => {
             easing: (t) => t * t * (3 - 2 * t),
         },
     );
-    const cursorWiggle = frame >= 1730 && frame <= 1880 ? Math.sin((frame - 1730) * 0.16) * 2.2 : 0;
+    const cursorWiggle = frame >= 1670 && frame <= 1820 ? Math.sin((frame - 1670) * 0.16) * 2.2 : 0;
     const cursorY = baseY + cursorWiggle;
 
-    // 4. Trạng thái Hover trên nút "Truy cập" (Frames 1925+)
-    const isHoveringButton = frame >= 1925;
+    // 4. Trạng thái Hover trên nút "Truy cập" (Frames 1880+)
+    const isHoveringButton = frame >= 1880;
 
     // 5. Thao tác Click chuột vào nút "Truy cập" (Frames 1955 -> 1975)
     const isClicking = frame >= 1955 && frame <= 1975;
@@ -470,16 +466,16 @@ export const Scene1_ProblemSnap: React.FC = () => {
 
     // F. CAMERA RIG 3D ĐIỆN ẢNH (Kế thừa từ Video-Shotcraft: space-camera-moves & cursor-flyover):
     // 1. Góc ngửa/chúc (Pitch - rotateX):
-    // - 650 -> 885: 0deg (nhìn trực diện khi gõ link)
-    // - 885 -> 930: 0deg -> 8.5deg (chúc xuống để đón khay dock và tạo chiều sâu khi input dâng lên)
-    // - 930 -> 1592: 8.5deg -> 10.5deg (giữ góc nghiêng 3D điện ảnh khi 3 thẻ lần lượt phóng lớn và đập vào khay)
-    // - 1592 -> 1880: 10.5deg (theo dõi chuột rà soát khay)
-    // - 1880 -> 1930: Trả về 2.0deg (hướng trực diện về nút Truy cập ở trên cao)
+    // - 720 -> 910: 0deg (nhìn trực diện khi gõ link)
+    // - 910 -> 955: 0deg -> 8.5deg (chúc xuống để đón khay dock và tạo chiều sâu khi input dâng lên)
+    // - 955 -> 1557: 8.5deg -> 10.5deg (giữ góc nghiêng 3D điện ảnh khi 3 thẻ lần lượt phóng lớn và đập vào khay)
+    // - 1557 -> 1820: 10.5deg (theo dõi chuột rà soát khay)
+    // - 1820 -> 1880: Trả về 2.0deg (hướng trực diện về nút Truy cập ở trên cao)
     // - 1955 -> 1975: Giật nhẹ impact khi bấm (-0.8deg)
     // - 1980+: Giữ thẳng hướng tâm khi lao xuyên qua (0deg)
     const camPitch = interpolate(
         frame,
-        [650, 885, 930, 1162, 1377, 1592, 1880, 1930, 1960, 1975],
+        [720, 910, 955, 1147, 1352, 1557, 1820, 1880, 1960, 1975],
         [0, 0, 8.5, 9.8, 10.5, 10.5, 10.5, 2.0, 1.2, 0],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
     );
@@ -487,7 +483,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
     // 2. Góc xoay ngang (Yaw - rotateY):
     const camYaw = interpolate(
         frame,
-        [650, 885, 930, 1592, 1880, 1930, 1975],
+        [720, 910, 955, 1557, 1820, 1880, 1975],
         [0, 0, -6.0, -4.5, -4.5, 2.6, 0],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
     );
@@ -495,7 +491,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
     // 3. Góc nghiêng chân trời (Roll - rotateZ):
     const camRoll = interpolate(
         frame,
-        [885, 930, 1880, 1930, 1975],
+        [910, 955, 1820, 1880, 1975],
         [0, -0.6, -0.6, 0.4, 0],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
     );
@@ -503,13 +499,13 @@ export const Scene1_ProblemSnap: React.FC = () => {
     // 4. Camera Tracking vị trí (Tịnh tiến theo con trỏ chuột - Camera Rig pan):
     const camTargetX = interpolate(
         frame,
-        [885, 930, 1592, 1880, 1930, 1975],
+        [910, 955, 1557, 1820, 1880, 1975],
         [0, 30, 40, 50, -110, 0],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
     );
     const camTargetY = interpolate(
         frame,
-        [885, 930, 1592, 1780, 1830, 1880, 1930, 1975],
+        [910, 955, 1557, 1720, 1770, 1820, 1880, 1975],
         [0, 60, 60, 50, 35, 15, 0, 0],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) }
     );
@@ -606,8 +602,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
                 />
 
 
-                {/* TOÀN BỘ CỤM PART 1 (BĂN KHOĂN, LAPTOP, SÓNG MINT, NHÂN VẬT, 3 THẺ GIẤY XÉ): UNMOUNT HOÀN TOÀN TẠI FRAME 665 KHI BẮT ĐẦU CẢNH 2 ĐỂ GIẢI PHÓNG VRAM GPU */}
-                {frame < 665 && (
+                {/* TOÀN BỘ CỤM PART 1 (BĂN KHOĂN, LAPTOP, SÓNG MINT, NHÂN VẬT, 3 THẺ GIẤY XÉ): UNMOUNT TẠI FRAME 740 KHI BẮT ĐẦU CẢNH 2 ĐỂ GIẢI PHÓNG VRAM GPU */}
+                {frame < 740 && (
                     <>
                         {/* 1.5. LỚP ĐỒI SÓNG GIẤY XANH MINT Ở ĐÁY MÀN HÌNH (LAYERED PAPER WAVE - CHUẨN PHỐI CẢNH CANVA STORYBOARD) */}
                         <div
@@ -1529,8 +1525,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
                     />
                 )}
 
-                {/* 7.5. CINEMA FOCUS BACKDROP, HERO SEARCH & DROPDOWN STACK-PRESS (Frames 650 - 1020) */}
-                {frame >= 650 && (
+                {/* 7.5. HERO SEARCH & DROPDOWN STACK-PRESS (Frames 720 - 2040) */}
+                {frame >= 720 && (
                     <div
                         style={{
                             position: 'absolute',
@@ -1539,16 +1535,6 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             pointerEvents: 'none',
                         }}
                     >
-                        {/* Lớp phủ làm mờ mềm hậu cảnh (Cinema Focus Backdrop) */}
-                        <div
-                            style={{
-                                position: 'absolute',
-                                inset: 0,
-                                backgroundColor: 'rgba(250, 249, 246, 0.65)',
-                                opacity: focusBackdropOpacity,
-                            }}
-                        />
-
                         {/* LAYER THREE.JS: KHÔNG GIAN HẠT 3D & HYPERDRIVE WARP SPEED TUNNEL (CHỈ MOUNT KHI WARP CHUYỂN CẢNH: FRAME >= 1945) */}
                         {frame >= 1945 && (
                             <WarpHyperdrive3D
@@ -1564,7 +1550,7 @@ export const Scene1_ProblemSnap: React.FC = () => {
                         <TopLeftWebsiteBackdrop3D
                             frame={frame}
                             fps={fps}
-                            startFrame={652}
+                            startFrame={725}
                         />
 
                         {/* HỆ THỐNG CAMERA RIG 3D ĐIỆN ẢNH (KẾ THỪA VIDEO-SHOTCRAFT: SPACE-CAMERA-MOVES & CURSOR-FLYOVER) */}

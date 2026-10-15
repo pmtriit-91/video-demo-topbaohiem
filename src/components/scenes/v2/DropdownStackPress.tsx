@@ -13,7 +13,7 @@ interface DropdownStackPressProps {
 export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
     frame,
     fps,
-    triggerFrame = 885,
+    triggerFrame = 910,
     activeHoverIndex = -1,
     inputElevation = -600,
 }) => {
@@ -29,58 +29,55 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
     }
 
     // 2. TIMELINE ĐỒ HỌA 3D CHUYÊN SÂU (DÃN TRÃI NHỊP THỜ ĐIỆN ẢNH - MỖI THẺ CÓ 2.0S ĐỌC VÀ THẨM THẤU)
-    // - Frame 885 -> 925: Khay dock + Thẻ Huy hiệu Bộ Công Thương xuất hiện định vị
-    // - Frame 925 -> 980: Dừng thở để nhận diện khay dock uy tín
+    // - Frame 910 -> 950: Khay dock + Thẻ Huy hiệu Bộ Công Thương xuất hiện định vị
+    // - Frame 950 -> 965: Dừng thở để nhận diện khay dock uy tín
     // - Thẻ 1 (So sánh đa hãng):
-    //   * Fly-in: 980 -> 1015 (35f)
-    //   * 3D Mid-Air Hero Hold & Highlight: 1015 -> 1135 (120f = đúng 2.0s)
-    //   * Slam Down & Stack-press: 1135 -> 1162 (27f)
-    //   * Nghỉ thở: 1162 -> 1195 (33f)
+    //   * Fly-in: 965 -> 1000 (35f)
+    //   * 3D Mid-Air Hero Hold & Highlight: 1000 -> 1120 (120f = đúng 2.0s)
+    //   * Slam Down & Stack-press: 1120 -> 1147 (27f)
     // - Thẻ 2 (Tiết kiệm chi phí):
-    //   * Fly-in: 1195 -> 1230 (35f)
-    //   * 3D Mid-Air Hero Hold & Highlight: 1230 -> 1350 (120f = đúng 2.0s)
-    //   * Slam Down & Stack-press: 1350 -> 1377 (27f)
-    //   * Nghỉ thở: 1377 -> 1410 (33f)
+    //   * Fly-in: 1170 -> 1205 (35f)
+    //   * 3D Mid-Air Hero Hold & Highlight: 1205 -> 1325 (120f = đúng 2.0s)
+    //   * Slam Down & Stack-press: 1325 -> 1352 (27f)
     // - Thẻ 3 (Cấp đơn 1-chạm & Bảo mật):
-    //   * Fly-in: 1410 -> 1445 (35f)
-    //   * 3D Mid-Air Hero Hold & Highlight: 1445 -> 1565 (120f = đúng 2.0s)
-    //   * Slam Down & Stack-press: 1565 -> 1592 (27f)
-    //   * Nghỉ thở: 1592 -> 1630 (38f)
-    // - Glaze Sheen quét qua cả khay: 1630 -> 1675 (45f)
-    // - Dừng ngắm toàn khay: 1675 -> 1720 (45f)
+    //   * Fly-in: 1375 -> 1410 (35f)
+    //   * 3D Mid-Air Hero Hold & Highlight: 1410 -> 1530 (120f = đúng 2.0s)
+    //   * Slam Down & Stack-press: 1530 -> 1557 (27f)
+    // - Glaze Sheen quét qua cả khay: 1575 -> 1620 (45f)
+    // - Dừng ngắm toàn khay: 1620 -> 1660 (40f)
     const TIMING = [
         {
             // Thẻ 1: So sánh đa hãng
-            flyStart: 980,
-            heroArrive: 1015,
-            slamStart: 1135,
-            slamEnd: 1162,
-            hlStart: 1025,
-            hlEnd: 1095,
-            sparkleStart: 1040,
-            sparkleEnd: 1110,
+            flyStart: 965,
+            heroArrive: 1000,
+            slamStart: 1120,
+            slamEnd: 1147,
+            hlStart: 1010,
+            hlEnd: 1080,
+            sparkleStart: 1025,
+            sparkleEnd: 1095,
         },
         {
             // Thẻ 2: Tiết kiệm chi phí
-            flyStart: 1195,
-            heroArrive: 1230,
-            slamStart: 1350,
-            slamEnd: 1377,
-            hlStart: 1240,
-            hlEnd: 1310,
-            sparkleStart: 1255,
-            sparkleEnd: 1325,
+            flyStart: 1170,
+            heroArrive: 1205,
+            slamStart: 1325,
+            slamEnd: 1352,
+            hlStart: 1215,
+            hlEnd: 1285,
+            sparkleStart: 1230,
+            sparkleEnd: 1300,
         },
         {
             // Thẻ 3: Cấp đơn 1-chạm & Bảo mật
-            flyStart: 1410,
-            heroArrive: 1445,
-            slamStart: 1565,
-            slamEnd: 1592,
-            hlStart: 1455,
-            hlEnd: 1525,
-            sparkleStart: 1470,
-            sparkleEnd: 1540,
+            flyStart: 1375,
+            heroArrive: 1410,
+            slamStart: 1530,
+            slamEnd: 1557,
+            hlStart: 1420,
+            hlEnd: 1490,
+            sparkleStart: 1435,
+            sparkleEnd: 1505,
         },
     ];
 
@@ -99,8 +96,8 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
     }
 
     // Vệt sáng Glaze Sheen quét qua toàn bộ khay sau khi Thẻ 3 đã tiếp đất
-    const glazeStart = 1630;
-    const glazeEnd = 1675;
+    const glazeStart = 1575;
+    const glazeEnd = 1620;
     const glazeX = interpolate(frame, [glazeStart, glazeEnd], [-400, 3000], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
