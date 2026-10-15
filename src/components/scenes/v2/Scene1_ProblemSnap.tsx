@@ -388,31 +388,31 @@ export const Scene1_ProblemSnap: React.FC = () => {
     // D. DROPDOWN STACK-PRESS KÍCH HOẠT ĐỒNG THỜI KHI SEARCH BAR DÂNG LÊN (Frame 910)
     const dropdownTriggerFrame = 910;
 
-    // Xác định activeHoverIndex khi con trỏ chuột rà qua 3 thẻ tính năng (Frames 1670 -> 1820: nhịp thở thong thả)
+    // Xác định activeHoverIndex khi con trỏ chuột rà qua 3 thẻ tính năng (Frames 1570 -> 1720: nhịp thở thong thả)
     let activeHoverIndex = -1;
-    if (frame >= 1670 && frame < 1720) {
+    if (frame >= 1570 && frame < 1620) {
         activeHoverIndex = 1; // So sánh đa hãng
-    } else if (frame >= 1720 && frame < 1770) {
+    } else if (frame >= 1620 && frame < 1670) {
         activeHoverIndex = 2; // Tiết kiệm chi phí
-    } else if (frame >= 1770 && frame < 1820) {
+    } else if (frame >= 1670 && frame < 1720) {
         activeHoverIndex = 3; // Cấp đơn 1-chạm & An toàn
     }
 
-    // E. HIỆU ỨNG CON TRỎ CHUỘT (MOUSE POINTER) TƯƠNG TÁC (Frames 1660 -> 2040):
-    // 1. Con trỏ chuột xuất hiện nhẹ nhàng tại mép trái Dropdown: Frame 1660 -> 1670
-    const cursorOpacity = interpolate(frame, [1660, 1670], [0, 1], {
+    // E. HIỆU ỨNG CON TRỎ CHUỘT (MOUSE POINTER) TƯƠNG TÁC (Frames 1560 -> 2040):
+    // 1. Con trỏ chuột xuất hiện nhẹ nhàng tại mép trái Dropdown: Frame 1560 -> 1570
+    const cursorOpacity = interpolate(frame, [1560, 1570], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
     // 2. Tọa độ X của chuột:
-    // - 1660 -> 1670: Xuất hiện ở -700px (bên trái Thẻ 1)
-    // - 1670 -> 1720: Rà qua Thẻ 1 (-700px -> -180px)
-    // - 1720 -> 1770: Lướt sang Thẻ 2 (-180px -> +240px)
-    // - 1770 -> 1820: Lướt sang Thẻ 3 (+240px -> +620px)
-    // - 1820 -> 1880: Lượn vòng chếch lên nút "Truy cập" (+620px -> +1072px)
-    // - 1880+: Đứng tại tâm nút (+1072px)
-    const cursorX = interpolate(frame, [1660, 1670, 1720, 1770, 1820, 1880], [-700, -700, -180, 240, 620, 1072], {
+    // - 1560 -> 1570: Xuất hiện ở -700px (bên trái Thẻ 1)
+    // - 1570 -> 1620: Rà qua Thẻ 1 (-700px -> -180px)
+    // - 1620 -> 1670: Lướt sang Thẻ 2 (-180px -> +240px)
+    // - 1670 -> 1720: Lướt sang Thẻ 3 (+240px -> +620px)
+    // - 1720 -> 1780: Lượn vòng chếch lên nút "Truy cập" (+620px -> +1072px)
+    // - 1780+: Đứng tại tâm nút (+1072px)
+    const cursorX = interpolate(frame, [1560, 1570, 1620, 1670, 1720, 1780], [-700, -700, -180, 240, 620, 1072], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: (t) => t * t * (3 - 2 * t),
@@ -424,28 +424,28 @@ export const Scene1_ProblemSnap: React.FC = () => {
     // Slot 2 (Thẻ 2): center Y ≈ -79px (-480 + 318 + 83)
     // Slot 3 (Thẻ 3): center Y ≈ +117px (-480 + 514 + 83)
     // Nút "Truy cập": center Y ≈ -600px
-    const baseY = interpolate(frame, [1660, 1670, 1720, 1770, 1820, 1880], [-275, -275, -79, 117, 117, -600], {
+    const baseY = interpolate(frame, [1560, 1570, 1620, 1670, 1720, 1780], [-275, -275, -79, 117, 117, -600], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: (t) => t * t * (3 - 2 * t),
     });
-    const cursorWiggle = frame >= 1670 && frame <= 1820 ? Math.sin((frame - 1670) * 0.16) * 2.2 : 0;
+    const cursorWiggle = frame >= 1570 && frame <= 1720 ? Math.sin((frame - 1570) * 0.16) * 2.2 : 0;
     const cursorY = baseY + cursorWiggle;
 
-    // 4. Trạng thái Hover trên nút "Truy cập" (Frames 1880+)
-    const isHoveringButton = frame >= 1880;
+    // 4. Trạng thái Hover trên nút "Truy cập" (Frames 1780+)
+    const isHoveringButton = frame >= 1780;
 
-    // 5. Thao tác Click chuột vào nút "Truy cập" (Frames 1955 -> 1975)
-    const isClicking = frame >= 1955 && frame <= 1975;
+    // 5. Thao tác Click chuột vào nút "Truy cập" (Frames 1855 -> 1875)
+    const isClicking = frame >= 1855 && frame <= 1875;
 
     // Scale của nút "Truy cập":
-    const buttonScale = isClicking ? 0.93 : isHoveringButton ? (frame < 1955 ? 1.05 : 1.02) : 1.0;
+    const buttonScale = isClicking ? 0.93 : isHoveringButton ? (frame < 1855 ? 1.05 : 1.02) : 1.0;
 
     // Scale của con trỏ chuột khi click
     const cursorScale = isClicking ? 0.86 : 1.0;
 
-    // 6. Sóng sáng Pulse Ripple tỏa ra từ nút khi bấm (Frames 1955 -> 1995)
-    const clickPulse = interpolate(frame, [1955, 1995], [0, 1], {
+    // 6. Sóng sáng Pulse Ripple tỏa ra từ nút khi bấm (Frames 1855 -> 1895)
+    const clickPulse = interpolate(frame, [1855, 1895], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -454,50 +454,50 @@ export const Scene1_ProblemSnap: React.FC = () => {
     // 1. Góc ngửa/chúc (Pitch - rotateX):
     // - 720 -> 910: 0deg (nhìn trực diện khi gõ link)
     // - 910 -> 955: 0deg -> 8.5deg (chúc xuống để đón khay dock và tạo chiều sâu khi input dâng lên)
-    // - 955 -> 1557: 8.5deg -> 10.5deg (giữ góc nghiêng 3D điện ảnh khi 3 thẻ lần lượt phóng lớn và đập vào khay)
-    // - 1557 -> 1820: 10.5deg (theo dõi chuột rà soát khay)
-    // - 1820 -> 1880: Trả về 2.0deg (hướng trực diện về nút Truy cập ở trên cao)
-    // - 1955 -> 1975: Giật nhẹ impact khi bấm (-0.8deg)
-    // - 1980+: Giữ thẳng hướng tâm khi lao xuyên qua (0deg)
+    // - 955 -> 1514: 8.5deg -> 10.5deg (giữ góc nghiêng 3D điện ảnh khi 3 thẻ lần lượt phóng lớn và đập vào khay)
+    // - 1514 -> 1720: 10.5deg (theo dõi chuột rà soát khay)
+    // - 1720 -> 1780: Trả về 2.0deg (hướng trực diện về nút Truy cập ở trên cao)
+    // - 1855 -> 1875: Giật nhẹ impact khi bấm (-0.8deg)
+    // - 1880+: Giữ thẳng hướng tâm khi lao xuyên qua (0deg)
     const camPitch = interpolate(
         frame,
-        [720, 910, 955, 1147, 1352, 1557, 1820, 1880, 1960, 1975],
+        [720, 910, 955, 1104, 1309, 1514, 1720, 1780, 1860, 1875],
         [0, 0, 8.5, 9.8, 10.5, 10.5, 10.5, 2.0, 1.2, 0],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) },
     );
 
     // 2. Góc xoay ngang (Yaw - rotateY):
-    const camYaw = interpolate(frame, [720, 910, 955, 1557, 1820, 1880, 1975], [0, 0, -6.0, -4.5, -4.5, 2.6, 0], {
+    const camYaw = interpolate(frame, [720, 910, 955, 1514, 1720, 1780, 1875], [0, 0, -6.0, -4.5, -4.5, 2.6, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.33, 1, 0.68, 1),
     });
 
     // 3. Góc nghiêng chân trời (Roll - rotateZ):
-    const camRoll = interpolate(frame, [910, 955, 1820, 1880, 1975], [0, -0.6, -0.6, 0.4, 0], {
+    const camRoll = interpolate(frame, [910, 955, 1720, 1780, 1875], [0, -0.6, -0.6, 0.4, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
     // 4. Camera Tracking vị trí (Tịnh tiến theo con trỏ chuột - Camera Rig pan):
-    const camTargetX = interpolate(frame, [910, 955, 1557, 1820, 1880, 1975], [0, 30, 40, 50, -110, 0], {
+    const camTargetX = interpolate(frame, [910, 955, 1514, 1720, 1780, 1875], [0, 30, 40, 50, -110, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.33, 1, 0.68, 1),
     });
     const camTargetY = interpolate(
         frame,
-        [910, 955, 1557, 1720, 1770, 1820, 1880, 1975],
+        [910, 955, 1514, 1620, 1670, 1720, 1780, 1875],
         [0, 60, 60, 50, 35, 15, 0, 0],
         { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.bezier(0.33, 1, 0.68, 1) },
     );
 
     // 5. Cú nảy giật camera khi click nút (Camera Impact Bounce):
-    const clickBounce = frame >= 1955 && frame <= 1975 ? Math.sin((frame - 1955) * 0.45) * 4.5 : 0;
+    const clickBounce = frame >= 1855 && frame <= 1875 ? Math.sin((frame - 1855) * 0.45) * 4.5 : 0;
 
-    // 7. HYBRID ZOOM-THROUGH WARP PORTAL (Frames 1955 -> 2030):
+    // 7. HYBRID ZOOM-THROUGH WARP PORTAL (Frames 1855 -> 1930):
     // Phóng to thanh Hero Search và lao xuyên qua tâm nút "Truy cập" sang Cảnh 2
-    const warpProgress = interpolate(frame, [1955, 2020], [0, 1], {
+    const warpProgress = interpolate(frame, [1855, 1920], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.55, 0, 0.82, 0.45),
@@ -507,17 +507,17 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const warpOpacity = interpolate(warpProgress, [0, 0.65, 0.95, 1], [1, 1, 0.3, 0]);
 
     // Ánh sáng cổng Portal Flash bùng nổ từ vị trí nút "Truy cập"
-    const portalFlashOpacity = interpolate(frame, [1955, 1985, 2030], [0, 0.98, 0], {
+    const portalFlashOpacity = interpolate(frame, [1855, 1885, 1930], [0, 0.98, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
     // Vệt sáng rà soát (Scan Beam) mờ lướt dưới khung input theo con trỏ chuột
-    const scanProgress = interpolate(frame, [1730, 1880], [0, 1], {
+    const scanProgress = interpolate(frame, [1630, 1780], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const showScanBeam = frame >= 1730 && frame <= 1880;
+    const showScanBeam = frame >= 1630 && frame <= 1780;
 
     // 3. NHỊP 3: CÚ BÚNG TAY SNAP! & CHUYỂN TIẾP TRẮNG/HỒNG SANG CẢNH 2
     const snapFrame = frame - EUREKA_START_FRAME;
@@ -543,8 +543,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
         extrapolateRight: 'clamp',
     });
 
-    // Chuyển tiếp trắng/hồng mềm sang Cảnh 2 (Frames 2000 -> 2040)
-    const fadeToScene2 = interpolate(frame, [2000, 2040], [0, 1], {
+    // Chuyển tiếp trắng/hồng mềm sang Cảnh 2 (Frames 1910 -> 1950)
+    const fadeToScene2 = interpolate(frame, [1910, 1950], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -1593,14 +1593,14 @@ export const Scene1_ProblemSnap: React.FC = () => {
                             pointerEvents: 'none',
                         }}
                     >
-                        {/* LAYER THREE.JS: KHÔNG GIAN HẠT 3D & HYPERDRIVE WARP SPEED TUNNEL (CHỈ MOUNT KHI WARP CHUYỂN CẢNH: FRAME >= 1945) */}
-                        {frame >= 1945 && (
+                        {/* LAYER THREE.JS: KHÔNG GIAN HẠT 3D & HYPERDRIVE WARP SPEED TUNNEL (CHỈ MOUNT KHI WARP CHUYỂN CẢNH: FRAME >= 1845) */}
+                        {frame >= 1845 && (
                             <WarpHyperdrive3D
                                 frame={frame}
                                 width={3840}
                                 height={2160}
-                                warpStartFrame={1955}
-                                warpEndFrame={2030}
+                                warpStartFrame={1855}
+                                warpEndFrame={1930}
                             />
                         )}
 

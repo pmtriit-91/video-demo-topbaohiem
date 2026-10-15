@@ -82,8 +82,8 @@ export const DropdownStackPress: React.FC<DropdownStackPressProps> = ({
     }
 
     // Vệt sáng Glaze Sheen quét qua toàn bộ khay sau khi Thẻ 3 đã tiếp đất
-    const glazeStart = 1532;
-    const glazeEnd = 1577;
+    const glazeStart = 1516;
+    const glazeEnd = 1555;
     const glazeX = interpolate(frame, [glazeStart, glazeEnd], [-400, 3000], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
