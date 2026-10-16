@@ -12,3 +12,12 @@ Config.setAudioCodec("aac");
 Config.setAudioBitrate("320k");
 Config.setChromiumOpenGlRenderer("angle"); // Kích hoạt ANGLE GPU phần cứng cho Three.js WebGL
 Config.setConcurrency(4); // Mức đa luồng an toàn cho WebGL canvas 4K
+
+// Trỏ Remotion Studio mở trực tiếp source code trên Antigravity IDE
+Config.setDefaultEditor({
+	type: "custom",
+	name: "Antigravity IDE",
+	executable:
+		"/Applications/Antigravity IDE.app/Contents/Resources/app/bin/antigravity-ide",
+	arguments: ["-r", "-g", "%TARGET_PATH%:%LINE_NUMBER%:%COLUMN_NUMBER%"],
+});
