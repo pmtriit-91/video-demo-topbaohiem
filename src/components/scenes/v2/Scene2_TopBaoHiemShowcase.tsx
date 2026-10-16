@@ -303,17 +303,32 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     }}
                 />
 
-                {/* 1. MÀN HÌNH MẶT TIỀN TRANG CHỦ QUANG HỌC BIẾN DẠNG 4K & KHUNG MACBOOK NGUYÊN BẢN */}
+                {/* 1. LAYER MÀN HÌNH (BÊN DƯỚI): MẶT TIỀN TRANG CHỦ QUANG HỌC BIẾN DẠNG 4K */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        zIndex: 1,
+                    }}
+                >
+                    <Img
+                        src={staticFile('assets/elements/screen2/homepage-screen-warped.png')}
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    />
+                </div>
+
+                {/* 2. LAYER VỎ KHUNG (BÊN TRÊN): MACBOOK NGUYÊN BẢN TÁCH NỀN CỦA BẠN */}
                 <div
                     style={{
                         position: 'absolute',
                         inset: 0,
                         zIndex: 2,
                         filter: 'drop-shadow(0 25px 60px rgba(0, 0, 0, 0.12))',
+                        pointerEvents: 'none',
                     }}
                 >
                     <Img
-                        src={staticFile('assets/elements/screen2/macbook-homepage.png')}
+                        src={staticFile('assets/elements/screen2/macbook.png')}
                         style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                     />
                 </div>
