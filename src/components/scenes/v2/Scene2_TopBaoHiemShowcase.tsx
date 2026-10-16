@@ -340,10 +340,10 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
             <div
                 style={{
                     position: 'absolute',
-                    top: 660,
-                    right: 200,
-                    width: 720,
-                    height: 960,
+                    top: 640,
+                    right: 210,
+                    width: 680,
+                    height: 1020,
                     transform: `translateY(${floatAltY}px)`,
                     zIndex: 8,
                 }}
@@ -377,7 +377,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     />
                 </div>
 
-                {/* 2. LAYER VỎ KHUNG IPHONE 3D (BÊN TRÊN): KHUNG MÁY NGUYÊN BẢN FIGMA */}
+                {/* 2. LAYER VỎ KHUNG IPHONE 3D (BÊN TRÊN): KHUNG MÁY NGUYÊN BẢN FIGMA IPHONE_3 */}
                 <div
                     style={{
                         position: 'absolute',
@@ -388,7 +388,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     }}
                 >
                     <Img
-                        src={staticFile('assets/elements/screen2/iphone.png')}
+                        src={staticFile('assets/elements/screen2/iphone_3.png')}
                         style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                     />
                 </div>
