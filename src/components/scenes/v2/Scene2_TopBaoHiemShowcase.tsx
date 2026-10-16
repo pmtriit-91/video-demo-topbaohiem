@@ -340,10 +340,10 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
             <div
                 style={{
                     position: 'absolute',
-                    top: 680,
-                    right: 220,
-                    width: 520,
-                    height: 1040,
+                    top: 660,
+                    right: 200,
+                    width: 720,
+                    height: 960,
                     transform: `translateY(${floatAltY}px)`,
                     zIndex: 8,
                 }}
@@ -352,26 +352,43 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 <div
                     style={{
                         position: 'absolute',
-                        bottom: -15,
-                        left: '15%',
-                        width: '70%',
-                        height: 35,
+                        bottom: -10,
+                        left: '12%',
+                        width: '76%',
+                        height: 38,
                         borderRadius: '50%',
                         backgroundColor: 'rgba(15, 23, 42, 0.14)',
-                        filter: 'blur(15px)',
+                        filter: 'blur(16px)',
+                        transform: 'scaleY(0.4)',
                     }}
                 />
 
-                {/* Khung iPhone hiển thị trang mobile (trangchu-mobile.png) - 100% sắc nét */}
+                {/* 1. LAYER MÀN HÌNH IPHONE (BÊN DƯỚI): TRANG CHỦ MOBILE QUANG HỌC 4K RETINA */}
                 <div
                     style={{
                         position: 'absolute',
                         inset: 0,
-                        filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.16))',
+                        zIndex: 1,
                     }}
                 >
                     <Img
-                        src={staticFile('assets/elements/screen2/trangchu-mobile.png')}
+                        src={staticFile('assets/elements/screen2/iphone-screen-warped.png')}
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    />
+                </div>
+
+                {/* 2. LAYER VỎ KHUNG IPHONE 3D (BÊN TRÊN): KHUNG MÁY NGUYÊN BẢN FIGMA */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        zIndex: 2,
+                        filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.16))',
+                        pointerEvents: 'none',
+                    }}
+                >
+                    <Img
+                        src={staticFile('assets/elements/screen2/iphone.png')}
                         style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                     />
                 </div>
