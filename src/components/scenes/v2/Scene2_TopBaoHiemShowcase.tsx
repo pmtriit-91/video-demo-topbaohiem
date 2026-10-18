@@ -77,7 +77,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
             <div
                 style={{
                     position: 'absolute',
-                    top: 180,
+                    top: 140,
                     left: 170,
                     zIndex: 10,
                 }}
