@@ -281,10 +281,10 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
             <div
                 style={{
                     position: 'absolute',
-                    top: 190,
-                    left: 1240,
-                    width: 2020,
-                    height: 1360,
+                    top: 160,
+                    left: 1120,
+                    width: 2626,
+                    height: 1768,
                     zIndex: 5,
                 }}
             >
@@ -292,13 +292,13 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 <div
                     style={{
                         position: 'absolute',
-                        bottom: 45,
+                        bottom: 55,
                         left: '8%',
                         width: '84%',
-                        height: 70,
+                        height: 90,
                         borderRadius: '50%',
                         backgroundColor: 'rgba(15, 23, 42, 0.12)',
-                        filter: 'blur(25px)',
+                        filter: 'blur(30px)',
                         transform: 'scaleY(0.4)',
                     }}
                 />
@@ -313,7 +313,12 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 >
                     <Img
                         src={staticFile('assets/elements/screen2/homepage-screen-warped.png')}
-                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                            translate: '-460.3px 118.1px'
+                        }}
                     />
                 </div>
 
@@ -329,7 +334,12 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 >
                     <Img
                         src={staticFile('assets/elements/screen2/macbook.png')}
-                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                            translate: '-454.7px 125.7px'
+                        }}
                     />
                 </div>
             </div>
@@ -340,10 +350,10 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
             <div
                 style={{
                     position: 'absolute',
-                    top: 640,
-                    right: 210,
-                    width: 680,
-                    height: 1020,
+                    top: 660,
+                    right: 140,
+                    width: 884,
+                    height: 1326,
                     transform: `translateY(${floatAltY}px)`,
                     zIndex: 8,
                 }}
@@ -352,13 +362,13 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 <div
                     style={{
                         position: 'absolute',
-                        bottom: -10,
+                        bottom: -15,
                         left: '12%',
                         width: '76%',
-                        height: 38,
+                        height: 50,
                         borderRadius: '50%',
                         backgroundColor: 'rgba(15, 23, 42, 0.14)',
-                        filter: 'blur(16px)',
+                        filter: 'blur(20px)',
                         transform: 'scaleY(0.4)',
                     }}
                 />
@@ -373,7 +383,13 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 >
                     <Img
                         src={staticFile('assets/elements/screen2/iphone-screen-warped.png')}
-                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                            rotate: '3.1deg',
+                            translate: '102.4px -46px'
+                        }}
                     />
                 </div>
 
@@ -389,7 +405,13 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 >
                     <Img
                         src={staticFile('assets/elements/screen2/iphone_3.png')}
-                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                            rotate: '3.1deg',
+                            translate: '102.4px -45px'
+                        }}
                     />
                 </div>
 
@@ -397,12 +419,12 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 <div
                     style={{
                         position: 'absolute',
-                        bottom: -20,
-                        left: -80,
-                        width: 220,
-                        height: 220,
+                        bottom: -25,
+                        left: -100,
+                        width: 286,
+                        height: 286,
                         zIndex: 10,
-                        filter: 'drop-shadow(0 12px 28px rgba(225, 29, 72, 0.30))',
+                        filter: 'drop-shadow(0 14px 32px rgba(225, 29, 72, 0.32))',
                         transform: `translateY(${floatY}px)`,
                     }}
                 >
