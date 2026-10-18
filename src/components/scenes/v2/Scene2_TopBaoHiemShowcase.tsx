@@ -266,7 +266,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             width: '100%',
                             height: '100%',
                             objectFit: 'contain',
-                            translate: '118.3px 29.4px'
+                            translate: '118.3px 29.4px',
                         }}
                     />
                 </div>
@@ -283,9 +283,9 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         backgroundColor: '#FFFFFF',
                         padding: '16px 36px 16px 20px',
                         borderRadius: 999,
-                        boxShadow: '0 14px 36px rgba(0, 0, 0, 0.08)',
-                        border: '2px solid #E2E8F0',
-                        width: 700,
+                        boxShadow: '0 14px 36px rgba(223, 63, 116, 0.08)',
+                        border: `2px solid ${colors.brandPink}`,
+                        width: 610,
                     }}
                 >
                     {/* Icon kính lúp 3D (kinh-lup.png) */}
@@ -297,16 +297,19 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     </div>
                     <div
                         style={{
+                            flex: 1,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            textAlign: 'center',
                             fontSize: 64,
                             fontWeight: 800,
-                            color: colors.brandPink,
                             letterSpacing: '-0.5px',
-                            lineHeight: 1.15,
+                            lineHeight: 1.35,
                         }}
                     >
-                        Tìm hiểu
-                        <br />
-                        dễ dàng
+                        <span style={{ color: colors.brandPink }}>Tìm hiểu</span>
+                        <span style={{ color: '#2B121E' }}>dễ dàng</span>
                     </div>
                 </div>
             </div>
@@ -354,7 +357,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             height: '100%',
                             objectFit: 'contain',
                             translate: '-412.9px 116.2px',
-                            scale: 0.951
+                            scale: 0.951,
                         }}
                     />
                 </div>
@@ -375,7 +378,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             width: '100%',
                             height: '100%',
                             objectFit: 'contain',
-                            translate: '-405.8px 116.3px'
+                            translate: '-405.8px 116.3px',
                         }}
                     />
                 </div>
@@ -425,7 +428,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             height: '100%',
                             objectFit: 'contain',
                             rotate: '3.1deg',
-                            translate: '102.4px 55.3px'
+                            translate: '102.4px 55.3px',
                         }}
                     />
                 </div>
@@ -447,7 +450,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             height: '100%',
                             objectFit: 'contain',
                             rotate: '3.1deg',
-                            translate: '102.4px 69.4px'
+                            translate: '102.4px 69.4px',
                         }}
                     />
                 </div>
