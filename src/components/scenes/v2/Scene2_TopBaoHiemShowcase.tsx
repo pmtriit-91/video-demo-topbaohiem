@@ -157,7 +157,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 </svg>
             </div>
 
-            {/* Đám mây xanh mint góc trái ôm cổ tay (mayxanh.png do bạn tạo) */}
+            {/* Đám mây xanh mint góc trái ôm cổ tay (mayxanh.png) - Tách riêng lớp bóng phía sau và giữ ảnh mây nét căng */}
             <div
                 style={{
                     position: 'absolute',
@@ -179,21 +179,93 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         width: '86%',
                         height: 38,
                         borderRadius: '50%',
-                        backgroundColor: 'rgba(15, 23, 42, 0.28)',
+                        backgroundColor: 'rgba(15, 23, 42, 0.20)',
                         filter: 'blur(15px)',
                         transform: 'scaleY(0.42)',
                     }}
                 />
 
-                {/* 2. Ảnh đám mây với hiệu ứng bóng khối 3D đổ nghiêng chuẩn mẫu */}
+                {/* 2. LỚP BÓNG PHÍA SAU (Nằm ở zIndex thấp hơn, hắt sang phải & bottom) */}
+                {/* Tầng 1: Vệt bóng hắt loang mềm ra phía sau bên phải */}
                 <Img
                     src={staticFile('assets/elements/screen2/mayxanh.png')}
                     style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        translate: '18px -41px',
+                        filter: 'brightness(0) opacity(0.22) blur(20px)',
+                    }}
+                />
+
+                {/* Tầng 2: Viền bóng tiếp xúc sắc nét ôm theo các múi cong bên phải */}
+                <Img
+                    src={staticFile('assets/elements/screen2/mayxanh.png')}
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        translate: '6px -45.5px',
+                        filter: 'brightness(0) opacity(0.18) blur(3px)',
+                    }}
+                />
+
+                {/* Tầng 3: Vệt bóng đổ dưới chân bottom lan toả mềm */}
+                <Img
+                    src={staticFile('assets/elements/screen2/mayxanh.png')}
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        translate: '2px -34px',
+                        filter: 'brightness(0) opacity(0.24) blur(16px)',
+                    }}
+                />
+
+                {/* Tầng 4: Bóng tiếp xúc đậm nét mép đáy nằm ngang */}
+                <Img
+                    src={staticFile('assets/elements/screen2/mayxanh.png')}
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        translate: '0px -40px',
+                        filter: 'brightness(0) opacity(0.32) blur(5px)',
+                    }}
+                />
+
+                {/* Tầng 5: Bóng rỉa nhẹ sườn trái */}
+                <Img
+                    src={staticFile('assets/elements/screen2/mayxanh.png')}
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        translate: '-3px -46px',
+                        filter: 'brightness(0) opacity(0.12) blur(6px)',
+                    }}
+                />
+
+                {/* 3. LỚP ĐÁM MÂY XANH MINT CHÍNH (FOREGROUND) - 100% NÉT CĂNG NGUYÊN BẢN, KHÔNG BỊ FILTER LÀM MỜ */}
+                <Img
+                    src={staticFile('assets/elements/screen2/mayxanh.png')}
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
                         width: '100%',
                         height: '100%',
                         objectFit: 'contain',
                         translate: '0px -47.1px',
-                        filter: 'drop-shadow(14px 22px 26px rgba(15, 23, 42, 0.26)) drop-shadow(4px 10px 12px rgba(0, 0, 0, 0.18))',
                     }}
                 />
             </div>
