@@ -198,25 +198,102 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 />
             </div>
 
-            {/* Đám mây giấy góc trên phải (Paper Cloud Top-Right - Chuẩn mẫu Canva) */}
+            {/* Đám mây trắng 3D góc trên phải - Tách riêng lớp bóng phía sau và giữ ảnh mây nét căng */}
             <div
                 style={{
                     position: 'absolute',
-                    top: 80,
-                    right: 90,
+                    top: 90,
+                    left: 2980,
+                    width: 680,
+                    height: 668,
                     zIndex: 3,
-                    filter: 'drop-shadow(0 15px 35px rgba(0, 0, 0, 0.06))',
                     pointerEvents: 'none',
                     transform: `translateY(${Math.cos(frame * 0.035) * 5}px) translateX(${Math.sin(frame * 0.025) * 4}px)`,
                 }}
             >
-                <svg width="520" height="280" viewBox="0 0 520 280" fill="none">
-                    <path
-                        d="M 60,230 A 55,55 0 0,1 95,130 A 80,80 0 0,1 230,80 A 95,95 0 0,1 390,110 A 60,60 0 0,1 475,175 A 55,55 0 0,1 445,230 Z"
-                        fill="#FFFFFF"
-                        opacity="0.94"
-                    />
-                </svg>
+                {/* 1. LỚP BÓNG PHÍA SAU (Nằm ở zIndex thấp hơn, hắt sang phải & rỉa quanh đáy/trái chuẩn nguyên mẫu) */}
+                {/* Tầng 1: Vệt bóng hắt loang mềm ra nền tường phía sau bên phải */}
+                <Img
+                    src={staticFile('assets/elements/screen2/maytrang.png')}
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        translate: '153px -85px',
+                        filter: 'brightness(0) opacity(0.24) blur(22px)',
+                    }}
+                />
+
+                {/* Tầng 2: Viền bóng tiếp xúc sắc nét ôm theo các múi cong bên phải */}
+                <Img
+                    src={staticFile('assets/elements/screen2/maytrang.png')}
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        translate: '136px -91px',
+                        filter: 'brightness(0) opacity(0.15) blur(3px)',
+                    }}
+                />
+
+                {/* Tầng 3: Bóng rỉa loang nhẹ ôm quanh sườn trái (Ambient Left Rim) */}
+                <Img
+                    src={staticFile('assets/elements/screen2/maytrang.png')}
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        translate: '124px -91px',
+                        filter: 'brightness(100) opacity(0.08) blur(20px)',
+                    }}
+                />
+
+                {/* Tầng 4: Vệt bóng đổ dưới bottom đám mây lan toả mềm mại (Bottom Cast Shadow) */}
+                <Img
+                    src={staticFile('assets/elements/screen2/maytrang.png')}
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        translate: '130px -75px',
+                        filter: 'brightness(0) opacity(0.24) blur(18px)',
+                    }}
+                />
+
+                {/* Tầng 5: Bóng tiếp xúc đậm nét ngay dưới mép đáy nằm ngang (Bottom Contact Shadow) */}
+                <Img
+                    src={staticFile('assets/elements/screen2/maytrang.png')}
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        translate: '129px -83px',
+                        filter: 'brightness(0) opacity(0.35) blur(6px)',
+                    }}
+                />
+
+                {/* 2. LỚP ĐÁM MÂY CHÍNH (FOREGROUND) - 100% NÉT CĂNG NGUYÊN BẢN, KHÔNG BỊ FILTER LÀM MỜ */}
+                <Img
+                    src={staticFile('assets/elements/screen2/maytrang.png')}
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        translate: '128.5px -93.5px',
+                    }}
+                />
             </div>
 
             {/* Nhánh lá xanh mint sau mép phải iPhone (Mint Leaf Accent - Chuẩn mẫu Canva) */}
