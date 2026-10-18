@@ -29,15 +29,15 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
             <div
                 style={{
                     position: 'absolute',
-                    top: 80,
-                    left: 140,
+                    top: 180,
+                    left: 170,
                     zIndex: 10,
                 }}
             >
                 {/* Tiêu đề thương hiệu lớn */}
                 <div
                     style={{
-                        fontSize: 104,
+                        fontSize: 200,
                         fontWeight: 900,
                         color: colors.brandPink,
                         letterSpacing: '-2px',
@@ -51,7 +51,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 {/* Slogan mô tả phụ */}
                 <div
                     style={{
-                        fontSize: 42,
+                        fontSize: 78,
                         fontWeight: 600,
                         color: '#334155',
                         marginTop: 16,
@@ -89,7 +89,12 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 >
                     <Img
                         src={staticFile('assets/elements/screen2/bungtay.png')}
-                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                            translate: '-80px -103.3px',
+                        }}
                     />
 
                     {/* Tia năng lượng búng tay (Sparkles) */}
@@ -117,14 +122,14 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         transform: `translateY(${floatAltY}px)`,
                     }}
                 >
-                    {/* Thẻ 1: Khiên */}
+                    {/* Thẻ 1: Y tế */}
                     <div
                         style={{
                             position: 'absolute',
-                            top: 0,
-                            left: 20,
-                            width: 145,
-                            height: 165,
+                            top: -310,
+                            left: 100,
+                            width: 285,
+                            height: 305,
                             backgroundColor: '#FFFFFF',
                             borderRadius: 22,
                             boxShadow: '0 12px 28px rgba(0, 0, 0, 0.10)',
@@ -137,7 +142,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         }}
                     >
                         <Img
-                            src={staticFile('assets/elements/screen2/khien.png')}
+                            src={staticFile('assets/elements/screen2/yte.png')}
                             style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                         />
                     </div>
@@ -146,15 +151,15 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     <div
                         style={{
                             position: 'absolute',
-                            top: 30,
-                            left: 145,
-                            width: 145,
-                            height: 165,
+                            top: -355,
+                            left: 375,
+                            width: 285,
+                            height: 305,
                             backgroundColor: '#FFFFFF',
                             borderRadius: 22,
                             boxShadow: '0 12px 28px rgba(0, 0, 0, 0.10)',
                             border: '3px solid #FFF1F2',
-                            transform: 'rotate(6deg)',
+                            transform: 'rotate(0deg)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -167,14 +172,39 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         />
                     </div>
 
+                    {/* Thẻ 2: Nhà cửa */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: -315,
+                            left: 655,
+                            width: 285,
+                            height: 305,
+                            backgroundColor: '#FFFFFF',
+                            borderRadius: 22,
+                            boxShadow: '0 12px 28px rgba(0, 0, 0, 0.10)',
+                            border: '3px solid #FFF1F2',
+                            transform: 'rotate(18deg)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: 14,
+                        }}
+                    >
+                        <Img
+                            src={staticFile('assets/elements/screen2/dulich.png')}
+                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                        />
+                    </div>
+
                     {/* Thẻ 3: Ô tô */}
                     <div
                         style={{
                             position: 'absolute',
-                            top: 135,
-                            left: 55,
-                            width: 145,
-                            height: 165,
+                            top: 35,
+                            left: 225,
+                            width: 285,
+                            height: 305,
                             backgroundColor: '#FFFFFF',
                             borderRadius: 22,
                             boxShadow: '0 14px 30px rgba(0, 0, 0, 0.11)',
@@ -188,7 +218,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     >
                         <Img
                             src={staticFile('assets/elements/screen2/oto.png')}
-                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                            style={{ width: '120%', height: '120%', objectFit: 'contain' }}
                         />
                     </div>
 
@@ -196,10 +226,10 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     <div
                         style={{
                             position: 'absolute',
-                            top: 145,
-                            left: 175,
-                            width: 145,
-                            height: 165,
+                            top: 45,
+                            left: 545,
+                            width: 285,
+                            height: 305,
                             backgroundColor: '#FFFFFF',
                             borderRadius: 22,
                             boxShadow: '0 14px 30px rgba(0, 0, 0, 0.11)',
@@ -212,8 +242,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         }}
                     >
                         <Img
-                            src={staticFile('assets/elements/screen2/dulich.png')}
-                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                            src={staticFile('assets/elements/screen2/xemay.png')}
+                            style={{ width: '120%', height: '120%', objectFit: 'contain' }}
                         />
                     </div>
                 </div>
@@ -232,7 +262,12 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 >
                     <Img
                         src={staticFile('assets/elements/screen2/arrow.png')}
-                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                            translate: '118.3px 29.4px'
+                        }}
                     />
                 </div>
 
@@ -240,8 +275,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 <div
                     style={{
                         position: 'absolute',
-                        bottom: 120,
-                        left: 420,
+                        bottom: 350,
+                        left: 650,
                         display: 'flex',
                         alignItems: 'center',
                         gap: 22,
@@ -250,10 +285,11 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         borderRadius: 999,
                         boxShadow: '0 14px 36px rgba(0, 0, 0, 0.08)',
                         border: '2px solid #E2E8F0',
+                        width: 700,
                     }}
                 >
                     {/* Icon kính lúp 3D (kinh-lup.png) */}
-                    <div style={{ width: 70, height: 70, flexShrink: 0 }}>
+                    <div style={{ width: 200, height: 200, flexShrink: 0 }}>
                         <Img
                             src={staticFile('assets/elements/screen2/kinh-lup.png')}
                             style={{ width: '100%', height: '100%', objectFit: 'contain' }}
@@ -261,7 +297,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     </div>
                     <div
                         style={{
-                            fontSize: 34,
+                            fontSize: 64,
                             fontWeight: 800,
                             color: colors.brandPink,
                             letterSpacing: '-0.5px',
@@ -317,7 +353,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             width: '100%',
                             height: '100%',
                             objectFit: 'contain',
-                            translate: '-460.3px 118.1px'
+                            translate: '-412.9px 116.2px',
+                            scale: 0.951
                         }}
                     />
                 </div>
@@ -338,7 +375,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             width: '100%',
                             height: '100%',
                             objectFit: 'contain',
-                            translate: '-454.7px 125.7px'
+                            translate: '-405.8px 116.3px'
                         }}
                     />
                 </div>
@@ -388,7 +425,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             height: '100%',
                             objectFit: 'contain',
                             rotate: '3.1deg',
-                            translate: '102.4px -46px'
+                            translate: '102.4px 55.3px'
                         }}
                     />
                 </div>
@@ -410,7 +447,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             height: '100%',
                             objectFit: 'contain',
                             rotate: '3.1deg',
-                            translate: '102.4px -45px'
+                            translate: '102.4px 69.4px'
                         }}
                     />
                 </div>
@@ -421,8 +458,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         position: 'absolute',
                         bottom: -25,
                         left: -100,
-                        width: 286,
-                        height: 286,
+                        width: 450,
+                        height: 450,
                         zIndex: 10,
                         filter: 'drop-shadow(0 14px 32px rgba(225, 29, 72, 0.32))',
                         transform: `translateY(${floatY}px)`,
@@ -430,7 +467,13 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 >
                     <Img
                         src={staticFile('assets/elements/screen2/khien.png')}
-                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                            scale: 1.506,
+                            translate: '-68.3px 7.9px',
+                        }}
                     />
                 </div>
             </div>
