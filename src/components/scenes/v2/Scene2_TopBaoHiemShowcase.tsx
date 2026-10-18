@@ -11,6 +11,54 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     const floatY = Math.sin(frame * 0.05) * 6;
     const floatAltY = Math.cos(frame * 0.04) * 5;
 
+    // ==============================================================
+    // HIỆU ỨNG DẢI SÓNG GIẤY XANH MINT Ở ĐÁY (ĐỒNG BỘ CHUẨN FORM CẢNH 1 & CANVA)
+    // ==============================================================
+    // Nhịp dập dờn vi mô điều hòa (Harmonic undulation)
+    const waveFloatY = Math.sin(frame * 0.035) * 6;
+    const waveLayer2FloatX = Math.cos(frame * 0.03) * 16;
+
+    const waveL1_left = Math.sin(frame * 0.045) * 10;
+    const waveL1_mid = Math.sin(frame * 0.04 + 1.3) * 12;
+    const waveL1_right = Math.cos(frame * 0.042 + 0.6) * 10;
+
+    const waveL2_left = Math.sin(frame * 0.038 + 1.8) * 8;
+    const waveL2_mid = Math.sin(frame * 0.044 + 2.7) * 10;
+    const waveL2_right = Math.cos(frame * 0.036 + 1.9) * 8;
+
+    // Tọa độ động Layer 1 (Tiền cảnh - nâng đỡ bàn tay, MacBook & chân iPhone)
+    const l1_p0_y = 710 + waveL1_left;
+    const l1_c1_y = 725 + waveL1_left * 0.8;
+    const l1_c2_y = 775 + waveL1_mid * 0.7;
+    const l1_p1_y = 790 + waveL1_mid;
+
+    const l1_c3_y = 830 + waveL1_mid * 0.8;
+    const l1_c4_y = 855 + waveL1_right * 0.7;
+    const l1_p2_y = 840 + waveL1_right;
+
+    const l1_c5_y = 810 + waveL1_right * 0.8;
+    const l1_c6_y = 680 + waveL1_right * 0.6;
+    const l1_p3_y = 580 + waveL1_right * 0.5;
+
+    const pathWaveLayer1 = `M 0, ${l1_p0_y.toFixed(1)} C 500, ${l1_c1_y.toFixed(1)} 900, ${l1_c2_y.toFixed(1)} 1300, ${l1_p1_y.toFixed(1)} C 1800, ${l1_c3_y.toFixed(1)} 2300, ${l1_c4_y.toFixed(1)} 2750, ${l1_p2_y.toFixed(1)} C 3200, ${l1_c5_y.toFixed(1)} 3550, ${l1_c6_y.toFixed(1)} 3840, ${l1_p3_y.toFixed(1)} L 3840, 960 L 0, 960 Z`;
+    const crestLineLayer1 = `M 0, ${l1_p0_y.toFixed(1)} C 500, ${l1_c1_y.toFixed(1)} 900, ${l1_c2_y.toFixed(1)} 1300, ${l1_p1_y.toFixed(1)} C 1800, ${l1_c3_y.toFixed(1)} 2300, ${l1_c4_y.toFixed(1)} 2750, ${l1_p2_y.toFixed(1)} C 3200, ${l1_c5_y.toFixed(1)} 3550, ${l1_c6_y.toFixed(1)} 3840, ${l1_p3_y.toFixed(1)}`;
+
+    // Tọa độ động Layer 2 (Hậu cảnh - nhô cao tạo chiều sâu Origami 3D)
+    const l2_p0_y = 665 + waveL2_left;
+    const l2_c1_y = 680 + waveL2_left * 0.8;
+    const l2_c2_y = 735 + waveL2_mid * 0.7;
+    const l2_p1_y = 750 + waveL2_mid;
+
+    const l2_c3_y = 790 + waveL2_mid * 0.8;
+    const l2_c4_y = 815 + waveL2_right * 0.7;
+    const l2_p2_y = 800 + waveL2_right;
+
+    const l2_c5_y = 760 + waveL2_right * 0.8;
+    const l2_c6_y = 630 + waveL2_right * 0.6;
+    const l2_p3_y = 530 + waveL2_right * 0.5;
+
+    const pathWaveLayer2 = `M 0, ${l2_p0_y.toFixed(1)} C 500, ${l2_c1_y.toFixed(1)} 900, ${l2_c2_y.toFixed(1)} 1300, ${l2_p1_y.toFixed(1)} C 1800, ${l2_c3_y.toFixed(1)} 2300, ${l2_c4_y.toFixed(1)} 2750, ${l2_p2_y.toFixed(1)} C 3200, ${l2_c5_y.toFixed(1)} 3550, ${l2_c6_y.toFixed(1)} 3840, ${l2_p3_y.toFixed(1)} L 3840, 960 L 0, 960 Z`;
+
     return (
         <div
             style={{
@@ -63,7 +111,150 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
             </div>
 
             {/* ============================================================== */}
-            {/* B. TIỀN CẢNH BÊN TRÁI: BÀN TAY BÚNG TAY SNAP! & CỤM 4 THẺ BÀI */}
+            {/* B. ĐÁY KHUNG HÌNH: DẢI SÓNG GIẤY XANH MINT 3D ĐỒNG BỘ CẢNH 1 */}
+            {/* ============================================================== */}
+            <div
+                style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    width: 3840,
+                    height: 960,
+                    pointerEvents: 'none',
+                    zIndex: 2,
+                    transform: `translateY(${waveFloatY}px)`,
+                    filter: 'drop-shadow(0 -12px 28px rgba(16, 185, 129, 0.12))',
+                }}
+            >
+                <svg width="3840" height="960" viewBox="0 0 3840 960" fill="none">
+                    <defs>
+                        {/* Gradient xanh mint pastel tươi sáng đặc trưng Canva */}
+                        <linearGradient id="mintWaveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#C4EFE3" />
+                            <stop offset="40%" stopColor="#B3EADB" />
+                            <stop offset="75%" stopColor="#C6EFE4" />
+                            <stop offset="100%" stopColor="#A8E4D3" />
+                        </linearGradient>
+                        <linearGradient id="mintWaveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#D8F7EE" stopOpacity="0.85" />
+                            <stop offset="50%" stopColor="#C7F1E5" stopOpacity="0.9" />
+                            <stop offset="100%" stopColor="#B6ECDE" stopOpacity="0.85" />
+                        </linearGradient>
+                    </defs>
+
+                    {/* Lớp sóng giấy mint nền sau (Layer 2) */}
+                    <path
+                        d={pathWaveLayer2}
+                        fill="url(#mintWaveGrad2)"
+                        transform={`translate(${waveLayer2FloatX * 0.7}, 0)`}
+                    />
+
+                    {/* Lớp sóng giấy mint chính tiền cảnh (Layer 1) */}
+                    <path d={pathWaveLayer1} fill="url(#mintWaveGrad1)" />
+
+                    {/* Đường viền nếp gấp giấy mỏng uốn lượn đồng bộ trên đỉnh sóng */}
+                    <path d={crestLineLayer1} stroke="#8CE0CB" strokeWidth="3.5" fill="none" opacity="0.6" />
+                </svg>
+            </div>
+
+            {/* Đám mây xanh mint góc trái ôm cổ tay (mayxanh.png do bạn tạo) */}
+            <div
+                style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    width: 650,
+                    height: 342,
+                    zIndex: 17, // Nổi phía trước cổ tay áo hồng ôm viền tự nhiên
+                    pointerEvents: 'none',
+                    transform: `translateY(${Math.sin(frame * 0.03) * 4}px)`,
+                }}
+            >
+                {/* 1. Bóng tiếp xúc chân đám mây trên mặt sàn mint */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        bottom: 38,
+                        left: '6%',
+                        width: '86%',
+                        height: 38,
+                        borderRadius: '50%',
+                        backgroundColor: 'rgba(15, 23, 42, 0.28)',
+                        filter: 'blur(15px)',
+                        transform: 'scaleY(0.42)',
+                    }}
+                />
+
+                {/* 2. Ảnh đám mây với hiệu ứng bóng khối 3D đổ nghiêng chuẩn mẫu */}
+                <Img
+                    src={staticFile('assets/elements/screen2/mayxanh.png')}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        translate: '0px -47.1px',
+                        filter: 'drop-shadow(14px 22px 26px rgba(15, 23, 42, 0.26)) drop-shadow(4px 10px 12px rgba(0, 0, 0, 0.18))',
+                    }}
+                />
+            </div>
+
+            {/* Đám mây giấy góc trên phải (Paper Cloud Top-Right - Chuẩn mẫu Canva) */}
+            <div
+                style={{
+                    position: 'absolute',
+                    top: 80,
+                    right: 90,
+                    zIndex: 3,
+                    filter: 'drop-shadow(0 15px 35px rgba(0, 0, 0, 0.06))',
+                    pointerEvents: 'none',
+                    transform: `translateY(${Math.cos(frame * 0.035) * 5}px) translateX(${Math.sin(frame * 0.025) * 4}px)`,
+                }}
+            >
+                <svg width="520" height="280" viewBox="0 0 520 280" fill="none">
+                    <path
+                        d="M 60,230 A 55,55 0 0,1 95,130 A 80,80 0 0,1 230,80 A 95,95 0 0,1 390,110 A 60,60 0 0,1 475,175 A 55,55 0 0,1 445,230 Z"
+                        fill="#FFFFFF"
+                        opacity="0.94"
+                    />
+                </svg>
+            </div>
+
+            {/* Nhánh lá xanh mint sau mép phải iPhone (Mint Leaf Accent - Chuẩn mẫu Canva) */}
+            <div
+                style={{
+                    position: 'absolute',
+                    top: 1320,
+                    right: -10,
+                    zIndex: 4, // Dưới iPhone (zIndex: 8), trên dải sóng (zIndex: 2)
+                    pointerEvents: 'none',
+                    transform: `translateY(${Math.sin(frame * 0.04) * 5}px) rotate(${Math.cos(frame * 0.03) * 1.5}deg)`,
+                    filter: 'drop-shadow(-8px 12px 24px rgba(16, 185, 129, 0.15))',
+                }}
+            >
+                <svg width="220" height="380" viewBox="0 0 220 380" fill="none">
+                    <path
+                        d="M 220,180 C 130,160 50,100 20,20 C 10,80 30,190 90,260 C 140,320 200,350 220,360 Z"
+                        fill="#A7E4D3"
+                        opacity="0.9"
+                    />
+                    <path
+                        d="M 220,210 C 145,210 85,160 55,90 C 50,140 70,220 120,280 C 160,330 205,355 220,360 Z"
+                        fill="#8CE0CB"
+                        opacity="0.95"
+                    />
+                    <path
+                        d="M 220,360 C 160,300 95,200 45,70"
+                        stroke="#52B79E"
+                        strokeWidth="3.5"
+                        strokeLinecap="round"
+                        fill="none"
+                        opacity="0.75"
+                    />
+                </svg>
+            </div>
+
+            {/* ============================================================== */}
+            {/* C. TIỀN CẢNH BÊN TRÁI: BÀN TAY BÚNG TAY SNAP! & CỤM 4 THẺ BÀI */}
             {/* ============================================================== */}
             <div
                 style={{
@@ -76,7 +267,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     pointerEvents: 'none',
                 }}
             >
-                {/* 1. Bàn tay áo hồng búng tay (bungtay.png) - 100% sắc nét */}
+                {/* 1. Bàn tay áo hồng búng tay (bungtay.png) - 100% sắc nét với bóng khối 3D */}
                 <div
                     style={{
                         position: 'absolute',
@@ -84,7 +275,6 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         left: 20,
                         width: 580,
                         height: 1140,
-                        filter: 'drop-shadow(0 20px 35px rgba(0, 0, 0, 0.14))',
                     }}
                 >
                     <Img
@@ -94,6 +284,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             height: '100%',
                             objectFit: 'contain',
                             translate: '-80px -103.3px',
+                            filter: 'drop-shadow(24px 32px 42px rgba(15, 23, 42, 0.26)) drop-shadow(8px 14px 18px rgba(0, 0, 0, 0.18))',
                         }}
                     />
 
@@ -398,22 +589,53 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     zIndex: 8,
                 }}
             >
-                {/* Bóng tiếp xúc đáy điện thoại */}
+                {/* 1. Bóng iPhone — loe rộng về phía sau, đậm hơn theo góc nghiêng */}
                 <div
                     style={{
                         position: 'absolute',
-                        bottom: -15,
-                        left: '12%',
-                        width: '76%',
-                        height: 50,
-                        borderRadius: '50%',
-                        backgroundColor: 'rgba(15, 23, 42, 0.14)',
-                        filter: 'blur(20px)',
-                        transform: 'scaleY(0.4)',
+                        left: 180,
+                        bottom: -10,
+                        width: 950,
+                        height: 425,
+                        pointerEvents: 'none',
+                        zIndex: 1,
+                        transform: 'rotate(-28deg)',
+                        transformOrigin: 'center center',
                     }}
-                />
+                >
+                    {/* Lớp 1: Quầng bóng rộng — loang xa về phía sau và bên phải */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: '40%',
+                            bottom: -40,
+                            width: '88%',
+                            height: '100%',
+                            borderRadius: '10%',
+                            background:
+                                'radial-gradient(ellipse at 43% 48%, rgba(40, 57, 57, 0.18) 0%, rgba(40, 57, 57, 0.14) 30%, rgba(40, 57, 57, 0.075) 55%, rgba(40, 57, 57, 0.025) 76%, transparent 100%)',
+                            filter: 'blur(20px)',
+                            transform: 'scaleY(0.88)',
+                        }}
+                    />
 
-                {/* 1. LAYER MÀN HÌNH IPHONE (BÊN DƯỚI): TRANG CHỦ MOBILE QUANG HỌC 4K RETINA */}
+                    {/* Lớp 2: Thân bóng — mở rộng theo hướng nghiêng của cạnh đáy */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: '40%',
+                            bottom: -80,
+                            width: '62%',
+                            height: '72%',
+                            background:
+                                'radial-gradient(ellipse at 42% 55%, rgba(35, 46, 48, 0.25) 0%, rgba(35, 46, 48, 0.19) 35%, rgba(35, 46, 48, 0.09) 65%, rgba(35, 46, 48, 0.015) 85%, transparent 100%)',
+                            filter: 'blur(10px)',
+                            transform: 'scaleY(0.82)',
+                        }}
+                    />
+                </div>
+
+                {/* 2. LAYER MÀN HÌNH IPHONE (BÊN DƯỚI): TRANG CHỦ MOBILE QUANG HỌC 4K RETINA */}
                 <div
                     style={{
                         position: 'absolute',
@@ -433,13 +655,12 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     />
                 </div>
 
-                {/* 2. LAYER VỎ KHUNG IPHONE 3D (BÊN TRÊN): KHUNG MÁY NGUYÊN BẢN FIGMA IPHONE_3 */}
+                {/* 3. LAYER VỎ KHUNG IPHONE 3D (BÊN TRÊN): KHUNG MÁY NGUYÊN BẢN FIGMA IPHONE_3 VỚI BÓNG KHỐI 3D */}
                 <div
                     style={{
                         position: 'absolute',
                         inset: 0,
                         zIndex: 2,
-                        filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.16))',
                         pointerEvents: 'none',
                     }}
                 >
@@ -451,11 +672,71 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             objectFit: 'contain',
                             rotate: '3.1deg',
                             translate: '102.4px 69.4px',
+                            filter: 'drop-shadow(26px 36px 48px rgba(15, 23, 42, 0.25)) drop-shadow(8px 16px 20px rgba(0, 0, 0, 0.16))',
                         }}
                     />
                 </div>
 
-                {/* Chiếc khiên hồng 3D đặt nổi bật trước chân iPhone (khien.png) */}
+                {/* 4. Bóng khiên loe rộng trên mặt sàn mint */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        left: -300,
+                        bottom: -22,
+                        width: 680,
+                        height: 90,
+                        pointerEvents: 'none',
+                        transform: 'rotate(-10deg)',
+                        zIndex: 9,
+                    }}
+                >
+                    {/* Lớp 1: Quầng bóng loe rộng, tan mượt sang hai bên */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: 0,
+                            bottom: 20,
+                            width: '100%',
+                            height: '100%',
+                            background:
+                                'radial-gradient(ellipse at 50% 45%, rgba(48, 62, 65, 0.16) 0%, rgba(48, 62, 65, 0.12) 30%, rgba(48, 62, 65, 0.06) 55%, rgba(48, 62, 65, 0.025) 72%, transparent 100%)',
+                            filter: 'blur(12px)',
+                            transform: 'scaleY(0.82)',
+                        }}
+                    />
+
+                    {/* Lớp 2: Thân bóng rộng, đậm vừa phải */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: '7%',
+                            bottom: 3,
+                            width: '86%',
+                            height: '140%',
+                            background:
+                                'radial-gradient(ellipse at 50% 50%, rgba(38, 48, 53, 0.23) 0%, rgba(38, 48, 53, 0.15) 40%, rgba(38, 48, 53, 0.045) 72%, transparent 100%)',
+                            filter: 'blur(1px)',
+                            transform: 'scaleY(1.08)',
+                        }}
+                    />
+
+                    {/* Lớp 3: Bóng tiếp xúc tập trung dưới mũi nhọn */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: '37%',
+                            bottom: 2,
+                            width: '38%',
+                            height: '85%',
+                            background:
+                                'radial-gradient(ellipse at center, rgba(30, 39, 43, 0.30) 0%, rgba(30, 39, 43, 0.18) 42%, rgba(30, 39, 43, 0.04) 75%, transparent 100%)',
+                            filter: 'blur(2px)',
+                            transform: 'scaleY(0.95)',
+                        }}
+                    />
+                </div>
+
+                {/* 5. Chiếc khiên hồng 3D đặt nổi bật trước chân iPhone (khien.png) */}
                 <div
                     style={{
                         position: 'absolute',
@@ -464,7 +745,6 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         width: 450,
                         height: 450,
                         zIndex: 10,
-                        filter: 'drop-shadow(0 14px 32px rgba(225, 29, 72, 0.32))',
                         transform: `translateY(${floatY}px)`,
                     }}
                 >
@@ -476,6 +756,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             objectFit: 'contain',
                             scale: 1.506,
                             translate: '-68.3px 7.9px',
+                            /* Giảm tối đa drop-shadow của bản thân ảnh khiên để không bị lỗi bóng giả chồng lên nhau */
+                            filter: 'drop-shadow(-2px 4px 6px rgba(15, 23, 42, 0.12))',
                         }}
                     />
                 </div>
