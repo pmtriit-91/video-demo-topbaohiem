@@ -432,8 +432,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             width: '100%',
                             height: '100%',
                             objectFit: 'contain',
-                            translate: '-80px -103.3px',
-                            filter: 'drop-shadow(24px 32px 42px rgba(15, 23, 42, 0.26)) drop-shadow(8px 14px 18px rgba(0, 0, 0, 0.18))',
+                            translate: '-80px -171.7px',
+                            filter: 'drop-shadow(24px 32px 42px rgba(15, 23, 42, 0.26)) drop-shadow(8px 14px 18px rgba(0, 0, 0, 0.18))'
                         }}
                     />
 
