@@ -451,7 +451,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     </div>
                 </div>
 
-                {/* 2. Cụm 4 Thẻ bài nhỏ xòe ra hình cánh quạt cạnh ngón tay */}
+                {/* 2. Cụm 5 Thẻ bài nhỏ xòe ra hình cánh quạt cạnh ngón tay */}
                 <div
                     style={{
                         position: 'absolute',
@@ -471,14 +471,16 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             width: 285,
                             height: 305,
                             backgroundColor: '#FFFFFF',
-                            borderRadius: 22,
-                            boxShadow: '0 12px 28px rgba(0, 0, 0, 0.10)',
-                            border: '3px solid #FFF1F2',
+                            borderRadius: 24,
+                            boxShadow:
+                                '0 2px 5px rgba(15, 23, 42, 0.08), 0 6px 12px rgba(15, 23, 42, 0.07), 14px 22px 36px rgba(15, 23, 42, 0.14), 4px 12px 48px rgba(15, 23, 42, 0.06), inset 0 1.5px 2px #FFFFFF, inset 0 -1.5px 2px rgba(244, 63, 94, 0.05)',
+                            border: '2.5px solid #FFF0F3',
                             transform: 'rotate(-12deg)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             padding: 14,
+                            zIndex: 1,
                         }}
                     >
                         <Img
@@ -496,14 +498,16 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             width: 285,
                             height: 305,
                             backgroundColor: '#FFFFFF',
-                            borderRadius: 22,
-                            boxShadow: '0 12px 28px rgba(0, 0, 0, 0.10)',
-                            border: '3px solid #FFF1F2',
+                            borderRadius: 24,
+                            boxShadow:
+                                '0 2px 5px rgba(15, 23, 42, 0.08), 0 6px 12px rgba(15, 23, 42, 0.07), 14px 22px 36px rgba(15, 23, 42, 0.14), 4px 12px 48px rgba(15, 23, 42, 0.06), inset 0 1.5px 2px #FFFFFF, inset 0 -1.5px 2px rgba(244, 63, 94, 0.05)',
+                            border: '2.5px solid #FFF0F3',
                             transform: 'rotate(0deg)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             padding: 14,
+                            zIndex: 1,
                         }}
                     >
                         <Img
@@ -512,7 +516,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         />
                     </div>
 
-                    {/* Thẻ 2: Nhà cửa */}
+                    {/* Thẻ 3: Du lịch */}
                     <div
                         style={{
                             position: 'absolute',
@@ -521,14 +525,16 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             width: 285,
                             height: 305,
                             backgroundColor: '#FFFFFF',
-                            borderRadius: 22,
-                            boxShadow: '0 12px 28px rgba(0, 0, 0, 0.10)',
-                            border: '3px solid #FFF1F2',
+                            borderRadius: 24,
+                            boxShadow:
+                                '0 2px 5px rgba(15, 23, 42, 0.08), 0 6px 12px rgba(15, 23, 42, 0.07), 16px 24px 38px rgba(15, 23, 42, 0.14), 4px 12px 48px rgba(15, 23, 42, 0.06), inset 0 1.5px 2px #FFFFFF, inset 0 -1.5px 2px rgba(244, 63, 94, 0.05)',
+                            border: '2.5px solid #FFF0F3',
                             transform: 'rotate(18deg)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             padding: 14,
+                            zIndex: 1,
                         }}
                     >
                         <Img
@@ -537,7 +543,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         />
                     </div>
 
-                    {/* Thẻ 3: Ô tô */}
+                    {/* Thẻ 4: Ô tô */}
                     <div
                         style={{
                             position: 'absolute',
@@ -546,14 +552,16 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             width: 285,
                             height: 305,
                             backgroundColor: '#FFFFFF',
-                            borderRadius: 22,
-                            boxShadow: '0 14px 30px rgba(0, 0, 0, 0.11)',
-                            border: '3px solid #FFF1F2',
+                            borderRadius: 24,
+                            boxShadow:
+                                '0 2px 6px rgba(15, 23, 42, 0.09), 0 8px 16px rgba(15, 23, 42, 0.08), 16px 26px 40px rgba(15, 23, 42, 0.16), 4px 14px 50px rgba(15, 23, 42, 0.07), inset 0 1.5px 2px #FFFFFF, inset 0 -1.5px 2px rgba(244, 63, 94, 0.05)',
+                            border: '2.5px solid #FFF0F3',
                             transform: 'rotate(-4deg)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             padding: 14,
+                            zIndex: 2,
                         }}
                     >
                         <Img
@@ -562,7 +570,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         />
                     </div>
 
-                    {/* Thẻ 4: Du lịch */}
+                    {/* Thẻ 5: Xe máy */}
                     <div
                         style={{
                             position: 'absolute',
@@ -571,14 +579,16 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             width: 285,
                             height: 305,
                             backgroundColor: '#FFFFFF',
-                            borderRadius: 22,
-                            boxShadow: '0 14px 30px rgba(0, 0, 0, 0.11)',
-                            border: '3px solid #FFF1F2',
+                            borderRadius: 24,
+                            boxShadow:
+                                '0 2px 6px rgba(15, 23, 42, 0.09), 0 8px 16px rgba(15, 23, 42, 0.08), 18px 26px 40px rgba(15, 23, 42, 0.16), 4px 14px 50px rgba(15, 23, 42, 0.07), inset 0 1.5px 2px #FFFFFF, inset 0 -1.5px 2px rgba(244, 63, 94, 0.05)',
+                            border: '2.5px solid #FFF0F3',
                             transform: 'rotate(14deg)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             padding: 14,
+                            zIndex: 2,
                         }}
                     >
                         <Img
