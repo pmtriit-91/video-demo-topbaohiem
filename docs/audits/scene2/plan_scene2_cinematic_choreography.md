@@ -61,82 +61,124 @@
 
 ---
 
-### HỒI 3: CHIẾC KHIÊN 3D TIẾP ĐẤT & TƯƠNG TÁC ĐỒNG BỘ ĐA MÀN HÌNH
-*Thời gian: Frames 1020 – 1500 (17.0s – 25.0s / 480 frames)*  
-*Góc máy chủ đạo: Center-Rebalance (Kéo nhẹ góc máy ra toàn cảnh, bao quát cả Laptop và iPhone).*
+### HỒI 3: NHỊP THỞ TĨNH, BUNG TRANG WEB (POP-OUT UNFRAME) & ĐẠI CẢNH MỔ XẺ 3D (EXPLODED VIEW) TRỌNG TÂM PHẦN HEAD TRANG CHỦ
+*Thời gian dự kiến: Frames 260 – 620 (~4.3s – 10.3s / 360 frames)*  
+*Chuẩn kỹ thuật: 100% tuân thủ Recipe Card `space-camera-moves` (Exploded-view), `ExplodedView.tsx` và hệ thống SFX từ repo Video-Shotcraft.*
 
-| Mốc Frame | Phân cảnh & Hành động | Hiệu ứng Chuyển động & Vật lý (Shotcraft) |
+| Mốc Frame | Phân cảnh & Hành động | Hiệu ứng Chuyển động & Kỹ thuật Video-Shotcraft (Tuyệt đối không bịa đặt) |
 | :--- | :--- | :--- |
-| **1020 – 1170**<br>*(17.0s – 19.5s)* | **Cú đáp đất Chiếc Khiên Hồng 3D (Impact Settle)** | • Chiếc khiên 3D (`khien.png`) từ độ cao trục Z phía trên hạ cánh uy lực xuống vị trí chân iPhone.<br>• Khi tiếp đất: khiên nén lún và nảy đàn hồi (Damping 14, Stiffness 110), 3 lớp bóng sàn nở rộng và cố định vững chãi.<br>• Dấu tick trắng `✓` giữa khiên phát sáng nhẹ một xung quang học. |
-| **1170 – 1350**<br>*(19.5s – 22.5s)* | **Con trỏ Chuột tương tác thẻ "Bảo hiểm Du lịch"** | • Con trỏ chuột lướt vào màn hình MacBook, rê chuột chuẩn xác vào thẻ *"Bảo hiểm Du lịch"*.<br>• Thẻ trên màn hình nhấc bổng trục Z (`+12px`), tỏa viền hồng phát quang.<br>• Màn hình iPhone ở bên phải lập tức đồng bộ cuộn trang tới đúng mục Du lịch (chứng minh tính Responsive & Real-time Sync). |
-| **1350 – 1500**<br>*(22.5s – 25.0s)* | **Đại cảnh Hoàn mỹ & Nhịp thở Đỉnh cao (Hold ≥ 2.5s)** | • Camera Rig giữ góc phối cảnh 3/4 sang trọng nhất.<br>• Không gian sạch bóng, tôn vinh tối đa độ sắc nét của từng thiết bị.<br>• Người xem thẩm thấu trọn vẹn sự chuyên nghiệp, tiện lợi của nền tảng TOPbaohiem. |
+| **260 – 360**<br>*(4.3s – 6.0s)* | **Nhịp thở tĩnh đại cảnh (Grand Hold)** | • Toàn bộ đại cảnh (5 thẻ bài, badge kính lúp, sàn mint, MacBook, iPhone, khiên 3D) an tọa vững vàng.<br>• Chuyển động bồng bềnh hữu cơ siêu nhẹ (`Math.sin`), không giật lag, giữ nhịp thở tĩnh để người xem thẩm thấu trọn vẹn bố cục 10/10 đẳng cấp. |
+| **340 – 420**<br>*(5.6s – 7.0s)* | **Tiền chuyển cảnh: Cú búng tay Snap! thứ 2 $\rightarrow$ Dừng lại 1 nhịp (Hold 20f) $\rightarrow$ Vòng xoáy trung tâm Three.js (Co vào tâm & Bung 4 góc) $\rightarrow$ MacBook trực diện 90°** | • **Cú búng tay Snap! thứ 2 (F340 – F352):** Bàn tay áo hồng lấy đà và búng nảy dứt khoát tại F352, bung tỏa ngôi sao vàng rực rỡ và sóng xung kích ma thuật (SFX: `audio/sfx/transition/transition-snap.mp3`).<br>• **Dừng lại 1 nhịp (Hold 20 frames - F352 – F372):** Toàn bộ khung hình giữ nhịp dừng thở tĩnh, người xem thấy trọn vẹn tư thế búng tay và ánh sáng ngôi sao vàng.<br>• **Vòng xoáy trung tâm Three.js (Two-Phase Vortex - F372 – F415):**<br>&nbsp;&nbsp;▫ **Giai đoạn 1 (Co vào tâm - F372 – F396):** Vòng xoáy 3D ma thuật `VortexSwirl3D` (480 hạt photon phát quang Additive Blending) xoay tít tại tâm (`1920, 1080`), hút toàn bộ cụm 5 thẻ bài, badge kính lúp, iPhone, khiên hồng và đám mây xoay xoắn ốc co nhỏ về tâm (SFX: `audio/sfx/transition/whoosh-swirl.mp3`).<br>&nbsp;&nbsp;▫ **Giai đoạn 2 (Bung nổ ra 4 góc - F396 – F415):** Vòng xoáy nổ bùng ly tâm, bắn văng các item ra 4 góc màn hình rồi tan biến hoàn toàn, giải phóng trọn vẹn sân khấu!<br>• **NGOẠI TRỪ MACBOOK (Tâm bão tĩnh lặng):** MacBook cũ trượt sang tâm (F372 – F392), chuyển đổi mượt mà sang **MacBook góc trực diện 90°** (`macbook_front_90_transparent.png`, F386 – F415) an tọa vững vàng tại trung tâm màn hình, không bị xoáy cuốn đi.<br>• **SÁNG TẠO BUNG TRANG WEB (POP-OUT UNFRAME - F415 – F425):** Phần Head của trang chủ TOPbaohiem (`fullsize-trangchu.png`) nhấc bổng trục Z (`translateZ: +120px`), thoát ly khỏi khung máy MacBook, chuẩn bị bước vào đại cảnh mổ xẻ 3D! |
+| **420 – 540**<br>*(7.0s – 9.0s)* | **ĐẠI CẢNH MỔ XẺ 3D (EXPLODED VIEW) TRỌNG TÂM TOÀN BỘ PHẦN "HEAD" TRANG CHỦ** | • **Chuyển trọng tâm 100% sang không gian Head trang chủ:** Hoàn toàn không dùng MacBook làm đối tượng nữa, mà lấy toàn bộ không gian **Head trang chủ TOPbaohiem** làm một Page Canvas 3D độc lập chuẩn video demo `exploded-view.mp4` và file gốc `ExplodedView.tsx`.<br>• **Tiếp quản góc quay 3/4 Axonometric (Axonometric 3/4 Orbit - F420 – F450):** Camera 3D của Shotcraft (`perspective: 2400`) bắt đầu nghiêng lật từ góc trực diện (`rotateX: 0° ➔ 54°`, `rotateZ: 0° ➔ -32°`) bằng đường cong `ramp(f, 420, 30, EASE.smooth)`. Camera lùi nhẹ `scale: 0.56 ➔ 0.47` và dịch chuyển tọa độ tâm `cy: 40px ➔ 180px` để nhường trọn không gian cho khối tầng Z bung lên.<br>• **MỔ XẺ 5 TẦNG UI THEO TRỤC Z (F420 – F460):** Áp dụng chuẩn công thức vật lý lò xo Shotcraft `springAt(f, EXPLODE + i * STAGGER, { damping: 15, stiffness: 120 })` với khoảng cách nhịp `STAGGER = 5 frames` (SFX: `audio/sfx/mech/mech-tech-movement.mp3` & `gear-lock-metallic.mp3`):<br>&nbsp;&nbsp;▫ **Tầng 0 (Sàn đáy Baseplate - Z: 0):** Tấm nền sàn Head bo góc $R = 26px$, hiển thị các khe cắm viền đứt (`dashed slot sockets`, `border: 3px dashed rgba(47,91,255,0.28)`) làm bệ đỡ kiến trúc.<br>&nbsp;&nbsp;▫ **Tầng 1 (Top Nav Header - Z: +140px):** Logo TOPbaohiem, Menu điều hướng sản phẩm, Hotline & Nút tra cứu nhanh.<br>&nbsp;&nbsp;▫ **Tầng 2 (Hero Banner & Cam kết - Z: +260px):** Banner gia đình an tâm, thông điệp bảo vệ toàn diện & 3 badge cam kết bồi thường minh bạch.<br>&nbsp;&nbsp;▫ **Tầng 3 (4 Thẻ Bảo Hiểm Cơ Bản - Z: +380px):** Cụm 4 thẻ vệ tinh (Sức khỏe, Ô tô, Xe máy, Nhà tư nhân) với thông số phí và quyền lợi bảo vệ.<br>&nbsp;&nbsp;▫ **Tầng 4 (Thẻ Du Lịch & Vali 3D Hero - Z: +520px):** Riêng **Thẻ Bảo hiểm Du lịch** cùng chiếc vali 3D hồng (`dulich.png`) vươn cao nhất, vali nổi thêm `+60px` trên mặt thẻ (tổng độ cao Z = 580px), tỏa hào quang hồng neon rực rỡ!<br>• **3 NEO CHIỀU SÂU VẬT LÝ SHOTCRAFT (DEPTH ANCHORS):**<br>&nbsp;&nbsp;1. **Bóng đổ đa tầng (Layered Drop Shadow):** Đổ chuẩn xác xuống mặt sàn đáy Baseplate theo công thức Shotcraft: `left = x + h * 0.18, top = y + h * 0.26, filter: blur(10 + h * 0.09px), opacity: (0.8 - h / 1400)`.<br>&nbsp;&nbsp;2. **Viền cạnh 3D dày thực thể (Thickness Edge):** Mỗi module khi bay lên đều có lớp đáy dày 8px màu `#b9c6de` bên dưới, tạo cảm giác khối linh kiện phần cứng công nghệ Apple.<br>&nbsp;&nbsp;3. **Khe cắm nét đứt (Dashed Slot Sockets):** Giữ nguyên các ô viền nét đứt trên sàn đáy tương ứng với từng module bay lên.<br>• **Chao lượn thị sai vi mô (Parallax Orbit - F450 – F530):** Trong lúc 5 tầng lơ lửng, camera chao nhẹ góc `rotateZ: -32° ➔ -22°` và `rotateX: 54° ➔ 50°` để người xem cảm nhận thị sai chiều sâu điện ảnh 3D cực kỳ đẳng cấp. |
+| **540 – 620**<br>*(9.0s – 10.3s)* | **Con trỏ Chuột Click & Phóng lớn Dolly-through sang Cảnh 3** | • Con trỏ chuột macOS Vector lướt vào không gian 3D, click dứt khoát vào nút *"So sánh ngay ➔"* trên thẻ Du lịch (đang nổi ở tầng Z cao nhất).<br>• Vòng sóng hồng Click Ripple bùng nở $\rightarrow$ Thẻ Du lịch bừng sáng (SFX: `audio/sfx/ui/button-click.mp3` hoặc `audio/sfx/transition/transition-tech-slide.mp3`).<br>• Camera kích hoạt cú phóng xuyên (Dolly-through / Crash zoom qua chiếc vali du lịch, SFX: `audio/sfx/transition/whoosh-big.mp3`) $\rightarrow$ Nền chuyển sang biển xanh nhiệt đới, mở ra **Cảnh 3 (Du lịch phiêu lưu)**! |
 
 ---
 
-### GIAI ĐOẠN CHUYỂN GIAO: BƯỚC ĐỆM PHÓNG TO SANG CẢNH 3 (DU LỊCH)
-*Thời gian: Frames 1500 – 1740 (25.0s – 29.0s / 240 frames)*  
+## III. THIẾT KẾ KIẾN TRÚC EXPLODED VIEW 3D (CHUẨN 100% DEMO SHOTCRAFT `ExplodedView.tsx`)
 
-- **Hành động chuyển cảnh:** Con trỏ chuột click vào nút *"So sánh ngay"* của gói Bảo hiểm Du lịch $\rightarrow$ Thẻ Du lịch phóng lớn bay ra khỏi màn hình laptop, xoay nhẹ theo trục Z tiến thẳng về phía ống kính camera $\rightarrow$ Nền trời chuyển sang bãi biển xanh, mở ra Cảnh 3.
-
----
-
-## III. THIẾT KẾ KIẾN TRÚC CAMERA RIG 2.5D (VIDEO-SHOTCRAFT STANDARDS)
-
-Để toàn bộ các thành phần tham gia vào không gian 3 chiều có chiều sâu thực:
+Để đạt được hiệu ứng mổ xẻ chuẩn như video tham khảo `exploded-view.mp4` và mã nguồn gốc `ExplodedView.tsx`:
 
 ```tsx
-// Cấu hình không gian phối cảnh 3D
-const cameraContainerStyle = {
-    width: 3840,
-    height: 2160,
-    perspective: 2200,             // Chiều sâu phối cảnh chuẩn điện ảnh
-    perspectiveOrigin: '50% 50%',
-    transformStyle: 'preserve-3d',
-    transform: `
-        translateZ(${camZ}px)
-        translateX(${camPanX}px)
-        translateY(${camPanY}px)
-        rotateX(${camPitchX}deg)   // Nghiêng chúc/ngửa 3D
-        rotateY(${camYawY}deg)     // Xoay phối cảnh 3/4
-        rotateZ(${camRollZ}deg)    // Nghiêng chân trời sống động
-    `,
+// 1. Kích thước chuẩn Page Canvas & Phối cảnh 3D Axonometric
+const W = 1600;
+const H = 1000;
+const R = 26; // Bo góc Canvas chuẩn Shotcraft
+const PERSP = 2400; // Độ tụ chuẩn Apple Showcase
+
+// 2. Camera Rig 3D chuyển động theo hàm thời gian (camAt)
+const camAt = (f: number) => {
+    const orbit = ramp(f, 450, 80, EASE.smooth); // Chao lượn thị sai
+    const tall = ramp(f, 420, 30, EASE.smooth);  // Kéo lùi máy khi bung tầng
+    return {
+        rx: mix(54, 50, orbit),
+        rz: mix(-34, -32, ramp(f, 420, 20, EASE.out)) + 10 * orbit, // -32° -> -22°
+        s: mix(0.56, 0.47, tall),                                    // Thu nhỏ cho tầng Z vươn cao
+        cx: 0,
+        cy: mix(40, 180, tall),                                      // Hạ tâm máy quay
+    };
+};
+
+// 3. Cấu trúc 5 Tầng mổ xẻ trên phần Head trang chủ TOPbaohiem (LAYERS)
+const EXPLODED_LAYERS = [
+    { key: 'top-nav',    x: 0,   y: 0,   w: 1600, h: 100, z: 140, r: 0,  label: { n: '01', t: 'Điều Hướng', d: 'Menu & Tra Cứu Nhanh' } },
+    { key: 'banner',     x: 80,  y: 130, w: 1440, h: 320, z: 260, r: 22, label: { n: '02', t: 'Cam Kết', d: 'Bảo Vệ Toàn Diện & Minh Bạch' } },
+    { key: 'basic-grid', x: 80,  y: 480, w: 1440, h: 460, z: 380, r: 22, label: { n: '03', t: 'Sản Phẩm', d: 'Sức Khỏe, Xe Máy, Ô Tô, Nhà' } },
+    { key: 'travel-hero',x: 840, y: 480, w: 340,  h: 460, z: 520, r: 22, label: { n: '04', t: 'Hero Du Lịch', d: 'So Sánh Gói Toàn Cầu' } },
+];
+
+// 4. Công thức vật lý lò xo bung tầng (Stagger 5 frames)
+const layerProgress = (f: number, index: number) => {
+    return springAt(f, 420 + index * 5, { damping: 15, stiffness: 120 });
+};
+
+// 5. Ba Neo Chiều Sâu Vật Lý Chuẩn Shotcraft (Depth Anchors):
+// - Neo 1: Bóng đổ phân tầng rơi xuống mặt sàn đáy
+const shadowStyle = {
+    left: layerX + heightZ * 0.18,
+    top: layerY + heightZ * 0.26,
+    filter: `blur(${(10 + heightZ * 0.09).toFixed(1)}px)`,
+    opacity: Math.min(1, p * 1.5) * (0.8 - heightZ / 1400),
+    transform: 'translateZ(1px)',
+};
+
+// - Neo 2: Lớp viền cạnh 3D (Thickness Edge)
+const thicknessStyle = {
+    background: '#b9c6de',
+    transform: `translateZ(${Math.max(2.5, heightZ - 8)}px)`,
+};
+
+// - Neo 3: Khe cắm viền đứt trên sàn đáy (Dashed Slot Sockets)
+const slotSocketStyle = {
+    border: '3px dashed rgba(47, 91, 255, 0.28)',
+    background: 'rgba(47, 91, 255, 0.03)',
+    borderRadius: 22,
 };
 ```
 
 ---
 
-## IV. VAI TRÒ CHỌN LỌC CỦA THREE.JS WEBGL (KHÔNG GÂY NHIỄU MÀN HÌNH)
+## IV. TÀI NGUYÊN SỬ DỤNG (TẬN DỤNG TỐI ĐA ASSETS ĐÃ CÓ & SFX SHOTCRAFT)
 
-| Phân hệ Three.js | Đối tượng WebGL Cụ thể | Vai trò Thẩm mỹ & Kỹ thuật |
+| Tài nguyên | File path | Vai trò trong Phân cảnh Hồi 3 |
 | :--- | :--- | :--- |
-| **Energy Arrow Stream** | `THREE.CatmullRomCurve3D` + Hạt gia tốc | • Hàng chục hạt năng lượng laser chạy **chính xác dọc theo sống lưng mũi tên** `arrow.png`.<br>• Minh họa trực quan dòng dữ liệu truyền từ tay người dùng vào máy tính, **không văng hạt bừa bãi ra màn hình**. |
-| **Specular Sheen Sweep** | Mesh chéo với Gradient Material bán trong suốt | • Vệt quét sáng chéo quang học qua mặt kính màn hình Retina của MacBook và iPhone tạo độ bóng kính sang trọng. |
-| **Ambient Bokeh** | ❌ **ĐÃ LOẠI BỎ THEO YÊU CẦU** | • Triệt tiêu hoàn toàn để giữ màn hình sạch trong, sắc nét tuyệt đối. |
+| **Khung MacBook trực diện** | `public/assets/elements/screen2/macbook_front_90_transparent.png` | Khung máy góc nhìn thẳng với lòng màn hình khoét trong suốt 100%, làm bản lề trực diện trước khi phóng thích Web Canvas và lùi sâu tan biến. |
+| **Giao diện trang chủ 4K** | `public/assets/elements/screen2/fullsize-trangchu.png` | Ảnh gốc độ phân giải cực cao, cắt viewport/clip-path chia tách thành các module UI siêu nét (Header, Banner, Lưới thẻ). |
+| **Vali Du lịch 3D** | `public/assets/elements/screen2/dulich.png` | Chiếc vali hồng + hộ chiếu + máy bay tách nền 3D đặt nổi ở tầng cao nhất (Z: +520px + nổi riêng 60px). |
+| **Con trỏ chuột Vector** | Vector SVG Retina 4K | Con trỏ chuột macOS trắng viền đen lướt vào click kích hoạt chuyển cảnh. |
+| **SFX Búng tay** | `assets/audio/sfx/transition/transition-snap.mp3` | Tiếng búng tay ma thuật kích hoạt dọn dẹp sân khấu. |
+| **SFX Xoáy lốc ly tâm** | `assets/audio/sfx/transition/whoosh-swirl.mp3` | Tiếng gió xoáy hút sạch cụm 5 thẻ bài và khiên hồng ra ngoài biên. |
+| **SFX Bung trang web** | `assets/audio/sfx/mech/door-open-futuristic.mp3` & `transition/air-zoom-vacuum.mp3` | Tiếng nhấc bổng tấm Web Canvas và phóng thích khỏi vỏ máy MacBook. |
+| **SFX Mổ xẻ 3D** | `assets/audio/sfx/mech/mech-tech-movement.mp3` & `gear-lock-metallic.mp3` | Tiếng trượt servo êm ái và tiếng chốt khóa cơ khí khi 5 tầng UI đạt độ cao Z. |
+| **SFX Click & Chuyển cảnh** | `assets/audio/sfx/transition/transition-tech-slide.mp3` & `whoosh-big.mp3` | Tiếng click vào nút So Sánh và cú phóng xuyên Dolly-through sang Cảnh 3. |
 
 ---
 
 ## V. LỘ TRÌNH THỰC THI CHIA NHỎ (MICRO-TASKS ROADMAP & NGHIỆM THU TẠI CHỖ)
 
-Mỗi micro-task sau khi hoàn thiện sẽ dừng lại để **Người dùng trực tiếp test trên màn hình preview Remotion (`bun run dev`)** và phản hồi:
+Mỗi micro-task sau khi hoàn thiện sẽ dừng lại để **Bạn trực tiếp test trên màn hình preview Remotion (`bun run dev`)** và phản hồi:
 
-### Nhóm Task 1: Camera Rig & Hồi 1 (Tiền Cảnh Trái)
-- **Task 1.1: [x] ĐÃ HOÀN THÀNH & NGHIỆM THU** — Thiết lập Virtual Camera Rig 2.5D bọc toàn bộ Scene (giữ nguyên 100% tọa độ tĩnh hiện tại).
-- **Task 1.2: [x] ĐÃ HOÀN THÀNH & NGHIỆM THU** — Diễn hoạt cú búng tay Snap! của bàn tay áo hồng (nảy ngón tay, tia sáng sao `✨` xoay gia tốc, sóng hồng lan tỏa).
-- **Task 1.3: [x] ĐÃ HOÀN THÀNH & NGHIỆM THU** — Diễn hoạt bung xòe 5 thẻ bài (`deck-deal-flyout` so le từng thẻ từ ngón tay + lực vung vòng cung parabol + nảy đàn hồi settle).
-- **Task 1.4: [x] ĐÃ HOÀN THÀNH & NGHIỆM THU** — Diễn hoạt nảy lò xo Badge *"Tìm hiểu dễ dàng"* & kính lúp 3D (`pop-spring`) + Khóa nhịp thở tĩnh Hồi 1 (F190 - F420).
+### Nhóm Task 1: Tiền Cảnh Trái (ĐÃ XONG 100%)
+- **Task 1.1: [x] ĐÃ NGHIỆM THU** — Virtual Camera Rig 2.5D.
+- **Task 1.2: [x] ĐÃ NGHIỆM THU** — Diễn hoạt cú búng tay Snap!
+- **Task 1.3: [x] ĐÃ NGHIỆM THU** — Bung xòe 5 thẻ bài so le parabol.
+- **Task 1.4: [x] ĐÃ NGHIỆM THU** — Badge *"Tìm hiểu dễ dàng"* & Kính lúp nảy lò xo.
 
-### Nhóm Task 2: Hồi 2 (Thiết Bị, Sóng Mint & Mũi Tên Năng Lượng)
-- **Task 2.1: [x] ĐÃ TRIỂN KHAI XONG (ĐANG CHỜ BẠN TEST & NGHIỆM THU)** — Diễn hoạt dải sóng giấy mint dâng hữu cơ + MacBook & iPhone trượt vào tầm ngắm + bóng sàn nở theo nhịp đáp.  
-  *Nghiệm thu 2.1:* Bạn kiểm tra trên preview Remotion xem nhịp dâng sóng và độ êm, đầm chắc khi trượt 2 thiết bị (MacBook & iPhone) vào sân khấu.
-- **Task 2.2:** Diễn hoạt vẽ mũi tên hồng `arrow.png` + luồng năng lượng truyền dẫn sang laptop.  
-  *Nghiệm thu 2.2:* Bạn kiểm tra đường cong mũi tên và dòng năng lượng.
-- **Task 2.3:** Diễn hoạt Camera Pan & Orbit lướt sang màn hình MacBook đặc tả giao diện so sánh + vệt quét sáng quang học `Glaze Sheen`.  
-  *Nghiệm thu 2.3:* Bạn kiểm tra độ mượt của cú lia máy và vệt sáng kính.
+### Nhóm Task 2: Hậu Cảnh Phải & Khiên (ĐÃ XONG 100%)
+- **Task 2.1: [x] ĐÃ NGHIỆM THU** — Dải sóng mint + MacBook & iPhone trượt vào sàn.
+- **Task 2.2: [x] ĐÃ HỦY** — Mũi tên hồng giữ hiển thị tự nhiên trong trẻo.
+- **Task 3.1: [x] ĐÃ NGHIỆM THU** — Cú tiếp đất Chiếc khiên 3D hồng loáng sáng uy lực.
 
-### Nhóm Task 3: Hồi 3 (Khiên 3D, Chuột Tương Tác & Chuyển Giao)
-- **Task 3.1:** Diễn hoạt cú tiếp đất Chiếc khiên 3D hồng (`Impact Settle` rơi từ trục Z + đàn hồi + bóng sàn nở chặt).  
-  *Nghiệm thu 3.1:* Bạn kiểm tra độ đầm chắc khi khiên đáp đất trước iPhone.
-- **Task 3.2:** Diễn hoạt con trỏ chuột rê vào thẻ "Bảo hiểm Du lịch" trên MacBook + màn hình iPhone đồng bộ cuộn trang.  
-  *Nghiệm thu 3.2:* Bạn kiểm tra tương tác chuột và tính đồng bộ Responsive.
-- **Task 3.3:** Khóa nhịp thở tĩnh toàn cảnh (Hold $\ge 2.5s$) và tạo bước đệm phóng to thẻ Du lịch sẵn sàng sang Cảnh 3.  
-  *Nghiệm thu 3.3:* Bạn nghiệm thu toàn diện Cảnh 2 để chốt chuyển sang Cảnh 3.
+### Nhóm Task 3: Nhịp Thở Tĩnh, Đại Cảnh Exploded View & Chuyển Cảnh 3
+- **Task 3.1b: [ ] CHỜ THỰC HIỆN** — Khóa nhịp thở tĩnh toàn cảnh (Hold F260 – F360, ~1.7s) bồng bềnh hữu cơ thư thái.  
+  *Nghiệm thu 3.1b:* Bạn kiểm tra độ mượt mà, tĩnh lặng và độ đầm của đại cảnh sau khi khiên tiếp đất.
+- **Task 3.2: [ ] CHỜ THỰC HIỆN** — Tiền chuyển cảnh: Cú búng tay Snap! thứ 2 $\rightarrow$ Xoáy lốc ly tâm $\rightarrow$ MacBook trực diện 90° $\rightarrow$ **Bung trang web (Pop-out Unframe)** thoát ly vỏ máy & vỏ MacBook lùi sâu biến mất (F360 – F420).  
+  *Nghiệm thu 3.2:* Bạn kiểm tra độ ma thuật của cú búng tay thứ 2, nhịp xoáy dọn sạch sân khấu, và khoảnh khắc phần Head trang chủ bung ra khỏi lòng MacBook êm ái và vỏ máy lùi biến mất.
+- **Task 3.3: [ ] CHỜ THỰC HIỆN** — Cú Mổ xẻ 3D Exploded View tập trung vào không gian phần Head trang chủ (F420 – F540):
+  * Thoát ly hoàn toàn vỏ MacBook, lấy toàn bộ không gian **Head trang chủ TOPbaohiem** làm Page Canvas 3D độc lập chuẩn video demo `exploded-view.mp4`.
+  * Tiếp quản góc quay 3/4 Axonometric (`perspective: 2400`, `rotateX: 54° ➔ 50°`, `rotateZ: -32° ➔ -22°`).
+  * Bung tách 5 tầng UI theo trục Z chuẩn công thức Shotcraft (Mặt sàn đáy có khe cắm nét đứt $\rightarrow$ Header $\rightarrow$ Banner $\rightarrow$ Thẻ cơ bản $\rightarrow$ Thẻ Du lịch + Vali 3D vươn cao nhất).
+  * 3 Neo chiều sâu: Bóng đổ đa tầng theo độ cao Z + viền cạnh 3D dày 8px + khe cắm nét đứt ở đáy.  
+  *Nghiệm thu 3.3:* Bạn kiểm tra độ sâu 3D, độ sắc nét và nhịp bung tách theo đúng video mẫu `exploded-view.mp4`.
+- **Task 3.4: [ ] CHỜ THỰC HIỆN** — Con trỏ chuột lướt vào Click nút *"So sánh ngay ➔"* của thẻ Du lịch + Phóng lớn Dolly-through bay sang Cảnh 3 (F540 – F620).  
+  *Nghiệm thu 3.4:* Bạn nghiệm thu toàn diện cú click và hiệu ứng xuyên màn hình sang Cảnh 3.
+
