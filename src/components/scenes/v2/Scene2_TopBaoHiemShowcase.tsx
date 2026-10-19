@@ -517,6 +517,12 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     const cloudBurstX = burstProgress * 1800;
     const cloudBurstY = burstProgress * -1400;
 
+    // 6. ĐÁM MÂY XANH MINT GÓC DƯỚI TRÁI: Co vào tâm xoáy (F372-F396) -> Bung văng ra góc dưới-trái (F396-F415)
+    const mintCloudPullX = pullProgress * 1500;
+    const mintCloudPullY = pullProgress * -850;
+    const mintCloudBurstX = burstProgress * -1600;
+    const mintCloudBurstY = burstProgress * 1200;
+
     // ==============================================================
     // NGOẠI TRỪ MACBOOK: MACBOOK KHÔNG BỊ HÚT VÀO XOÁY, MÀ TRƯỢT SANG TÂM TRỞ THÀNH TÂM BÃO TĨNH LẶNG!
     // ==============================================================
@@ -681,7 +687,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         height: 342,
                         zIndex: 17, // Nổi phía trước cổ tay áo hồng ôm viền tự nhiên
                         pointerEvents: 'none',
-                        transform: `translateY(${Math.sin(frame * 0.03) * 4}px)`,
+                        transform: `translateY(${Math.sin(frame * 0.03) * 4 + mintCloudPullY + mintCloudBurstY}px) translateX(${mintCloudPullX + mintCloudBurstX}px) scale(${burstScale})`,
+                        opacity: burstFade,
                     }}
                 >
                     {/* 1. Bóng tiếp xúc chân đám mây trên mặt sàn mint */}
@@ -1677,13 +1684,15 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         <div
                             style={{
                                 position: 'absolute',
-                                left: '10%',
-                                top: '5%',
-                                width: '80%',
+                                left: '16.5%',
+                                top: '17%',
+                                width: '67%',
                                 height: '75%',
                                 borderRadius: 14,
                                 backgroundColor: '#FFFFFF',
                                 zIndex: 1,
+                                transform: 'scale(1.4)',
+                                overflow: 'hidden',
                             }}
                         >
                             {/* Ảnh Head trang chủ TOPbaohiem 4K siêu nét */}
@@ -1693,15 +1702,10 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                     position: 'absolute',
                                     top: 0,
                                     left: 0,
-                                    width: '100%',
+                                    width: '120%',
                                     height: 'auto',
-                                    translate: '-2.4px 1299.1px',
-                                    transform: 'scale(1.4)',
-                                    objectFit: 'cover',
-                                    objectPosition: 'top',
+                                    translate: '-182.5px -7px',
                                 }}
-                                cropLeft={0.09}
-                                cropRight={0.09}
                             />
                         </div>
 
@@ -1721,6 +1725,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                     height: '140%',
                                     objectFit: 'contain',
                                     translate: '-482.4px -250px',
+                                    scale: 0.931,
                                 }}
                             />
                         </div>
