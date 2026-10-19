@@ -565,6 +565,39 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
         macFrontShadowOpacity = interpolate(macFrontSpring, [0, 1], [0, 0.25]);
     }
 
+    // ==============================================================
+    // TIỀN CHUYỂN CẢNH: NHỊP DỪNG TĨNH MACBOOK (1.5-2s) + CON TRỎ CÓ VÒNG SPOTLIGHT + CUỘN CHẬM ĐẾN CUỐI TRANG (~8.5s)
+    // ==============================================================
+    // 1. Con trỏ chuột lướt vào lòng màn hình MacBook sau nhịp dừng tĩnh (F480 -> F505)
+    const macCursorOpacity = interpolate(frame, [480, 495, 1025, 1050], [0, 1, 1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const macCursorX = interpolate(frame, [480, 505], [1480, 1220], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.16, 1, 0.3, 1),
+    });
+    const macCursorY = interpolate(frame, [480, 505, 750, 1025], [880, 620, 590, 640], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.16, 1, 0.3, 1),
+    });
+
+    // 2. Cuộn chuột chậm rãi, thư thái từ đầu trang đến tận chân trang (~8.5s = 510 frames: F515 -> F1025)
+    // Toàn bộ ảnh cao 6755.6px trong khung 1096.5px, cuộn từ -7px đến -5659px để chạm đáy trang hoàn hảo
+    const webScrollY = interpolate(frame, [515, 1025], [-7, -5659], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    });
+
+    // 3. Vỏ MacBook mờ dần khi cuộn trang đến điểm cuối chân trang (F1020 -> F1050)
+    const macCasingOpacity = interpolate(frame, [1020, 1050], [1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+
     return (
         <div
             style={{
@@ -1676,7 +1709,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                 backgroundColor: 'rgba(15, 23, 42, 0.28)',
                                 filter: 'blur(35px)',
                                 transform: `scaleY(0.4) scaleX(${macFrontShadowScale})`,
-                                opacity: macFrontShadowOpacity,
+                                opacity: macFrontShadowOpacity * macCasingOpacity,
                             }}
                         />
 
@@ -1695,7 +1728,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                 overflow: 'hidden',
                             }}
                         >
-                            {/* Ảnh Head trang chủ TOPbaohiem 4K siêu nét */}
+                            {/* Ảnh Head trang chủ TOPbaohiem 4K siêu nét - Cuộn trang thư thả */}
                             <Img
                                 src={staticFile('assets/elements/screen2/fullsize-trangchu.png')}
                                 style={{
@@ -1704,10 +1737,78 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                     left: 0,
                                     width: '120%',
                                     height: 'auto',
-                                    translate: '-182.5px -7px',
+                                    translate: `-182.5px ${webScrollY}px`,
                                 }}
                             />
                         </div>
+
+                        {/* Con trỏ chuột tương tác lướt vào & cuộn trang */}
+                        {macCursorOpacity > 0.01 && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    left: macCursorX,
+                                    top: macCursorY,
+                                    transform: 'translate(-50%, -50%)',
+                                    opacity: macCursorOpacity,
+                                    zIndex: 15,
+                                    filter: 'drop-shadow(0 8px 20px rgba(0, 0, 0, 0.35))',
+                                    pointerEvents: 'none',
+                                }}
+                            >
+                                {/* 1. UI VÒNG TRÒN CHỈ ĐIỂM CON TRỎ CHUỘT (CURSOR SPOTLIGHT RING) */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        top: 14,
+                                        left: 14,
+                                        width: 64,
+                                        height: 64,
+                                        borderRadius: '50%',
+                                        border: '2.5px solid rgba(237, 1, 124, 0.85)',
+                                        backgroundColor: 'rgba(237, 1, 124, 0.18)',
+                                        boxShadow:
+                                            '0 0 18px rgba(237, 1, 124, 0.45), inset 0 0 10px rgba(237, 1, 124, 0.25)',
+                                        transform: `translate(-50%, -50%) scale(${1 + Math.sin(frame * 0.1) * 0.06})`,
+                                        pointerEvents: 'none',
+                                    }}
+                                />
+
+                                {/* 2. VÒNG SÓNG XUNG KÍCH NHẸ (SONAR PULSE RING) ĐỊNH VỊ CON TRỎ */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        top: 14,
+                                        left: 14,
+                                        width: 86,
+                                        height: 86,
+                                        borderRadius: '50%',
+                                        border: '1.5px solid rgba(237, 1, 124, 0.45)',
+                                        transform: `translate(-50%, -50%) scale(${1 + ((frame % 36) / 36) * 0.35})`,
+                                        opacity: (1 - (frame % 36) / 36) * 0.7,
+                                        pointerEvents: 'none',
+                                    }}
+                                />
+
+                                {/* 3. MŨI CON TRỎ CHUỘT MACOS SẮC NÉT */}
+                                <svg
+                                    width="48"
+                                    height="48"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    style={{ position: 'relative', zIndex: 2 }}
+                                >
+                                    <path
+                                        d="M3 3L10.07 20.97L13.58 13.58L20.97 10.07L3 3Z"
+                                        fill="#0F172A"
+                                        stroke="#FFFFFF"
+                                        strokeWidth="2.2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                            </div>
+                        )}
 
                         {/* 2. LAYER VỎ KHUNG MACBOOK TRỰC DIỆN (BÊN TRÊN, LÒNG KHOÉT TRONG SUỐT 100%) */}
                         <div
@@ -1716,6 +1817,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                 inset: 0,
                                 zIndex: 2,
                                 filter: 'drop-shadow(0 30px 70px rgba(0, 0, 0, 0.16))',
+                                opacity: macCasingOpacity,
                             }}
                         >
                             <Img
