@@ -574,11 +574,13 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
         extrapolateRight: 'clamp',
     });
 
-    // 2. Quỹ đạo con trỏ chuột trong Chặng 1 (Head, F510 – F690): Lướt Sức khoẻ -> Cháy nổ -> Du lịch
+    // 2. Quỹ đạo con trỏ chuột:
+    // Chặng 1 (Head, F485 – F690): Lướt Sức khoẻ -> Cháy nổ -> Du lịch
+    // Chặng 2 (Quy trình mua, F690 – F900): Cuộn theo trang -> lướt vào Thẻ 2 "CHỌN GÓI"
     const macCursorX = interpolate(
         frame,
-        [485, 515, 545, 570, 600, 640, 665, 690],
-        [1480, 800, 495, 780, 1070, 1070, 1686, 1200],
+        [485, 515, 545, 570, 600, 640, 665, 690, 730, 770, 810, 870, 900],
+        [1480, 800, 495, 780, 1070, 1070, 1686, 1200, 1080, 820, 1040, 1040, 1150],
         {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
@@ -587,8 +589,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     );
     const macCursorY = interpolate(
         frame,
-        [485, 515, 545, 570, 600, 640, 665, 690],
-        [520, 750, 1055, 1000, 1055, 1055, 1055, 850],
+        [485, 515, 545, 570, 600, 640, 665, 690, 730, 770, 810, 870, 900],
+        [520, 750, 1055, 1000, 1055, 1055, 1055, 850, 780, 920, 1055, 1055, 950],
         {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
@@ -615,11 +617,19 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
 
     // 4. Vị trí cuộn trang (webScrollY):
     // Chặng 1 (Head, F0 – F690): Giữ tĩnh tuyệt đối tại -7px để người xem tương tác cụm Head
-    // (Các chặng 2, 3, 4, 5 sẽ tiếp nối lần lượt theo từng bước nghiệm thu)
-    const webScrollY = interpolate(frame, [690, 730], [-7, -7], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-    });
+    // Chặng 2 (Quy trình mua, F690 – F900):
+    //   - F690 -> F760 (70 frames ~1.17s): Cuộn êm ái từ -7px xuống -1100px
+    //   - F760 -> F900 (140 frames ~2.33s): Dừng tĩnh tuyệt đối tại -1100px theo dõi trọn vẹn 4 bước
+    const webScrollY = interpolate(
+        frame,
+        [690, 760, 900],
+        [-7, -1100, -1100],
+        {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+            easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+        }
+    );
 
     // 5. Vỏ MacBook mờ dần khi chạm chân trang cuối Chặng 5 (F1300 -> F1350)
     const macCasingOpacity = interpolate(frame, [1300, 1350], [1, 0], {

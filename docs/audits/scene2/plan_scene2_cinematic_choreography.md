@@ -170,12 +170,11 @@ Mỗi micro-task sau khi hoàn thiện sẽ dừng lại để **Bạn trực ti
   * Chuột lướt qua thẻ *Sức khoẻ* (F535 – F565) $\rightarrow$ Thẻ Sức khoẻ sáng viền hồng + nút hồng đặc chữ trắng.
   * Chuột dừng tại nút *"So sánh ngay ➔"* trên thẻ *Cháy nổ* (F575 – F650, trọng tâm chuẩn 100% Ảnh 1 User gửi): Viền thẻ sáng hồng neon `2.5px solid #ED017C`, nút *"So sánh ngay ➔"* chuyển thành **nền hồng đặc `#ED017C` với chữ trắng** nổi bật, bóng đổ bừng sáng.
   * Chuột lướt sang thẻ *Du lịch* (F652 – F685) $\rightarrow$ Thẻ Du lịch sáng viền hồng + nút hồng đặc chữ trắng trước khi chuẩn bị cuộn trang sang Chặng 2.
-  * *Nghiệm thu Chặng 1:* Sẵn sàng cho bạn xem trực tiếp trên Preview Remotion Studio (`bun run dev`).
-- **Task 3.4: [ ] CHỜ THỰC HIỆN — CHẶNG 2: Quy trình mua bảo hiểm 4 bước (F690 – F860, ~2.8s):**
-  * Cuộn trang êm ái đưa cụm *"Quy trình mua bảo hiểm"* vào tầm nhìn trung tâm.
-  * Dừng tĩnh ~2.2s.
-  * **Auto-focus Thẻ Bước 2 "Chọn gói" (Chuẩn 100% Ảnh 2 User gửi):** Viền thẻ bước 2 phát sáng viền hồng `border: 2px solid #ED017C`.
-  * *Nghiệm thu Chặng 2:* User kiểm tra nhịp cuộn, độ dừng và hiệu ứng focus bước 2.
+- **Task 3.4: [x] ĐÃ HOÀN THÀNH (CHỜ BẠN NGHIỆM THU) — CHẶNG 2: Quy trình mua bảo hiểm 4 bước (F690 – F900, ~3.5s):**
+  * Cuộn trang êm ái từ F690 đến F760 (`webScrollY` từ `-7px` xuống `-1100px`) đưa toàn bộ cụm *"Quy trình mua bảo hiểm chưa bao giờ dễ dàng đến thế"* vào vị trí trung tâm màn hình Retina MacBook.
+  * Dừng tĩnh tuyệt đối ~2.33s (F760 – F900) tại `-1100px` để người xem thẩm thấu 4 bước.
+  * Quỹ đạo con trỏ chuột lướt theo nhịp cuộn, trượt vào nút "CHỌN GÓI" của Thẻ bước 2 (thẻ đang có sẵn viền hồng và nút hồng trên ảnh gốc) với hiệu ứng Spotlight Ring & Sonar Pulse định vị ấn tượng.
+  * *Nghiệm thu Chặng 2:* Sẵn sàng để Bạn kiểm tra trực tiếp trên trình duyệt `bun run dev`.
 - **Task 3.5: [ ] CHỜ THỰC HIỆN — CHẶNG 3: Banner Carousel & 4 Trụ Cột "Vì sao chọn TOPbaohiem?" (F860 – F1030, ~2.8s):**
   * Cuộn trang xuống cụm Banner ưu đãi (Xe máy, Ô tô) và 4 cam kết giá trị cốt lõi.
   * Dừng tĩnh ~2.2s (Chuẩn Ảnh 3 User gửi).
