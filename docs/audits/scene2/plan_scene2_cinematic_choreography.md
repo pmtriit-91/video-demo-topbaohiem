@@ -170,19 +170,13 @@ Mỗi micro-task sau khi hoàn thiện sẽ dừng lại để **Bạn trực ti
   * Chuột lướt qua thẻ *Sức khoẻ* (F535 – F565) $\rightarrow$ Thẻ Sức khoẻ sáng viền hồng + nút hồng đặc chữ trắng.
   * Chuột dừng tại nút *"So sánh ngay ➔"* trên thẻ *Cháy nổ* (F575 – F650, trọng tâm chuẩn 100% Ảnh 1 User gửi): Viền thẻ sáng hồng neon `2.5px solid #ED017C`, nút *"So sánh ngay ➔"* chuyển thành **nền hồng đặc `#ED017C` với chữ trắng** nổi bật, bóng đổ bừng sáng.
   * Chuột lướt sang thẻ *Du lịch* (F652 – F685) $\rightarrow$ Thẻ Du lịch sáng viền hồng + nút hồng đặc chữ trắng trước khi chuẩn bị cuộn trang sang Chặng 2.
-- **Task 3.4: [x] ĐÃ HOÀN THÀNH (CHỜ BẠN NGHIỆM THU) — CHẶNG 2: Quy trình mua bảo hiểm 4 bước (F690 – F900, ~3.5s):**
-  * Cuộn trang êm ái từ F690 đến F760 (`webScrollY` từ `-7px` xuống `-1100px`) đưa toàn bộ cụm *"Quy trình mua bảo hiểm chưa bao giờ dễ dàng đến thế"* vào vị trí trung tâm màn hình Retina MacBook.
-  * Dừng tĩnh tuyệt đối ~2.33s (F760 – F900) tại `-1100px` để người xem thẩm thấu 4 bước.
-  * Quỹ đạo con trỏ chuột lướt theo nhịp cuộn, trượt vào nút "CHỌN GÓI" của Thẻ bước 2 (thẻ đang có sẵn viền hồng và nút hồng trên ảnh gốc) với hiệu ứng Spotlight Ring & Sonar Pulse định vị ấn tượng.
-  * *Nghiệm thu Chặng 2:* Sẵn sàng để Bạn kiểm tra trực tiếp trên trình duyệt `bun run dev`.
-- **Task 3.5: [ ] CHỜ THỰC HIỆN — CHẶNG 3: Banner Carousel & 4 Trụ Cột "Vì sao chọn TOPbaohiem?" (F860 – F1030, ~2.8s):**
-  * Cuộn trang xuống cụm Banner ưu đãi (Xe máy, Ô tô) và 4 cam kết giá trị cốt lõi.
-  * Dừng tĩnh ~2.2s (Chuẩn Ảnh 3 User gửi).
-  * *Nghiệm thu Chặng 3:* User kiểm tra vị trí dừng và tính thẩm thấu thông tin.
-- **Task 3.6: [ ] CHỜ THỰC HIỆN — CHẶNG 4: Mạng Lưới Đối Tác Hãng & Blog Cẩm Nang (F1030 – F1190, ~2.7s):**
-  * Cuộn lướt qua dàn thương hiệu bảo hiểm uy tín (Bảo Việt, PVI, PTI, Bảo Long...) và danh mục bài viết tư vấn.
-  * Dừng tĩnh ~2.0s để khẳng định độ tin cậy và chuyên nghiệp.
-  * *Nghiệm thu Chặng 4:* User kiểm tra độ mượt mà của dàn logo và blog.
+- **Task 3.4: [x] ĐÃ NGHIỆM THU — CHẶNG 2: Quy trình mua bảo hiểm 4 bước (F690 – F900, ~3.5s)**: Cuộn trang êm ái, dừng tĩnh tại `-1100px`, con trỏ chuột trượt vào thẻ bước 2 "CHỌN GÓI".
+- **Task 3.5: [x] ĐÃ NGHIỆM THU — CHẶNG 3: Banner Thông Tin Các Nhóm Bảo Hiểm (F900 – F1110, ~3.5s)**: Cuộn mượt mà xuống `-1850px`, dừng tĩnh theo dõi 2 banner lớn (Cháy nổ, TNDS Xe máy).
+- **Task 3.6: [x] ĐÃ HOÀN THÀNH (CHỜ BẠN NGHIỆM THU) — CHẶNG 4: "Vì sao chọn TOPbaohiem?" (F1110 – F1320, ~3.5s):**
+  * Cuộn trang êm ái từ F1110 đến F1180 (`webScrollY` từ `-1850px` xuống `-2520px`) đưa toàn bộ tiêu đề *"Vì sao chọn TOPbaohiem?"* và 4 cột cam kết giá trị (*So sánh thông minh, Tiết kiệm tối đa, Quyền lợi rõ ràng, Hỗ trợ tận tâm*) vào vị trí trung tâm màn hình Retina MacBook.
+  * Dừng tĩnh tuyệt đối ~2.33s (F1180 – F1320) tại `-2520px` để người xem chiêm ngưỡng 4 giá trị cốt lõi.
+  * Con trỏ chuột lướt nhịp nhàng theo đà cuộn trang, trượt lần lượt qua 4 cột cam kết với hiệu ứng Spotlight Ring & Sonar Pulse sắc nét.
+  * *Nghiệm thu Chặng 4:* Sẵn sàng để Bạn kiểm tra trực tiếp trên trình duyệt `bun run dev`.
 - **Task 3.7: [ ] CHỜ THỰC HIỆN — CHẶNG 5: Chân Trang Footer & Khởi Đầu Tan Biến Vỏ Máy (F1190 – F1350, ~2.7s):**
   * Cuộn xuống chạm đáy chân trang tại Footer xanh đậm (`webScrollY = -5659px`).
   * Dừng tĩnh chiêm ngưỡng đầy đủ thông tin pháp lý & hotline.

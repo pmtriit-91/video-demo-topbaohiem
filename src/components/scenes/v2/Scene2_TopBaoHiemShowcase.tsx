@@ -568,8 +568,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     // ==============================================================
     // TIỀN CHUYỂN CẢNH: NHỊP DỪNG TĨNH MACBOOK + 5 CHẶNG DỪNG TƯƠNG TÁC (INTERACTIVE STAGED TOUR)
     // ==============================================================
-    // 1. Độ hiển thị con trỏ chuột tương tác (bắt đầu hiện từ F485)
-    const macCursorOpacity = interpolate(frame, [485, 505, 1340, 1360], [0, 1, 1, 0], {
+    // 1. Độ hiển thị con trỏ chuột tương tác (bắt đầu hiện từ F485, hiển thị xuyên suốt các chặng)
+    const macCursorOpacity = interpolate(frame, [485, 505, 1550, 1580], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -577,10 +577,18 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     // 2. Quỹ đạo con trỏ chuột:
     // Chặng 1 (Head, F485 – F690): Lướt Sức khoẻ -> Cháy nổ -> Du lịch
     // Chặng 2 (Quy trình mua, F690 – F900): Cuộn theo trang -> lướt vào Thẻ 2 "CHỌN GÓI"
+    // Chặng 3 (Banner thông tin, F900 – F1110): Lướt Banner Cháy nổ -> Banner TNDS Xe máy
+    // Chặng 4 (Vì sao chọn TOPbaohiem, F1110 – F1320): Lướt qua 4 cam kết cốt lõi (So sánh thông minh -> Tiết kiệm -> Quyền lợi -> Hỗ trợ)
     const macCursorX = interpolate(
         frame,
-        [485, 515, 545, 570, 600, 640, 665, 690, 730, 770, 810, 870, 900],
-        [1480, 800, 495, 780, 1070, 1070, 1686, 1200, 1080, 820, 1040, 1040, 1150],
+        [
+            485, 515, 545, 570, 600, 640, 665, 690, 730, 770, 810, 870, 900, 940, 980, 1030, 1070, 1110,
+            1150, 1180, 1220, 1260, 1300, 1320,
+        ],
+        [
+            1480, 800, 495, 780, 1070, 1070, 1686, 1200, 1080, 820, 1040, 1040, 1150, 980, 820, 820, 1380,
+            1380, 1100, 680, 1020, 1360, 1700, 1700,
+        ],
         {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
@@ -589,8 +597,14 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     );
     const macCursorY = interpolate(
         frame,
-        [485, 515, 545, 570, 600, 640, 665, 690, 730, 770, 810, 870, 900],
-        [520, 750, 1055, 1000, 1055, 1055, 1055, 850, 780, 920, 1055, 1055, 950],
+        [
+            485, 515, 545, 570, 600, 640, 665, 690, 730, 770, 810, 870, 900, 940, 980, 1030, 1070, 1110,
+            1150, 1180, 1220, 1260, 1300, 1320,
+        ],
+        [
+            520, 750, 1055, 1000, 1055, 1055, 1055, 850, 780, 920, 1055, 1055, 950, 780, 800, 800, 800, 800,
+            700, 780, 780, 780, 780, 780,
+        ],
         {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
@@ -620,10 +634,16 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     // Chặng 2 (Quy trình mua, F690 – F900):
     //   - F690 -> F760 (70 frames ~1.17s): Cuộn êm ái từ -7px xuống -1100px
     //   - F760 -> F900 (140 frames ~2.33s): Dừng tĩnh tuyệt đối tại -1100px theo dõi trọn vẹn 4 bước
+    // Chặng 3 (Banner thông tin nhóm bảo hiểm, F900 – F1110):
+    //   - F900 -> F970 (70 frames ~1.17s): Cuộn êm ái từ -1100px xuống -1850px
+    //   - F970 -> F1110 (140 frames ~2.33s): Dừng tĩnh tuyệt đối tại -1850px theo dõi 2 banner lớn
+    // Chặng 4 (Vì sao chọn TOPbaohiem, F1110 – F1320):
+    //   - F1110 -> F1180 (70 frames ~1.17s): Cuộn êm ái từ -1850px xuống -2520px
+    //   - F1180 -> F1320 (140 frames ~2.33s): Dừng tĩnh tuyệt đối tại -2520px chiêm ngưỡng 4 trụ cột cam kết
     const webScrollY = interpolate(
         frame,
-        [690, 760, 900],
-        [-7, -1100, -1100],
+        [690, 760, 900, 970, 1110, 1180, 1320],
+        [-7, -1100, -1100, -1850, -1850, -2520, -2520],
         {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
@@ -631,8 +651,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
         }
     );
 
-    // 5. Vỏ MacBook mờ dần khi chạm chân trang cuối Chặng 5 (F1300 -> F1350)
-    const macCasingOpacity = interpolate(frame, [1300, 1350], [1, 0], {
+    // 5. Vỏ MacBook mờ dần khi chạm chân trang cuối Chặng 5 (F1550 -> F1600)
+    const macCasingOpacity = interpolate(frame, [1550, 1600], [1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
