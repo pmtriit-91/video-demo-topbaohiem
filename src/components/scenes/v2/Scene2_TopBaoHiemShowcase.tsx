@@ -568,8 +568,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     // ==============================================================
     // TIỀN CHUYỂN CẢNH: NHỊP DỪNG TĨNH MACBOOK + 5 CHẶNG DỪNG TƯƠNG TÁC (INTERACTIVE STAGED TOUR)
     // ==============================================================
-    // 1. Độ hiển thị con trỏ chuột tương tác (bắt đầu hiện từ F485, hiển thị xuyên suốt các chặng)
-    const macCursorOpacity = interpolate(frame, [485, 505, 1550, 1580], [0, 1, 1, 0], {
+    // 1. Độ hiển thị con trỏ chuột tương tác (hiện từ F485, mờ dần hoàn tất vai trò khi chạm Footer F1780 - F1810)
+    const macCursorOpacity = interpolate(frame, [485, 505, 1780, 1810], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -579,15 +579,20 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     // Chặng 2 (Quy trình mua, F690 – F900): Cuộn theo trang -> lướt vào Thẻ 2 "CHỌN GÓI"
     // Chặng 3 (Banner thông tin, F900 – F1110): Lướt Banner Cháy nổ -> Banner TNDS Xe máy
     // Chặng 4 (Vì sao chọn TOPbaohiem, F1110 – F1320): Lướt qua 4 cam kết cốt lõi (So sánh thông minh -> Tiết kiệm -> Quyền lợi -> Hỗ trợ)
+    // Chặng 5 (Đối tác của chúng tôi, F1320 – F1460): Lướt dàn logo đối tác uy tín (Bảo Việt -> BIC/MIC -> PVI/Bảo Long)
+    // Chặng 6 (Blog TopBaoHiem, F1460 – F1670): Lướt qua 3 bài viết cẩm nang kinh nghiệm mua bảo hiểm
+    // Chặng 7 (Footer Chân trang, F1670 – F1810): Lướt xuống logo TOPbaohiem & hotline ở Footer
     const macCursorX = interpolate(
         frame,
         [
             485, 515, 545, 570, 600, 640, 665, 690, 730, 770, 810, 870, 900, 940, 980, 1030, 1070, 1110,
-            1150, 1180, 1220, 1260, 1300, 1320,
+            1150, 1180, 1220, 1260, 1300, 1320, 1350, 1380, 1420, 1460, 1495, 1530, 1580, 1630, 1670,
+            1710, 1740, 1780, 1810,
         ],
         [
             1480, 800, 495, 780, 1070, 1070, 1686, 1200, 1080, 820, 1040, 1040, 1150, 980, 820, 820, 1380,
-            1380, 1100, 680, 1020, 1360, 1700, 1700,
+            1380, 1100, 680, 1020, 1360, 1700, 1700, 1300, 950, 1200, 1450, 1200, 700, 1200, 1700, 1700,
+            1350, 1050, 1050, 1050,
         ],
         {
             extrapolateLeft: 'clamp',
@@ -599,11 +604,13 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
         frame,
         [
             485, 515, 545, 570, 600, 640, 665, 690, 730, 770, 810, 870, 900, 940, 980, 1030, 1070, 1110,
-            1150, 1180, 1220, 1260, 1300, 1320,
+            1150, 1180, 1220, 1260, 1300, 1320, 1350, 1380, 1420, 1460, 1495, 1530, 1580, 1630, 1670,
+            1710, 1740, 1780, 1810,
         ],
         [
             520, 750, 1055, 1000, 1055, 1055, 1055, 850, 780, 920, 1055, 1055, 950, 780, 800, 800, 800, 800,
-            700, 780, 780, 780, 780, 780,
+            700, 780, 780, 780, 780, 780, 720, 820, 820, 820, 700, 750, 750, 750, 750,
+            700, 850, 850, 850,
         ],
         {
             extrapolateLeft: 'clamp',
@@ -640,10 +647,20 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     // Chặng 4 (Vì sao chọn TOPbaohiem, F1110 – F1320):
     //   - F1110 -> F1180 (70 frames ~1.17s): Cuộn êm ái từ -1850px xuống -2520px
     //   - F1180 -> F1320 (140 frames ~2.33s): Dừng tĩnh tuyệt đối tại -2520px chiêm ngưỡng 4 trụ cột cam kết
+    // Chặng 5 (Đối tác của chúng tôi, F1320 – F1460, tinh gọn < 2.5s):
+    //   - F1320 -> F1380 (60 frames = 1.0s): Cuộn êm ái từ -2520px xuống -3580px
+    //   - F1380 -> F1460 (80 frames = 1.33s): Dừng tĩnh tại -3580px lướt qua các thương hiệu uy tín
+    // Chặng 6 (Blog TopBaoHiem, F1460 – F1670):
+    //   - F1460 -> F1530 (70 frames ~1.17s): Cuộn êm ái từ -3580px xuống -5080px
+    //   - F1530 -> F1670 (140 frames ~2.33s): Dừng tĩnh tuyệt đối tại -5080px theo dõi 3 bài viết kiến thức
+    // Chặng 7 (Footer & Hồi quy 3D Head, F1670 – F1870+):
+    //   - F1670 -> F1740 (70 frames ~1.17s): Cuộn êm ái chạm đáy Footer tại -5660px
+    //   - F1740 -> F1810 (70 frames ~1.17s): Dừng tĩnh tại -5660px chiêm ngưỡng thông tin pháp lý & hotline
+    //   - F1810 -> F1870 (60 frames = 1.0s): Cuộn vút trở lại Head (-7px) đồng bộ cùng cú xoay 3D phân tách!
     const webScrollY = interpolate(
         frame,
-        [690, 760, 900, 970, 1110, 1180, 1320],
-        [-7, -1100, -1100, -1850, -1850, -2520, -2520],
+        [690, 760, 900, 970, 1110, 1180, 1320, 1380, 1460, 1530, 1670, 1740, 1810, 1870],
+        [-7, -1100, -1100, -1850, -1850, -2520, -2520, -3580, -3580, -5080, -5080, -5660, -5660, -7],
         {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
@@ -651,11 +668,23 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
         }
     );
 
-    // 5. Vỏ MacBook mờ dần khi chạm chân trang cuối Chặng 5 (F1550 -> F1600)
-    const macCasingOpacity = interpolate(frame, [1550, 1600], [1, 0], {
+    // 5. Vỏ MacBook và bóng sàn mờ dần giải phóng màn hình (F1810 -> F1860)
+    const macCasingOpacity = interpolate(frame, [1810, 1860], [1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
+
+    // 6. Chuyển đổi góc 3D Axonometric phân tách (F1810 -> F1880):
+    // Tấm Web Canvas thoát ly vỏ máy, nghiêng góc 3D Axonometric (rotateX: 52°, rotateZ: -28°) chuẩn Shotcraft
+    const web3DProgress = interpolate(frame, [1810, 1880], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    });
+    const web3DRotateX = interpolate(web3DProgress, [0, 1], [0, 52]);
+    const web3DRotateZ = interpolate(web3DProgress, [0, 1], [0, -28]);
+    const web3DTranslateZ = interpolate(web3DProgress, [0, 1], [0, 120]);
+    const web3DScale = interpolate(web3DProgress, [0, 1], [1.4, 1.15]);
 
     return (
         <div
@@ -1772,7 +1801,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             }}
                         />
 
-                        {/* 1. MÀN HÌNH NẰM TRONG LÒNG KÍNH (10% left, 5% top, 80% width, 75% height) */}
+                        {/* 1. MÀN HÌNH NẰM TRONG LÒNG KÍNH -> THOÁT LY VỎ MÁY VÀO 3D AXONOMETRIC PHÂN TÁCH */}
                         <div
                             style={{
                                 position: 'absolute',
@@ -1780,10 +1809,18 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                 top: '17%',
                                 width: '67%',
                                 height: '75%',
-                                borderRadius: 14,
+                                borderRadius: web3DProgress > 0.01 ? 22 : 14,
                                 backgroundColor: '#FFFFFF',
                                 zIndex: 1,
-                                transform: 'scale(1.4)',
+                                transform:
+                                    web3DProgress > 0.001
+                                        ? `perspective(2400px) rotateX(${web3DRotateX}deg) rotateZ(${web3DRotateZ}deg) translateZ(${web3DTranslateZ}px) scale(${web3DScale})`
+                                        : 'scale(1.4)',
+                                transformStyle: 'preserve-3d',
+                                boxShadow:
+                                    web3DProgress > 0.01
+                                        ? `0 ${interpolate(web3DProgress, [0, 1], [0, 45])}px ${interpolate(web3DProgress, [0, 1], [0, 95])}px rgba(15, 23, 42, ${interpolate(web3DProgress, [0, 1], [0, 0.38])}), 0 0 0 ${interpolate(web3DProgress, [0, 1], [0, 1.5])}px rgba(255, 255, 255, 0.8)`
+                                        : undefined,
                                 overflow: 'hidden',
                             }}
                         >

@@ -172,21 +172,21 @@ Mỗi micro-task sau khi hoàn thiện sẽ dừng lại để **Bạn trực ti
   * Chuột lướt sang thẻ *Du lịch* (F652 – F685) $\rightarrow$ Thẻ Du lịch sáng viền hồng + nút hồng đặc chữ trắng trước khi chuẩn bị cuộn trang sang Chặng 2.
 - **Task 3.4: [x] ĐÃ NGHIỆM THU — CHẶNG 2: Quy trình mua bảo hiểm 4 bước (F690 – F900, ~3.5s)**: Cuộn trang êm ái, dừng tĩnh tại `-1100px`, con trỏ chuột trượt vào thẻ bước 2 "CHỌN GÓI".
 - **Task 3.5: [x] ĐÃ NGHIỆM THU — CHẶNG 3: Banner Thông Tin Các Nhóm Bảo Hiểm (F900 – F1110, ~3.5s)**: Cuộn mượt mà xuống `-1850px`, dừng tĩnh theo dõi 2 banner lớn (Cháy nổ, TNDS Xe máy).
-- **Task 3.6: [x] ĐÃ HOÀN THÀNH (CHỜ BẠN NGHIỆM THU) — CHẶNG 4: "Vì sao chọn TOPbaohiem?" (F1110 – F1320, ~3.5s):**
-  * Cuộn trang êm ái từ F1110 đến F1180 (`webScrollY` từ `-1850px` xuống `-2520px`) đưa toàn bộ tiêu đề *"Vì sao chọn TOPbaohiem?"* và 4 cột cam kết giá trị (*So sánh thông minh, Tiết kiệm tối đa, Quyền lợi rõ ràng, Hỗ trợ tận tâm*) vào vị trí trung tâm màn hình Retina MacBook.
-  * Dừng tĩnh tuyệt đối ~2.33s (F1180 – F1320) tại `-2520px` để người xem chiêm ngưỡng 4 giá trị cốt lõi.
-  * Con trỏ chuột lướt nhịp nhàng theo đà cuộn trang, trượt lần lượt qua 4 cột cam kết với hiệu ứng Spotlight Ring & Sonar Pulse sắc nét.
-  * *Nghiệm thu Chặng 4:* Sẵn sàng để Bạn kiểm tra trực tiếp trên trình duyệt `bun run dev`.
-- **Task 3.7: [ ] CHỜ THỰC HIỆN — CHẶNG 5: Chân Trang Footer & Khởi Đầu Tan Biến Vỏ Máy (F1190 – F1350, ~2.7s):**
-  * Cuộn xuống chạm đáy chân trang tại Footer xanh đậm (`webScrollY = -5659px`).
-  * Dừng tĩnh chiêm ngưỡng đầy đủ thông tin pháp lý & hotline.
-  * Vỏ máy MacBook và bóng đổ chân máy bắt đầu mờ dần từ `1` về `0` (F1300 – F1350) để giải phóng tấm trang chủ.
-  * *Nghiệm thu Chặng 5:* User kiểm tra điểm chạm đáy và hiệu ứng mờ dần vỏ máy.
-- **Task 3.8: [ ] CHỜ THỰC HIỆN — ĐẠI CẢNH MỔ XẺ 3D (EXPLODED VIEW) TRỌNG TÂM PHẦN HEAD (F1350 – F1500, ~2.5s):**
-  * Tiếp quản góc quay 3/4 Axonometric (`perspective: 2400`, `rotateX: 54° ➔ 50°`, `rotateZ: -32° ➔ -22°`).
+- **Task 3.6: [x] ĐÃ NGHIỆM THU — CHẶNG 4: "Vì sao chọn TOPbaohiem?" (F1110 – F1320, ~3.5s)**: Cuộn mượt mà xuống `-2520px`, dừng tĩnh thẩm thấu 4 cột cam kết cốt lõi.
+- **Task 3.7: [x] ĐÃ NGHIỆM THU — CHẶNG 5: Mạng Lưới Đối Tác Của Chúng Tôi (F1320 – F1460, ~2.33s)**: Cuộn xuống `-3580px`, dừng tĩnh gọn gàng < 2.5s lướt qua dàn logo đối tác uy tín.
+- **Task 3.8: [x] ĐÃ NGHIỆM THU — CHẶNG 6: Blog TopBaoHiem Cẩm Nang Kiến Thức (F1460 – F1670, ~3.5s)**: Cuộn mượt mà xuống `-5080px`, dừng tĩnh theo dõi 3 bài viết cẩm nang kiến thức.
+- **Task 3.9: [x] ĐÃ HOÀN THÀNH (CHỜ BẠN NGHIỆM THU) — CHẶNG 7: Footer & Chuyển Góc 3D Phân Tách (F1670 – F1880, ~3.5s):**
+  * Cuộn trang êm ái từ F1670 đến F1740 (`webScrollY` từ `-5080px` chạm đáy `-5660px`) đưa toàn bộ khối Footer xanh đậm chứa logo TOPbaohiem, công ty, hotline, liên kết dịch vụ và copyright vào màn hình Retina MacBook.
+  * Dừng tĩnh ~1.17s (F1740 – F1810) tại `-5660px` chiêm ngưỡng đầy đủ thông tin chân trang. Con trỏ chuột dừng tại logo/hotline rồi mờ dần biến mất (`macCursorOpacity: 1 -> 0`).
+  * **KẾT TIỀN CẢNH VÀO 3D PHÂN TÁCH (F1810 – F1880):**
+    - Vỏ máy MacBook và bóng sàn tiếp xúc mờ dần từ `1` về `0` (`macCasingOpacity`), giải phóng hoàn toàn tấm Web Canvas độc lập giữa không gian.
+    - Tấm trang web cuộn vút trở lại Head (`webScrollY` từ `-5660px` về `-7px`).
+    - Tấm Web Canvas thoát ly 2D phẳng, chuyển động nghiêng chúc $52^\circ$ (`rotateX: 52deg`), xoay nghiêng $-28^\circ$ (`rotateZ: -28deg`), nhấc bổng trục Z $120\text{px}$ (`translateZ: 120px`), nở bóng đổ 3D sâu đa tầng `0 45px 95px rgba(15, 23, 42, 0.38)` chuẩn kiến trúc Axonometric Shotcraft.
+  * *Nghiệm thu Chặng 7 & Tiền cảnh:* Sẵn sàng để Bạn kiểm tra trực tiếp trên trình duyệt `bun run dev`.
+- **Task 3.10: [ ] CHỜ THỰC HIỆN — ĐẠI CẢNH MỔ XẺ 3D (EXPLODED VIEW) 5 TẦNG UI TRỤC Z (F1880 – F2150):**
   * Tách 5 tầng UI theo trục Z chuẩn công thức Shotcraft (Mặt sàn đáy nét đứt $\rightarrow$ Nav $\rightarrow$ Banner $\rightarrow$ Thẻ cơ bản $\rightarrow$ Thẻ Du lịch + Vali 3D).
-  * *Nghiệm thu Task 3.8:* User kiểm tra chiều sâu 3D và tách lớp.
-- **Task 3.9: [ ] CHỜ THỰC HIỆN — Click Thẻ Du Lịch & Dolly-through Phóng Xuyên Sang Cảnh 3 (F1500 – F1620, ~2.0s):**
+  * Chú thích kỹ thuật số (Dynamic Technical Callouts) và hiệu ứng đóng nắp va đập vật lý Thud nén lún 8px.
+- **Task 3.11: [ ] CHỜ THỰC HIỆN — Click Thẻ Du Lịch & Dolly-through Phóng Xuyên Sang Cảnh 3 (F2150 – F2300):**
   * Con trỏ click nút *"So sánh ngay ➔"* trên thẻ Du lịch $\rightarrow$ Click ripple bừng sáng $\rightarrow$ Camera lao xuyên qua vali du lịch chuyển sang Cảnh 3.
   * *Nghiệm thu Task 3.9:* Hoàn tất chuyển cảnh Scene 2 sang Scene 3.
 
