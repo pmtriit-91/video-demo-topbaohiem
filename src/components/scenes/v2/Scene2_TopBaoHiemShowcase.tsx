@@ -568,31 +568,31 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     // ==============================================================
     // TIỀN CHUYỂN CẢNH: NHỊP DỪNG TĨNH MACBOOK + 5 CHẶNG DỪNG TƯƠNG TÁC (INTERACTIVE STAGED TOUR)
     // ==============================================================
-    // 1. Độ hiển thị con trỏ chuột tương tác (hiện từ F485, mờ dần hoàn tất vai trò khi chạm Footer F1780 - F1810)
-    const macCursorOpacity = interpolate(frame, [485, 505, 1780, 1810], [0, 1, 1, 0], {
+    // 1. Độ hiển thị con trỏ chuột tương tác (hiện từ F485, mờ dần hoàn tất vai trò khi chạm Footer F1940 - F1970)
+    const macCursorOpacity = interpolate(frame, [485, 505, 1940, 1970], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
     // 2. Quỹ đạo con trỏ chuột:
     // Chặng 1 (Head, F485 – F690): Lướt Sức khoẻ -> Cháy nổ -> Du lịch
-    // Chặng 2 (Quy trình mua, F690 – F900): Cuộn theo trang -> lướt vào Thẻ 2 "CHỌN GÓI"
-    // Chặng 3 (Banner thông tin, F900 – F1110): Lướt Banner Cháy nổ -> Banner TNDS Xe máy
-    // Chặng 4 (Vì sao chọn TOPbaohiem, F1110 – F1320): Lướt qua 4 cam kết cốt lõi (So sánh thông minh -> Tiết kiệm -> Quyền lợi -> Hỗ trợ)
-    // Chặng 5 (Đối tác của chúng tôi, F1320 – F1460): Lướt dàn logo đối tác uy tín (Bảo Việt -> BIC/MIC -> PVI/Bảo Long)
-    // Chặng 6 (Blog TopBaoHiem, F1460 – F1670): Lướt qua 3 bài viết cẩm nang kinh nghiệm mua bảo hiểm
-    // Chặng 7 (Footer Chân trang, F1670 – F1810): Lướt xuống logo TOPbaohiem & hotline ở Footer
+    // Chặng 2 (Quy trình mua 4 bước thư thả 5.0s, F690 – F1060): Lướt lần lượt Card 1 -> Card 2 -> Card 3 -> Card 4
+    // Chặng 3 (Banner thông tin, F1060 – F1270): Lướt Banner Cháy nổ -> Banner TNDS Xe máy
+    // Chặng 4 (Vì sao chọn TOPbaohiem, F1270 – F1480): Lướt qua 4 cam kết cốt lõi (So sánh -> Tiết kiệm -> Quyền lợi -> Hỗ trợ)
+    // Chặng 5 (Đối tác của chúng tôi, F1480 – F1620): Lướt dàn logo đối tác uy tín (Bảo Việt -> BIC/MIC -> PVI/Bảo Long)
+    // Chặng 6 (Blog TopBaoHiem, F1620 – F1830): Lướt qua 3 bài viết cẩm nang kinh nghiệm mua bảo hiểm
+    // Chặng 7 (Footer Chân trang, F1830 – F1970): Lướt xuống logo TOPbaohiem & hotline ở Footer
     const macCursorX = interpolate(
         frame,
         [
-            485, 515, 545, 570, 600, 640, 665, 690, 730, 770, 810, 870, 900, 940, 980, 1030, 1070, 1110,
-            1150, 1180, 1220, 1260, 1300, 1320, 1350, 1380, 1420, 1460, 1495, 1530, 1580, 1630, 1670,
-            1710, 1740, 1780, 1810,
+            485, 515, 545, 570, 600, 640, 665, 690, 725, 760, 820, 845, 895, 920, 970, 995, 1060,
+            1100, 1130, 1190, 1220, 1270, 1310, 1340, 1380, 1420, 1450, 1480, 1510, 1540, 1580, 1620,
+            1655, 1690, 1740, 1790, 1830, 1870, 1900, 1940, 1970,
         ],
         [
-            1480, 800, 495, 780, 1070, 1070, 1686, 1200, 1080, 820, 1040, 1040, 1150, 980, 820, 820, 1380,
-            1380, 1100, 680, 1020, 1360, 1700, 1700, 1300, 950, 1200, 1450, 1200, 700, 1200, 1700, 1700,
-            1350, 1050, 1050, 1050,
+            1480, 800, 495, 780, 1070, 1070, 1686, 1200, 950, 720, 720, 1040, 1040, 1370, 1370, 1700, 1700,
+            1300, 820, 820, 1380, 1380, 1100, 680, 1020, 1360, 1700, 1700, 1300, 950, 1200, 1450,
+            1200, 700, 1200, 1700, 1700, 1350, 1050, 1050, 1050,
         ],
         {
             extrapolateLeft: 'clamp',
@@ -603,14 +603,14 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     const macCursorY = interpolate(
         frame,
         [
-            485, 515, 545, 570, 600, 640, 665, 690, 730, 770, 810, 870, 900, 940, 980, 1030, 1070, 1110,
-            1150, 1180, 1220, 1260, 1300, 1320, 1350, 1380, 1420, 1460, 1495, 1530, 1580, 1630, 1670,
-            1710, 1740, 1780, 1810,
+            485, 515, 545, 570, 600, 640, 665, 690, 725, 760, 820, 845, 895, 920, 970, 995, 1060,
+            1100, 1130, 1190, 1220, 1270, 1310, 1340, 1380, 1420, 1450, 1480, 1510, 1540, 1580, 1620,
+            1655, 1690, 1740, 1790, 1830, 1870, 1900, 1940, 1970,
         ],
         [
-            520, 750, 1055, 1000, 1055, 1055, 1055, 850, 780, 920, 1055, 1055, 950, 780, 800, 800, 800, 800,
-            700, 780, 780, 780, 780, 780, 720, 820, 820, 820, 700, 750, 750, 750, 750,
-            700, 850, 850, 850,
+            520, 750, 1055, 1000, 1055, 1055, 1055, 850, 750, 1055, 1055, 1055, 1055, 1055, 1055, 1055, 1055,
+            780, 800, 800, 800, 800, 700, 780, 780, 780, 780, 780, 720, 820, 820, 820,
+            700, 750, 750, 750, 750, 700, 850, 850, 850,
         ],
         {
             extrapolateLeft: 'clamp',
@@ -636,30 +636,58 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
         extrapolateRight: 'clamp',
     });
 
+    // 3b. Hiệu ứng Focus lần lượt 4 Card Quy trình mua trong Chặng 2 (F760 – F1060, nhịp 5.0s thư thả):
+    // Bước 1: CHỌN LOẠI BH (F760 - F835, ~1.25s)
+    const step1Focus = interpolate(frame, [760, 775, 825, 835], [0, 1, 1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    // Bước 2: CHỌN GÓI (F835 - F910, ~1.25s)
+    const step2Focus = interpolate(frame, [835, 850, 900, 910], [0, 1, 1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    // Bước 3: NHẬP THÔNG TIN (F910 - F985, ~1.25s)
+    const step3Focus = interpolate(frame, [910, 925, 975, 985], [0, 1, 1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    // Bước 4: THANH TOÁN (F985 - F1060, ~1.25s)
+    const step4Focus = interpolate(frame, [985, 1000, 1050, 1060], [0, 1, 1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+
+    // Lớp phủ viền xám chuyển giao cho Card 1 khi focus rời sang Card 2, 3, 4 (chỉ duy nhất 1 card mang viền hồng)
+    const card1Unfocus = interpolate(frame, [835, 845, 1060, 1080], [0, 1, 1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+
     // 4. Vị trí cuộn trang (webScrollY):
     // Chặng 1 (Head, F0 – F690): Giữ tĩnh tuyệt đối tại -7px để người xem tương tác cụm Head
-    // Chặng 2 (Quy trình mua, F690 – F900):
+    // Chặng 2 (Quy trình mua, F690 – F1060):
     //   - F690 -> F760 (70 frames ~1.17s): Cuộn êm ái từ -7px xuống -1100px
-    //   - F760 -> F900 (140 frames ~2.33s): Dừng tĩnh tuyệt đối tại -1100px theo dõi trọn vẹn 4 bước
-    // Chặng 3 (Banner thông tin nhóm bảo hiểm, F900 – F1110):
-    //   - F900 -> F970 (70 frames ~1.17s): Cuộn êm ái từ -1100px xuống -1850px
-    //   - F970 -> F1110 (140 frames ~2.33s): Dừng tĩnh tuyệt đối tại -1850px theo dõi 2 banner lớn
-    // Chặng 4 (Vì sao chọn TOPbaohiem, F1110 – F1320):
-    //   - F1110 -> F1180 (70 frames ~1.17s): Cuộn êm ái từ -1850px xuống -2520px
-    //   - F1180 -> F1320 (140 frames ~2.33s): Dừng tĩnh tuyệt đối tại -2520px chiêm ngưỡng 4 trụ cột cam kết
-    // Chặng 5 (Đối tác của chúng tôi, F1320 – F1460, tinh gọn < 2.5s):
-    //   - F1320 -> F1380 (60 frames = 1.0s): Cuộn êm ái từ -2520px xuống -3580px
-    //   - F1380 -> F1460 (80 frames = 1.33s): Dừng tĩnh tại -3580px lướt qua các thương hiệu uy tín
-    // Chặng 6 (Blog TopBaoHiem, F1460 – F1670):
-    //   - F1460 -> F1530 (70 frames ~1.17s): Cuộn êm ái từ -3580px xuống -5080px
-    //   - F1530 -> F1670 (140 frames ~2.33s): Dừng tĩnh tuyệt đối tại -5080px theo dõi 3 bài viết kiến thức
-    // Chặng 7 (Footer & Hồi quy 3D Head, F1670 – F1870+):
-    //   - F1670 -> F1740 (70 frames ~1.17s): Cuộn êm ái chạm đáy Footer tại -5660px
-    //   - F1740 -> F1810 (70 frames ~1.17s): Dừng tĩnh tại -5660px chiêm ngưỡng thông tin pháp lý & hotline
-    //   - F1810 -> F1870 (60 frames = 1.0s): Cuộn vút trở lại Head (-7px) đồng bộ cùng cú xoay 3D phân tách!
+    //   - F760 -> F1060 (300 frames = đúng 5.0s thư thả!): Dừng tĩnh tuyệt đối tại -1100px focus lần lượt 4 bước
+    // Chặng 3 (Banner thông tin nhóm bảo hiểm, F1060 – F1270):
+    //   - F1060 -> F1130 (70 frames ~1.17s): Cuộn êm ái từ -1100px xuống -1850px
+    //   - F1130 -> F1270 (140 frames ~2.33s): Dừng tĩnh tuyệt đối tại -1850px theo dõi 2 banner lớn
+    // Chặng 4 (Vì sao chọn TOPbaohiem, F1270 – F1480):
+    //   - F1270 -> F1340 (70 frames ~1.17s): Cuộn êm ái từ -1850px xuống -2520px
+    //   - F1340 -> F1480 (140 frames ~2.33s): Dừng tĩnh tuyệt đối tại -2520px chiêm ngưỡng 4 trụ cột cam kết
+    // Chặng 5 (Đối tác của chúng tôi, F1480 – F1620, tinh gọn < 2.5s):
+    //   - F1480 -> F1540 (60 frames = 1.0s): Cuộn êm ái từ -2520px xuống -3580px
+    //   - F1540 -> F1620 (80 frames = 1.33s): Dừng tĩnh tại -3580px lướt qua các thương hiệu uy tín
+    // Chặng 6 (Blog TopBaoHiem, F1620 – F1830):
+    //   - F1620 -> F1690 (70 frames ~1.17s): Cuộn êm ái từ -3580px xuống -5080px
+    //   - F1690 -> F1830 (140 frames ~2.33s): Dừng tĩnh tuyệt đối tại -5080px theo dõi 3 bài viết kiến thức
+    // Chặng 7 (Footer & Hồi quy 3D Head, F1830 – F2040+):
+    //   - F1830 -> F1900 (70 frames ~1.17s): Cuộn êm ái chạm đáy Footer tại -5660px
+    //   - F1900 -> F1970 (70 frames ~1.17s): Dừng tĩnh tại -5660px chiêm ngưỡng thông tin pháp lý & hotline
+    //   - F1970 -> F2030 (60 frames = 1.0s): Cuộn vút trở lại Head (-7px) đồng bộ cùng cú xoay 3D phân tách!
     const webScrollY = interpolate(
         frame,
-        [690, 760, 900, 970, 1110, 1180, 1320, 1380, 1460, 1530, 1670, 1740, 1810, 1870],
+        [690, 760, 1060, 1130, 1270, 1340, 1480, 1540, 1620, 1690, 1830, 1900, 1970, 2030],
         [-7, -1100, -1100, -1850, -1850, -2520, -2520, -3580, -3580, -5080, -5080, -5660, -5660, -7],
         {
             extrapolateLeft: 'clamp',
@@ -668,15 +696,15 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
         }
     );
 
-    // 5. Vỏ MacBook và bóng sàn mờ dần giải phóng màn hình (F1810 -> F1860)
-    const macCasingOpacity = interpolate(frame, [1810, 1860], [1, 0], {
+    // 5. Vỏ MacBook và bóng sàn mờ dần giải phóng màn hình (F1970 -> F2020)
+    const macCasingOpacity = interpolate(frame, [1970, 2020], [1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
-    // 6. Chuyển đổi góc 3D Axonometric phân tách (F1810 -> F1880):
+    // 6. Chuyển đổi góc 3D Axonometric phân tách (F1970 -> F2040):
     // Tấm Web Canvas thoát ly vỏ máy, nghiêng góc 3D Axonometric (rotateX: 52°, rotateZ: -28°) chuẩn Shotcraft
-    const web3DProgress = interpolate(frame, [1810, 1880], [0, 1], {
+    const web3DProgress = interpolate(frame, [1970, 2040], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
@@ -1984,6 +2012,109 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                         <span>So sánh ngay</span>
                                         <span style={{ marginLeft: 6, fontSize: 17, lineHeight: 1 }}>➔</span>
                                     </div>
+                                )}
+
+                                {/* ------------------------------------------------------------------ */}
+                                {/* CHẶNG 2: FOCUS LẦN LƯỢT 4 THẺ QUY TRÌNH MUA BẢO HIỂM (F760 – F1060, 5S) */}
+                                {/* CHUẨN XÁC VỊ TRÍ BORDER VÒNG NGOÀI (OUTER BORDER), 1 BORDER DUY NHẤT */}
+                                {/* ------------------------------------------------------------------ */}
+
+                                {/* LỚP PHỦ VIỀN XÁM CHO CARD 1 KHI FOCUS RỜI SANG CARD 2, 3, 4 (ĐẢM BẢO DUY NHẤT 1 CARD HỒNG) */}
+                                {card1Unfocus > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            boxSizing: 'border-box',
+                                            left: 333,
+                                            top: 1502.5,
+                                            width: 289,
+                                            height: 562,
+                                            borderRadius: 20,
+                                            border: '2.5px solid #D9D9D9',
+                                            opacity: card1Unfocus,
+                                            pointerEvents: 'none',
+                                        }}
+                                    />
+                                )}
+
+                                {/* THẺ 1: CHỌN LOẠI BH (F760 - F835, Viền hồng ngoài cùng rực sáng hào quang) */}
+                                {step1Focus > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            boxSizing: 'border-box',
+                                            left: 333,
+                                            top: 1502.5,
+                                            width: 289,
+                                            height: 562,
+                                            borderRadius: 20,
+                                            border: '2.5px solid #ED017C',
+                                            boxShadow:
+                                                '0 12px 32px rgba(237, 1, 124, 0.35), 0 0 18px rgba(237, 1, 124, 0.22)',
+                                            opacity: step1Focus,
+                                            pointerEvents: 'none',
+                                        }}
+                                    />
+                                )}
+
+                                {/* THẺ 2: CHỌN GÓI (F835 - F910, Viền hồng vòng ngoài đè khít viền xám) */}
+                                {step2Focus > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            boxSizing: 'border-box',
+                                            left: 664.5,
+                                            top: 1502.5,
+                                            width: 289,
+                                            height: 562,
+                                            borderRadius: 20,
+                                            border: '2.5px solid #ED017C',
+                                            boxShadow:
+                                                '0 14px 38px rgba(237, 1, 124, 0.42), 0 0 22px rgba(237, 1, 124, 0.3)',
+                                            opacity: step2Focus,
+                                            pointerEvents: 'none',
+                                        }}
+                                    />
+                                )}
+
+                                {/* THẺ 3: NHẬP THÔNG TIN (F910 - F985, Viền hồng vòng ngoài đè khít viền xám) */}
+                                {step3Focus > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            boxSizing: 'border-box',
+                                            left: 996,
+                                            top: 1502.5,
+                                            width: 289,
+                                            height: 562,
+                                            borderRadius: 20,
+                                            border: '2.5px solid #ED017C',
+                                            boxShadow:
+                                                '0 12px 32px rgba(237, 1, 124, 0.35), 0 0 18px rgba(237, 1, 124, 0.22)',
+                                            opacity: step3Focus,
+                                            pointerEvents: 'none',
+                                        }}
+                                    />
+                                )}
+
+                                {/* THẺ 4: THANH TOÁN (F985 - F1060, Viền hồng vòng ngoài đè khít viền xám) */}
+                                {step4Focus > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            boxSizing: 'border-box',
+                                            left: 1327.5,
+                                            top: 1502.5,
+                                            width: 289,
+                                            height: 562,
+                                            borderRadius: 20,
+                                            border: '2.5px solid #ED017C',
+                                            boxShadow:
+                                                '0 12px 32px rgba(237, 1, 124, 0.35), 0 0 18px rgba(237, 1, 124, 0.22)',
+                                            opacity: step4Focus,
+                                            pointerEvents: 'none',
+                                        }}
+                                    />
                                 )}
                             </div>
                         </div>

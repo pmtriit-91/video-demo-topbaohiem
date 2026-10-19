@@ -170,18 +170,24 @@ Mỗi micro-task sau khi hoàn thiện sẽ dừng lại để **Bạn trực ti
   * Chuột lướt qua thẻ *Sức khoẻ* (F535 – F565) $\rightarrow$ Thẻ Sức khoẻ sáng viền hồng + nút hồng đặc chữ trắng.
   * Chuột dừng tại nút *"So sánh ngay ➔"* trên thẻ *Cháy nổ* (F575 – F650, trọng tâm chuẩn 100% Ảnh 1 User gửi): Viền thẻ sáng hồng neon `2.5px solid #ED017C`, nút *"So sánh ngay ➔"* chuyển thành **nền hồng đặc `#ED017C` với chữ trắng** nổi bật, bóng đổ bừng sáng.
   * Chuột lướt sang thẻ *Du lịch* (F652 – F685) $\rightarrow$ Thẻ Du lịch sáng viền hồng + nút hồng đặc chữ trắng trước khi chuẩn bị cuộn trang sang Chặng 2.
-- **Task 3.4: [x] ĐÃ NGHIỆM THU — CHẶNG 2: Quy trình mua bảo hiểm 4 bước (F690 – F900, ~3.5s)**: Cuộn trang êm ái, dừng tĩnh tại `-1100px`, con trỏ chuột trượt vào thẻ bước 2 "CHỌN GÓI".
-- **Task 3.5: [x] ĐÃ NGHIỆM THU — CHẶNG 3: Banner Thông Tin Các Nhóm Bảo Hiểm (F900 – F1110, ~3.5s)**: Cuộn mượt mà xuống `-1850px`, dừng tĩnh theo dõi 2 banner lớn (Cháy nổ, TNDS Xe máy).
-- **Task 3.6: [x] ĐÃ NGHIỆM THU — CHẶNG 4: "Vì sao chọn TOPbaohiem?" (F1110 – F1320, ~3.5s)**: Cuộn mượt mà xuống `-2520px`, dừng tĩnh thẩm thấu 4 cột cam kết cốt lõi.
-- **Task 3.7: [x] ĐÃ NGHIỆM THU — CHẶNG 5: Mạng Lưới Đối Tác Của Chúng Tôi (F1320 – F1460, ~2.33s)**: Cuộn xuống `-3580px`, dừng tĩnh gọn gàng < 2.5s lướt qua dàn logo đối tác uy tín.
-- **Task 3.8: [x] ĐÃ NGHIỆM THU — CHẶNG 6: Blog TopBaoHiem Cẩm Nang Kiến Thức (F1460 – F1670, ~3.5s)**: Cuộn mượt mà xuống `-5080px`, dừng tĩnh theo dõi 3 bài viết cẩm nang kiến thức.
-- **Task 3.9: [x] ĐÃ HOÀN THÀNH (CHỜ BẠN NGHIỆM THU) — CHẶNG 7: Footer & Chuyển Góc 3D Phân Tách (F1670 – F1880, ~3.5s):**
-  * Cuộn trang êm ái từ F1670 đến F1740 (`webScrollY` từ `-5080px` chạm đáy `-5660px`) đưa toàn bộ khối Footer xanh đậm chứa logo TOPbaohiem, công ty, hotline, liên kết dịch vụ và copyright vào màn hình Retina MacBook.
-  * Dừng tĩnh ~1.17s (F1740 – F1810) tại `-5660px` chiêm ngưỡng đầy đủ thông tin chân trang. Con trỏ chuột dừng tại logo/hotline rồi mờ dần biến mất (`macCursorOpacity: 1 -> 0`).
-  * **KẾT TIỀN CẢNH VÀO 3D PHÂN TÁCH (F1810 – F1880):**
-    - Vỏ máy MacBook và bóng sàn tiếp xúc mờ dần từ `1` về `0` (`macCasingOpacity`), giải phóng hoàn toàn tấm Web Canvas độc lập giữa không gian.
-    - Tấm trang web cuộn vút trở lại Head (`webScrollY` từ `-5660px` về `-7px`).
-    - Tấm Web Canvas thoát ly 2D phẳng, chuyển động nghiêng chúc $52^\circ$ (`rotateX: 52deg`), xoay nghiêng $-28^\circ$ (`rotateZ: -28deg`), nhấc bổng trục Z $120\text{px}$ (`translateZ: 120px`), nở bóng đổ 3D sâu đa tầng `0 45px 95px rgba(15, 23, 42, 0.38)` chuẩn kiến trúc Axonometric Shotcraft.
+- **Task 3.4: [x] ĐÃ HOÀN TẤT CHUẨN XÁC — CHẶNG 2: Quy trình mua bảo hiểm 4 bước (F690 – F1060, ~6.1s / 5.0s TĨNH THƯ THẢ):**
+  * Cuộn trang êm ái từ F690 đến F760 (`webScrollY` từ `-7px` xuống `-1100px`) đưa toàn bộ cụm 4 thẻ điện thoại vào trung tâm màn hình.
+  * Dừng tĩnh tuyệt đối đúng **5.0 giây (F760 – F1060, 300 frames)** cực kỳ thư thái và thoải mái.
+  * **Focus chuẩn xác 1 border duy nhất ở VÒNG NGOÀI CÙNG (Outer Border) theo đúng Ảnh 1, TUYỆT ĐỐI KHÔNG BORDER KÉP:**
+    - Tọa độ outer border đo quét pixel Swift chuẩn 100%: `top: 1502.5px, width: 289px, height: 562px, borderRadius: 20px, border: 2.5px solid #ED017C`.
+    - Thẻ 1 (F760 - F835): Chuột đáp vào nút *"CHỌN LOẠI BH"*, viền hồng vòng ngoài có sẵn bừng sáng hào quang phát quang `boxShadow`.
+    - Khi rời Thẻ 1 (từ F835): Lớp phủ viền xám `#D9D9D9` đè lên Thẻ 1 để đưa Thẻ 1 về viền xám, đảm bảo **toàn cảnh chỉ duy nhất 1 thẻ mang viền hồng tại mỗi thời điểm**.
+    - Thẻ 2 (F835 - F910): Chuột trượt sang nút *"CHỌN GÓI"*, viền hồng vòng ngoài đè khít tuyệt đối (`left: 664.5px`).
+    - Thẻ 3 (F910 - F985): Chuột trượt sang nút *"NHẬP THÔNG TIN"*, viền hồng vòng ngoài đè khít tuyệt đối (`left: 996px`).
+    - Thẻ 4 (F985 - F1060): Chuột trượt sang nút *"THANH TOÁN"*, viền hồng vòng ngoài đè khít tuyệt đối (`left: 1327.5px`).
+  * *Nghiệm thu Chặng 2:* Đã xóa bỏ hoàn toàn viền vòng trong và border kép, khít 100% outer border. Mời Bạn test trực tiếp trên dev server!
+- **Task 3.5: [x] ĐÃ ĐỒNG BỘ — CHẶNG 3: Banner Thông Tin Các Nhóm Bảo Hiểm (F1060 – F1270, ~3.5s)**: Cuộn mượt mà xuống `-1850px`, dừng tĩnh theo dõi 2 banner lớn (Cháy nổ, TNDS Xe máy).
+- **Task 3.6: [x] ĐÃ ĐỒNG BỘ — CHẶNG 4: "Vì sao chọn TOPbaohiem?" (F1270 – F1480, ~3.5s)**: Cuộn mượt mà xuống `-2520px`, dừng tĩnh thẩm thấu 4 cột cam kết cốt lõi.
+- **Task 3.7: [x] ĐÃ ĐỒNG BỘ — CHẶNG 5: Mạng Lưới Đối Tác Của Chúng Tôi (F1480 – F1620, ~2.33s)**: Cuộn xuống `-3580px`, dừng tĩnh gọn gàng < 2.5s lướt qua dàn logo đối tác uy tín.
+- **Task 3.8: [x] ĐÃ ĐỒNG BỘ — CHẶNG 6: Blog TopBaoHiem Cẩm Nang Kiến Thức (F1620 – F1830, ~3.5s)**: Cuộn mượt mà xuống `-5080px`, dừng tĩnh theo dõi 3 bài viết cẩm nang kiến thức.
+- **Task 3.9: [x] ĐÃ ĐỒNG BỘ (CHỜ BẠN NGHIỆM THU) — CHẶNG 7: Footer & Chuyển Góc 3D Phân Tách (F1830 – F2040, ~3.5s):**
+  * Cuộn trang chạm đáy Footer tại `-5660px` (F1830 – F1900), dừng tĩnh chiêm ngưỡng đầy đủ thông tin pháp lý & hotline (F1900 – F1970).
+  * **KẾT TIỀN CẢNH VÀO 3D PHÂN TÁCH (F1970 – F2040):** Vỏ máy MacBook và bóng sàn mờ dần về `0`, tấm web cuộn vút về Head `-7px`, chuyển động nghiêng chúc $52^\circ$, xoay nghiêng $-28^\circ$, nhấc bổng trục Z $120\text{px}$ với bóng đổ 3D sâu đa tầng chuẩn Axonometric Shotcraft.
   * *Nghiệm thu Chặng 7 & Tiền cảnh:* Sẵn sàng để Bạn kiểm tra trực tiếp trên trình duyệt `bun run dev`.
 - **Task 3.10: [ ] CHỜ THỰC HIỆN — ĐẠI CẢNH MỔ XẺ 3D (EXPLODED VIEW) 5 TẦNG UI TRỤC Z (F1880 – F2150):**
   * Tách 5 tầng UI theo trục Z chuẩn công thức Shotcraft (Mặt sàn đáy nét đứt $\rightarrow$ Nav $\rightarrow$ Banner $\rightarrow$ Thẻ cơ bản $\rightarrow$ Thẻ Du lịch + Vali 3D).
