@@ -566,34 +566,63 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     }
 
     // ==============================================================
-    // TIỀN CHUYỂN CẢNH: NHỊP DỪNG TĨNH MACBOOK (1.5-2s) + CON TRỎ CÓ VÒNG SPOTLIGHT + CUỘN CHẬM ĐẾN CUỐI TRANG (~8.5s)
+    // TIỀN CHUYỂN CẢNH: NHỊP DỪNG TĨNH MACBOOK + 5 CHẶNG DỪNG TƯƠNG TÁC (INTERACTIVE STAGED TOUR)
     // ==============================================================
-    // 1. Con trỏ chuột lướt vào lòng màn hình MacBook sau nhịp dừng tĩnh (F480 -> F505)
-    const macCursorOpacity = interpolate(frame, [480, 495, 1025, 1050], [0, 1, 1, 0], {
+    // 1. Độ hiển thị con trỏ chuột tương tác (bắt đầu hiện từ F485)
+    const macCursorOpacity = interpolate(frame, [485, 505, 1340, 1360], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
-    });
-    const macCursorX = interpolate(frame, [480, 505], [1480, 1220], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-        easing: Easing.bezier(0.16, 1, 0.3, 1),
-    });
-    const macCursorY = interpolate(frame, [480, 505, 750, 1025], [880, 620, 590, 640], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-        easing: Easing.bezier(0.16, 1, 0.3, 1),
     });
 
-    // 2. Cuộn chuột chậm rãi, thư thái từ đầu trang đến tận chân trang (~8.5s = 510 frames: F515 -> F1025)
-    // Toàn bộ ảnh cao 6755.6px trong khung 1096.5px, cuộn từ -7px đến -5659px để chạm đáy trang hoàn hảo
-    const webScrollY = interpolate(frame, [515, 1025], [-7, -5659], {
+    // 2. Quỹ đạo con trỏ chuột trong Chặng 1 (Head, F510 – F690): Lướt Sức khoẻ -> Cháy nổ -> Du lịch
+    const macCursorX = interpolate(
+        frame,
+        [485, 515, 545, 570, 600, 640, 665, 690],
+        [1480, 800, 495, 780, 1070, 1070, 1686, 1200],
+        {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+            easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+        }
+    );
+    const macCursorY = interpolate(
+        frame,
+        [485, 515, 545, 570, 600, 640, 665, 690],
+        [520, 750, 1055, 1000, 1055, 1055, 1055, 850],
+        {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+            easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+        }
+    );
+
+    // 3. Hiệu ứng Hover Card từng nhóm bảo hiểm trong Chặng 1 (Head):
+    // Card 1: Sức khoẻ (F535 - F565)
+    const card1Hover = interpolate(frame, [535, 545, 558, 568], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
-        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    });
+    // Card 2: Cháy nổ (F575 - F650) - Trọng tâm Hover Card chuẩn ảnh 1 người dùng
+    const card2Hover = interpolate(frame, [575, 595, 638, 650], [0, 1, 1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    // Card 3: Du lịch (F652 - F685)
+    const card3Hover = interpolate(frame, [652, 663, 676, 686], [0, 1, 1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
     });
 
-    // 3. Vỏ MacBook mờ dần khi cuộn trang đến điểm cuối chân trang (F1020 -> F1050)
-    const macCasingOpacity = interpolate(frame, [1020, 1050], [1, 0], {
+    // 4. Vị trí cuộn trang (webScrollY):
+    // Chặng 1 (Head, F0 – F690): Giữ tĩnh tuyệt đối tại -7px để người xem tương tác cụm Head
+    // (Các chặng 2, 3, 4, 5 sẽ tiếp nối lần lượt theo từng bước nghiệm thu)
+    const webScrollY = interpolate(frame, [690, 730], [-7, -7], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+
+    // 5. Vỏ MacBook mờ dần khi chạm chân trang cuối Chặng 5 (F1300 -> F1350)
+    const macCasingOpacity = interpolate(frame, [1300, 1350], [1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -1740,6 +1769,156 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                     translate: `-182.5px ${webScrollY}px`,
                                 }}
                             />
+
+                            {/* LỚP OVERLAY TƯƠNG TÁC GIAO DIỆN TRANG CHỦ (INTERACTIVE STAGED TOUR OVERLAY) */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '120%',
+                                    height: 'auto',
+                                    translate: `-182.5px ${webScrollY}px`,
+                                    pointerEvents: 'none',
+                                }}
+                            >
+                                {/* ------------------------------------------------------------------ */}
+                                {/* CHẶNG 1: HOVER CARD & NÚT SO SÁNH NGAY NỔI BẬT (CHUẨN ẢNH USER)     */}
+                                {/* ------------------------------------------------------------------ */}
+
+                                {/* THẺ 1: BẢO HIỂM SỨC KHOẺ (Hover lướt qua F535 - F565) */}
+                                {card1Hover > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            left: 324,
+                                            top: 601,
+                                            width: 418,
+                                            height: 220,
+                                            borderRadius: 22,
+                                            border: '2px solid #ED017C',
+                                            boxShadow: '0 8px 24px rgba(237, 1, 124, 0.2)',
+                                            opacity: card1Hover,
+                                            pointerEvents: 'none',
+                                        }}
+                                    />
+                                )}
+                                {card1Hover > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            left: 352,
+                                            top: 735,
+                                            width: 204,
+                                            height: 53,
+                                            borderRadius: 9999,
+                                            backgroundColor: '#ED017C',
+                                            boxShadow: '0 6px 16px rgba(237, 1, 124, 0.4)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            color: '#FFFFFF',
+                                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                            fontSize: 16,
+                                            fontWeight: 700,
+                                            opacity: card1Hover,
+                                            pointerEvents: 'none',
+                                        }}
+                                    >
+                                        <span>So sánh ngay</span>
+                                        <span style={{ marginLeft: 6, fontSize: 17, lineHeight: 1 }}>➔</span>
+                                    </div>
+                                )}
+
+                                {/* THẺ 2: BẢO HIỂM CHÁY NỔ (TRỌNG TÂM HOVER CARD CHUẨN 100% ẢNH 1 USER) */}
+                                {card2Hover > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            left: 764,
+                                            top: 601,
+                                            width: 418,
+                                            height: 220,
+                                            borderRadius: 22,
+                                            border: '2.5px solid #ED017C',
+                                            boxShadow:
+                                                '0 12px 36px rgba(237, 1, 124, 0.28), 0 0 16px rgba(237, 1, 124, 0.15)',
+                                            opacity: card2Hover,
+                                            pointerEvents: 'none',
+                                        }}
+                                    />
+                                )}
+                                {card2Hover > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            left: 792,
+                                            top: 735,
+                                            width: 204,
+                                            height: 53,
+                                            borderRadius: 9999,
+                                            backgroundColor: '#ED017C',
+                                            boxShadow: '0 8px 24px rgba(237, 1, 124, 0.5)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            color: '#FFFFFF',
+                                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                            fontSize: 16,
+                                            fontWeight: 700,
+                                            opacity: card2Hover,
+                                            pointerEvents: 'none',
+                                        }}
+                                    >
+                                        <span>So sánh ngay</span>
+                                        <span style={{ marginLeft: 6, fontSize: 17, lineHeight: 1 }}>➔</span>
+                                    </div>
+                                )}
+
+                                {/* THẺ 3: BẢO HIỂM DU LỊCH (Hover lướt qua F652 - F685) */}
+                                {card3Hover > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            left: 1204,
+                                            top: 601,
+                                            width: 418,
+                                            height: 220,
+                                            borderRadius: 22,
+                                            border: '2px solid #ED017C',
+                                            boxShadow: '0 8px 24px rgba(237, 1, 124, 0.2)',
+                                            opacity: card3Hover,
+                                            pointerEvents: 'none',
+                                        }}
+                                    />
+                                )}
+                                {card3Hover > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            left: 1232,
+                                            top: 735,
+                                            width: 204,
+                                            height: 53,
+                                            borderRadius: 9999,
+                                            backgroundColor: '#ED017C',
+                                            boxShadow: '0 6px 16px rgba(237, 1, 124, 0.4)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            color: '#FFFFFF',
+                                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                            fontSize: 16,
+                                            fontWeight: 700,
+                                            opacity: card3Hover,
+                                            pointerEvents: 'none',
+                                        }}
+                                    >
+                                        <span>So sánh ngay</span>
+                                        <span style={{ marginLeft: 6, fontSize: 17, lineHeight: 1 }}>➔</span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         {/* Con trỏ chuột tương tác lướt vào & cuộn trang */}
