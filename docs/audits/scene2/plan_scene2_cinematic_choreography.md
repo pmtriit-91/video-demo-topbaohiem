@@ -170,24 +170,26 @@ Mỗi micro-task sau khi hoàn thiện sẽ dừng lại để **Bạn trực ti
   * Chuột lướt qua thẻ *Sức khoẻ* (F535 – F565) $\rightarrow$ Thẻ Sức khoẻ sáng viền hồng + nút hồng đặc chữ trắng.
   * Chuột dừng tại nút *"So sánh ngay ➔"* trên thẻ *Cháy nổ* (F575 – F650, trọng tâm chuẩn 100% Ảnh 1 User gửi): Viền thẻ sáng hồng neon `2.5px solid #ED017C`, nút *"So sánh ngay ➔"* chuyển thành **nền hồng đặc `#ED017C` với chữ trắng** nổi bật, bóng đổ bừng sáng.
   * Chuột lướt sang thẻ *Du lịch* (F652 – F685) $\rightarrow$ Thẻ Du lịch sáng viền hồng + nút hồng đặc chữ trắng trước khi chuẩn bị cuộn trang sang Chặng 2.
-- **Task 3.4: [x] ĐÃ HOÀN TẤT CHUẨN XÁC — CHẶNG 2: Quy trình mua bảo hiểm 4 bước (F690 – F1060, ~6.1s / 5.0s TĨNH THƯ THẢ):**
+- **Task 3.4: [x] ĐÃ ĐIỀU CHỈNH HOÀN HẢO — CHẶNG 2: Quy trình mua bảo hiểm 4 bước (F690 – F952, ~4.3s / 3.2s TĨNH GỌN GÀNG):**
   * Cuộn trang êm ái từ F690 đến F760 (`webScrollY` từ `-7px` xuống `-1100px`) đưa toàn bộ cụm 4 thẻ điện thoại vào trung tâm màn hình.
-  * Dừng tĩnh tuyệt đối đúng **5.0 giây (F760 – F1060, 300 frames)** cực kỳ thư thái và thoải mái.
+  * Dừng tĩnh tuyệt đối đúng **3.2 giây (F760 – F952, 192 frames)** cực kỳ gãy gọn, dứt khoát không bị rườm rà.
   * **Focus chuẩn xác 1 border duy nhất ở VÒNG NGOÀI CÙNG (Outer Border) theo đúng Ảnh 1, TUYỆT ĐỐI KHÔNG BORDER KÉP:**
     - Tọa độ outer border đo quét pixel Swift chuẩn 100%: `top: 1502.5px, width: 289px, height: 562px, borderRadius: 20px, border: 2.5px solid #ED017C`.
-    - Thẻ 1 (F760 - F835): Chuột đáp vào nút *"CHỌN LOẠI BH"*, viền hồng vòng ngoài có sẵn bừng sáng hào quang phát quang `boxShadow`.
-    - Khi rời Thẻ 1 (từ F835): Lớp phủ viền xám `#D9D9D9` đè lên Thẻ 1 để đưa Thẻ 1 về viền xám, đảm bảo **toàn cảnh chỉ duy nhất 1 thẻ mang viền hồng tại mỗi thời điểm**.
-    - Thẻ 2 (F835 - F910): Chuột trượt sang nút *"CHỌN GÓI"*, viền hồng vòng ngoài đè khít tuyệt đối (`left: 664.5px`).
-    - Thẻ 3 (F910 - F985): Chuột trượt sang nút *"NHẬP THÔNG TIN"*, viền hồng vòng ngoài đè khít tuyệt đối (`left: 996px`).
-    - Thẻ 4 (F985 - F1060): Chuột trượt sang nút *"THANH TOÁN"*, viền hồng vòng ngoài đè khít tuyệt đối (`left: 1327.5px`).
-  * *Nghiệm thu Chặng 2:* Đã xóa bỏ hoàn toàn viền vòng trong và border kép, khít 100% outer border. Mời Bạn test trực tiếp trên dev server!
-- **Task 3.5: [x] ĐÃ ĐỒNG BỘ — CHẶNG 3: Banner Thông Tin Các Nhóm Bảo Hiểm (F1060 – F1270, ~3.5s)**: Cuộn mượt mà xuống `-1850px`, dừng tĩnh theo dõi 2 banner lớn (Cháy nổ, TNDS Xe máy).
-- **Task 3.6: [x] ĐÃ ĐỒNG BỘ — CHẶNG 4: "Vì sao chọn TOPbaohiem?" (F1270 – F1480, ~3.5s)**: Cuộn mượt mà xuống `-2520px`, dừng tĩnh thẩm thấu 4 cột cam kết cốt lõi.
-- **Task 3.7: [x] ĐÃ ĐỒNG BỘ — CHẶNG 5: Mạng Lưới Đối Tác Của Chúng Tôi (F1480 – F1620, ~2.33s)**: Cuộn xuống `-3580px`, dừng tĩnh gọn gàng < 2.5s lướt qua dàn logo đối tác uy tín.
-- **Task 3.8: [x] ĐÃ ĐỒNG BỘ — CHẶNG 6: Blog TopBaoHiem Cẩm Nang Kiến Thức (F1620 – F1830, ~3.5s)**: Cuộn mượt mà xuống `-5080px`, dừng tĩnh theo dõi 3 bài viết cẩm nang kiến thức.
-- **Task 3.9: [x] ĐÃ ĐỒNG BỘ (CHỜ BẠN NGHIỆM THU) — CHẶNG 7: Footer & Chuyển Góc 3D Phân Tách (F1830 – F2040, ~3.5s):**
-  * Cuộn trang chạm đáy Footer tại `-5660px` (F1830 – F1900), dừng tĩnh chiêm ngưỡng đầy đủ thông tin pháp lý & hotline (F1900 – F1970).
-  * **KẾT TIỀN CẢNH VÀO 3D PHÂN TÁCH (F1970 – F2040):** Vỏ máy MacBook và bóng sàn mờ dần về `0`, tấm web cuộn vút về Head `-7px`, chuyển động nghiêng chúc $52^\circ$, xoay nghiêng $-28^\circ$, nhấc bổng trục Z $120\text{px}$ với bóng đổ 3D sâu đa tầng chuẩn Axonometric Shotcraft.
+    - Thẻ 1 (F760 - F808, ~0.8s): Chuột đáp vào nút *"CHỌN LOẠI BH"*, viền hồng vòng ngoài có sẵn bừng sáng hào quang phát quang `boxShadow`.
+    - Khi rời Thẻ 1 (từ F808): Lớp phủ viền xám `#D9D9D9` đè lên Thẻ 1 để đưa Thẻ 1 về viền xám, đảm bảo **toàn cảnh chỉ duy nhất 1 thẻ mang viền hồng tại mỗi thời điểm**.
+    - Thẻ 2 (F808 - F856, ~0.8s): Chuột trượt sang nút *"CHỌN GÓI"*, viền hồng vòng ngoài đè khít tuyệt đối (`left: 664.5px`).
+    - Thẻ 3 (F856 - F904, ~0.8s): Chuột trượt sang nút *"NHẬP THÔNG TIN"*, viền hồng vòng ngoài đè khít tuyệt đối (`left: 996px`).
+    - Thẻ 4 (F904 - F952, ~0.8s): Chuột trượt sang nút *"THANH TOÁN"*, viền hồng vòng ngoài đè khít tuyệt đối (`left: 1327.5px`).
+  * *Nghiệm thu Chặng 2:* Đã xóa bỏ hoàn toàn viền vòng trong và border kép, khít 100% outer border, nhịp điệu 3.2s cực kỳ sảng khoái.
+- **Task 3.5: [x] ĐÃ TINH GỌN — CHẶNG 3: Banner Thông Tin Các Nhóm Bảo Hiểm (F952 – F1095, ~2.38s / 1.33s TĨNH TINH GỌN):**
+  * Cuộn mượt mà từ F952 đến F1015 (`-1100px` $\rightarrow$ `-1850px`).
+  * Dừng tĩnh tinh gọn đúng **~1.33s (F1015 – F1095, 80 frames)** lướt nhanh qua 2 banner (Cháy nổ, TNDS Xe máy).
+- **Task 3.6: [x] ĐÃ ĐỒNG BỘ — CHẶNG 4: "Vì sao chọn TOPbaohiem?" (F1095 – F1300, ~3.4s)**: Cuộn mượt mà xuống `-2520px`, dừng tĩnh thẩm thấu 4 cột cam kết cốt lõi.
+- **Task 3.7: [x] ĐÃ ĐỒNG BỘ — CHẶNG 5: Mạng Lưới Đối Tác Của Chúng Tôi (F1300 – F1440, ~2.33s)**: Cuộn xuống `-3580px`, dừng tĩnh gọn gàng < 2.5s lướt qua dàn logo đối tác uy tín.
+- **Task 3.8: [x] ĐÃ ĐỒNG BỘ — CHẶNG 6: Blog TopBaoHiem Cẩm Nang Kiến Thức (F1440 – F1650, ~3.5s)**: Cuộn mượt mà xuống `-5080px`, dừng tĩnh theo dõi 3 bài viết cẩm nang kiến thức.
+- **Task 3.9: [x] ĐÃ ĐỒNG BỘ — CHẶNG 7: Footer & Chuyển Góc 3D Phân Tách (F1650 – F1860, ~3.5s):**
+  * Cuộn trang chạm đáy Footer tại `-5660px` (F1650 – F1720), dừng tĩnh chiêm ngưỡng đầy đủ thông tin pháp lý & hotline (F1720 – F1790).
+  * **KẾT TIỀN CẢNH VÀO 3D PHÂN TÁCH (F1790 – F1860):** Vỏ máy MacBook và bóng sàn mờ dần về `0`, tấm web cuộn vút về Head `-7px`, chuyển động nghiêng chúc $52^\circ$, xoay nghiêng $-28^\circ$, nhấc bổng trục Z $120\text{px}$ với bóng đổ 3D sâu đa tầng chuẩn Axonometric Shotcraft.
   * *Nghiệm thu Chặng 7 & Tiền cảnh:* Sẵn sàng để Bạn kiểm tra trực tiếp trên trình duyệt `bun run dev`.
 - **Task 3.10: [ ] CHỜ THỰC HIỆN — ĐẠI CẢNH MỔ XẺ 3D (EXPLODED VIEW) 5 TẦNG UI TRỤC Z (F1880 – F2150):**
   * Tách 5 tầng UI theo trục Z chuẩn công thức Shotcraft (Mặt sàn đáy nét đứt $\rightarrow$ Nav $\rightarrow$ Banner $\rightarrow$ Thẻ cơ bản $\rightarrow$ Thẻ Du lịch + Vali 3D).
