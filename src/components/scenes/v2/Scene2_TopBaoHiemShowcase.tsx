@@ -769,11 +769,57 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     const web3DTranslateZ = interpolate(web3DEntrance, [0, 1], [0, 120]) + 30 * web3DOrbit;
     const web3DScale = interpolate(web3DEntrance, [0, 1], [1.4, 1.15]) * (1 - 0.05 * web3DOrbit);
 
-    // Tiến độ xuất hiện của 5 ô rãnh nét đứt (Dashed Slot Outlines) trên sàn đế
+    // Tiến độ xuất hiện của các ô rãnh nét đứt (Dashed Slot Outlines) trên sàn đế
     const dashedSlotsProgress = interpolate(frame, [1865, 1910], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    });
+
+    // ==============================================================
+    // 8. TASK 3.10 - PHÂN ĐOẠN 2: LÒ XO BUNG TẦNG 3D THEO TRỤC Z (STAGGERED SPRING BLAST)
+    // F1905 -> F1980+: Mỗi cụm tầng nhấc bổng lên độ cao Z định trước theo cơ chế lò xo nảy nhẹ
+    // ==============================================================
+    const springLayer1 = spring({
+        frame: frame - 1905,
+        fps: 60,
+        config: { damping: 14, stiffness: 95, mass: 0.85 },
+    });
+    const springLayer2 = spring({
+        frame: frame - 1915,
+        fps: 60,
+        config: { damping: 14, stiffness: 90, mass: 0.95 },
+    });
+    const springLayer3 = spring({
+        frame: frame - 1925,
+        fps: 60,
+        config: { damping: 13, stiffness: 85, mass: 1.0 },
+    });
+    const springLayer4 = spring({
+        frame: frame - 1935,
+        fps: 60,
+        config: { damping: 12, stiffness: 80, mass: 0.9 },
+    });
+
+    const pL1 = frame >= 1905 ? Math.max(0, springLayer1) : 0;
+    const pL2 = frame >= 1915 ? Math.max(0, springLayer2) : 0;
+    const pL3 = frame >= 1925 ? Math.max(0, springLayer3) : 0;
+    const pL4 = frame >= 1935 ? Math.max(0, springLayer4) : 0;
+
+    // Độ cao Z thực tế của từng cụm tầng theo trục Z chuẩn phân tầng user yêu cầu:
+    // - Cụm 1: Menu Bar trên cùng: NẰM CAO NHẤT (Z = 450px)
+    // - Cụm 2: Cụm Title lớn "So sánh TOPbaohiem" & Hình ảnh: TẦNG THỨ 2 (Z = 280px)
+    // - Cụm 3: Dàn Card bảo hiểm: TẦNG THẤP HƠN (Z = 135px - 145px)
+    // - Cụm 4: Nền trang tầng trệt (Sàn đế chassis, Z = 0px)
+    const zLayer1 = pL1 * 450; // Cụm 1: Menu Bar nằm cao nhất 450px
+    const zLayer2 = pL2 * 280; // Cụm 2: Hero Banner tầng thứ hai 280px
+    const zLayer3 = pL3 * 135; // Cụm 3 (Cơ bản): Dàn Card bảo hiểm tầng thấp hơn 135px
+    const zLayer4 = pL4 * 145; // Cụm 3 (Hero Du lịch): Cùng tầng card thấp hơn (145px)
+
+    // Độ mờ sàn đế khi các tầng bay lên (làm tôn bật các tầng nổi Z sắc nét)
+    const chassisFloorBaseOpacity = interpolate(frame, [1905, 1955], [1, 0.45], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
     });
 
     return (
@@ -1958,9 +2004,13 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                         }}
                                     />
                                 )}
-                            {/* Ảnh Head trang chủ TOPbaohiem 4K siêu nét - Cuộn trang thư thả */}
+                            {/* Ảnh Head trang chủ TOPbaohiem 4K siêu nét - Khi vào 3D chuyển sang head_chassis_base.png cắt gọn mặt sàn */}
                             <Img
-                                src={staticFile('assets/elements/screen2/fullsize-trangchu.png')}
+                                src={
+                                    frame >= 1860
+                                        ? staticFile('assets/elements/screen2/head_chassis_base.png')
+                                        : staticFile('assets/elements/screen2/fullsize-trangchu.png')
+                                }
                                 style={{
                                     position: 'absolute',
                                     top: 0,
@@ -1968,6 +2018,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                     width: '120%',
                                     height: 'auto',
                                     translate: `-182.5px ${webScrollY}px`,
+                                    opacity: chassisFloorBaseOpacity,
                                 }}
                             />
 
@@ -2364,6 +2415,355 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                 {/* ĐÓNG LỚP OVERLAY TƯƠNG TÁC */}
                             </div>
                             {/* ĐÓNG 1. MẶT SÀN ĐẾ CHASSIS 3D (OVERFLOW: HIDDEN CẮT GỌN CHỈ GIỮ LẠI PHẦN HEAD TRANG CHỦ) */}
+
+                            {/* ============================================================== */}
+                            {/* 2. CÁC TẦNG BAY 3D NỔI TRÊN TRỤC Z (EXPLODED 3D FLOATING LAYERS) */}
+                            {/* Nổi bổng theo lò xo nảy nhẹ, kèm bóng chiếu sàn đáy & độ dày cạnh khối */}
+                            {/* ============================================================== */}
+                            {frame >= 1905 && (
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        width: '120%',
+                                        height: 'auto',
+                                        translate: `-182.5px ${webScrollY}px`,
+                                        transformStyle: 'preserve-3d',
+                                        pointerEvents: 'none',
+                                        zIndex: 10,
+                                    }}
+                                >
+                                    {/* -------------------------------------------------------------- */}
+                                    {/* A. CỤM 1: MENU BAR TRÊN CÙNG (Bay lên Z = 450px - NẰM CAO NHẤT) */}
+                                    {/* -------------------------------------------------------------- */}
+                                    {pL1 > 0.01 && (
+                                        <>
+                                            {/* Neo 1: Bóng đổ chiếu xuống sàn đáy (Cast Shadow) */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 312 + zLayer1 * 0.16,
+                                                    top: 10 + zLayer1 * 0.22,
+                                                    width: 1315,
+                                                    height: 80,
+                                                    borderRadius: 16,
+                                                    backgroundColor: 'rgba(15, 23, 42, 0.35)',
+                                                    filter: `blur(${8 + zLayer1 * 0.06}px)`,
+                                                    opacity: Math.min(1, pL1 * 1.5) * Math.max(0.12, 0.5 - zLayer1 / 1400),
+                                                    transform: 'translateZ(2px)',
+                                                }}
+                                            />
+                                            {/* Neo 2: Độ dày thành khối cơ khí (Extrusion Edge lùi 6px) */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 312,
+                                                    top: 10,
+                                                    width: 1315,
+                                                    height: 80,
+                                                    borderRadius: 16,
+                                                    backgroundColor: '#CBD5E1',
+                                                    transform: `translateZ(${Math.max(1, zLayer1 - 6)}px)`,
+                                                }}
+                                            />
+                                            {/* Neo 3: Mặt trước Tầng kính UI siêu nét */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 312,
+                                                    top: 10,
+                                                    width: 1315,
+                                                    height: 80,
+                                                    borderRadius: 16,
+                                                    overflow: 'hidden',
+                                                    transform: `translateZ(${zLayer1}px)`,
+                                                    boxShadow:
+                                                        '0 18px 40px rgba(15, 23, 42, 0.22), 0 0 0 1.5px rgba(255, 255, 255, 0.85), 0 0 20px rgba(237, 1, 124, 0.2)',
+                                                    backgroundColor: '#ED017C',
+                                                }}
+                                            >
+                                                <Img
+                                                    src={staticFile('assets/elements/screen2/cum1_menubar.png')}
+                                                    style={{
+                                                        width: '100%',
+                                                        height: '100%',
+                                                        objectFit: 'cover',
+                                                        display: 'block',
+                                                    }}
+                                                />
+                                                {/* Kính lướt sáng phản chiếu ánh sáng */}
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        inset: 0,
+                                                        background:
+                                                            'linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 50%)',
+                                                        pointerEvents: 'none',
+                                                    }}
+                                                />
+                                            </div>
+                                        </>
+                                    )}
+
+                                    {/* -------------------------------------------------------------- */}
+                                    {/* B. CỤM 2: HERO BANNER BLOCK (Bay lên Z = 280px - TẦNG THỨ 2)   */}
+                                    {/* -------------------------------------------------------------- */}
+                                    {pL2 > 0.01 && (
+                                        <>
+                                            {/* Neo 1: Bóng đổ chiếu xuống sàn đáy */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 312 + zLayer2 * 0.16,
+                                                    top: 135 + zLayer2 * 0.22,
+                                                    width: 1315,
+                                                    height: 425,
+                                                    borderRadius: 24,
+                                                    backgroundColor: 'rgba(15, 23, 42, 0.35)',
+                                                    filter: `blur(${10 + zLayer2 * 0.07}px)`,
+                                                    opacity: Math.min(1, pL2 * 1.5) * Math.max(0.12, 0.5 - zLayer2 / 1400),
+                                                    transform: 'translateZ(2px)',
+                                                }}
+                                            />
+                                            {/* Neo 2: Độ dày thành khối cơ khí */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 312,
+                                                    top: 135,
+                                                    width: 1315,
+                                                    height: 425,
+                                                    borderRadius: 24,
+                                                    backgroundColor: '#CBD5E1',
+                                                    transform: `translateZ(${Math.max(1, zLayer2 - 6)}px)`,
+                                                }}
+                                            />
+                                            {/* Neo 3: Mặt trước Tầng kính UI siêu nét */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 312,
+                                                    top: 135,
+                                                    width: 1315,
+                                                    height: 425,
+                                                    borderRadius: 24,
+                                                    overflow: 'hidden',
+                                                    transform: `translateZ(${zLayer2}px)`,
+                                                    boxShadow:
+                                                        '0 24px 55px rgba(15, 23, 42, 0.24), 0 0 0 1.5px rgba(255, 255, 255, 0.85), 0 0 25px rgba(237, 1, 124, 0.18)',
+                                                    backgroundColor: '#FFFFFF',
+                                                }}
+                                            >
+                                                <Img
+                                                    src={staticFile('assets/elements/screen2/cum2_herobanner.png')}
+                                                    style={{
+                                                        width: '100%',
+                                                        height: '100%',
+                                                        objectFit: 'cover',
+                                                        display: 'block',
+                                                    }}
+                                                />
+                                                {/* Kính lướt sáng phản chiếu ánh sáng */}
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        inset: 0,
+                                                        background:
+                                                            'linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 50%)',
+                                                        pointerEvents: 'none',
+                                                    }}
+                                                />
+                                            </div>
+                                        </>
+                                    )}
+
+                                    {/* -------------------------------------------------------------- */}
+                                    {/* C. CỤM 3: DÀN CARD BẢO HIỂM CƠ BẢN (Bay lên Z = 135px - TẦNG THẤP HƠN) */}
+                                    {/* -------------------------------------------------------------- */}
+                                    {pL3 > 0.01 && (
+                                        <>
+                                            {[
+                                                {
+                                                    key: 'card-suckhoe',
+                                                    x: 324,
+                                                    y: 601,
+                                                    w: 418,
+                                                    h: 220,
+                                                    r: 22,
+                                                    img: 'assets/elements/screen2/cum3_card1_suckhoe.png',
+                                                },
+                                                {
+                                                    key: 'card-chayno',
+                                                    x: 764,
+                                                    y: 601,
+                                                    w: 418,
+                                                    h: 220,
+                                                    r: 22,
+                                                    img: 'assets/elements/screen2/cum3_card2_chayno.png',
+                                                },
+                                                {
+                                                    key: 'card-xemay',
+                                                    x: 485,
+                                                    y: 846,
+                                                    w: 478,
+                                                    h: 130,
+                                                    r: 20,
+                                                    img: 'assets/elements/screen2/cum3_card4_xemay.png',
+                                                },
+                                                {
+                                                    key: 'card-oto',
+                                                    x: 984,
+                                                    y: 846,
+                                                    w: 478,
+                                                    h: 130,
+                                                    r: 20,
+                                                    img: 'assets/elements/screen2/cum3_card5_oto.png',
+                                                },
+                                            ].map((c) => (
+                                                <React.Fragment key={c.key}>
+                                                    {/* Bóng chiếu sàn */}
+                                                    <div
+                                                        style={{
+                                                            position: 'absolute',
+                                                            left: c.x + zLayer3 * 0.16,
+                                                            top: c.y + zLayer3 * 0.22,
+                                                            width: c.w,
+                                                            height: c.h,
+                                                            borderRadius: c.r,
+                                                            backgroundColor: 'rgba(15, 23, 42, 0.35)',
+                                                            filter: `blur(${10 + zLayer3 * 0.07}px)`,
+                                                            opacity: Math.min(1, pL3 * 1.5) * Math.max(0.12, 0.5 - zLayer3 / 1400),
+                                                            transform: 'translateZ(2px)',
+                                                        }}
+                                                    />
+                                                    {/* Độ dày cạnh */}
+                                                    <div
+                                                        style={{
+                                                            position: 'absolute',
+                                                            left: c.x,
+                                                            top: c.y,
+                                                            width: c.w,
+                                                            height: c.h,
+                                                            borderRadius: c.r,
+                                                            backgroundColor: '#CBD5E1',
+                                                            transform: `translateZ(${Math.max(1, zLayer3 - 6)}px)`,
+                                                        }}
+                                                    />
+                                                    {/* Mặt trước Card */}
+                                                    <div
+                                                        style={{
+                                                            position: 'absolute',
+                                                            left: c.x,
+                                                            top: c.y,
+                                                            width: c.w,
+                                                            height: c.h,
+                                                            borderRadius: c.r,
+                                                            overflow: 'hidden',
+                                                            transform: `translateZ(${zLayer3}px)`,
+                                                            boxShadow:
+                                                                '0 22px 48px rgba(15, 23, 42, 0.22), 0 0 0 1.5px rgba(255, 255, 255, 0.9), 0 0 18px rgba(237, 1, 124, 0.15)',
+                                                            backgroundColor: '#FFFFFF',
+                                                        }}
+                                                    >
+                                                        <Img
+                                                            src={staticFile(c.img)}
+                                                            style={{
+                                                                width: '100%',
+                                                                height: '100%',
+                                                                objectFit: 'cover',
+                                                                display: 'block',
+                                                            }}
+                                                        />
+                                                        {/* Kính lướt sáng */}
+                                                        <div
+                                                            style={{
+                                                                position: 'absolute',
+                                                                inset: 0,
+                                                                background:
+                                                                    'linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%)',
+                                                                pointerEvents: 'none',
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </React.Fragment>
+                                            ))}
+                                        </>
+                                    )}
+
+                                    {/* -------------------------------------------------------------- */}
+                                    {/* D. CỤM 3: THẺ BẢO HIỂM DU LỊCH (Cùng tầng card thấp hơn Z = 145px) */}
+                                    {/* -------------------------------------------------------------- */}
+                                    {pL4 > 0.01 && (
+                                        <>
+                                            {/* Bóng chiếu sàn */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 1204 + zLayer4 * 0.16,
+                                                    top: 601 + zLayer4 * 0.22,
+                                                    width: 418,
+                                                    height: 220,
+                                                    borderRadius: 22,
+                                                    backgroundColor: 'rgba(15, 23, 42, 0.38)',
+                                                    filter: `blur(${12 + zLayer4 * 0.08}px)`,
+                                                    opacity: Math.min(1, pL4 * 1.5) * Math.max(0.15, 0.55 - zLayer4 / 1400),
+                                                    transform: 'translateZ(2px)',
+                                                }}
+                                            />
+                                            {/* Độ dày cạnh */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 1204,
+                                                    top: 601,
+                                                    width: 418,
+                                                    height: 220,
+                                                    borderRadius: 22,
+                                                    backgroundColor: '#CBD5E1',
+                                                    transform: `translateZ(${Math.max(1, zLayer4 - 6)}px)`,
+                                                }}
+                                            />
+                                            {/* Mặt trước Hero Card */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 1204,
+                                                    top: 601,
+                                                    width: 418,
+                                                    height: 220,
+                                                    borderRadius: 22,
+                                                    overflow: 'hidden',
+                                                    transform: `translateZ(${zLayer4}px)`,
+                                                    boxShadow:
+                                                        '0 30px 65px rgba(15, 23, 42, 0.3), 0 0 0 2px rgba(237, 1, 124, 0.85), 0 0 35px rgba(237, 1, 124, 0.45)',
+                                                    backgroundColor: '#FFFFFF',
+                                                }}
+                                            >
+                                                <Img
+                                                    src={staticFile('assets/elements/screen2/cum3_card3_dulich.png')}
+                                                    style={{
+                                                        width: '100%',
+                                                        height: '100%',
+                                                        objectFit: 'cover',
+                                                        display: 'block',
+                                                    }}
+                                                />
+                                                {/* Hào quang lấp lánh Hero Card */}
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        inset: 0,
+                                                        background:
+                                                            'linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(237, 1, 124, 0.08) 60%, rgba(237, 1, 124, 0.15) 100%)',
+                                                        pointerEvents: 'none',
+                                                    }}
+                                                />
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            )}
                         </div>
                         {/* ĐÓNG B. KHUNG CONTAINER 3D CHA (PRESERVE-3D) */}
 
