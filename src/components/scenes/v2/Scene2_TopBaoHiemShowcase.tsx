@@ -749,15 +749,32 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
 
     // 6. Chuyển đổi góc 3D Axonometric phân tách (F1790 -> F1860):
     // Tấm Web Canvas thoát ly vỏ máy, nghiêng góc 3D Axonometric (rotateX: 52°, rotateZ: -28°) chuẩn Shotcraft
-    const web3DProgress = interpolate(frame, [1790, 1860], [0, 1], {
+    const web3DEntrance = interpolate(frame, [1790, 1860], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
     });
-    const web3DRotateX = interpolate(web3DProgress, [0, 1], [0, 52]);
-    const web3DRotateZ = interpolate(web3DProgress, [0, 1], [0, -28]);
-    const web3DTranslateZ = interpolate(web3DProgress, [0, 1], [0, 120]);
-    const web3DScale = interpolate(web3DProgress, [0, 1], [1.4, 1.15]);
+
+    // 7. TASK 3.10: ĐẠI CẢNH 3D MỔ XẺ PHÂN TÁCH (EXPLODED VIEW) - PHÂN ĐOẠN 1 (F1860 - F2040+):
+    // Camera lượn nhẹ quanh tấm Web (Camera Orbit Parallax) tạo thị sai độ sâu thực
+    const web3DOrbit = interpolate(frame, [1860, 2040], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    });
+
+    // Góc nghiêng kết hợp giữa giai đoạn chuyển cảnh và giai đoạn orbit:
+    const web3DRotateX = interpolate(web3DEntrance, [0, 1], [0, 52]) - 4 * web3DOrbit; // 52° -> 48°
+    const web3DRotateZ = interpolate(web3DEntrance, [0, 1], [0, -28]) + 8 * web3DOrbit; // -28° -> -20°
+    const web3DTranslateZ = interpolate(web3DEntrance, [0, 1], [0, 120]) + 30 * web3DOrbit;
+    const web3DScale = interpolate(web3DEntrance, [0, 1], [1.4, 1.15]) * (1 - 0.05 * web3DOrbit);
+
+    // Tiến độ xuất hiện của 5 ô rãnh nét đứt (Dashed Slot Outlines) trên sàn đế
+    const dashedSlotsProgress = interpolate(frame, [1865, 1910], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    });
 
     return (
         <div
@@ -1875,6 +1892,26 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         />
 
                         {/* 1. MÀN HÌNH NẰM TRONG LÒNG KÍNH -> THOÁT LY VỎ MÁY VÀO 3D AXONOMETRIC PHÂN TÁCH */}
+                        {/* A. BÓNG TIẾP XÚC MẶT BÀN CỦA ĐẾ SÀN KHI VÀO 3D (TABLETOP CONTACT SHADOW) */}
+                        {web3DEntrance > 0.01 && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    left: '16.5%',
+                                    top: '17%',
+                                    width: '67%',
+                                    height: '75%',
+                                    borderRadius: 36,
+                                    backgroundColor: 'rgba(15, 23, 42, 0.38)',
+                                    filter: 'blur(45px)',
+                                    transform: `perspective(2400px) rotateX(${web3DRotateX}deg) rotateZ(${web3DRotateZ}deg) translateZ(-30px) translate(35px, 55px) scale(${web3DScale})`,
+                                    pointerEvents: 'none',
+                                    zIndex: 0,
+                                }}
+                            />
+                        )}
+
+                        {/* B. KHUNG CONTAINER 3D CHA (PRESERVE-3D, MANG MA TRẬN XOAY VÀ SCALE) */}
                         <div
                             style={{
                                 position: 'absolute',
@@ -1882,21 +1919,45 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                 top: '17%',
                                 width: '67%',
                                 height: '75%',
-                                borderRadius: web3DProgress > 0.01 ? 22 : 14,
-                                backgroundColor: '#FFFFFF',
                                 zIndex: 1,
                                 transform:
-                                    web3DProgress > 0.001
+                                    web3DEntrance > 0.001
                                         ? `perspective(2400px) rotateX(${web3DRotateX}deg) rotateZ(${web3DRotateZ}deg) translateZ(${web3DTranslateZ}px) scale(${web3DScale})`
                                         : 'scale(1.4)',
                                 transformStyle: 'preserve-3d',
-                                boxShadow:
-                                    web3DProgress > 0.01
-                                        ? `0 ${interpolate(web3DProgress, [0, 1], [0, 45])}px ${interpolate(web3DProgress, [0, 1], [0, 95])}px rgba(15, 23, 42, ${interpolate(web3DProgress, [0, 1], [0, 0.38])}), 0 0 0 ${interpolate(web3DProgress, [0, 1], [0, 1.5])}px rgba(255, 255, 255, 0.8)`
-                                        : undefined,
-                                overflow: 'hidden',
+                                overflow: 'visible',
                             }}
                         >
+                            {/* 1. MẶT SÀN ĐẾ CHASSIS 3D (DESKTOP CHASSIS BASE BOARD - Z = 0) */}
+                            {/* SÀN ĐẾ NÀY CÓ OVERFLOW: HIDDEN ĐỂ CHỈ HIỂN THỊ TRỌN VẸN PHẦN HEAD TRANG CHỦ, CẮT SẠCH TOÀN BỘ PHẦN THÂN WEB DÀI 10188px NHƯ ẢNH USER GỬI */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    borderRadius: web3DEntrance > 0.01 ? 26 : 14,
+                                    backgroundColor: '#FFFFFF',
+                                    boxShadow:
+                                        web3DEntrance > 0.01
+                                            ? `0 ${interpolate(web3DEntrance, [0, 1], [0, 45])}px ${interpolate(web3DEntrance, [0, 1], [0, 95])}px rgba(15, 23, 42, ${interpolate(web3DEntrance, [0, 1], [0, 0.38])}), 0 0 0 ${interpolate(web3DEntrance, [0, 1], [0, 1.5])}px rgba(255, 255, 255, 0.85)`
+                                            : undefined,
+                                    overflow: 'hidden',
+                                    transform: 'translateZ(0px)',
+                                    transformStyle: 'preserve-3d',
+                                }}
+                            >
+                                {/* ĐỘ DÀY THÀNH CẠNH ĐẾ SÀN CHASSIS (EXTRUSION THICKNESS, Z = -14px) */}
+                                {web3DEntrance > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            inset: 0,
+                                            borderRadius: 26,
+                                            backgroundColor: '#CBD5E1',
+                                            transform: 'translateZ(-14px)',
+                                            pointerEvents: 'none',
+                                        }}
+                                    />
+                                )}
                             {/* Ảnh Head trang chủ TOPbaohiem 4K siêu nét - Cuộn trang thư thả */}
                             <Img
                                 src={staticFile('assets/elements/screen2/fullsize-trangchu.png')}
@@ -2161,8 +2222,150 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                         }}
                                     />
                                 )}
+
+                                {/* ------------------------------------------------------------------ */}
+                                {/* TASK 3.10 - PHÂN ĐOẠN 1: CÁC Ô RÃNH NÉT ĐỨT (DASHED SLOTS) TRÊN ĐẾ SÀN HEAD (F1865+) */}
+                                {/* Khớp chuẩn từng cụm linh kiện Head theo ảnh user: Nav, Hero Text, Hero Image, 3 Card lớn, 2 Card nhỏ */}
+                                {/* ------------------------------------------------------------------ */}
+                                {dashedSlotsProgress > 0.01 && (
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            inset: 0,
+                                            opacity: dashedSlotsProgress,
+                                            pointerEvents: 'none',
+                                            zIndex: 2,
+                                        }}
+                                    >
+                                        {/* ============================================================== */}
+                                        {/* CỤM 1: MENU BAR TRÊN CÙNG (Logo, Navigation & Quản lý)         */}
+                                        {/* ============================================================== */}
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                left: 312,
+                                                top: 10,
+                                                width: 1315,
+                                                height: 80,
+                                                borderRadius: 16,
+                                                border: '2.5px dashed rgba(237, 1, 124, 0.45)',
+                                                backgroundColor: 'rgba(237, 1, 124, 0.04)',
+                                                boxShadow: 'inset 0 0 16px rgba(237, 1, 124, 0.08)',
+                                                boxSizing: 'border-box',
+                                            }}
+                                        />
+
+                                        {/* ============================================================== */}
+                                        {/* CỤM 2: TITLE LỚN "SO SÁNH TOPBAOHIEM" & HÌNH ẢNH (GOM 1 KHỐI)   */}
+                                        {/* Bao trọn: Badge BCT, Headline, 3 Lợi ích & Hình gia đình/khiên */}
+                                        {/* ============================================================== */}
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                left: 312,
+                                                top: 135,
+                                                width: 1315,
+                                                height: 425,
+                                                borderRadius: 24,
+                                                border: '2.5px dashed rgba(237, 1, 124, 0.5)',
+                                                backgroundColor: 'rgba(237, 1, 124, 0.04)',
+                                                boxShadow: 'inset 0 0 24px rgba(237, 1, 124, 0.08)',
+                                                boxSizing: 'border-box',
+                                            }}
+                                        />
+
+                                        {/* ============================================================== */}
+                                        {/* CỤM 3: PHẦN CÁC CARD LOẠI BẢO HIỂM (KHỚP CHUẨN 100% TỪNG CARD)  */}
+                                        {/* ============================================================== */}
+
+                                        {/* Card 1: Bảo hiểm Sức khoẻ (Nổi bật) */}
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                left: 324,
+                                                top: 601,
+                                                width: 418,
+                                                height: 220,
+                                                borderRadius: 22,
+                                                border: '2.5px dashed rgba(237, 1, 124, 0.45)',
+                                                backgroundColor: 'rgba(237, 1, 124, 0.04)',
+                                                boxShadow: 'inset 0 0 16px rgba(237, 1, 124, 0.08)',
+                                                boxSizing: 'border-box',
+                                            }}
+                                        />
+
+                                        {/* Card 2: Bảo hiểm Cháy nổ */}
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                left: 764,
+                                                top: 601,
+                                                width: 418,
+                                                height: 220,
+                                                borderRadius: 22,
+                                                border: '2.5px dashed rgba(237, 1, 124, 0.45)',
+                                                backgroundColor: 'rgba(237, 1, 124, 0.04)',
+                                                boxShadow: 'inset 0 0 16px rgba(237, 1, 124, 0.08)',
+                                                boxSizing: 'border-box',
+                                            }}
+                                        />
+
+                                        {/* Card 3: Bảo hiểm Du lịch */}
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                left: 1204,
+                                                top: 601,
+                                                width: 418,
+                                                height: 220,
+                                                borderRadius: 22,
+                                                border: '2.5px dashed rgba(237, 1, 124, 0.6)',
+                                                backgroundColor: 'rgba(237, 1, 124, 0.06)',
+                                                boxShadow:
+                                                    'inset 0 0 18px rgba(237, 1, 124, 0.12), 0 0 14px rgba(237, 1, 124, 0.12)',
+                                                boxSizing: 'border-box',
+                                            }}
+                                        />
+
+                                        {/* Card 4: Bảo hiểm TNDS Xe máy (Đã căn chỉnh khớp 100% tọa độ thực tế) */}
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                left: 485,
+                                                top: 846,
+                                                width: 478,
+                                                height: 130,
+                                                borderRadius: 20,
+                                                border: '2.5px dashed rgba(237, 1, 124, 0.45)',
+                                                backgroundColor: 'rgba(237, 1, 124, 0.04)',
+                                                boxShadow: 'inset 0 0 14px rgba(237, 1, 124, 0.08)',
+                                                boxSizing: 'border-box',
+                                            }}
+                                        />
+
+                                        {/* Card 5: Bảo hiểm TNDS Ô tô (Đã căn chỉnh khớp 100% tọa độ thực tế) */}
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                left: 984,
+                                                top: 846,
+                                                width: 478,
+                                                height: 130,
+                                                borderRadius: 20,
+                                                border: '2.5px dashed rgba(237, 1, 124, 0.45)',
+                                                backgroundColor: 'rgba(237, 1, 124, 0.04)',
+                                                boxShadow: 'inset 0 0 14px rgba(237, 1, 124, 0.08)',
+                                                boxSizing: 'border-box',
+                                            }}
+                                        />
+                                    </div>
+                                )}
+                                </div>
+                                {/* ĐÓNG LỚP OVERLAY TƯƠNG TÁC */}
                             </div>
+                            {/* ĐÓNG 1. MẶT SÀN ĐẾ CHASSIS 3D (OVERFLOW: HIDDEN CẮT GỌN CHỈ GIỮ LẠI PHẦN HEAD TRANG CHỦ) */}
                         </div>
+                        {/* ĐÓNG B. KHUNG CONTAINER 3D CHA (PRESERVE-3D) */}
 
                         {/* Con trỏ chuột tương tác lướt vào & cuộn trang */}
                         {macCursorOpacity > 0.01 && (

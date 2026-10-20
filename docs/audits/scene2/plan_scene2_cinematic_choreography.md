@@ -92,12 +92,21 @@ const camAt = (f: number) => {
     };
 };
 
-// 3. Cấu trúc 5 Tầng mổ xẻ trên phần Head trang chủ TOPbaohiem (LAYERS)
-const EXPLODED_LAYERS = [
-    { key: 'top-nav',    x: 0,   y: 0,   w: 1600, h: 100, z: 140, r: 0,  label: { n: '01', t: 'Điều Hướng', d: 'Menu & Tra Cứu Nhanh' } },
-    { key: 'banner',     x: 80,  y: 130, w: 1440, h: 320, z: 260, r: 22, label: { n: '02', t: 'Cam Kết', d: 'Bảo Vệ Toàn Diện & Minh Bạch' } },
-    { key: 'basic-grid', x: 80,  y: 480, w: 1440, h: 460, z: 380, r: 22, label: { n: '03', t: 'Sản Phẩm', d: 'Sức Khỏe, Xe Máy, Ô Tô, Nhà' } },
-    { key: 'travel-hero',x: 840, y: 480, w: 340,  h: 460, z: 520, r: 22, label: { n: '04', t: 'Hero Du Lịch', d: 'So Sánh Gói Toàn Cầu' } },
+// 3. Cấu trúc Tầng mổ xẻ trên phần Head trang chủ TOPbaohiem (QUY TẮC: CHỈ LẤY PHẦN HEAD, CẮT SẠCH THÂN DÀI 10188px)
+// Khung sàn đế Chassis có overflow: hidden, kích thước tỷ lệ màn hình chuẩn chứa trọn vẹn cụm Head:
+// - Top Nav Bar hồng (#ED017C)
+// - Hero Content & Bộ Công Thương Badge & 3 Lợi ích
+// - Hero Image Gia đình + Khiên hồng bảo vệ
+// - Hàng 3 Card lớn: Sức khoẻ, Cháy nổ, Du lịch
+// - Hàng 2 Card nhỏ: TNDS Xe máy, TNDS Ô tô
+// 3. Cấu trúc 3 Cụm Phân Tách 3D trên phần Head trang chủ TOPbaohiem (QUY TẮC: CHUẨN THEO FEEDBACK USER)
+// Cụm 1: Menu Bar trên cùng (Top Navigation Bar)
+// Cụm 2: Hero Section (Gom Title lớn "So sánh TOPbaohiem" + Badge BCT + 3 Lợi ích + Hình ảnh Gia đình & Khiên thành 1 KHỐI DUY NHẤT)
+// Cụm 3: Các Card loại bảo hiểm (3 card lớn Sức khoẻ, Cháy nổ, Du lịch + 2 card nhỏ TNDS Xe máy, TNDS Ô tô đã căn chỉnh khớp 100%)
+const EXPLODED_GROUPS = [
+    { key: 'top-nav',     x: 312,  y: 10,  w: 1315, h: 80,  z: 140, r: 16, label: { n: '01', t: 'Điều Hướng', d: 'Top Navigation & Tra Cứu Nhanh' } },
+    { key: 'hero-banner', x: 312,  y: 135, w: 1315, h: 425, z: 280, r: 24, label: { n: '02', t: 'Cam Kết Toàn Diện', d: 'So Sánh TOPbaohiem & An Tâm Gia Đình' } },
+    { key: 'cards-group', x: 312,  y: 601, w: 1315, h: 380, z: 460, r: 22, label: { n: '03', t: 'Sản Phẩm Đa Dạng', d: 'Sức Khỏe, Cháy Nổ, Du Lịch, Xe Máy, Ô Tô' } },
 ];
 
 // 4. Công thức vật lý lò xo bung tầng (Stagger 5 frames)
@@ -191,10 +200,18 @@ Mỗi micro-task sau khi hoàn thiện sẽ dừng lại để **Bạn trực ti
   * Cuộn trang chạm đáy Footer tại `-5660px` (F1650 – F1720), dừng tĩnh chiêm ngưỡng đầy đủ thông tin pháp lý & hotline (F1720 – F1790).
   * **KẾT TIỀN CẢNH VÀO 3D PHÂN TÁCH (F1790 – F1860):** Vỏ máy MacBook và bóng sàn mờ dần về `0`, tấm web cuộn vút về Head `-7px`, chuyển động nghiêng chúc $52^\circ$, xoay nghiêng $-28^\circ$, nhấc bổng trục Z $120\text{px}$ với bóng đổ 3D sâu đa tầng chuẩn Axonometric Shotcraft.
   * *Nghiệm thu Chặng 7 & Tiền cảnh:* Sẵn sàng để Bạn kiểm tra trực tiếp trên trình duyệt `bun run dev`.
-- **Task 3.10: [ ] CHỜ THỰC HIỆN — ĐẠI CẢNH MỔ XẺ 3D (EXPLODED VIEW) 5 TẦNG UI TRỤC Z (F1880 – F2150):**
-  * Tách 5 tầng UI theo trục Z chuẩn công thức Shotcraft (Mặt sàn đáy nét đứt $\rightarrow$ Nav $\rightarrow$ Banner $\rightarrow$ Thẻ cơ bản $\rightarrow$ Thẻ Du lịch + Vali 3D).
-  * Chú thích kỹ thuật số (Dynamic Technical Callouts) và hiệu ứng đóng nắp va đập vật lý Thud nén lún 8px.
-- **Task 3.11: [ ] CHỜ THỰC HIỆN — Click Thẻ Du Lịch & Dolly-through Phóng Xuyên Sang Cảnh 3 (F2150 – F2300):**
-  * Con trỏ click nút *"So sánh ngay ➔"* trên thẻ Du lịch $\rightarrow$ Click ripple bừng sáng $\rightarrow$ Camera lao xuyên qua vali du lịch chuyển sang Cảnh 3.
-  * *Nghiệm thu Task 3.9:* Hoàn tất chuyển cảnh Scene 2 sang Scene 3.
+- **Task 3.10: [x] ĐANG THỰC HIỆN TỪNG PHẦN — ĐẠI CẢNH MỔ XẺ 3D (EXPLODED VIEW) 5 TẦNG UI TRỤC Z (F1860 – F2150, ~4.8s):**
+  * **[x] Phân đoạn 1: ĐÃ HOÀN TẤT (CHỜ BẠN TEST UI) — Khung sàn đế Chassis 3D & 5 Ô Rãnh Nét Đứt:**
+    - **Camera Orbit Parallax:** Lượn nhẹ quanh tấm Web (`rotateZ: -28° $\rightarrow$ -20°`, `rotateX: 52° $\rightarrow$ 48°`), tạo cảm giác thị sai không gian 3 chiều thực thụ.
+    - **Đế sàn Chassis & Bóng tiếp xúc bàn (Tabletop Contact Shadow):** Mặt sàn bo góc `R = 26px`, lớp thành dày 3D xám bạc `#CBD5E1` (`translateZ: -14px`), bóng tiếp xúc mặt bàn siêu thực `filter: blur(45px)`.
+    - **5 Ô Rãnh Nét Đứt (Dashed Slot Outlines):** Hiện dần lên từ F1865 (`3px dashed rgba(237, 1, 124, 0.45)`, phớt hồng nhẹ) định vị sẵn 5 khối kiến trúc: Top Nav, Hero Banner, Hero Image, Dàn Card vệ tinh, Hero Card Du lịch.
+    - *Nghiệm thu Phân đoạn 1:* Mời Bạn kiểm tra trực tiếp trên Remotion Studio (`bun run dev`)!
+  * **[ ] Phân đoạn 2: CHỜ BẠN DUYỆT ĐỂ LÀM TIẾP — Tách 5 Tầng UI Vươn Cao Theo Trục Z (Staggered Spring Blast):**
+    - 5 tầng UI (Top Nav, Hero Banner, Dàn Card vệ tinh, Hero Card Du lịch, Vali/Khiên 3D) vươn lên theo trục Z (`Z = 160 $\rightarrow$ 280 $\rightarrow$ 430 $\rightarrow$ 590 $\rightarrow$ 740px`) bằng lò xo đàn hồi.
+    - Mỗi tầng có lớp viền dày 3D và bóng chiếu sàn (Floor shadow).
+  * **[ ] Phân đoạn 3: Hệ Thống Nhãn Kỹ Thuật Số (Dynamic Technical Callouts):** Ma trận chiếu 3D `project(cam, x, y, z)` neo khít vào mép tầng + đường gập góc SVG + 4 nhãn chú thích 2 bên.
+  * **[ ] Phân đoạn 4: Hợp Thể Đóng Nắp Cơ Khí & Quét Sáng (Physical Thud & Sheen Sweep):** Hạ cánh ngược thứ tự, va đập nén lún 8px, dải quét sáng chéo.
+- **Task 3.11: [ ] CHỜ THỰC HIỆN — Click Thẻ Du Lịch & Dolly-through Phóng Xuyên Sang Cảnh 3 (F2150 – F2300, ~2.5s):**
+  * Con trỏ chuột click vào nút *"So sánh ngay ➔"* trên thẻ Du lịch $\rightarrow$ Click ripple bừng sáng $\rightarrow$ Camera lao xuyên qua vali du lịch chuyển sang Cảnh 3.
+  * *Nghiệm thu Task 3.11:* Hoàn tất chuyển cảnh Scene 2 sang Scene 3.
 
