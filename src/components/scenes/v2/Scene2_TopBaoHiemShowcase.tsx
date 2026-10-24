@@ -621,7 +621,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
             easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-        }
+        },
     );
     const macCursorY = interpolate(
         frame,
@@ -661,7 +661,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
             easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-        }
+        },
     );
 
     // 3. Hiệu ứng Hover Card từng nhóm bảo hiểm trong Chặng 1 (Head):
@@ -738,7 +738,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
             easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-        }
+        },
     );
 
     // 5. Vỏ MacBook và bóng sàn mờ dần giải phóng màn hình (F1790 -> F1840)
@@ -816,8 +816,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     const zLayer3 = pL3 * 135; // Cụm 3 (Cơ bản): Dàn Card bảo hiểm tầng thấp hơn 135px
     const zLayer4 = pL4 * 145; // Cụm 3 (Hero Du lịch): Cùng tầng card thấp hơn (145px)
 
-    // Độ mờ sàn đế khi các tầng bay lên (làm tôn bật các tầng nổi Z sắc nét)
-    const chassisFloorBaseOpacity = interpolate(frame, [1905, 1955], [1, 0.45], {
+    // Độ mờ sàn đế khi các tầng bay lên (chuyển sang mặt sàn kiến trúc blueprint thanh lịch, loại bỏ hoàn toàn hiện tượng trùng lặp hình)
+    const chassisFloorBaseOpacity = interpolate(frame, [1905, 1955], [1, 0.06], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -854,15 +854,15 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                 <div
                     style={{
                         position: 'absolute',
-                        top: 140,
-                        left: 170,
+                        top: 90,
+                        left: 140,
                         zIndex: 10,
                     }}
                 >
                     {/* Tiêu đề thương hiệu lớn */}
                     <div
                         style={{
-                            fontSize: 200,
+                            fontSize: 165,
                             fontWeight: 900,
                             color: colors.brandPink,
                             letterSpacing: '-2px',
@@ -876,10 +876,10 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     {/* Slogan mô tả phụ */}
                     <div
                         style={{
-                            fontSize: 78,
+                            fontSize: 58,
                             fontWeight: 600,
-                            color: '#334155',
-                            marginTop: 16,
+                            color: '#475569',
+                            marginTop: 12,
                             letterSpacing: '-0.5px',
                         }}
                     >
@@ -1943,14 +1943,17 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             <div
                                 style={{
                                     position: 'absolute',
-                                    left: '16.5%',
-                                    top: '17%',
+                                    left: '17%',
+                                    top:
+                                        web3DEntrance > 0.001
+                                            ? `${interpolate(web3DEntrance, [0, 1], [17, 20.5])}%`
+                                            : '17%',
                                     width: '67%',
                                     height: '75%',
-                                    borderRadius: 36,
-                                    backgroundColor: 'rgba(15, 23, 42, 0.38)',
-                                    filter: 'blur(45px)',
-                                    transform: `perspective(2400px) rotateX(${web3DRotateX}deg) rotateZ(${web3DRotateZ}deg) translateZ(-30px) translate(35px, 55px) scale(${web3DScale})`,
+                                    borderRadius: 24,
+                                    backgroundColor: 'rgba(15, 23, 42, 0.18)',
+                                    filter: 'blur(35px)',
+                                    transform: `perspective(2400px) rotateX(${web3DRotateX}deg) rotateZ(${web3DRotateZ}deg) translateZ(-15px) translate(20px, 30px) scale(${web3DScale})`,
                                     pointerEvents: 'none',
                                     zIndex: 0,
                                 }}
@@ -1961,8 +1964,11 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                         <div
                             style={{
                                 position: 'absolute',
-                                left: '16.5%',
-                                top: '17%',
+                                left: '17%',
+                                top:
+                                    web3DEntrance > 0.001
+                                        ? `${interpolate(web3DEntrance, [0, 1], [17, 20.5])}%`
+                                        : '17%',
                                 width: '67%',
                                 height: '75%',
                                 zIndex: 1,
@@ -1974,362 +1980,90 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                 overflow: 'visible',
                             }}
                         >
+                            {/* 0. LÁT CẮT VIỀN ĐỘ DÀY SÀN ĐẾ 3D (CHASSIS BASE EXTRUSION - NẰM NGOÀI OVERFLOW: HIDDEN ĐỂ KHÔNG BỊ CẮT GÓC BO TRÒN) */}
+                            {web3DEntrance > 0.01 && (
+                                <>
+                                    {[
+                                        { step: 0.7, color: '#F8FAFC' },
+                                        { step: 1.4, color: '#F1F5F9' },
+                                        { step: 2.1, color: '#E2E8F0' },
+                                        { step: 2.8, color: '#E2E8F0' },
+                                        { step: 3.5, color: '#CBD5E1' },
+                                    ].map((item, idx) => {
+                                        const isBottom = idx === 4;
+                                        return (
+                                            <div
+                                                key={idx}
+                                                style={{
+                                                    position: 'absolute',
+                                                    inset: 0,
+                                                    borderRadius: web3DEntrance > 0.01 ? 18 : 14,
+                                                    backgroundColor: item.color,
+                                                    transform: `translateZ(-${item.step}px)`,
+                                                    boxShadow: isBottom
+                                                        ? `0 ${interpolate(web3DEntrance, [0, 1], [0, 24])}px ${interpolate(web3DEntrance, [0, 1], [0, 50])}px rgba(15, 23, 42, ${interpolate(web3DEntrance, [0, 1], [0, 0.15])}), 0 ${interpolate(web3DEntrance, [0, 1], [0, 8])}px ${interpolate(web3DEntrance, [0, 1], [0, 16])}px rgba(15, 23, 42, ${interpolate(web3DEntrance, [0, 1], [0, 0.08])})`
+                                                        : undefined,
+                                                    pointerEvents: 'none',
+                                                }}
+                                            />
+                                        );
+                                    })}
+                                </>
+                            )}
+
                             {/* 1. MẶT SÀN ĐẾ CHASSIS 3D (DESKTOP CHASSIS BASE BOARD - Z = 0) */}
                             {/* SÀN ĐẾ NÀY CÓ OVERFLOW: HIDDEN ĐỂ CHỈ HIỂN THỊ TRỌN VẸN PHẦN HEAD TRANG CHỦ, CẮT SẠCH TOÀN BỘ PHẦN THÂN WEB DÀI 10188px NHƯ ẢNH USER GỬI */}
                             <div
                                 style={{
                                     position: 'absolute',
                                     inset: 0,
-                                    borderRadius: web3DEntrance > 0.01 ? 26 : 14,
+                                    borderRadius: web3DEntrance > 0.01 ? 18 : 14,
                                     backgroundColor: '#FFFFFF',
                                     boxShadow:
                                         web3DEntrance > 0.01
-                                            ? `0 ${interpolate(web3DEntrance, [0, 1], [0, 45])}px ${interpolate(web3DEntrance, [0, 1], [0, 95])}px rgba(15, 23, 42, ${interpolate(web3DEntrance, [0, 1], [0, 0.38])}), 0 0 0 ${interpolate(web3DEntrance, [0, 1], [0, 1.5])}px rgba(255, 255, 255, 0.85)`
+                                            ? '0 0 0 1px rgba(226, 232, 240, 0.9), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 -1px 2px rgba(0, 0, 0, 0.03)'
                                             : undefined,
                                     overflow: 'hidden',
                                     transform: 'translateZ(0px)',
                                     transformStyle: 'preserve-3d',
                                 }}
                             >
-                                {/* ĐỘ DÀY THÀNH CẠNH ĐẾ SÀN CHASSIS (EXTRUSION THICKNESS, Z = -14px) */}
-                                {web3DEntrance > 0.01 && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            inset: 0,
-                                            borderRadius: 26,
-                                            backgroundColor: '#CBD5E1',
-                                            transform: 'translateZ(-14px)',
-                                            pointerEvents: 'none',
-                                        }}
-                                    />
-                                )}
-                            {/* Ảnh Head trang chủ TOPbaohiem 4K siêu nét - Khi vào 3D chuyển sang head_chassis_base.png cắt gọn mặt sàn */}
-                            <Img
-                                src={
-                                    frame >= 1860
-                                        ? staticFile('assets/elements/screen2/head_chassis_base.png')
-                                        : staticFile('assets/elements/screen2/fullsize-trangchu.png')
-                                }
-                                style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '120%',
-                                    height: 'auto',
-                                    translate: `-182.5px ${webScrollY}px`,
-                                    opacity: chassisFloorBaseOpacity,
-                                }}
-                            />
+                                {/* Ảnh Head trang chủ TOPbaohiem 4K siêu nét - Khi vào 3D chuyển sang head_chassis_base.png cắt gọn mặt sàn */}
+                                <Img
+                                    src={
+                                        frame >= 1860
+                                            ? staticFile('assets/elements/screen2/head_chassis_base.png')
+                                            : staticFile('assets/elements/screen2/fullsize-trangchu.png')
+                                    }
+                                    style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        width: '120%',
+                                        height: 'auto',
+                                        translate: `-182.5px ${webScrollY}px`,
+                                        opacity: chassisFloorBaseOpacity,
+                                    }}
+                                />
 
-                            {/* LỚP OVERLAY TƯƠNG TÁC GIAO DIỆN TRANG CHỦ (INTERACTIVE STAGED TOUR OVERLAY) */}
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '120%',
-                                    height: 'auto',
-                                    translate: `-182.5px ${webScrollY}px`,
-                                    pointerEvents: 'none',
-                                }}
-                            >
-                                {/* ------------------------------------------------------------------ */}
-                                {/* CHẶNG 1: HOVER CARD & NÚT SO SÁNH NGAY NỔI BẬT (CHUẨN ẢNH USER)     */}
-                                {/* ------------------------------------------------------------------ */}
+                                {/* LỚP OVERLAY TƯƠNG TÁC GIAO DIỆN TRANG CHỦ (INTERACTIVE STAGED TOUR OVERLAY) */}
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        width: '120%',
+                                        height: 'auto',
+                                        translate: `-182.5px ${webScrollY}px`,
+                                        pointerEvents: 'none',
+                                    }}
+                                >
+                                    {/* ------------------------------------------------------------------ */}
+                                    {/* CHẶNG 1: HOVER CARD & NÚT SO SÁNH NGAY NỔI BẬT (CHUẨN ẢNH USER)     */}
+                                    {/* ------------------------------------------------------------------ */}
 
-                                {/* THẺ 1: BẢO HIỂM SỨC KHOẺ (Hover lướt qua F535 - F565) */}
-                                {card1Hover > 0.01 && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            left: 324,
-                                            top: 601,
-                                            width: 418,
-                                            height: 220,
-                                            borderRadius: 22,
-                                            border: '2px solid #ED017C',
-                                            boxShadow: '0 8px 24px rgba(237, 1, 124, 0.2)',
-                                            opacity: card1Hover,
-                                            pointerEvents: 'none',
-                                        }}
-                                    />
-                                )}
-                                {card1Hover > 0.01 && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            left: 352,
-                                            top: 735,
-                                            width: 204,
-                                            height: 53,
-                                            borderRadius: 9999,
-                                            backgroundColor: '#ED017C',
-                                            boxShadow: '0 6px 16px rgba(237, 1, 124, 0.4)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            color: '#FFFFFF',
-                                            fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                            fontSize: 16,
-                                            fontWeight: 700,
-                                            opacity: card1Hover,
-                                            pointerEvents: 'none',
-                                        }}
-                                    >
-                                        <span>So sánh ngay</span>
-                                        <span style={{ marginLeft: 6, fontSize: 17, lineHeight: 1 }}>➔</span>
-                                    </div>
-                                )}
-
-                                {/* THẺ 2: BẢO HIỂM CHÁY NỔ (TRỌNG TÂM HOVER CARD CHUẨN 100% ẢNH 1 USER) */}
-                                {card2Hover > 0.01 && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            left: 764,
-                                            top: 601,
-                                            width: 418,
-                                            height: 220,
-                                            borderRadius: 22,
-                                            border: '2.5px solid #ED017C',
-                                            boxShadow:
-                                                '0 12px 36px rgba(237, 1, 124, 0.28), 0 0 16px rgba(237, 1, 124, 0.15)',
-                                            opacity: card2Hover,
-                                            pointerEvents: 'none',
-                                        }}
-                                    />
-                                )}
-                                {card2Hover > 0.01 && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            left: 792,
-                                            top: 735,
-                                            width: 204,
-                                            height: 53,
-                                            borderRadius: 9999,
-                                            backgroundColor: '#ED017C',
-                                            boxShadow: '0 8px 24px rgba(237, 1, 124, 0.5)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            color: '#FFFFFF',
-                                            fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                            fontSize: 16,
-                                            fontWeight: 700,
-                                            opacity: card2Hover,
-                                            pointerEvents: 'none',
-                                        }}
-                                    >
-                                        <span>So sánh ngay</span>
-                                        <span style={{ marginLeft: 6, fontSize: 17, lineHeight: 1 }}>➔</span>
-                                    </div>
-                                )}
-
-                                {/* THẺ 3: BẢO HIỂM DU LỊCH (Hover lướt qua F652 - F685) */}
-                                {card3Hover > 0.01 && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            left: 1204,
-                                            top: 601,
-                                            width: 418,
-                                            height: 220,
-                                            borderRadius: 22,
-                                            border: '2px solid #ED017C',
-                                            boxShadow: '0 8px 24px rgba(237, 1, 124, 0.2)',
-                                            opacity: card3Hover,
-                                            pointerEvents: 'none',
-                                        }}
-                                    />
-                                )}
-                                {card3Hover > 0.01 && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            left: 1232,
-                                            top: 735,
-                                            width: 204,
-                                            height: 53,
-                                            borderRadius: 9999,
-                                            backgroundColor: '#ED017C',
-                                            boxShadow: '0 6px 16px rgba(237, 1, 124, 0.4)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            color: '#FFFFFF',
-                                            fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                            fontSize: 16,
-                                            fontWeight: 700,
-                                            opacity: card3Hover,
-                                            pointerEvents: 'none',
-                                        }}
-                                    >
-                                        <span>So sánh ngay</span>
-                                        <span style={{ marginLeft: 6, fontSize: 17, lineHeight: 1 }}>➔</span>
-                                    </div>
-                                )}
-
-                                {/* ------------------------------------------------------------------ */}
-                                {/* CHẶNG 2: FOCUS LẦN LƯỢT 4 THẺ QUY TRÌNH MUA BẢO HIỂM (F760 – F1060, 5S) */}
-                                {/* CHUẨN XÁC VỊ TRÍ BORDER VÒNG NGOÀI (OUTER BORDER), 1 BORDER DUY NHẤT */}
-                                {/* ------------------------------------------------------------------ */}
-
-                                {/* LỚP PHỦ VIỀN XÁM CHO CARD 1 KHI FOCUS RỜI SANG CARD 2, 3, 4 (ĐẢM BẢO DUY NHẤT 1 CARD HỒNG) */}
-                                {card1Unfocus > 0.01 && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            boxSizing: 'border-box',
-                                            left: 333,
-                                            top: 1502.5,
-                                            width: 289,
-                                            height: 562,
-                                            borderRadius: 20,
-                                            border: '2.5px solid #D9D9D9',
-                                            opacity: card1Unfocus,
-                                            pointerEvents: 'none',
-                                        }}
-                                    />
-                                )}
-
-                                {/* THẺ 1: CHỌN LOẠI BH (F760 - F835, Viền hồng ngoài cùng rực sáng hào quang) */}
-                                {step1Focus > 0.01 && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            boxSizing: 'border-box',
-                                            left: 333,
-                                            top: 1502.5,
-                                            width: 289,
-                                            height: 562,
-                                            borderRadius: 20,
-                                            border: '2.5px solid #ED017C',
-                                            boxShadow:
-                                                '0 12px 32px rgba(237, 1, 124, 0.35), 0 0 18px rgba(237, 1, 124, 0.22)',
-                                            opacity: step1Focus,
-                                            pointerEvents: 'none',
-                                        }}
-                                    />
-                                )}
-
-                                {/* THẺ 2: CHỌN GÓI (F835 - F910, Viền hồng vòng ngoài đè khít viền xám) */}
-                                {step2Focus > 0.01 && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            boxSizing: 'border-box',
-                                            left: 664.5,
-                                            top: 1502.5,
-                                            width: 289,
-                                            height: 562,
-                                            borderRadius: 20,
-                                            border: '2.5px solid #ED017C',
-                                            boxShadow:
-                                                '0 14px 38px rgba(237, 1, 124, 0.42), 0 0 22px rgba(237, 1, 124, 0.3)',
-                                            opacity: step2Focus,
-                                            pointerEvents: 'none',
-                                        }}
-                                    />
-                                )}
-
-                                {/* THẺ 3: NHẬP THÔNG TIN (F910 - F985, Viền hồng vòng ngoài đè khít viền xám) */}
-                                {step3Focus > 0.01 && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            boxSizing: 'border-box',
-                                            left: 996,
-                                            top: 1502.5,
-                                            width: 289,
-                                            height: 562,
-                                            borderRadius: 20,
-                                            border: '2.5px solid #ED017C',
-                                            boxShadow:
-                                                '0 12px 32px rgba(237, 1, 124, 0.35), 0 0 18px rgba(237, 1, 124, 0.22)',
-                                            opacity: step3Focus,
-                                            pointerEvents: 'none',
-                                        }}
-                                    />
-                                )}
-
-                                {/* THẺ 4: THANH TOÁN (F985 - F1060, Viền hồng vòng ngoài đè khít viền xám) */}
-                                {step4Focus > 0.01 && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            boxSizing: 'border-box',
-                                            left: 1327.5,
-                                            top: 1502.5,
-                                            width: 289,
-                                            height: 562,
-                                            borderRadius: 20,
-                                            border: '2.5px solid #ED017C',
-                                            boxShadow:
-                                                '0 12px 32px rgba(237, 1, 124, 0.35), 0 0 18px rgba(237, 1, 124, 0.22)',
-                                            opacity: step4Focus,
-                                            pointerEvents: 'none',
-                                        }}
-                                    />
-                                )}
-
-                                {/* ------------------------------------------------------------------ */}
-                                {/* TASK 3.10 - PHÂN ĐOẠN 1: CÁC Ô RÃNH NÉT ĐỨT (DASHED SLOTS) TRÊN ĐẾ SÀN HEAD (F1865+) */}
-                                {/* Khớp chuẩn từng cụm linh kiện Head theo ảnh user: Nav, Hero Text, Hero Image, 3 Card lớn, 2 Card nhỏ */}
-                                {/* ------------------------------------------------------------------ */}
-                                {dashedSlotsProgress > 0.01 && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            inset: 0,
-                                            opacity: dashedSlotsProgress,
-                                            pointerEvents: 'none',
-                                            zIndex: 2,
-                                        }}
-                                    >
-                                        {/* ============================================================== */}
-                                        {/* CỤM 1: MENU BAR TRÊN CÙNG (Logo, Navigation & Quản lý)         */}
-                                        {/* ============================================================== */}
-                                        <div
-                                            style={{
-                                                position: 'absolute',
-                                                left: 312,
-                                                top: 10,
-                                                width: 1315,
-                                                height: 80,
-                                                borderRadius: 16,
-                                                border: '2.5px dashed rgba(237, 1, 124, 0.45)',
-                                                backgroundColor: 'rgba(237, 1, 124, 0.04)',
-                                                boxShadow: 'inset 0 0 16px rgba(237, 1, 124, 0.08)',
-                                                boxSizing: 'border-box',
-                                            }}
-                                        />
-
-                                        {/* ============================================================== */}
-                                        {/* CỤM 2: TITLE LỚN "SO SÁNH TOPBAOHIEM" & HÌNH ẢNH (GOM 1 KHỐI)   */}
-                                        {/* Bao trọn: Badge BCT, Headline, 3 Lợi ích & Hình gia đình/khiên */}
-                                        {/* ============================================================== */}
-                                        <div
-                                            style={{
-                                                position: 'absolute',
-                                                left: 312,
-                                                top: 135,
-                                                width: 1315,
-                                                height: 425,
-                                                borderRadius: 24,
-                                                border: '2.5px dashed rgba(237, 1, 124, 0.5)',
-                                                backgroundColor: 'rgba(237, 1, 124, 0.04)',
-                                                boxShadow: 'inset 0 0 24px rgba(237, 1, 124, 0.08)',
-                                                boxSizing: 'border-box',
-                                            }}
-                                        />
-
-                                        {/* ============================================================== */}
-                                        {/* CỤM 3: PHẦN CÁC CARD LOẠI BẢO HIỂM (KHỚP CHUẨN 100% TỪNG CARD)  */}
-                                        {/* ============================================================== */}
-
-                                        {/* Card 1: Bảo hiểm Sức khoẻ (Nổi bật) */}
+                                    {/* THẺ 1: BẢO HIỂM SỨC KHOẺ (Hover lướt qua F535 - F565) */}
+                                    {card1Hover > 0.01 && (
                                         <div
                                             style={{
                                                 position: 'absolute',
@@ -2338,14 +2072,42 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                 width: 418,
                                                 height: 220,
                                                 borderRadius: 22,
-                                                border: '2.5px dashed rgba(237, 1, 124, 0.45)',
-                                                backgroundColor: 'rgba(237, 1, 124, 0.04)',
-                                                boxShadow: 'inset 0 0 16px rgba(237, 1, 124, 0.08)',
-                                                boxSizing: 'border-box',
+                                                border: '2px solid #ED017C',
+                                                boxShadow: '0 8px 24px rgba(237, 1, 124, 0.2)',
+                                                opacity: card1Hover,
+                                                pointerEvents: 'none',
                                             }}
                                         />
+                                    )}
+                                    {card1Hover > 0.01 && (
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                left: 352,
+                                                top: 735,
+                                                width: 204,
+                                                height: 53,
+                                                borderRadius: 9999,
+                                                backgroundColor: '#ED017C',
+                                                boxShadow: '0 6px 16px rgba(237, 1, 124, 0.4)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                color: '#FFFFFF',
+                                                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                fontSize: 16,
+                                                fontWeight: 700,
+                                                opacity: card1Hover,
+                                                pointerEvents: 'none',
+                                            }}
+                                        >
+                                            <span>So sánh ngay</span>
+                                            <span style={{ marginLeft: 6, fontSize: 17, lineHeight: 1 }}>➔</span>
+                                        </div>
+                                    )}
 
-                                        {/* Card 2: Bảo hiểm Cháy nổ */}
+                                    {/* THẺ 2: BẢO HIỂM CHÁY NỔ (TRỌNG TÂM HOVER CARD CHUẨN 100% ẢNH 1 USER) */}
+                                    {card2Hover > 0.01 && (
                                         <div
                                             style={{
                                                 position: 'absolute',
@@ -2354,14 +2116,43 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                 width: 418,
                                                 height: 220,
                                                 borderRadius: 22,
-                                                border: '2.5px dashed rgba(237, 1, 124, 0.45)',
-                                                backgroundColor: 'rgba(237, 1, 124, 0.04)',
-                                                boxShadow: 'inset 0 0 16px rgba(237, 1, 124, 0.08)',
-                                                boxSizing: 'border-box',
+                                                border: '2.5px solid #ED017C',
+                                                boxShadow:
+                                                    '0 12px 36px rgba(237, 1, 124, 0.28), 0 0 16px rgba(237, 1, 124, 0.15)',
+                                                opacity: card2Hover,
+                                                pointerEvents: 'none',
                                             }}
                                         />
+                                    )}
+                                    {card2Hover > 0.01 && (
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                left: 792,
+                                                top: 735,
+                                                width: 204,
+                                                height: 53,
+                                                borderRadius: 9999,
+                                                backgroundColor: '#ED017C',
+                                                boxShadow: '0 8px 24px rgba(237, 1, 124, 0.5)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                color: '#FFFFFF',
+                                                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                fontSize: 16,
+                                                fontWeight: 700,
+                                                opacity: card2Hover,
+                                                pointerEvents: 'none',
+                                            }}
+                                        >
+                                            <span>So sánh ngay</span>
+                                            <span style={{ marginLeft: 6, fontSize: 17, lineHeight: 1 }}>➔</span>
+                                        </div>
+                                    )}
 
-                                        {/* Card 3: Bảo hiểm Du lịch */}
+                                    {/* THẺ 3: BẢO HIỂM DU LỊCH (Hover lướt qua F652 - F685) */}
+                                    {card3Hover > 0.01 && (
                                         <div
                                             style={{
                                                 position: 'absolute',
@@ -2370,47 +2161,280 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                 width: 418,
                                                 height: 220,
                                                 borderRadius: 22,
-                                                border: '2.5px dashed rgba(237, 1, 124, 0.6)',
-                                                backgroundColor: 'rgba(237, 1, 124, 0.06)',
+                                                border: '2px solid #ED017C',
+                                                boxShadow: '0 8px 24px rgba(237, 1, 124, 0.2)',
+                                                opacity: card3Hover,
+                                                pointerEvents: 'none',
+                                            }}
+                                        />
+                                    )}
+                                    {card3Hover > 0.01 && (
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                left: 1232,
+                                                top: 735,
+                                                width: 204,
+                                                height: 53,
+                                                borderRadius: 9999,
+                                                backgroundColor: '#ED017C',
+                                                boxShadow: '0 6px 16px rgba(237, 1, 124, 0.4)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                color: '#FFFFFF',
+                                                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                fontSize: 16,
+                                                fontWeight: 700,
+                                                opacity: card3Hover,
+                                                pointerEvents: 'none',
+                                            }}
+                                        >
+                                            <span>So sánh ngay</span>
+                                            <span style={{ marginLeft: 6, fontSize: 17, lineHeight: 1 }}>➔</span>
+                                        </div>
+                                    )}
+
+                                    {/* ------------------------------------------------------------------ */}
+                                    {/* CHẶNG 2: FOCUS LẦN LƯỢT 4 THẺ QUY TRÌNH MUA BẢO HIỂM (F760 – F1060, 5S) */}
+                                    {/* CHUẨN XÁC VỊ TRÍ BORDER VÒNG NGOÀI (OUTER BORDER), 1 BORDER DUY NHẤT */}
+                                    {/* ------------------------------------------------------------------ */}
+
+                                    {/* LỚP PHỦ VIỀN XÁM CHO CARD 1 KHI FOCUS RỜI SANG CARD 2, 3, 4 (ĐẢM BẢO DUY NHẤT 1 CARD HỒNG) */}
+                                    {card1Unfocus > 0.01 && (
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                boxSizing: 'border-box',
+                                                left: 333,
+                                                top: 1502.5,
+                                                width: 289,
+                                                height: 562,
+                                                borderRadius: 20,
+                                                border: '2.5px solid #D9D9D9',
+                                                opacity: card1Unfocus,
+                                                pointerEvents: 'none',
+                                            }}
+                                        />
+                                    )}
+
+                                    {/* THẺ 1: CHỌN LOẠI BH (F760 - F835, Viền hồng ngoài cùng rực sáng hào quang) */}
+                                    {step1Focus > 0.01 && (
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                boxSizing: 'border-box',
+                                                left: 333,
+                                                top: 1502.5,
+                                                width: 289,
+                                                height: 562,
+                                                borderRadius: 20,
+                                                border: '2.5px solid #ED017C',
                                                 boxShadow:
-                                                    'inset 0 0 18px rgba(237, 1, 124, 0.12), 0 0 14px rgba(237, 1, 124, 0.12)',
-                                                boxSizing: 'border-box',
+                                                    '0 12px 32px rgba(237, 1, 124, 0.35), 0 0 18px rgba(237, 1, 124, 0.22)',
+                                                opacity: step1Focus,
+                                                pointerEvents: 'none',
                                             }}
                                         />
+                                    )}
 
-                                        {/* Card 4: Bảo hiểm TNDS Xe máy (Đã căn chỉnh khớp 100% tọa độ thực tế) */}
+                                    {/* THẺ 2: CHỌN GÓI (F835 - F910, Viền hồng vòng ngoài đè khít viền xám) */}
+                                    {step2Focus > 0.01 && (
                                         <div
                                             style={{
                                                 position: 'absolute',
-                                                left: 485,
-                                                top: 846,
-                                                width: 478,
-                                                height: 130,
-                                                borderRadius: 20,
-                                                border: '2.5px dashed rgba(237, 1, 124, 0.45)',
-                                                backgroundColor: 'rgba(237, 1, 124, 0.04)',
-                                                boxShadow: 'inset 0 0 14px rgba(237, 1, 124, 0.08)',
                                                 boxSizing: 'border-box',
+                                                left: 664.5,
+                                                top: 1502.5,
+                                                width: 289,
+                                                height: 562,
+                                                borderRadius: 20,
+                                                border: '2.5px solid #ED017C',
+                                                boxShadow:
+                                                    '0 14px 38px rgba(237, 1, 124, 0.42), 0 0 22px rgba(237, 1, 124, 0.3)',
+                                                opacity: step2Focus,
+                                                pointerEvents: 'none',
                                             }}
                                         />
+                                    )}
 
-                                        {/* Card 5: Bảo hiểm TNDS Ô tô (Đã căn chỉnh khớp 100% tọa độ thực tế) */}
+                                    {/* THẺ 3: NHẬP THÔNG TIN (F910 - F985, Viền hồng vòng ngoài đè khít viền xám) */}
+                                    {step3Focus > 0.01 && (
                                         <div
                                             style={{
                                                 position: 'absolute',
-                                                left: 984,
-                                                top: 846,
-                                                width: 478,
-                                                height: 130,
-                                                borderRadius: 20,
-                                                border: '2.5px dashed rgba(237, 1, 124, 0.45)',
-                                                backgroundColor: 'rgba(237, 1, 124, 0.04)',
-                                                boxShadow: 'inset 0 0 14px rgba(237, 1, 124, 0.08)',
                                                 boxSizing: 'border-box',
+                                                left: 996,
+                                                top: 1502.5,
+                                                width: 289,
+                                                height: 562,
+                                                borderRadius: 20,
+                                                border: '2.5px solid #ED017C',
+                                                boxShadow:
+                                                    '0 12px 32px rgba(237, 1, 124, 0.35), 0 0 18px rgba(237, 1, 124, 0.22)',
+                                                opacity: step3Focus,
+                                                pointerEvents: 'none',
                                             }}
                                         />
-                                    </div>
-                                )}
+                                    )}
+
+                                    {/* THẺ 4: THANH TOÁN (F985 - F1060, Viền hồng vòng ngoài đè khít viền xám) */}
+                                    {step4Focus > 0.01 && (
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                boxSizing: 'border-box',
+                                                left: 1327.5,
+                                                top: 1502.5,
+                                                width: 289,
+                                                height: 562,
+                                                borderRadius: 20,
+                                                border: '2.5px solid #ED017C',
+                                                boxShadow:
+                                                    '0 12px 32px rgba(237, 1, 124, 0.35), 0 0 18px rgba(237, 1, 124, 0.22)',
+                                                opacity: step4Focus,
+                                                pointerEvents: 'none',
+                                            }}
+                                        />
+                                    )}
+
+                                    {/* ------------------------------------------------------------------ */}
+                                    {/* TASK 3.10 - PHÂN ĐOẠN 1: CÁC Ô RÃNH NÉT ĐỨT (DASHED SLOTS) TRÊN ĐẾ SÀN HEAD (F1865+) */}
+                                    {/* Khớp chuẩn từng cụm linh kiện Head theo ảnh user: Nav, Hero Text, Hero Image, 3 Card lớn, 2 Card nhỏ */}
+                                    {/* ------------------------------------------------------------------ */}
+                                    {dashedSlotsProgress > 0.01 && (
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                inset: 0,
+                                                opacity: dashedSlotsProgress,
+                                                pointerEvents: 'none',
+                                                zIndex: 2,
+                                            }}
+                                        >
+                                            {/* ============================================================== */}
+                                            {/* CỤM 1: MENU BAR TRÊN CÙNG (Logo, Navigation & Quản lý)         */}
+                                            {/* ============================================================== */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 312,
+                                                    top: 10,
+                                                    width: 1315,
+                                                    height: 80,
+                                                    borderRadius: 16,
+                                                    border: '2.5px dashed rgba(237, 1, 124, 0.45)',
+                                                    backgroundColor: 'rgba(237, 1, 124, 0.04)',
+                                                    boxShadow: 'inset 0 0 16px rgba(237, 1, 124, 0.08)',
+                                                    boxSizing: 'border-box',
+                                                }}
+                                            />
+
+                                            {/* ============================================================== */}
+                                            {/* CỤM 2: TITLE LỚN "SO SÁNH TOPBAOHIEM" & HÌNH ẢNH (GOM 1 KHỐI)   */}
+                                            {/* Bao trọn: Badge BCT, Headline, 3 Lợi ích & Hình gia đình/khiên */}
+                                            {/* ============================================================== */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 312,
+                                                    top: 135,
+                                                    width: 1315,
+                                                    height: 425,
+                                                    borderRadius: 24,
+                                                    border: '2.5px dashed rgba(237, 1, 124, 0.5)',
+                                                    backgroundColor: 'rgba(237, 1, 124, 0.04)',
+                                                    boxShadow: 'inset 0 0 24px rgba(237, 1, 124, 0.08)',
+                                                    boxSizing: 'border-box',
+                                                }}
+                                            />
+
+                                            {/* ============================================================== */}
+                                            {/* CỤM 3: PHẦN CÁC CARD LOẠI BẢO HIỂM (KHỚP CHUẨN 100% TỪNG CARD)  */}
+                                            {/* ============================================================== */}
+
+                                            {/* Card 1: Bảo hiểm Sức khoẻ (Nổi bật) */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 324,
+                                                    top: 601,
+                                                    width: 418,
+                                                    height: 220,
+                                                    borderRadius: 22,
+                                                    border: '2.5px dashed rgba(237, 1, 124, 0.45)',
+                                                    backgroundColor: 'rgba(237, 1, 124, 0.04)',
+                                                    boxShadow: 'inset 0 0 16px rgba(237, 1, 124, 0.08)',
+                                                    boxSizing: 'border-box',
+                                                }}
+                                            />
+
+                                            {/* Card 2: Bảo hiểm Cháy nổ */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 764,
+                                                    top: 601,
+                                                    width: 418,
+                                                    height: 220,
+                                                    borderRadius: 22,
+                                                    border: '2.5px dashed rgba(237, 1, 124, 0.45)',
+                                                    backgroundColor: 'rgba(237, 1, 124, 0.04)',
+                                                    boxShadow: 'inset 0 0 16px rgba(237, 1, 124, 0.08)',
+                                                    boxSizing: 'border-box',
+                                                }}
+                                            />
+
+                                            {/* Card 3: Bảo hiểm Du lịch */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 1204,
+                                                    top: 601,
+                                                    width: 418,
+                                                    height: 220,
+                                                    borderRadius: 22,
+                                                    border: '2.5px dashed rgba(237, 1, 124, 0.6)',
+                                                    backgroundColor: 'rgba(237, 1, 124, 0.06)',
+                                                    boxShadow:
+                                                        'inset 0 0 18px rgba(237, 1, 124, 0.12), 0 0 14px rgba(237, 1, 124, 0.12)',
+                                                    boxSizing: 'border-box',
+                                                }}
+                                            />
+
+                                            {/* Card 4: Bảo hiểm TNDS Xe máy (Đã căn chỉnh khớp 100% tọa độ thực tế) */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 485,
+                                                    top: 846,
+                                                    width: 478,
+                                                    height: 130,
+                                                    borderRadius: 20,
+                                                    border: '2.5px dashed rgba(237, 1, 124, 0.45)',
+                                                    backgroundColor: 'rgba(237, 1, 124, 0.04)',
+                                                    boxShadow: 'inset 0 0 14px rgba(237, 1, 124, 0.08)',
+                                                    boxSizing: 'border-box',
+                                                }}
+                                            />
+
+                                            {/* Card 5: Bảo hiểm TNDS Ô tô (Đã căn chỉnh khớp 100% tọa độ thực tế) */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 984,
+                                                    top: 846,
+                                                    width: 478,
+                                                    height: 130,
+                                                    borderRadius: 20,
+                                                    border: '2.5px dashed rgba(237, 1, 124, 0.45)',
+                                                    backgroundColor: 'rgba(237, 1, 124, 0.04)',
+                                                    boxShadow: 'inset 0 0 14px rgba(237, 1, 124, 0.08)',
+                                                    boxSizing: 'border-box',
+                                                }}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                                 {/* ĐÓNG LỚP OVERLAY TƯƠNG TÁC */}
                             </div>
@@ -2450,23 +2474,35 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     borderRadius: 16,
                                                     backgroundColor: 'rgba(15, 23, 42, 0.35)',
                                                     filter: `blur(${8 + zLayer1 * 0.06}px)`,
-                                                    opacity: Math.min(1, pL1 * 1.5) * Math.max(0.12, 0.5 - zLayer1 / 1400),
+                                                    opacity:
+                                                        Math.min(1, pL1 * 1.5) * Math.max(0.12, 0.5 - zLayer1 / 1400),
                                                     transform: 'translateZ(2px)',
                                                 }}
                                             />
-                                            {/* Neo 2: Độ dày thành khối cơ khí (Extrusion Edge lùi 6px) */}
-                                            <div
-                                                style={{
-                                                    position: 'absolute',
-                                                    left: 312,
-                                                    top: 10,
-                                                    width: 1315,
-                                                    height: 80,
-                                                    borderRadius: 16,
-                                                    backgroundColor: '#CBD5E1',
-                                                    transform: `translateZ(${Math.max(1, zLayer1 - 6)}px)`,
-                                                }}
-                                            />
+                                            {/* Neo 2: Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass: 3.5px thanh thoát) */}
+                                            {[1.8, 3.5].map((step, idx) => {
+                                                const edgeColors = [
+                                                    '#E11D48',
+                                                    '#BE123C',
+                                                ];
+                                                return (
+                                                    <div
+                                                        key={idx}
+                                                        style={{
+                                                            position: 'absolute',
+                                                            left: 312,
+                                                            top: 10,
+                                                            width: 1315,
+                                                            height: 80,
+                                                            borderRadius: 16,
+                                                            backgroundColor: edgeColors[idx],
+                                                            boxShadow: `0 1.5px 0 ${edgeColors[idx]}`,
+                                                            transform: `translateZ(${Math.max(1, zLayer1 - step)}px)`,
+                                                            pointerEvents: 'none',
+                                                        }}
+                                                    />
+                                                );
+                                            })}
                                             {/* Neo 3: Mặt trước Tầng kính UI siêu nét */}
                                             <div
                                                 style={{
@@ -2479,7 +2515,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     overflow: 'hidden',
                                                     transform: `translateZ(${zLayer1}px)`,
                                                     boxShadow:
-                                                        '0 18px 40px rgba(15, 23, 42, 0.22), 0 0 0 1.5px rgba(255, 255, 255, 0.85), 0 0 20px rgba(237, 1, 124, 0.2)',
+                                                        '0 28px 60px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.95), inset 0 1.5px 2px rgba(255, 255, 255, 0.75), inset 0 -1.5px 2px rgba(0, 0, 0, 0.15)',
                                                     backgroundColor: '#ED017C',
                                                 }}
                                             >
@@ -2522,23 +2558,35 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     borderRadius: 24,
                                                     backgroundColor: 'rgba(15, 23, 42, 0.35)',
                                                     filter: `blur(${10 + zLayer2 * 0.07}px)`,
-                                                    opacity: Math.min(1, pL2 * 1.5) * Math.max(0.12, 0.5 - zLayer2 / 1400),
+                                                    opacity:
+                                                        Math.min(1, pL2 * 1.5) * Math.max(0.12, 0.5 - zLayer2 / 1400),
                                                     transform: 'translateZ(2px)',
                                                 }}
                                             />
-                                            {/* Neo 2: Độ dày thành khối cơ khí */}
-                                            <div
-                                                style={{
-                                                    position: 'absolute',
-                                                    left: 312,
-                                                    top: 135,
-                                                    width: 1315,
-                                                    height: 425,
-                                                    borderRadius: 24,
-                                                    backgroundColor: '#CBD5E1',
-                                                    transform: `translateZ(${Math.max(1, zLayer2 - 6)}px)`,
-                                                }}
-                                            />
+                                            {/* Neo 2: Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass: 3.5px thanh thoát) */}
+                                            {[1.8, 3.5].map((step, idx) => {
+                                                const edgeColors = [
+                                                    '#F8FAFC',
+                                                    '#E2E8F0',
+                                                ];
+                                                return (
+                                                    <div
+                                                        key={idx}
+                                                        style={{
+                                                            position: 'absolute',
+                                                            left: 312,
+                                                            top: 135,
+                                                            width: 1315,
+                                                            height: 425,
+                                                            borderRadius: 24,
+                                                            backgroundColor: edgeColors[idx],
+                                                            boxShadow: `0 1.5px 0 ${edgeColors[idx]}`,
+                                                            transform: `translateZ(${Math.max(1, zLayer2 - step)}px)`,
+                                                            pointerEvents: 'none',
+                                                        }}
+                                                    />
+                                                );
+                                            })}
                                             {/* Neo 3: Mặt trước Tầng kính UI siêu nét */}
                                             <div
                                                 style={{
@@ -2551,7 +2599,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     overflow: 'hidden',
                                                     transform: `translateZ(${zLayer2}px)`,
                                                     boxShadow:
-                                                        '0 24px 55px rgba(15, 23, 42, 0.24), 0 0 0 1.5px rgba(255, 255, 255, 0.85), 0 0 25px rgba(237, 1, 124, 0.18)',
+                                                        '0 32px 65px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.95), inset 0 2px 2px rgba(255, 255, 255, 0.95), inset 0 -1.5px 2px rgba(0, 0, 0, 0.05)',
                                                     backgroundColor: '#FFFFFF',
                                                 }}
                                             >
@@ -2633,23 +2681,36 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                             borderRadius: c.r,
                                                             backgroundColor: 'rgba(15, 23, 42, 0.35)',
                                                             filter: `blur(${10 + zLayer3 * 0.07}px)`,
-                                                            opacity: Math.min(1, pL3 * 1.5) * Math.max(0.12, 0.5 - zLayer3 / 1400),
+                                                            opacity:
+                                                                Math.min(1, pL3 * 1.5) *
+                                                                Math.max(0.12, 0.5 - zLayer3 / 1400),
                                                             transform: 'translateZ(2px)',
                                                         }}
                                                     />
-                                                    {/* Độ dày cạnh */}
-                                                    <div
-                                                        style={{
-                                                            position: 'absolute',
-                                                            left: c.x,
-                                                            top: c.y,
-                                                            width: c.w,
-                                                            height: c.h,
-                                                            borderRadius: c.r,
-                                                            backgroundColor: '#CBD5E1',
-                                                            transform: `translateZ(${Math.max(1, zLayer3 - 6)}px)`,
-                                                        }}
-                                                    />
+                                                    {/* Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass: 3.2px thanh thoát) */}
+                                                    {[1.6, 3.2].map((step, idx) => {
+                                                        const cardEdgeColors = [
+                                                            '#F8FAFC',
+                                                            '#E2E8F0',
+                                                        ];
+                                                        return (
+                                                            <div
+                                                                key={idx}
+                                                                style={{
+                                                                    position: 'absolute',
+                                                                    left: c.x,
+                                                                    top: c.y,
+                                                                    width: c.w,
+                                                                    height: c.h,
+                                                                    borderRadius: c.r,
+                                                                    backgroundColor: cardEdgeColors[idx],
+                                                                    boxShadow: `0 1.5px 0 ${cardEdgeColors[idx]}`,
+                                                                    transform: `translateZ(${Math.max(1, zLayer3 - step)}px)`,
+                                                                    pointerEvents: 'none',
+                                                                }}
+                                                            />
+                                                        );
+                                                    })}
                                                     {/* Mặt trước Card */}
                                                     <div
                                                         style={{
@@ -2662,7 +2723,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                             overflow: 'hidden',
                                                             transform: `translateZ(${zLayer3}px)`,
                                                             boxShadow:
-                                                                '0 22px 48px rgba(15, 23, 42, 0.22), 0 0 0 1.5px rgba(255, 255, 255, 0.9), 0 0 18px rgba(237, 1, 124, 0.15)',
+                                                                '0 20px 45px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.95), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.9), inset 0 -1px 2px rgba(0, 0, 0, 0.04)',
                                                             backgroundColor: '#FFFFFF',
                                                         }}
                                                     >
@@ -2707,23 +2768,35 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     borderRadius: 22,
                                                     backgroundColor: 'rgba(15, 23, 42, 0.38)',
                                                     filter: `blur(${12 + zLayer4 * 0.08}px)`,
-                                                    opacity: Math.min(1, pL4 * 1.5) * Math.max(0.15, 0.55 - zLayer4 / 1400),
+                                                    opacity:
+                                                        Math.min(1, pL4 * 1.5) * Math.max(0.15, 0.55 - zLayer4 / 1400),
                                                     transform: 'translateZ(2px)',
                                                 }}
                                             />
-                                            {/* Độ dày cạnh */}
-                                            <div
-                                                style={{
-                                                    position: 'absolute',
-                                                    left: 1204,
-                                                    top: 601,
-                                                    width: 418,
-                                                    height: 220,
-                                                    borderRadius: 22,
-                                                    backgroundColor: '#CBD5E1',
-                                                    transform: `translateZ(${Math.max(1, zLayer4 - 6)}px)`,
-                                                }}
-                                            />
+                                            {/* Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass: 3.2px viền hồng ruby) */}
+                                            {[1.6, 3.2].map((step, idx) => {
+                                                const rubyEdgeColors = [
+                                                    '#FBCFE8',
+                                                    '#F472B6',
+                                                ];
+                                                return (
+                                                    <div
+                                                        key={idx}
+                                                        style={{
+                                                            position: 'absolute',
+                                                            left: 1204,
+                                                            top: 601,
+                                                            width: 418,
+                                                            height: 220,
+                                                            borderRadius: 22,
+                                                            backgroundColor: rubyEdgeColors[idx],
+                                                            boxShadow: `0 1.5px 0 ${rubyEdgeColors[idx]}`,
+                                                            transform: `translateZ(${Math.max(1, zLayer4 - step)}px)`,
+                                                            pointerEvents: 'none',
+                                                        }}
+                                                    />
+                                                );
+                                            })}
                                             {/* Mặt trước Hero Card */}
                                             <div
                                                 style={{
@@ -2736,7 +2809,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     overflow: 'hidden',
                                                     transform: `translateZ(${zLayer4}px)`,
                                                     boxShadow:
-                                                        '0 30px 65px rgba(15, 23, 42, 0.3), 0 0 0 2px rgba(237, 1, 124, 0.85), 0 0 35px rgba(237, 1, 124, 0.45)',
+                                                        '0 28px 60px rgba(15, 23, 42, 0.24), 0 0 0 2px #ED017C, 0 0 28px rgba(237, 1, 124, 0.4), inset 0 1.5px 2px rgba(255, 255, 255, 0.95)',
                                                     backgroundColor: '#FFFFFF',
                                                 }}
                                             >
