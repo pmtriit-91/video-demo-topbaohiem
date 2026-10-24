@@ -206,10 +206,13 @@ Mỗi micro-task sau khi hoàn thiện sẽ dừng lại để **Bạn trực ti
     - **Đế sàn Chassis & Bóng tiếp xúc bàn (Tabletop Contact Shadow):** Mặt sàn bo góc `R = 26px`, lớp thành dày 3D xám bạc `#CBD5E1` (`translateZ: -14px`), bóng tiếp xúc mặt bàn siêu thực `filter: blur(45px)`.
     - **5 Ô Rãnh Nét Đứt (Dashed Slot Outlines):** Hiện dần lên từ F1865 (`3px dashed rgba(237, 1, 124, 0.45)`, phớt hồng nhẹ) định vị sẵn 5 khối kiến trúc: Top Nav, Hero Banner, Hero Image, Dàn Card vệ tinh, Hero Card Du lịch.
     - *Nghiệm thu Phân đoạn 1:* Mời Bạn kiểm tra trực tiếp trên Remotion Studio (`bun run dev`)!
-  * **[ ] Phân đoạn 2: CHỜ BẠN DUYỆT ĐỂ LÀM TIẾP — Tách 5 Tầng UI Vươn Cao Theo Trục Z (Staggered Spring Blast):**
-    - 5 tầng UI (Top Nav, Hero Banner, Dàn Card vệ tinh, Hero Card Du lịch, Vali/Khiên 3D) vươn lên theo trục Z (`Z = 160 $\rightarrow$ 280 $\rightarrow$ 430 $\rightarrow$ 590 $\rightarrow$ 740px`) bằng lò xo đàn hồi.
-    - Mỗi tầng có lớp viền dày 3D và bóng chiếu sàn (Floor shadow).
-  * **[ ] Phân đoạn 3: Hệ Thống Nhãn Kỹ Thuật Số (Dynamic Technical Callouts):** Ma trận chiếu 3D `project(cam, x, y, z)` neo khít vào mép tầng + đường gập góc SVG + 4 nhãn chú thích 2 bên.
+  * **[x] Phân đoạn 2: ĐÃ HOÀN TẤT — Tách 4 Cụm Phân Tầng Vươn Cao Theo Trục Z (Staggered Spring Blast):**
+    - 4 cụm phân tầng: Menu Bar trên cùng cao nhất (Z = 450px), Hero Title & Banner tầng 2 (Z = 280px), Dàn Card bảo hiểm tầng thấp hơn (Z = 135px - 145px), Sàn đế tầng trệt (Z = 0px).
+    - Độ dày viền kính công nghệ siêu mỏng, bóng chiếu sàn tiếp đất thực tế và viền bo góc sàn 3D khớp 100%.
+  * **[x] Phân đoạn 3: ĐÃ TRIỂN KHAI (CHỜ BẠN TEST UI) — Hệ Thống Nhãn Kỹ Thuật Số (Dynamic Technical Callouts / HUD):**
+    - Điểm neo 3D (Anchor Dot) phát quang bám sát góc linh kiện từng tầng.
+    - Đường tia vector SVG gập góc dẫn sang 2 bên cân đối (Cụm 1 & Cụm 3 bên phải, Cụm 2 bên trái).
+    - Hộp nhãn công nghệ (Tech Badge Card) billboard trực diện mắt người xem, sắc nét, không giật nháy (F1965 – F2085).
   * **[ ] Phân đoạn 4: Hợp Thể Đóng Nắp Cơ Khí & Quét Sáng (Physical Thud & Sheen Sweep):** Hạ cánh ngược thứ tự, va đập nén lún 8px, dải quét sáng chéo.
 - **Task 3.11: [ ] CHỜ THỰC HIỆN — Click Thẻ Du Lịch & Dolly-through Phóng Xuyên Sang Cảnh 3 (F2150 – F2300, ~2.5s):**
   * Con trỏ chuột click vào nút *"So sánh ngay ➔"* trên thẻ Du lịch $\rightarrow$ Click ripple bừng sáng $\rightarrow$ Camera lao xuyên qua vali du lịch chuyển sang Cảnh 3.

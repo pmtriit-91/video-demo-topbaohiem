@@ -822,6 +822,20 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
         extrapolateRight: 'clamp',
     });
 
+    // 9. TASK 3.10 - PHÂN ĐOẠN 3: HỆ THỐNG NHÃN CHỈ DẪN KỸ THUẬT SỐ (TECHNICAL CALLOUTS / HUD)
+    // Xuất hiện từ F1965 -> F2085: Các đường tia vector SVG gập góc vươn ra từ điểm neo 3D + hộp nhãn công nghệ
+    const calloutProgress = interpolate(frame, [1965, 1995], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.16, 1, 0.3, 1),
+    });
+    const calloutFadeOut = interpolate(frame, [2060, 2085], [1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    });
+    const calloutOpacity = calloutProgress * calloutFadeOut;
+
     return (
         <div
             style={{
@@ -2481,10 +2495,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                             />
                                             {/* Neo 2: Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass: 3.5px thanh thoát) */}
                                             {[1.8, 3.5].map((step, idx) => {
-                                                const edgeColors = [
-                                                    '#E11D48',
-                                                    '#BE123C',
-                                                ];
+                                                const edgeColors = ['#E11D48', '#BE123C'];
                                                 return (
                                                     <div
                                                         key={idx}
@@ -2565,10 +2576,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                             />
                                             {/* Neo 2: Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass: 3.5px thanh thoát) */}
                                             {[1.8, 3.5].map((step, idx) => {
-                                                const edgeColors = [
-                                                    '#F8FAFC',
-                                                    '#E2E8F0',
-                                                ];
+                                                const edgeColors = ['#F8FAFC', '#E2E8F0'];
                                                 return (
                                                     <div
                                                         key={idx}
@@ -2689,10 +2697,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     />
                                                     {/* Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass: 3.2px thanh thoát) */}
                                                     {[1.6, 3.2].map((step, idx) => {
-                                                        const cardEdgeColors = [
-                                                            '#F8FAFC',
-                                                            '#E2E8F0',
-                                                        ];
+                                                        const cardEdgeColors = ['#F8FAFC', '#E2E8F0'];
                                                         return (
                                                             <div
                                                                 key={idx}
@@ -2775,10 +2780,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                             />
                                             {/* Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass: 3.2px viền hồng ruby) */}
                                             {[1.6, 3.2].map((step, idx) => {
-                                                const rubyEdgeColors = [
-                                                    '#FBCFE8',
-                                                    '#F472B6',
-                                                ];
+                                                const rubyEdgeColors = ['#FBCFE8', '#F472B6'];
                                                 return (
                                                     <div
                                                         key={idx}
@@ -2832,6 +2834,354 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                         pointerEvents: 'none',
                                                     }}
                                                 />
+                                            </div>
+                                        </>
+                                    )}
+
+                                    {/* -------------------------------------------------------------- */}
+                                    {/* E. PHÂN ĐOẠN 3: HỆ THỐNG NHÃN KỸ THUẬT SỐ (TECHNICAL CALLOUTS - CHUẨN SHOTCRAFT ẢNH 1) */}
+                                    {/* -------------------------------------------------------------- */}
+                                    {calloutOpacity > 0.005 && (
+                                        <>
+                                            {/* CALLOUT 1: CỤM 1 - TOP MENU BAR (BÊN PHẢI, Z = 450px) */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 1627,
+                                                    top: 50,
+                                                    transform: `translate3d(0, 0, ${zLayer1}px) rotateZ(${-web3DRotateZ}deg) rotateX(${-web3DRotateX}deg)`,
+                                                    transformOrigin: '0 0',
+                                                    transformStyle: 'preserve-3d',
+                                                    opacity: calloutOpacity,
+                                                    pointerEvents: 'none',
+                                                    zIndex: 40,
+                                                }}
+                                            >
+                                                {/* Điểm neo tròn đặc (Solid Blue Anchor Dot) */}
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: 0,
+                                                        top: 0,
+                                                        width: 14,
+                                                        height: 14,
+                                                        borderRadius: '50%',
+                                                        backgroundColor: '#2563EB',
+                                                        border: '2.5px solid #FFFFFF',
+                                                        boxShadow: '0 2px 10px rgba(37, 99, 235, 0.45)',
+                                                        transform: 'translate(-50%, -50%)',
+                                                        pointerEvents: 'none',
+                                                    }}
+                                                />
+
+                                                {/* Tia vector SVG gập góc dẫn sang phải */}
+                                                <svg
+                                                    width="260"
+                                                    height="70"
+                                                    viewBox="0 0 260 70"
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: 0,
+                                                        top: -45,
+                                                        overflow: 'visible',
+                                                    }}
+                                                >
+                                                    <path
+                                                        d="M 0 45 L 80 45 L 125 15 L 240 15"
+                                                        fill="none"
+                                                        stroke="#2563EB"
+                                                        strokeWidth="3"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeDasharray="255"
+                                                        strokeDashoffset={255 * (1 - calloutProgress)}
+                                                    />
+                                                </svg>
+
+                                                {/* Cụm chữ Typography chuẩn Shotcraft (Không dùng hộp thẻ) */}
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: 255,
+                                                        top: -95,
+                                                        whiteSpace: 'nowrap',
+                                                        transform: `translateX(${(1 - calloutProgress) * 20}px)`,
+                                                        opacity: interpolate(calloutProgress, [0.3, 1], [0, 1], {
+                                                            extrapolateLeft: 'clamp',
+                                                            extrapolateRight: 'clamp',
+                                                        }),
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            display: 'flex',
+                                                            alignItems: 'baseline',
+                                                            gap: 16,
+                                                        }}
+                                                    >
+                                                        <span
+                                                            style={{
+                                                                color: '#2563EB',
+                                                                fontSize: 48,
+                                                                fontWeight: 800,
+                                                                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                                letterSpacing: -0.5,
+                                                            }}
+                                                        >
+                                                            01
+                                                        </span>
+                                                        <span
+                                                            style={{
+                                                                color: '#0F172A',
+                                                                fontSize: 50,
+                                                                fontWeight: 800,
+                                                                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                                letterSpacing: -0.8,
+                                                            }}
+                                                        >
+                                                            Điều hướng
+                                                        </span>
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            color: '#64748B',
+                                                            fontSize: 32,
+                                                            fontWeight: 500,
+                                                            marginTop: 8,
+                                                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                        }}
+                                                    >
+                                                        Top Navigation & Tra cứu nhanh
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* CALLOUT 2: CỤM 2 - HERO BANNER (BÊN TRÁI, Z = 280px) */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 312,
+                                                    top: 295,
+                                                    transform: `translate3d(0, 0, ${zLayer2}px) rotateZ(${-web3DRotateZ}deg) rotateX(${-web3DRotateX}deg)`,
+                                                    transformOrigin: '0 0',
+                                                    transformStyle: 'preserve-3d',
+                                                    opacity: calloutOpacity,
+                                                    pointerEvents: 'none',
+                                                    zIndex: 40,
+                                                }}
+                                            >
+                                                {/* Điểm neo tròn đặc (Solid Blue Anchor Dot) */}
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: 0,
+                                                        top: 0,
+                                                        width: 14,
+                                                        height: 14,
+                                                        borderRadius: '50%',
+                                                        backgroundColor: '#2563EB',
+                                                        border: '2.5px solid #FFFFFF',
+                                                        boxShadow: '0 2px 10px rgba(37, 99, 235, 0.45)',
+                                                        transform: 'translate(-50%, -50%)',
+                                                        pointerEvents: 'none',
+                                                    }}
+                                                />
+
+                                                {/* Tia vector SVG gập góc dẫn sang trái */}
+                                                <svg
+                                                    width="260"
+                                                    height="70"
+                                                    viewBox="0 0 260 70"
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: -260,
+                                                        top: -20,
+                                                        overflow: 'visible',
+                                                    }}
+                                                >
+                                                    <path
+                                                        d="M 260 20 L 180 20 L 135 50 L 20 50"
+                                                        fill="none"
+                                                        stroke="#2563EB"
+                                                        strokeWidth="3"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeDasharray="255"
+                                                        strokeDashoffset={255 * (1 - calloutProgress)}
+                                                    />
+                                                </svg>
+
+                                                {/* Cụm chữ Typography chuẩn Shotcraft (Bên trái, căn phải theo line) */}
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        right: 255,
+                                                        top: -30,
+                                                        whiteSpace: 'nowrap',
+                                                        textAlign: 'right',
+                                                        transform: `translateX(${-(1 - calloutProgress) * 20}px)`,
+                                                        opacity: interpolate(calloutProgress, [0.3, 1], [0, 1], {
+                                                            extrapolateLeft: 'clamp',
+                                                            extrapolateRight: 'clamp',
+                                                        }),
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            display: 'flex',
+                                                            alignItems: 'baseline',
+                                                            justifyContent: 'flex-end',
+                                                            gap: 16,
+                                                        }}
+                                                    >
+                                                        <span
+                                                            style={{
+                                                                color: '#2563EB',
+                                                                fontSize: 48,
+                                                                fontWeight: 800,
+                                                                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                                letterSpacing: -0.5,
+                                                            }}
+                                                        >
+                                                            02
+                                                        </span>
+                                                        <span
+                                                            style={{
+                                                                color: '#0F172A',
+                                                                fontSize: 50,
+                                                                fontWeight: 800,
+                                                                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                                letterSpacing: -0.8,
+                                                            }}
+                                                        >
+                                                            Cam kết toàn diện
+                                                        </span>
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            color: '#64748B',
+                                                            fontSize: 32,
+                                                            fontWeight: 500,
+                                                            marginTop: 8,
+                                                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                        }}
+                                                    >
+                                                        So sánh minh bạch & An tâm gia đình
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* CALLOUT 3: CỤM 3 - DÀN CARD SẢN PHẨM (BÊN PHẢI, Z = 145px) */}
+                                            <div
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: 1622,
+                                                    top: 711,
+                                                    transform: `translate3d(0, 0, ${zLayer4}px) rotateZ(${-web3DRotateZ}deg) rotateX(${-web3DRotateX}deg)`,
+                                                    transformOrigin: '0 0',
+                                                    transformStyle: 'preserve-3d',
+                                                    opacity: calloutOpacity,
+                                                    pointerEvents: 'none',
+                                                    zIndex: 40,
+                                                }}
+                                            >
+                                                {/* Điểm neo tròn đặc (Solid Blue Anchor Dot) */}
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: 0,
+                                                        top: 0,
+                                                        width: 14,
+                                                        height: 14,
+                                                        borderRadius: '50%',
+                                                        backgroundColor: '#2563EB',
+                                                        border: '2.5px solid #FFFFFF',
+                                                        boxShadow: '0 2px 10px rgba(37, 99, 235, 0.45)',
+                                                        transform: 'translate(-50%, -50%)',
+                                                        pointerEvents: 'none',
+                                                    }}
+                                                />
+
+                                                {/* Tia vector SVG gập góc dẫn sang phải */}
+                                                <svg
+                                                    width="260"
+                                                    height="70"
+                                                    viewBox="0 0 260 70"
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: 0,
+                                                        top: -20,
+                                                        overflow: 'visible',
+                                                    }}
+                                                >
+                                                    <path
+                                                        d="M 0 20 L 80 20 L 125 50 L 240 50"
+                                                        fill="none"
+                                                        stroke="#2563EB"
+                                                        strokeWidth="3"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeDasharray="255"
+                                                        strokeDashoffset={255 * (1 - calloutProgress)}
+                                                    />
+                                                </svg>
+
+                                                {/* Cụm chữ Typography chuẩn Shotcraft (Không dùng hộp thẻ) */}
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: 255,
+                                                        top: -30,
+                                                        whiteSpace: 'nowrap',
+                                                        transform: `translateX(${(1 - calloutProgress) * 20}px)`,
+                                                        opacity: interpolate(calloutProgress, [0.3, 1], [0, 1], {
+                                                            extrapolateLeft: 'clamp',
+                                                            extrapolateRight: 'clamp',
+                                                        }),
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            display: 'flex',
+                                                            alignItems: 'baseline',
+                                                            gap: 16,
+                                                        }}
+                                                    >
+                                                        <span
+                                                            style={{
+                                                                color: '#2563EB',
+                                                                fontSize: 48,
+                                                                fontWeight: 800,
+                                                                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                                letterSpacing: -0.5,
+                                                            }}
+                                                        >
+                                                            03
+                                                        </span>
+                                                        <span
+                                                            style={{
+                                                                color: '#0F172A',
+                                                                fontSize: 50,
+                                                                fontWeight: 800,
+                                                                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                                letterSpacing: -0.8,
+                                                            }}
+                                                        >
+                                                            Sản phẩm đa dạng
+                                                        </span>
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            color: '#64748B',
+                                                            fontSize: 32,
+                                                            fontWeight: 500,
+                                                            marginTop: 8,
+                                                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                        }}
+                                                    >
+                                                        5 nhóm bảo hiểm thiết yếu 1-chạm
+                                                    </div>
+                                                </div>
                                             </div>
                                         </>
                                     )}
