@@ -219,7 +219,16 @@ Mỗi micro-task sau khi hoàn thiện sẽ dừng lại để **Bạn trực ti
     - **Khóa khít liền mạch 100%:** Thu hồi toàn bộ bóng nổi và viền kính, hòa nhập 100% vào sàn đế `head_chassis_base.png`, trang web phẳng lì, liền mạch tuyệt đối không tì vết.
     - **Vệt sáng quang phổ diện rộng (Dual-Band Prismatic Sheen Sweep):** Kéo dài thời gian quét êm ái (~0.93s, F2124 – F2180), dải quầng sáng diện rộng 95% có ánh khúc xạ quang phổ hồng ruby và xanh sapphire tương phản rõ nét trên nền trắng, lưỡi sáng kim cương 50% có tia laser trắng chói lọi ở tâm.
     - *Nghiệm thu Phân đoạn 4:* Mời Bạn kiểm tra trực tiếp trên Remotion Studio (`bun run dev`)!
-- **Task 3.11: [ ] CHỜ THỰC HIỆN — Click Thẻ Du Lịch & Dolly-through Phóng Xuyên Sang Cảnh 3 (F2150 – F2300, ~2.5s):**
-  * Con trỏ chuột click vào nút *"So sánh ngay ➔"* trên thẻ Du lịch $\rightarrow$ Click ripple bừng sáng $\rightarrow$ Camera lao xuyên qua vali du lịch chuyển sang Cảnh 3.
-  * *Nghiệm thu Task 3.11:* Hoàn tất chuyển cảnh Scene 2 sang Scene 3.
+- **Task 3.11: [x] ĐÃ HOÀN TẤT 100% (CHỜ BẠN NGHIỆM THU — DỪNG TẠI ĐÂY KHÔNG SANG CẢNH 3) — Click Thẻ Du Lịch & Dolly-Through Phóng Xuyên Sang Cảnh 3 (F2180 – F2400):**
+  * **Con trỏ chuột macOS 3D lướt vào (F2180 – F2215):** Di chuyển mượt mà từ góc phải canvas $X=1560, Y=930$ trượt chéo đến đúng nút *"So sánh ngay ➔"* trên Thẻ Du Lịch ($X=1334, Y=761.5$).
+  * **Nút "So sánh ngay ➔" & Viền Thẻ Du Lịch (F2205 – F2350):** Viền thẻ sáng hồng rực `2.5px solid #ED017C` với hào quang phát quang `boxShadow`. Nút *"So sánh ngay ➔"* nền hồng gradient sắc sảo chữ trắng nổi bật.
+  * **Cú Click Chuột & Sóng Xung Kích Sonic Ripple (F2220 – F2248):**
+    - Tại F2222: Nút nhún cơ học `scale(0.88)` tạo cảm giác xúc giác chân thực.
+    - Sóng xung kích bùng nổ 2 tầng (hồng neon và trắng bạc) tỏa ra từ tâm nút với `scale(0.3 -> 3.2)` mờ dần tinh tế.
+  * **Cú phóng xuyên Dolly-Through / Crash Zoom (F2236 – F2400):**
+    - Camera gia tốc theo đường cong `bezier(0.38, 0.05, 0.15, 1)`, góc nghiêng 3D từ $48^\circ, -20^\circ$ xoay thẳng trực diện $0^\circ, 0^\circ$.
+    - Scale phóng lớn cực đại từ $1.15 \to 8.2\times$, đẩy trục Z $+900\text{px}$, trọng tâm zoom điều hướng chuẩn xác vào chiếc vali du lịch hồng ($74\%, 65\%$).
+  * **Luồng ánh sáng xuyên không (Pass-through Portal Flash F2360 – F2400):** Luồng ánh sáng trắng/hồng bung tỏa từ tâm chiếc vali, phủ sáng toàn cảnh điện ảnh để khép lại Scene 2 một cách mượt mà nhất.
+  * *Nghiệm thu Task 3.11:* Đã hoàn tất 100% toàn bộ Scene 2! Dừng lại tại đây theo đúng yêu cầu để Bạn kiểm tra, **chưa sang Cảnh 3**.
+
 

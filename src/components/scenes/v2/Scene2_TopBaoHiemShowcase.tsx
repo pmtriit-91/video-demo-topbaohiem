@@ -925,6 +925,66 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     });
     const calloutOpacity = calloutProgress * calloutFadeOut;
 
+    // ==============================================================
+    // 11. TASK 3.11: CLICK THẺ DU LỊCH & DOLLY-THROUGH PHÓNG XUYÊN SANG CẢNH 3 (F2180 – F2400)
+    // ==============================================================
+    // A. Con trỏ chuột lướt vào nút "So sánh ngay ➔" trên thẻ Du lịch (F2180 -> F2215)
+    const cursor311Progress = interpolate(frame, [2180, 2215], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.16, 1, 0.3, 1),
+    });
+    const cursor311X = interpolate(cursor311Progress, [0, 1], [1560, 1334]);
+    const cursor311Y = interpolate(cursor311Progress, [0, 1], [930, 761.5]);
+    const cursor311Opacity = interpolate(frame, [2180, 2190, 2235, 2245], [0, 1, 1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+
+    // B. Cú click chuột tại F2222: Nút nhún nhẹ và sáng viền hồng
+    const clickPressProgress = interpolate(frame, [2220, 2223, 2228], [1, 0.88, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const travelBtnHover = interpolate(frame, [2205, 2215, 2320, 2350], [0, 1, 1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+
+    // C. Vòng sóng Click Ripple bùng nở từ tâm nút (F2222 -> F2248)
+    const clickRippleProgress = interpolate(frame, [2222, 2248], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const clickRippleScale = interpolate(clickRippleProgress, [0, 1], [0.3, 3.2]);
+    const clickRippleOpacity = interpolate(clickRippleProgress, [0, 0.2, 1], [0.95, 0.85, 0]);
+
+    // D. Cú phóng xuyên Dolly-Through / Crash Zoom của Camera vào lòng chiếc vali du lịch (F2236 -> F2400)
+    const dollyProgress = interpolate(frame, [2236, 2400], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.38, 0.05, 0.15, 1),
+    });
+
+    // Góc nghiêng chuyển dần về phẳng trực diện (0°) để lao thẳng trực diện vào chiếc vali
+    const cameraDollyRotateX = interpolate(dollyProgress, [0, 0.75], [web3DRotateX, 0]);
+    const cameraDollyRotateZ = interpolate(dollyProgress, [0, 0.75], [web3DRotateZ, 0]);
+
+    // Scale phóng lớn cực đại từ 1 lên 8.2x lao vào lòng chiếc vali
+    const cameraDollyScale = web3DScale * (1 + 7.2 * Math.pow(dollyProgress, 1.55));
+    const cameraDollyTranslateZ = web3DTranslateZ + 900 * dollyProgress;
+
+    // Trọng tâm zoom hướng chuẩn xác vào chiếc vali du lịch trên canvas web (X: 74%, Y: 65%)
+    const dollyOriginX = interpolate(dollyProgress, [0, 0.3], [50, 74]);
+    const dollyOriginY = interpolate(dollyProgress, [0, 0.3], [50, 65]);
+
+    // Luồng ánh sáng xuyên không (Pass-through Portal Flash) tại các frame cuối cùng của Scene 2 (F2360 -> F2400)
+    const portalFlashOpacity = interpolate(frame, [2360, 2400], [0, 0.98], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.4, 0, 0.2, 1),
+    });
+
     return (
         <div
             style={{
@@ -2056,7 +2116,9 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                     borderRadius: 24,
                                     backgroundColor: `rgba(15, 23, 42, ${0.18 + 0.12 * thudShadowIntensity})`,
                                     filter: `blur(${Math.max(16, 35 - 12 * thudShadowIntensity)}px)`,
-                                    transform: `perspective(2400px) rotateX(${web3DRotateX}deg) rotateZ(${web3DRotateZ}deg) translateZ(-15px) translate(20px, 30px) scale(${web3DScale})`,
+                                    transformOrigin: `${dollyOriginX}% ${dollyOriginY}%`,
+                                    transform: `perspective(2400px) rotateX(${cameraDollyRotateX}deg) rotateZ(${cameraDollyRotateZ}deg) translateZ(-15px) translate(20px, 30px) scale(${cameraDollyScale})`,
+                                    opacity: Math.max(0, 1 - dollyProgress * 1.5),
                                     pointerEvents: 'none',
                                     zIndex: 0,
                                 }}
@@ -2075,9 +2137,10 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                 width: '67%',
                                 height: '75%',
                                 zIndex: 1,
+                                transformOrigin: `${dollyOriginX}% ${dollyOriginY}%`,
                                 transform:
                                     web3DEntrance > 0.001
-                                        ? `perspective(2400px) rotateX(${web3DRotateX}deg) rotateZ(${web3DRotateZ}deg) translateZ(${web3DTranslateZ}px) scale(${web3DScale})`
+                                        ? `perspective(2400px) rotateX(${cameraDollyRotateX}deg) rotateZ(${cameraDollyRotateZ}deg) translateZ(${cameraDollyTranslateZ}px) scale(${cameraDollyScale})`
                                         : 'scale(1.4)',
                                 transformStyle: 'preserve-3d',
                                 overflow: 'visible',
@@ -2537,6 +2600,160 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                 }}
                                             />
                                         </div>
+                                    )}
+
+                                    {/* ============================================================== */}
+                                    {/* TASK 3.11: UI TƯƠNG TÁC THẺ DU LỊCH & NÚT SO SÁNH (F2180 – F2400) */}
+                                    {/* ============================================================== */}
+                                    {frame >= 2180 && (
+                                        <>
+                                            {/* 1. Viền sáng phát quang Thẻ Du Lịch khi được chọn */}
+                                            {travelBtnHover > 0.01 && (
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: 1204,
+                                                        top: 601,
+                                                        width: 418,
+                                                        height: 220,
+                                                        borderRadius: 22,
+                                                        border: '2.5px solid #ED017C',
+                                                        backgroundColor: 'rgba(237, 1, 124, 0.08)',
+                                                        boxShadow:
+                                                            '0 0 28px rgba(237, 1, 124, 0.35), inset 0 0 20px rgba(237, 1, 124, 0.15)',
+                                                        opacity: travelBtnHover,
+                                                        pointerEvents: 'none',
+                                                        zIndex: 12,
+                                                    }}
+                                                />
+                                            )}
+
+                                            {/* 2. Nút "So sánh ngay ➔" nền hồng rực, nhún click chân thực */}
+                                            {travelBtnHover > 0.01 && (
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: 1232,
+                                                        top: 735,
+                                                        width: 204,
+                                                        height: 53,
+                                                        borderRadius: 9999,
+                                                        background:
+                                                            'linear-gradient(135deg, #FF1A8C 0%, #ED017C 100%)',
+                                                        boxShadow:
+                                                            '0 8px 24px rgba(237, 1, 124, 0.5), 0 0 16px rgba(237, 1, 124, 0.35)',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        color: '#FFFFFF',
+                                                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                                        fontSize: 16,
+                                                        fontWeight: 700,
+                                                        transform: `scale(${clickPressProgress})`,
+                                                        transformOrigin: '50% 50%',
+                                                        opacity: travelBtnHover,
+                                                        pointerEvents: 'none',
+                                                        zIndex: 13,
+                                                    }}
+                                                >
+                                                    <span>So sánh ngay</span>
+                                                    <span style={{ marginLeft: 6, fontSize: 17, lineHeight: 1 }}>➔</span>
+                                                </div>
+                                            )}
+
+                                            {/* 3. Vòng sóng Click Ripple bùng nở từ tâm nút (F2222 -> F2248) */}
+                                            {clickRippleOpacity > 0.01 && (
+                                                <>
+                                                    {/* Lớp sóng A: Vòng viền hồng neon */}
+                                                    <div
+                                                        style={{
+                                                            position: 'absolute',
+                                                            left: 1334,
+                                                            top: 761.5,
+                                                            width: 80,
+                                                            height: 80,
+                                                            borderRadius: '50%',
+                                                            border: '3px solid #ED017C',
+                                                            backgroundColor: 'rgba(237, 1, 124, 0.18)',
+                                                            boxShadow:
+                                                                '0 0 24px rgba(237, 1, 124, 0.6), inset 0 0 16px rgba(237, 1, 124, 0.3)',
+                                                            transform: `translate(-50%, -50%) scale(${clickRippleScale})`,
+                                                            opacity: clickRippleOpacity,
+                                                            pointerEvents: 'none',
+                                                            zIndex: 14,
+                                                        }}
+                                                    />
+                                                    {/* Lớp sóng B: Vòng viền trắng bạc bổ trợ */}
+                                                    <div
+                                                        style={{
+                                                            position: 'absolute',
+                                                            left: 1334,
+                                                            top: 761.5,
+                                                            width: 60,
+                                                            height: 60,
+                                                            borderRadius: '50%',
+                                                            border: '2px solid #FFFFFF',
+                                                            boxShadow: '0 0 16px #FFFFFF',
+                                                            transform: `translate(-50%, -50%) scale(${clickRippleScale * 0.85})`,
+                                                            opacity: clickRippleOpacity * 0.9,
+                                                            pointerEvents: 'none',
+                                                            zIndex: 14,
+                                                        }}
+                                                    />
+                                                </>
+                                            )}
+
+                                            {/* 4. Con trỏ chuột macOS 3D lướt vào nút và thực hiện cú click */}
+                                            {cursor311Opacity > 0.01 && (
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: cursor311X,
+                                                        top: cursor311Y,
+                                                        opacity: cursor311Opacity,
+                                                        transform: `translate(-6px, -4px) scale(${clickPressProgress})`,
+                                                        transformOrigin: '0% 0%',
+                                                        filter: 'drop-shadow(0 10px 22px rgba(0, 0, 0, 0.38))',
+                                                        pointerEvents: 'none',
+                                                        zIndex: 20,
+                                                    }}
+                                                >
+                                                    {/* Spotlight quầng tròn quanh con trỏ */}
+                                                    <div
+                                                        style={{
+                                                            position: 'absolute',
+                                                            top: 14,
+                                                            left: 14,
+                                                            width: 54,
+                                                            height: 54,
+                                                            borderRadius: '50%',
+                                                            border: '2px solid rgba(237, 1, 124, 0.85)',
+                                                            backgroundColor: 'rgba(237, 1, 124, 0.16)',
+                                                            boxShadow: '0 0 16px rgba(237, 1, 124, 0.45)',
+                                                            transform: 'translate(-50%, -50%)',
+                                                            pointerEvents: 'none',
+                                                        }}
+                                                    />
+                                                    {/* Mũi con trỏ macOS chuẩn */}
+                                                    <svg
+                                                        width="44"
+                                                        height="44"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        style={{ position: 'relative', zIndex: 2 }}
+                                                    >
+                                                        <path
+                                                            d="M3 3L10.07 20.97L13.58 13.58L20.97 10.07L3 3Z"
+                                                            fill="#0F172A"
+                                                            stroke="#FFFFFF"
+                                                            strokeWidth="2.2"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                        />
+                                                    </svg>
+                                                </div>
+                                            )}
+                                        </>
                                     )}
                                 </div>
                                 {/* ĐÓNG LỚP OVERLAY TƯƠNG TÁC */}
@@ -3483,6 +3700,23 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     </div>
                 )}
             </div>
+
+            {/* ============================================================== */}
+            {/* TASK 3.11: LUỒNG SÁNG XUYÊN KHÔNG (PORTAL FLASH) LAO VÀO CẢNH 3 */}
+            {/* ============================================================== */}
+            {portalFlashOpacity > 0.01 && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background:
+                            'radial-gradient(circle at 66% 62%, rgba(255, 255, 255, 1) 0%, rgba(255, 240, 248, 0.96) 35%, rgba(237, 1, 124, 0.35) 70%, rgba(255, 255, 255, 0.1) 100%)',
+                        opacity: portalFlashOpacity,
+                        pointerEvents: 'none',
+                        zIndex: 100,
+                    }}
+                />
+            )}
         </div>
     );
 };
