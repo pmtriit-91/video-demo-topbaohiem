@@ -213,7 +213,12 @@ Mỗi micro-task sau khi hoàn thiện sẽ dừng lại để **Bạn trực ti
     - Điểm neo 3D (Anchor Dot) phát quang bám sát góc linh kiện từng tầng.
     - Đường tia vector SVG gập góc dẫn sang 2 bên cân đối (Cụm 1 & Cụm 3 bên phải, Cụm 2 bên trái).
     - Hộp nhãn công nghệ (Tech Badge Card) billboard trực diện mắt người xem, sắc nét, không giật nháy (F1965 – F2085).
-  * **[ ] Phân đoạn 4: Hợp Thể Đóng Nắp Cơ Khí & Quét Sáng (Physical Thud & Sheen Sweep):** Hạ cánh ngược thứ tự, va đập nén lún 8px, dải quét sáng chéo.
+  * **[x] Phân đoạn 4: ĐÃ HOÀN TẤT (CHỜ BẠN TEST UI) — Hợp Thể Đóng Nắp Cơ Khí & Quét Sáng (Physical Thud & Sheen Sweep):**
+    - **Hạ cánh ngược thứ tự (Reverse Landing Cascade):** Cụm 3 đáp trước (F2080 – F2084) $\rightarrow$ Cụm 2 hạ cánh (F2090) $\rightarrow$ Cụm 1 Menu Bar trên cùng sập khít cuối cùng vào F2118 với lò xo đầm chắc.
+    - **Cú nén lún cơ khí Hammer Thud $24\text{px}$ siêu uy lực:** Kích hoạt tại F2118, lún sâu $-24\text{px}$ kèm chấn động chúc pitch $2.2^\circ$, nén scale quán tính $1.8\%$, bóng bàn (Table contact shadow) phình đậm và vòng hào quang chớp sáng va đập kim loại (Impact Flash F2118 – F2124).
+    - **Khóa khít liền mạch 100%:** Thu hồi toàn bộ bóng nổi và viền kính, hòa nhập 100% vào sàn đế `head_chassis_base.png`, trang web phẳng lì, liền mạch tuyệt đối không tì vết.
+    - **Vệt sáng quang phổ diện rộng (Dual-Band Prismatic Sheen Sweep):** Kéo dài thời gian quét êm ái (~0.93s, F2124 – F2180), dải quầng sáng diện rộng 95% có ánh khúc xạ quang phổ hồng ruby và xanh sapphire tương phản rõ nét trên nền trắng, lưỡi sáng kim cương 50% có tia laser trắng chói lọi ở tâm.
+    - *Nghiệm thu Phân đoạn 4:* Mời Bạn kiểm tra trực tiếp trên Remotion Studio (`bun run dev`)!
 - **Task 3.11: [ ] CHỜ THỰC HIỆN — Click Thẻ Du Lịch & Dolly-through Phóng Xuyên Sang Cảnh 3 (F2150 – F2300, ~2.5s):**
   * Con trỏ chuột click vào nút *"So sánh ngay ➔"* trên thẻ Du lịch $\rightarrow$ Click ripple bừng sáng $\rightarrow$ Camera lao xuyên qua vali du lịch chuyển sang Cảnh 3.
   * *Nghiệm thu Task 3.11:* Hoàn tất chuyển cảnh Scene 2 sang Scene 3.

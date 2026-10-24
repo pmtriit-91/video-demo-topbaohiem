@@ -763,14 +763,41 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
     });
 
-    // Góc nghiêng kết hợp giữa giai đoạn chuyển cảnh và giai đoạn orbit:
-    const web3DRotateX = interpolate(web3DEntrance, [0, 1], [0, 52]) - 4 * web3DOrbit; // 52° -> 48°
-    const web3DRotateZ = interpolate(web3DEntrance, [0, 1], [0, -28]) + 8 * web3DOrbit; // -28° -> -20°
-    const web3DTranslateZ = interpolate(web3DEntrance, [0, 1], [0, 120]) + 30 * web3DOrbit;
-    const web3DScale = interpolate(web3DEntrance, [0, 1], [1.4, 1.15]) * (1 - 0.05 * web3DOrbit);
+    // B. Cú đập búa va đập nén lún cơ khí (Hammer Thud Formula - Phân đoạn 4):
+    // Tầng Menu Bar cuối cùng đóng sập khít vào F2118, kích hoạt xung lực chấn động mạnh mẽ dao động tắt dần
+    let thudZ = 0;
+    let thudRotateX = 0;
+    let thudScale = 0;
+    if (frame >= 2118) {
+        const tThud = frame - 2118;
+        if (tThud < 32) {
+            // Lún mạnh 24px dội nảy tắt dần
+            thudZ = -24 * Math.exp(-tThud / 4.2) * Math.cos(tThud * 0.72);
+            // Sàn đế chấn động chúc nhẹ theo phương va đập cơ khí
+            thudRotateX = 2.2 * Math.exp(-tThud / 3.8) * Math.sin(tThud * 0.72);
+            // Nén nhẹ scale quán tính
+            thudScale = -0.018 * Math.exp(-tThud / 3.2) * Math.cos(tThud * 0.72);
+        }
+    }
 
-    // Tiến độ xuất hiện của các ô rãnh nét đứt (Dashed Slot Outlines) trên sàn đế
-    const dashedSlotsProgress = interpolate(frame, [1865, 1910], [0, 1], {
+    // Góc nghiêng kết hợp giữa giai đoạn chuyển cảnh, giai đoạn orbit và chấn động va đập cơ khí:
+    const web3DRotateX = interpolate(web3DEntrance, [0, 1], [0, 52]) - 4 * web3DOrbit + thudRotateX; // 52° -> 48° + phản chấn
+    const web3DRotateZ = interpolate(web3DEntrance, [0, 1], [0, -28]) + 8 * web3DOrbit; // -28° -> -20°
+    const web3DTranslateZ = interpolate(web3DEntrance, [0, 1], [0, 120]) + 30 * web3DOrbit + thudZ;
+    const web3DScale = interpolate(web3DEntrance, [0, 1], [1.4, 1.15]) * (1 - 0.05 * web3DOrbit) * (1 + thudScale);
+
+    // Cường độ chấn động tác động lên bóng tiếp xúc mặt bàn (Tabletop Contact Shadow)
+    const thudShadowIntensity =
+        frame >= 2118 && frame - 2118 < 30
+            ? Math.exp(-(frame - 2118) / 4.2) * Math.max(0, Math.cos((frame - 2118) * 0.72))
+            : 0;
+
+    // Xung viền chớp sáng va đập cơ khí đanh thép (Impact Flash) tại F2118
+    const thudImpactFlash =
+        frame >= 2118 && frame <= 2125 ? Math.exp(-(frame - 2118) / 2.2) * 0.85 : 0;
+
+    // Tiến độ xuất hiện của các ô rãnh nét đứt (Dashed Slot Outlines) trên sàn đế (mờ dần khi các tầng sập xuống)
+    const dashedSlotsProgress = interpolate(frame, [1865, 1910, 2085, 2118], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
@@ -806,18 +833,80 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
     const pL3 = frame >= 1925 ? Math.max(0, springLayer3) : 0;
     const pL4 = frame >= 1935 ? Math.max(0, springLayer4) : 0;
 
+    // ==============================================================
+    // 10. TASK 3.10 - PHÂN ĐOẠN 4: HỢP THỂ ĐÓNG NẮP CƠ KHÍ & QUÉT SÁNG (PHYSICAL THUD & SHEEN SWEEP)
+    // F2080 -> F2166: Hạ cánh ngược thứ tự, va đập nén lún 8px, vệt sáng quét chéo qua bề mặt
+    // ==============================================================
+    // A. Lò xo hạ cánh đóng nắp ngược thứ tự (Cụm 3 đáp trước -> Cụm 2 -> Cụm 1 sập cuối cùng):
+    const springLand4 = spring({
+        frame: frame - 2080,
+        fps: 60,
+        config: { damping: 16, stiffness: 110, mass: 0.9 },
+    });
+    const springLand3 = spring({
+        frame: frame - 2084,
+        fps: 60,
+        config: { damping: 16, stiffness: 110, mass: 0.9 },
+    });
+    const springLand2 = spring({
+        frame: frame - 2090,
+        fps: 60,
+        config: { damping: 16, stiffness: 115, mass: 0.95 },
+    });
+    const springLand1 = spring({
+        frame: frame - 2098,
+        fps: 60,
+        config: { damping: 18, stiffness: 130, mass: 1.0 },
+    });
+
+    const landL4 = frame >= 2080 ? Math.min(1, Math.max(0, springLand4)) : 0;
+    const landL3 = frame >= 2084 ? Math.min(1, Math.max(0, springLand3)) : 0;
+    const landL2 = frame >= 2090 ? Math.min(1, Math.max(0, springLand2)) : 0;
+    const landL1 = frame >= 2098 ? Math.min(1, Math.max(0, springLand1)) : 0;
+
+    // Hệ số nâng Z thực tế sau khi tính cả nhịp bung lên và nhịp hạ cánh:
+    const factorL1 = pL1 * (1 - landL1);
+    const factorL2 = pL2 * (1 - landL2);
+    const factorL3 = pL3 * (1 - landL3);
+    const factorL4 = pL4 * (1 - landL4);
+
     // Độ cao Z thực tế của từng cụm tầng theo trục Z chuẩn phân tầng user yêu cầu:
     // - Cụm 1: Menu Bar trên cùng: NẰM CAO NHẤT (Z = 450px)
     // - Cụm 2: Cụm Title lớn "So sánh TOPbaohiem" & Hình ảnh: TẦNG THỨ 2 (Z = 280px)
     // - Cụm 3: Dàn Card bảo hiểm: TẦNG THẤP HƠN (Z = 135px - 145px)
     // - Cụm 4: Nền trang tầng trệt (Sàn đế chassis, Z = 0px)
-    const zLayer1 = pL1 * 450; // Cụm 1: Menu Bar nằm cao nhất 450px
-    const zLayer2 = pL2 * 280; // Cụm 2: Hero Banner tầng thứ hai 280px
-    const zLayer3 = pL3 * 135; // Cụm 3 (Cơ bản): Dàn Card bảo hiểm tầng thấp hơn 135px
-    const zLayer4 = pL4 * 145; // Cụm 3 (Hero Du lịch): Cùng tầng card thấp hơn (145px)
+    const zLayer1 = factorL1 * 450; // Cụm 1: Menu Bar nằm cao nhất 450px
+    const zLayer2 = factorL2 * 280; // Cụm 2: Hero Banner tầng thứ hai 280px
+    const zLayer3 = factorL3 * 135; // Cụm 3 (Cơ bản): Dàn Card bảo hiểm tầng thấp hơn 135px
+    const zLayer4 = factorL4 * 145; // Cụm 3 (Hero Du lịch): Cùng tầng card thấp hơn (145px)
 
-    // Độ mờ sàn đế khi các tầng bay lên (chuyển sang mặt sàn kiến trúc blueprint thanh lịch, loại bỏ hoàn toàn hiện tượng trùng lặp hình)
-    const chassisFloorBaseOpacity = interpolate(frame, [1905, 1955], [1, 0.06], {
+    // Độ mờ sàn đế khi các tầng bay lên, và phục hồi hoàn toàn khi các tầng hạ cánh đóng nắp
+    // Hồi phục từ 0.06 lên 1.0 chính xác tại F2118 khi tầng cuối cùng sập khít
+    const chassisFloorBaseOpacity = interpolate(
+        frame,
+        [1905, 1955, 2075, 2118],
+        [1, 0.06, 0.06, 1],
+        {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+        }
+    );
+
+    // Lớp các tầng bay (Floating Layers) hòa nhập hoàn toàn vào sàn đế tại F2118:
+    // Ngay khi búa va đập cơ khí sập khít, toàn bộ các mảnh cắt chuyển giao 100% sang sàn đế liền mạch
+    const floatingLayersOpacity = interpolate(frame, [2114, 2118], [1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+
+    // D. Vệt sáng quang học quét chéo bề mặt bo mạch (Glaze Sheen Sweep):
+    // Quét chéo góc 24° từ F2124 -> F2180: Nhịp điệu êm ái (~0.93s), diện tích rộng và độ tương phản cao
+    const sheenProgress = interpolate(frame, [2124, 2180], [-55, 135], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.22, 0.05, 0.25, 1),
+    });
+    const sheenOpacity = interpolate(frame, [2124, 2132, 2170, 2180], [0, 1, 1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -1965,8 +2054,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                     width: '67%',
                                     height: '75%',
                                     borderRadius: 24,
-                                    backgroundColor: 'rgba(15, 23, 42, 0.18)',
-                                    filter: 'blur(35px)',
+                                    backgroundColor: `rgba(15, 23, 42, ${0.18 + 0.12 * thudShadowIntensity})`,
+                                    filter: `blur(${Math.max(16, 35 - 12 * thudShadowIntensity)}px)`,
                                     transform: `perspective(2400px) rotateX(${web3DRotateX}deg) rotateZ(${web3DRotateZ}deg) translateZ(-15px) translate(20px, 30px) scale(${web3DScale})`,
                                     pointerEvents: 'none',
                                     zIndex: 0,
@@ -2454,11 +2543,103 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             </div>
                             {/* ĐÓNG 1. MẶT SÀN ĐẾ CHASSIS 3D (OVERFLOW: HIDDEN CẮT GỌN CHỈ GIỮ LẠI PHẦN HEAD TRANG CHỦ) */}
 
+                            {/* 1.4 XUNG CHẤN ĐỘNG CƠ KHÍ HAMMER THUD IMPACT FLASH (F2118 - F2125) */}
+                            {thudImpactFlash > 0.01 && (
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        inset: 0,
+                                        borderRadius: web3DEntrance > 0.01 ? 18 : 14,
+                                        boxShadow: `0 0 ${45 * thudImpactFlash}px rgba(255, 255, 255, ${thudImpactFlash}), inset 0 0 ${25 * thudImpactFlash}px rgba(255, 255, 255, ${0.7 * thudImpactFlash})`,
+                                        pointerEvents: 'none',
+                                        zIndex: 34,
+                                        transform: 'translateZ(7px)',
+                                    }}
+                                />
+                            )}
+
+                            {/* 1.5 VỆT SÁNG TRẮNG BẠC PLATINUM QUÉT CHÉO (SILVER WHITE SPECULAR SHEEN - PHÂN ĐOẠN 4) */}
+                            {sheenOpacity > 0.01 && (
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        inset: 0,
+                                        borderRadius: web3DEntrance > 0.01 ? 18 : 14,
+                                        overflow: 'hidden',
+                                        pointerEvents: 'none',
+                                        zIndex: 35,
+                                        transform: 'translateZ(6px)',
+                                    }}
+                                >
+                                    {/* Lớp A: Dải quầng sáng bạc mềm lan tỏa (Soft Silver Ambient Glaze - width 90%) */}
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            top: '-60%',
+                                            left: `${sheenProgress - 15}%`,
+                                            width: '90%',
+                                            height: '240%',
+                                            transform: 'rotate(24deg)',
+                                            background:
+                                                'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(241,245,249,0.35) 30%, rgba(255,255,255,0.75) 50%, rgba(241,245,249,0.35) 70%, rgba(255,255,255,0) 100%)',
+                                            opacity: sheenOpacity * 0.9,
+                                            filter: 'blur(15px)',
+                                        }}
+                                    />
+
+                                    {/* Lớp B: Lưỡi sáng gương bạc sắc sảo (Silver Mirror Specular Core - width 50%) */}
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            top: '-60%',
+                                            left: `${sheenProgress}%`,
+                                            width: '50%',
+                                            height: '240%',
+                                            transform: 'rotate(24deg)',
+                                            background:
+                                                'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.45) 35%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.45) 65%, rgba(255,255,255,0) 100%)',
+                                            opacity: sheenOpacity,
+                                            filter: 'blur(3px)',
+                                            boxShadow:
+                                                '0 0 35px rgba(255, 255, 255, 1), 0 0 60px rgba(255, 255, 255, 0.7), 0 8px 30px rgba(15, 23, 42, 0.08)',
+                                        }}
+                                    >
+                                        {/* Tia lõi phát quang trắng tinh khiết 8px ở tâm vệt sáng */}
+                                        <div
+                                            style={{
+                                                position: 'absolute',
+                                                top: 0,
+                                                bottom: 0,
+                                                left: '50%',
+                                                width: 8,
+                                                transform: 'translateX(-50%)',
+                                                backgroundColor: '#FFFFFF',
+                                                boxShadow:
+                                                    '0 0 16px #FFFFFF, 0 0 35px rgba(255, 255, 255, 1)',
+                                                filter: 'blur(1px)',
+                                            }}
+                                        />
+                                    </div>
+
+                                    {/* Lớp C: Viền sáng phản quang mép kính trắng bạc (Silver Rim Highlight) */}
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            inset: 0,
+                                            borderRadius: web3DEntrance > 0.01 ? 18 : 14,
+                                            boxShadow: `inset 0 0 ${18 * sheenOpacity}px rgba(255, 255, 255, ${0.85 * sheenOpacity}), inset 0 0 1.5px rgba(255, 255, 255, ${0.9 * sheenOpacity})`,
+                                            opacity: sheenOpacity,
+                                        }}
+                                    />
+                                </div>
+                            )}
+
                             {/* ============================================================== */}
                             {/* 2. CÁC TẦNG BAY 3D NỔI TRÊN TRỤC Z (EXPLODED 3D FLOATING LAYERS) */}
                             {/* Nổi bổng theo lò xo nảy nhẹ, kèm bóng chiếu sàn đáy & độ dày cạnh khối */}
+                            {/* Tự động hòa nhập liền mạch vào sàn đế và tắt hoàn toàn khi sập khít F2118 */}
                             {/* ============================================================== */}
-                            {frame >= 1905 && (
+                            {frame >= 1905 && frame <= 2125 && floatingLayersOpacity > 0.005 && (
                                 <div
                                     style={{
                                         position: 'absolute',
@@ -2470,12 +2651,13 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                         transformStyle: 'preserve-3d',
                                         pointerEvents: 'none',
                                         zIndex: 10,
+                                        opacity: floatingLayersOpacity,
                                     }}
                                 >
                                     {/* -------------------------------------------------------------- */}
                                     {/* A. CỤM 1: MENU BAR TRÊN CÙNG (Bay lên Z = 450px - NẰM CAO NHẤT) */}
                                     {/* -------------------------------------------------------------- */}
-                                    {pL1 > 0.01 && (
+                                    {factorL1 > 0.005 && (
                                         <>
                                             {/* Neo 1: Bóng đổ chiếu xuống sàn đáy (Cast Shadow) */}
                                             <div
@@ -2489,31 +2671,32 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     backgroundColor: 'rgba(15, 23, 42, 0.35)',
                                                     filter: `blur(${8 + zLayer1 * 0.06}px)`,
                                                     opacity:
-                                                        Math.min(1, pL1 * 1.5) * Math.max(0.12, 0.5 - zLayer1 / 1400),
+                                                        Math.min(1, factorL1 * 1.5) * Math.max(0, 0.5 - zLayer1 / 1400) * factorL1,
                                                     transform: 'translateZ(2px)',
                                                 }}
                                             />
-                                            {/* Neo 2: Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass: 3.5px thanh thoát) */}
-                                            {[1.8, 3.5].map((step, idx) => {
-                                                const edgeColors = ['#E11D48', '#BE123C'];
-                                                return (
-                                                    <div
-                                                        key={idx}
-                                                        style={{
-                                                            position: 'absolute',
-                                                            left: 312,
-                                                            top: 10,
-                                                            width: 1315,
-                                                            height: 80,
-                                                            borderRadius: 16,
-                                                            backgroundColor: edgeColors[idx],
-                                                            boxShadow: `0 1.5px 0 ${edgeColors[idx]}`,
-                                                            transform: `translateZ(${Math.max(1, zLayer1 - step)}px)`,
-                                                            pointerEvents: 'none',
-                                                        }}
-                                                    />
-                                                );
-                                            })}
+                                            {/* Neo 2: Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass) */}
+                                            {factorL1 > 0.03 &&
+                                                [1.8, 3.5].map((step, idx) => {
+                                                    const edgeColors = ['#E11D48', '#BE123C'];
+                                                    return (
+                                                        <div
+                                                            key={idx}
+                                                            style={{
+                                                                position: 'absolute',
+                                                                left: 312,
+                                                                top: 10,
+                                                                width: 1315,
+                                                                height: 80,
+                                                                borderRadius: 16,
+                                                                backgroundColor: edgeColors[idx],
+                                                                boxShadow: `0 1.5px 0 ${edgeColors[idx]}`,
+                                                                transform: `translateZ(${Math.max(1, zLayer1 - step)}px)`,
+                                                                pointerEvents: 'none',
+                                                            }}
+                                                        />
+                                                    );
+                                                })}
                                             {/* Neo 3: Mặt trước Tầng kính UI siêu nét */}
                                             <div
                                                 style={{
@@ -2526,7 +2709,9 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     overflow: 'hidden',
                                                     transform: `translateZ(${zLayer1}px)`,
                                                     boxShadow:
-                                                        '0 28px 60px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.95), inset 0 1.5px 2px rgba(255, 255, 255, 0.75), inset 0 -1.5px 2px rgba(0, 0, 0, 0.15)',
+                                                        factorL1 > 0.01
+                                                            ? `0 ${28 * factorL1}px ${60 * factorL1}px rgba(15, 23, 42, ${0.25 * factorL1}), 0 0 0 ${1 * factorL1}px rgba(255, 255, 255, ${0.95 * factorL1}), inset 0 ${1.5 * factorL1}px 2px rgba(255, 255, 255, ${0.75 * factorL1})`
+                                                            : 'none',
                                                     backgroundColor: '#ED017C',
                                                 }}
                                             >
@@ -2546,6 +2731,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                         inset: 0,
                                                         background:
                                                             'linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 50%)',
+                                                        opacity: factorL1,
                                                         pointerEvents: 'none',
                                                     }}
                                                 />
@@ -2556,7 +2742,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                     {/* -------------------------------------------------------------- */}
                                     {/* B. CỤM 2: HERO BANNER BLOCK (Bay lên Z = 280px - TẦNG THỨ 2)   */}
                                     {/* -------------------------------------------------------------- */}
-                                    {pL2 > 0.01 && (
+                                    {factorL2 > 0.005 && (
                                         <>
                                             {/* Neo 1: Bóng đổ chiếu xuống sàn đáy */}
                                             <div
@@ -2570,31 +2756,32 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     backgroundColor: 'rgba(15, 23, 42, 0.35)',
                                                     filter: `blur(${10 + zLayer2 * 0.07}px)`,
                                                     opacity:
-                                                        Math.min(1, pL2 * 1.5) * Math.max(0.12, 0.5 - zLayer2 / 1400),
+                                                        Math.min(1, factorL2 * 1.5) * Math.max(0, 0.5 - zLayer2 / 1400) * factorL2,
                                                     transform: 'translateZ(2px)',
                                                 }}
                                             />
-                                            {/* Neo 2: Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass: 3.5px thanh thoát) */}
-                                            {[1.8, 3.5].map((step, idx) => {
-                                                const edgeColors = ['#F8FAFC', '#E2E8F0'];
-                                                return (
-                                                    <div
-                                                        key={idx}
-                                                        style={{
-                                                            position: 'absolute',
-                                                            left: 312,
-                                                            top: 135,
-                                                            width: 1315,
-                                                            height: 425,
-                                                            borderRadius: 24,
-                                                            backgroundColor: edgeColors[idx],
-                                                            boxShadow: `0 1.5px 0 ${edgeColors[idx]}`,
-                                                            transform: `translateZ(${Math.max(1, zLayer2 - step)}px)`,
-                                                            pointerEvents: 'none',
-                                                        }}
-                                                    />
-                                                );
-                                            })}
+                                            {/* Neo 2: Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass) */}
+                                            {factorL2 > 0.03 &&
+                                                [1.8, 3.5].map((step, idx) => {
+                                                    const edgeColors = ['#F8FAFC', '#E2E8F0'];
+                                                    return (
+                                                        <div
+                                                            key={idx}
+                                                            style={{
+                                                                position: 'absolute',
+                                                                left: 312,
+                                                                top: 135,
+                                                                width: 1315,
+                                                                height: 425,
+                                                                borderRadius: 24,
+                                                                backgroundColor: edgeColors[idx],
+                                                                boxShadow: `0 1.5px 0 ${edgeColors[idx]}`,
+                                                                transform: `translateZ(${Math.max(1, zLayer2 - step)}px)`,
+                                                                pointerEvents: 'none',
+                                                            }}
+                                                        />
+                                                    );
+                                                })}
                                             {/* Neo 3: Mặt trước Tầng kính UI siêu nét */}
                                             <div
                                                 style={{
@@ -2607,7 +2794,9 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     overflow: 'hidden',
                                                     transform: `translateZ(${zLayer2}px)`,
                                                     boxShadow:
-                                                        '0 32px 65px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.95), inset 0 2px 2px rgba(255, 255, 255, 0.95), inset 0 -1.5px 2px rgba(0, 0, 0, 0.05)',
+                                                        factorL2 > 0.01
+                                                            ? `0 ${32 * factorL2}px ${65 * factorL2}px rgba(15, 23, 42, ${0.22 * factorL2}), 0 0 0 ${1 * factorL2}px rgba(255, 255, 255, ${0.95 * factorL2}), inset 0 ${2 * factorL2}px 2px rgba(255, 255, 255, ${0.95 * factorL2})`
+                                                            : 'none',
                                                     backgroundColor: '#FFFFFF',
                                                 }}
                                             >
@@ -2627,6 +2816,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                         inset: 0,
                                                         background:
                                                             'linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 50%)',
+                                                        opacity: factorL2,
                                                         pointerEvents: 'none',
                                                     }}
                                                 />
@@ -2637,7 +2827,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                     {/* -------------------------------------------------------------- */}
                                     {/* C. CỤM 3: DÀN CARD BẢO HIỂM CƠ BẢN (Bay lên Z = 135px - TẦNG THẤP HƠN) */}
                                     {/* -------------------------------------------------------------- */}
-                                    {pL3 > 0.01 && (
+                                    {factorL3 > 0.005 && (
                                         <>
                                             {[
                                                 {
@@ -2690,32 +2880,34 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                             backgroundColor: 'rgba(15, 23, 42, 0.35)',
                                                             filter: `blur(${10 + zLayer3 * 0.07}px)`,
                                                             opacity:
-                                                                Math.min(1, pL3 * 1.5) *
-                                                                Math.max(0.12, 0.5 - zLayer3 / 1400),
+                                                                Math.min(1, factorL3 * 1.5) *
+                                                                Math.max(0, 0.5 - zLayer3 / 1400) *
+                                                                factorL3,
                                                             transform: 'translateZ(2px)',
                                                         }}
                                                     />
-                                                    {/* Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass: 3.2px thanh thoát) */}
-                                                    {[1.6, 3.2].map((step, idx) => {
-                                                        const cardEdgeColors = ['#F8FAFC', '#E2E8F0'];
-                                                        return (
-                                                            <div
-                                                                key={idx}
-                                                                style={{
-                                                                    position: 'absolute',
-                                                                    left: c.x,
-                                                                    top: c.y,
-                                                                    width: c.w,
-                                                                    height: c.h,
-                                                                    borderRadius: c.r,
-                                                                    backgroundColor: cardEdgeColors[idx],
-                                                                    boxShadow: `0 1.5px 0 ${cardEdgeColors[idx]}`,
-                                                                    transform: `translateZ(${Math.max(1, zLayer3 - step)}px)`,
-                                                                    pointerEvents: 'none',
-                                                                }}
-                                                            />
-                                                        );
-                                                    })}
+                                                    {/* Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass) */}
+                                                    {factorL3 > 0.03 &&
+                                                        [1.6, 3.2].map((step, idx) => {
+                                                            const cardEdgeColors = ['#F8FAFC', '#E2E8F0'];
+                                                            return (
+                                                                <div
+                                                                    key={idx}
+                                                                    style={{
+                                                                        position: 'absolute',
+                                                                        left: c.x,
+                                                                        top: c.y,
+                                                                        width: c.w,
+                                                                        height: c.h,
+                                                                        borderRadius: c.r,
+                                                                        backgroundColor: cardEdgeColors[idx],
+                                                                        boxShadow: `0 1.5px 0 ${cardEdgeColors[idx]}`,
+                                                                        transform: `translateZ(${Math.max(1, zLayer3 - step)}px)`,
+                                                                        pointerEvents: 'none',
+                                                                    }}
+                                                                />
+                                                            );
+                                                        })}
                                                     {/* Mặt trước Card */}
                                                     <div
                                                         style={{
@@ -2728,7 +2920,9 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                             overflow: 'hidden',
                                                             transform: `translateZ(${zLayer3}px)`,
                                                             boxShadow:
-                                                                '0 20px 45px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.95), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.9), inset 0 -1px 2px rgba(0, 0, 0, 0.04)',
+                                                                factorL3 > 0.01
+                                                                    ? `0 ${20 * factorL3}px ${45 * factorL3}px rgba(15, 23, 42, ${0.18 * factorL3}), 0 0 0 ${1 * factorL3}px rgba(255, 255, 255, ${0.95 * factorL3}), inset 0 ${1.5 * factorL3}px 1.5px rgba(255, 255, 255, ${0.9 * factorL3})`
+                                                                    : 'none',
                                                             backgroundColor: '#FFFFFF',
                                                         }}
                                                     >
@@ -2748,6 +2942,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                                 inset: 0,
                                                                 background:
                                                                     'linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%)',
+                                                                opacity: factorL3,
                                                                 pointerEvents: 'none',
                                                             }}
                                                         />
@@ -2760,7 +2955,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                     {/* -------------------------------------------------------------- */}
                                     {/* D. CỤM 3: THẺ BẢO HIỂM DU LỊCH (Cùng tầng card thấp hơn Z = 145px) */}
                                     {/* -------------------------------------------------------------- */}
-                                    {pL4 > 0.01 && (
+                                    {factorL4 > 0.005 && (
                                         <>
                                             {/* Bóng chiếu sàn */}
                                             <div
@@ -2774,31 +2969,34 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     backgroundColor: 'rgba(15, 23, 42, 0.38)',
                                                     filter: `blur(${12 + zLayer4 * 0.08}px)`,
                                                     opacity:
-                                                        Math.min(1, pL4 * 1.5) * Math.max(0.15, 0.55 - zLayer4 / 1400),
+                                                        Math.min(1, factorL4 * 1.5) *
+                                                        Math.max(0, 0.55 - zLayer4 / 1400) *
+                                                        factorL4,
                                                     transform: 'translateZ(2px)',
                                                 }}
                                             />
                                             {/* Độ dày viền kính công nghệ siêu mỏng (Ultra-thin Tech Glass: 3.2px viền hồng ruby) */}
-                                            {[1.6, 3.2].map((step, idx) => {
-                                                const rubyEdgeColors = ['#FBCFE8', '#F472B6'];
-                                                return (
-                                                    <div
-                                                        key={idx}
-                                                        style={{
-                                                            position: 'absolute',
-                                                            left: 1204,
-                                                            top: 601,
-                                                            width: 418,
-                                                            height: 220,
-                                                            borderRadius: 22,
-                                                            backgroundColor: rubyEdgeColors[idx],
-                                                            boxShadow: `0 1.5px 0 ${rubyEdgeColors[idx]}`,
-                                                            transform: `translateZ(${Math.max(1, zLayer4 - step)}px)`,
-                                                            pointerEvents: 'none',
-                                                        }}
-                                                    />
-                                                );
-                                            })}
+                                            {factorL4 > 0.03 &&
+                                                [1.6, 3.2].map((step, idx) => {
+                                                    const rubyEdgeColors = ['#FBCFE8', '#F472B6'];
+                                                    return (
+                                                        <div
+                                                            key={idx}
+                                                            style={{
+                                                                position: 'absolute',
+                                                                left: 1204,
+                                                                top: 601,
+                                                                width: 418,
+                                                                height: 220,
+                                                                borderRadius: 22,
+                                                                backgroundColor: rubyEdgeColors[idx],
+                                                                boxShadow: `0 1.5px 0 ${rubyEdgeColors[idx]}`,
+                                                                transform: `translateZ(${Math.max(1, zLayer4 - step)}px)`,
+                                                                pointerEvents: 'none',
+                                                            }}
+                                                        />
+                                                    );
+                                                })}
                                             {/* Mặt trước Hero Card */}
                                             <div
                                                 style={{
@@ -2811,7 +3009,9 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     overflow: 'hidden',
                                                     transform: `translateZ(${zLayer4}px)`,
                                                     boxShadow:
-                                                        '0 28px 60px rgba(15, 23, 42, 0.24), 0 0 0 2px #ED017C, 0 0 28px rgba(237, 1, 124, 0.4), inset 0 1.5px 2px rgba(255, 255, 255, 0.95)',
+                                                        factorL4 > 0.01
+                                                            ? `0 ${28 * factorL4}px ${60 * factorL4}px rgba(15, 23, 42, ${0.24 * factorL4}), 0 0 0 ${2 * factorL4}px #ED017C, 0 0 ${28 * factorL4}px rgba(237, 1, 124, ${0.4 * factorL4}), inset 0 ${1.5 * factorL4}px 2px rgba(255, 255, 255, ${0.95 * factorL4})`
+                                                            : 'none',
                                                     backgroundColor: '#FFFFFF',
                                                 }}
                                             >
@@ -2831,6 +3031,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                         inset: 0,
                                                         background:
                                                             'linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(237, 1, 124, 0.08) 60%, rgba(237, 1, 124, 0.15) 100%)',
+                                                        opacity: factorL4,
                                                         pointerEvents: 'none',
                                                     }}
                                                 />
