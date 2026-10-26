@@ -132,6 +132,27 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
         extrapolateRight: 'clamp',
     });
 
+    // ==============================================================
+    // HIỆU ỨNG CHUYỂN CẢNH ĐÓN NHẬN TỪ CẢNH 1 (PORTAL FLASH DISSOLVE & HAND ENTRANCE)
+    // ==============================================================
+    // 1. Ánh sáng chớp trắng/hồng từ Cổng Portal của Cảnh 1 dịu dần trong 18 frames đầu (F0 -> F18)
+    const entranceFlashOpacity = interpolate(frame, [0, 18], [1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.16, 1, 0.3, 1),
+    });
+
+    // 2. Bàn tay áo hồng lướt nhẹ từ dưới lên vị trí lấy đà trong 12 frames đầu (F0 -> F12)
+    const handEntranceY = interpolate(frame, [0, 12], [55, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: Easing.bezier(0.16, 1, 0.3, 1),
+    });
+    const handEntranceOpacity = interpolate(frame, [0, 8], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+
     // Sóng xung kích hồng lan tỏa từ đầu ngón tay (Shockwave Ripple 1)
     const rippleProgress = interpolate(frame, [12, 40], [0, 1], {
         extrapolateLeft: 'clamp',
@@ -1361,8 +1382,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             width: 580,
                             height: 1140,
                             transformOrigin: 'bottom center',
-                            transform: `translateY(${handSnapY + handContainerTranslateY}px) scale(${handSnapScale}) rotate(${handSnapRotate}deg)`,
-                            opacity: handContainerOpacity,
+                            transform: `translateY(${handSnapY + handContainerTranslateY + handEntranceY}px) scale(${handSnapScale}) rotate(${handSnapRotate}deg)`,
+                            opacity: handContainerOpacity * handEntranceOpacity,
                         }}
                     >
                         <Img
@@ -3698,6 +3719,23 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                     </div>
                 )}
             </div>
+
+            {/* ============================================================== */}
+            {/* LỚP ÁNH SÁNG ĐÓN NHẬN CHUYỂN TIẾP TỪ CẢNH 1 (PORTAL FLASH DISSOLVE) */}
+            {/* ============================================================== */}
+            {entranceFlashOpacity > 0.005 && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background:
+                            'radial-gradient(circle at calc(50% + 1072px) calc(50% - 600px), rgba(255, 255, 255, 1) 0%, rgba(255, 228, 235, 0.92) 35%, rgba(255, 255, 255, 0.96) 70%, #FAF9F6 100%)',
+                        opacity: entranceFlashOpacity,
+                        pointerEvents: 'none',
+                        zIndex: 95,
+                    }}
+                />
+            )}
 
             {/* ============================================================== */}
             {/* TASK 3.11: LUỒNG SÁNG XUYÊN KHÔNG (PORTAL FLASH) LAO VÀO CẢNH 3 */}

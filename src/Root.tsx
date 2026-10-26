@@ -8,6 +8,8 @@ import { Scene3_TravelAdventure } from "./components/scenes/v2/Scene3_TravelAdve
 import { Scene4_InsuranceCategories } from "./components/scenes/v2/Scene4_InsuranceCategories";
 import { Scene5_PurchaseFlowCMS } from "./components/scenes/v2/Scene5_PurchaseFlowCMS";
 import { Scene6_OutroCTA } from "./components/scenes/v2/Scene6_OutroCTA";
+import { Scene1Scene2Bridge } from "./components/preview/Scene1Scene2Bridge";
+import { Scene1Scene2Combined } from "./components/preview/Scene1Scene2Combined";
 
 export const RemotionRoot: React.FC = () => {
   const { totalFrames, fps, scenes } = VIDEO_CONFIG_V2;
@@ -39,6 +41,35 @@ export const RemotionRoot: React.FC = () => {
         id="TopBaoHiemV2-1080p"
         component={MainVideoV2}
         durationInFrames={totalFrames}
+        fps={fps}
+        width={1920}
+        height={1080}
+      />
+
+      {/* ⚡ 4. KIỂM THỬ ĐIỂM NỐI CHUYỂN CẢNH (SCENE 1 -> SCENE 2 BRIDGE - 450 frames ~ 7.5s) ⚡ */}
+      {/* Tua nhanh điểm giao thoa: Click nút "Truy cập" -> Warp Portal Flash -> Búng tay Snap Cảnh 2 -> 5 thẻ bung */}
+      <Composition
+        id="Preview-Scene1-Scene2-Bridge-1080p"
+        component={Scene1Scene2Bridge}
+        durationInFrames={450}
+        fps={fps}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Preview-Scene1-Scene2-Bridge-4K"
+        component={Scene1Scene2Bridge}
+        durationInFrames={450}
+        fps={fps}
+        width={3840}
+        height={2160}
+      />
+
+      {/* 🎬 5. XEM LIỀN MẠCH TRỌN VẸN CẢNH 1 VÀ CẢNH 2 (4330 frames ~ 72.17s @ 60fps) 🎬 */}
+      <Composition
+        id="Preview-Scene1-Scene2-Full"
+        component={Scene1Scene2Combined}
+        durationInFrames={scenes.scene1_problem_snap.duration + scenes.scene2_showcase.duration}
         fps={fps}
         width={1920}
         height={1080}

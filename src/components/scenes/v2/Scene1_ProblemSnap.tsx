@@ -506,8 +506,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
     const warpBlur = interpolate(warpProgress, [0, 0.4, 1], [0, 4, 28]);
     const warpOpacity = interpolate(warpProgress, [0, 0.65, 0.95, 1], [1, 1, 0.3, 0]);
 
-    // Ánh sáng cổng Portal Flash bùng nổ từ vị trí nút "Truy cập"
-    const portalFlashOpacity = interpolate(frame, [1855, 1885, 1930], [0, 0.98, 0], {
+    // Ánh sáng cổng Portal Flash bùng nổ từ vị trí nút "Truy cập" và đạt cực đại tại F1930 để chuyển giao sang Cảnh 2
+    const portalFlashOpacity = interpolate(frame, [1855, 1890, 1930], [0, 0.98, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -543,8 +543,8 @@ export const Scene1_ProblemSnap: React.FC = () => {
         extrapolateRight: 'clamp',
     });
 
-    // Chuyển tiếp trắng/hồng mềm sang Cảnh 2 (Frames 1910 -> 1950)
-    const fadeToScene2 = interpolate(frame, [1910, 1950], [0, 1], {
+    // Chuyển tiếp trắng/hồng mềm sang Cảnh 2 đạt 100% tại Frame 1930
+    const fadeToScene2 = interpolate(frame, [1910, 1930], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
