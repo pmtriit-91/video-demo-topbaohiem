@@ -793,8 +793,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
             : 0;
 
     // Xung viền chớp sáng va đập cơ khí đanh thép (Impact Flash) tại F2118
-    const thudImpactFlash =
-        frame >= 2118 && frame <= 2125 ? Math.exp(-(frame - 2118) / 2.2) * 0.85 : 0;
+    const thudImpactFlash = frame >= 2118 && frame <= 2125 ? Math.exp(-(frame - 2118) / 2.2) * 0.85 : 0;
 
     // Tiến độ xuất hiện của các ô rãnh nét đứt (Dashed Slot Outlines) trên sàn đế (mờ dần khi các tầng sập xuống)
     const dashedSlotsProgress = interpolate(frame, [1865, 1910, 2085, 2118], [0, 1, 1, 0], {
@@ -882,15 +881,10 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
 
     // Độ mờ sàn đế khi các tầng bay lên, và phục hồi hoàn toàn khi các tầng hạ cánh đóng nắp
     // Hồi phục từ 0.06 lên 1.0 chính xác tại F2118 khi tầng cuối cùng sập khít
-    const chassisFloorBaseOpacity = interpolate(
-        frame,
-        [1905, 1955, 2075, 2118],
-        [1, 0.06, 0.06, 1],
-        {
-            extrapolateLeft: 'clamp',
-            extrapolateRight: 'clamp',
-        }
-    );
+    const chassisFloorBaseOpacity = interpolate(frame, [1905, 1955, 2075, 2118], [1, 0.06, 0.06, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
 
     // Lớp các tầng bay (Floating Layers) hòa nhập hoàn toàn vào sàn đế tại F2118:
     // Ngay khi búa va đập cơ khí sập khít, toàn bộ các mảnh cắt chuyển giao 100% sang sàn đế liền mạch
@@ -2638,8 +2632,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                         width: 204,
                                                         height: 53,
                                                         borderRadius: 9999,
-                                                        background:
-                                                            'linear-gradient(135deg, #FF1A8C 0%, #ED017C 100%)',
+                                                        background: 'linear-gradient(135deg, #FF1A8C 0%, #ED017C 100%)',
                                                         boxShadow:
                                                             '0 8px 24px rgba(237, 1, 124, 0.5), 0 0 16px rgba(237, 1, 124, 0.35)',
                                                         display: 'flex',
@@ -2657,7 +2650,9 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     }}
                                                 >
                                                     <span>So sánh ngay</span>
-                                                    <span style={{ marginLeft: 6, fontSize: 17, lineHeight: 1 }}>➔</span>
+                                                    <span style={{ marginLeft: 6, fontSize: 17, lineHeight: 1 }}>
+                                                        ➔
+                                                    </span>
                                                 </div>
                                             )}
 
@@ -2831,8 +2826,7 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                 width: 8,
                                                 transform: 'translateX(-50%)',
                                                 backgroundColor: '#FFFFFF',
-                                                boxShadow:
-                                                    '0 0 16px #FFFFFF, 0 0 35px rgba(255, 255, 255, 1)',
+                                                boxShadow: '0 0 16px #FFFFFF, 0 0 35px rgba(255, 255, 255, 1)',
                                                 filter: 'blur(1px)',
                                             }}
                                         />
@@ -2888,7 +2882,9 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     backgroundColor: 'rgba(15, 23, 42, 0.35)',
                                                     filter: `blur(${8 + zLayer1 * 0.06}px)`,
                                                     opacity:
-                                                        Math.min(1, factorL1 * 1.5) * Math.max(0, 0.5 - zLayer1 / 1400) * factorL1,
+                                                        Math.min(1, factorL1 * 1.5) *
+                                                        Math.max(0, 0.5 - zLayer1 / 1400) *
+                                                        factorL1,
                                                     transform: 'translateZ(2px)',
                                                 }}
                                             />
@@ -2973,7 +2969,9 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                                                     backgroundColor: 'rgba(15, 23, 42, 0.35)',
                                                     filter: `blur(${10 + zLayer2 * 0.07}px)`,
                                                     opacity:
-                                                        Math.min(1, factorL2 * 1.5) * Math.max(0, 0.5 - zLayer2 / 1400) * factorL2,
+                                                        Math.min(1, factorL2 * 1.5) *
+                                                        Math.max(0, 0.5 - zLayer2 / 1400) *
+                                                        factorL2,
                                                     transform: 'translateZ(2px)',
                                                 }}
                                             />
@@ -3689,8 +3687,8 @@ export const Scene2_TopBaoHiemShowcase: React.FC = () => {
                             <Img
                                 src={staticFile('assets/elements/screen2/macbook_90.png')}
                                 style={{
-                                    width: '140%',
-                                    height: '140%',
+                                    width: '140.5%',
+                                    height: '141%',
                                     objectFit: 'contain',
                                     translate: '-482.4px -250px',
                                     scale: 0.931,
