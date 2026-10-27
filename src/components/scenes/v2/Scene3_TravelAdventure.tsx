@@ -1,394 +1,637 @@
 import React from 'react';
-import { useVideoConfig, staticFile, Img } from 'remotion';
+import {
+  useCurrentFrame,
+  useVideoConfig,
+  staticFile,
+  Img,
+  interpolate,
+  spring,
+} from 'remotion';
 import { VIDEO_CONFIG_V2 } from '../../../config/videoConfigV2';
 
 /**
- * GIAI ĐOẠN 1: SƯỜN BỐ CỤC TĨNH (STATIC STAGING BLUEPRINT) CHO SHOT 3.1
- * Tỷ lệ tọa độ (Left, Top, Width, Height, Z-Index) đã được kiểm toán & đối soát
- * toán học 1:1 chuẩn xác với bức ảnh gốc `full_anh_3.1.png` (6000 x 3375).
- *
- * Toàn bộ 16 lớp phần tử Paper-Cut độc lập được định vị tuyệt đối theo % khung hình,
- * tự động co giãn sắc nét trên cả 1080p, 2K và 4K.
- * Tạm thời KHÔNG chạy animation chuyển động để Bạn trực tiếp ngắm & duyệt bố cục.
+ * GIAI ĐOẠN 2: DIỄN HOẠT CHUYỂN ĐỘNG CHO SHOT 3.1 (LIVING DIORAMA & CINEMATIC FLY-OVER)
+ * ----------------------------------------------------------------------------------
+ * Cải tiến theo phản hồi & định hướng sáng tạo:
+ * 1. ✈️ Lead-in Airplane Fly-over (Frame 0 - 85): Chiếc máy bay mô hình bay qua bầu trời làm
+ *    cầu nối chuyển cảnh từ Scene 2 sang Scene 3. Vệt bay cuốn theo luồng gió đánh thức thế giới Paper-cut.
+ * 2. 🌊 Wave / Trail Reveal: Các tiểu cảnh bên dưới bung nở tuần tự theo bước lướt của máy bay:
+ *    - Trái: Bậc thang trái + dừa xanh nở ra.
+ *    - Giữa: Đĩa thảm tròn xanh mở rộng + đụn cát trồi lên.
+ *    - Phải: Bậc thang xoắn + dừa hồng + ghế nghỉ & phao vịt đáp xuống cát.
+ * 3. 👫 Hero Couple Cinematic Glide: Triệt tiêu hoàn toàn rung lắc giật cục; cặp đôi lướt vào
+ *    khoan thai, thanh lịch với độ hãm êm ái, tiếp đất nhẹ nhàng trên thảm tròn xanh và thở nhẹ thư thái.
+ * 4. 🎥 2.5D Depth Camera Rig: Góc máy kết hợp Depth-Layer-Moves và Tilt-Glide từ video-shotcraft,
+ *    đón máy bay từ trên cao rồi hạ xuống mở rộng toàn cảnh diorama bãi biển nhiệt đới.
+ * 5. 📍 Bảo toàn 100% tọa độ tĩnh và các giá trị translate đã căn chỉnh thủ công.
  */
 
 // Bảng tọa độ tĩnh chuẩn xác của từng mảnh ghép 3.1
 const STAGING_SHOT_3_1 = {
-    // 1. Nền biển & trời Paper-Cut (16:9)
-    bg: {
-        src: 'assets/elements/screen3/3.1/bg_chinh_2.png',
-        zIndex: 1,
-    },
-    // 2. Mặt trời Paper-Cut nhiều tia (Góc trên bên phải)
-    sun: {
-        src: 'assets/elements/screen3/3.1/mat_troi.png',
-        left: '79.20%',
-        top: '3.56%',
-        width: '12.80%',
-        zIndex: 4,
-    },
-    // 3. Mây 1 (Mây giấy vân màu nước góc trên bên trái)
-    cloud1: {
-        src: 'assets/elements/screen3/3.1/may_1_1.png',
-        left: '3.73%',
-        top: '2.61%',
-        width: '12.60%',
-        zIndex: 5,
-    },
-    // 4. Mây 2 (Mây bồng bềnh trung tâm bầu trời)
-    cloud2: {
-        src: 'assets/elements/screen3/3.1/may_2.png',
-        left: '34.00%',
-        top: '1.90%',
-        width: '12.53%',
-        zIndex: 5,
-    },
-    // 5. Mây 3 (Mây tầng giữa khoảng trời bên phải)
-    cloud3: {
-        src: 'assets/elements/screen3/3.1/may_3.png',
-        left: '59.67%',
-        top: '10.19%',
-        width: '13.47%',
-        zIndex: 5,
-    },
-    // 6. Bậc thang podium hồng bên trái + đồi xanh (Hậu cảnh mép trái)
-    leftPodiumHills: {
-        src: 'assets/elements/screen3/3.1/bat_thang_hong_left.png',
-        left: '0.17%',
-        top: '35.64%',
-        width: '35.48%',
-        zIndex: 10,
-    },
-    // 7. Cây dừa xanh lớn (Nghiêng từ bờ trái vươn tán sang trung tâm)
-    greenPalm: {
-        src: 'assets/elements/screen3/3.1/cay_dua_xanh.png',
-        left: '9.93%',
-        top: '5.24%',
-        width: '25.33%',
-        zIndex: 12,
-    },
-    // 8. Cây dừa hồng thanh mảnh (Vươn tán che chở góc phải trước mặt trời)
-    pinkPalm: {
-        src: 'assets/elements/screen3/3.1/cay_dua_hong.png',
-        left: '69.23%',
-        top: '13.75%',
-        width: '19.82%',
-        zIndex: 11,
-    },
-    // 9. Bậc thang podium hình trụ tròn xoắn ốc bên phải + bụi cây ngọc
-    rightPodiumStairs: {
-        src: 'assets/elements/screen3/3.1/bat_thang_hong_right.png',
-        left: '72.83%',
-        top: '35.17%',
-        width: '27.08%',
-        zIndex: 13,
-    },
-    // 10. Điểm xuyết cánh hoa/vòng cung hồng nghệ thuật trên bậc thang phải
-    pinkArcBird: {
-        src: 'assets/elements/screen3/3.1/chim_do.png',
-        left: '78.43%',
-        top: '54.99%',
-        width: '16.45%',
-        zIndex: 14,
-    },
-    // 11. Đĩa thảm tròn đồng tâm màu xanh pastel (Sân khấu trung tâm cặp đôi đứng lên)
-    bluePodiumCarpet: {
-        src: 'assets/elements/screen3/3.1/tham_xanh_2.png',
-        left: '23.00%',
-        top: '81.50%',
-        width: '58.00%',
-        height: '13.50%',
-        zIndex: 15,
-    },
-    // 12. Đụn cát giấy xếp lớp tiền cảnh bên trái
-    leftDune: {
-        src: 'assets/elements/screen3/3.1/dun_cat_left.png',
-        left: '0.00%',
-        top: '64.53%',
-        width: '30.72%',
-        zIndex: 18,
-    },
-    // 13. Đụn cát giấy xếp lớp tiền cảnh bên phải
-    rightDune: {
-        src: 'assets/elements/screen3/3.1/dun_cat_right.png',
-        left: '78.53%',
-        top: '78.93%',
-        width: '35.47%',
-        zIndex: 18,
-    },
-    // 14. Cặp đôi thanh lịch kéo vali hồng (Hero trung tâm khung hình)
-    couple: {
-        src: 'assets/elements/screen3/3.1/couple.png',
-        left: '8.83%',
-        top: '16.41%',
-        width: '75.47%',
-        zIndex: 25,
-    },
-    // 15. Ghế nghỉ bãi biển sọc trắng xanh thanh lịch
-    beachChair: {
-        src: 'assets/elements/screen3/3.1/ghe_xanh.png',
-        left: '72.85%',
-        top: '66.61%',
-        width: '17.33%',
-        zIndex: 26,
-    },
-    // 16. Chú phao vịt vàng 3D siêu dễ thương (Mép sóng bên phải)
-    rubberDuck: {
-        src: 'assets/elements/screen3/3.1/vit.png',
-        left: '67.83%',
-        top: '76.00%',
-        width: '10.63%',
-        zIndex: 28,
-    },
+  // 1. Nền biển & trời Paper-Cut (16:9)
+  bg: {
+    src: 'assets/elements/screen3/3.1/bg_chinh_2.png',
+    zIndex: 1,
+  },
+  // 2. Mặt trời Paper-Cut nhiều tia (Góc trên bên phải)
+  sun: {
+    src: 'assets/elements/screen3/3.1/mat_troi.png',
+    left: '79.20%',
+    top: '3.56%',
+    width: '12.80%',
+    zIndex: 4,
+  },
+  // 3. Mây 1 (Mây giấy vân màu nước góc trên bên trái)
+  cloud1: {
+    src: 'assets/elements/screen3/3.1/may_1_1.png',
+    left: '3.73%',
+    top: '2.61%',
+    width: '12.60%',
+    zIndex: 5,
+  },
+  // 4. Mây 2 (Mây bồng bềnh trung tâm bầu trời)
+  cloud2: {
+    src: 'assets/elements/screen3/3.1/may_2.png',
+    left: '34.00%',
+    top: '1.90%',
+    width: '12.53%',
+    zIndex: 5,
+  },
+  // 5. Mây 3 (Mây tầng giữa khoảng trời bên phải)
+  cloud3: {
+    src: 'assets/elements/screen3/3.1/may_3.png',
+    left: '59.67%',
+    top: '10.19%',
+    width: '13.47%',
+    zIndex: 5,
+  },
+  // 6. Chiếc máy bay mô hình (Cầu nối chuyển cảnh lướt ngang bầu trời)
+  airplane: {
+    src: 'assets/elements/screen3/3.1/may_bay.png',
+    width: '27.50%',
+    zIndex: 9,
+  },
+  // 7. Bậc thang podium hồng bên trái + đồi xanh (Hậu cảnh mép trái)
+  leftPodiumHills: {
+    src: 'assets/elements/screen3/3.1/bat_thang_hong_left.png',
+    left: '0.17%',
+    top: '35.64%',
+    width: '35.48%',
+    zIndex: 10,
+  },
+  // 8. Cây dừa xanh lớn (Nghiêng từ bờ trái vươn tán sang trung tâm)
+  greenPalm: {
+    src: 'assets/elements/screen3/3.1/cay_dua_xanh.png',
+    left: '9.93%',
+    top: '5.24%',
+    width: '25.33%',
+    zIndex: 12,
+  },
+  // 9. Cây dừa hồng thanh mảnh (Vươn tán che chở góc phải trước mặt trời)
+  pinkPalm: {
+    src: 'assets/elements/screen3/3.1/cay_dua_hong.png',
+    left: '69.23%',
+    top: '13.75%',
+    width: '19.82%',
+    zIndex: 11,
+  },
+  // 10. Bậc thang podium hình trụ tròn xoắn ốc bên phải + bụi cây ngọc
+  rightPodiumStairs: {
+    src: 'assets/elements/screen3/3.1/bat_thang_hong_right.png',
+    left: '72.83%',
+    top: '35.17%',
+    width: '27.08%',
+    zIndex: 13,
+  },
+  // 11. Điểm xuyết cánh hoa/vòng cung hồng nghệ thuật trên bậc thang phải
+  pinkArcBird: {
+    src: 'assets/elements/screen3/3.1/chim_do.png',
+    left: '78.43%',
+    top: '54.99%',
+    width: '16.45%',
+    zIndex: 14,
+  },
+  // 12. Đĩa thảm tròn đồng tâm màu xanh pastel (Sân khấu trung tâm cặp đôi đứng lên)
+  bluePodiumCarpet: {
+    src: 'assets/elements/screen3/3.1/tham_xanh_2.png',
+    left: '23.00%',
+    top: '81.50%',
+    width: '58.00%',
+    height: '13.50%',
+    zIndex: 15,
+  },
+  // 13. Đụn cát giấy xếp lớp tiền cảnh bên trái
+  leftDune: {
+    src: 'assets/elements/screen3/3.1/dun_cat_left.png',
+    left: '0.00%',
+    top: '64.53%',
+    width: '30.72%',
+    zIndex: 18,
+  },
+  // 14. Đụn cát giấy xếp lớp tiền cảnh bên phải
+  rightDune: {
+    src: 'assets/elements/screen3/3.1/dun_cat_right.png',
+    left: '78.53%',
+    top: '78.93%',
+    width: '35.47%',
+    zIndex: 18,
+  },
+  // 15. Cặp đôi thanh lịch kéo vali hồng (Hero trung tâm khung hình)
+  couple: {
+    src: 'assets/elements/screen3/3.1/couple.png',
+    left: '8.83%',
+    top: '16.41%',
+    width: '75.47%',
+    zIndex: 25,
+  },
+  // 16. Ghế nghỉ bãi biển sọc trắng xanh thanh lịch
+  beachChair: {
+    src: 'assets/elements/screen3/3.1/ghe_xanh.png',
+    left: '72.85%',
+    top: '66.61%',
+    width: '17.33%',
+    zIndex: 26,
+  },
+  // 17. Chú phao vịt vàng 3D siêu dễ thương (Mép sóng bên phải)
+  rubberDuck: {
+    src: 'assets/elements/screen3/3.1/vit.png',
+    left: '67.83%',
+    top: '76.00%',
+    width: '10.63%',
+    zIndex: 28,
+  },
 };
 
 export const Scene3_TravelAdventure: React.FC = () => {
-    const { width, height } = useVideoConfig();
-    const colors = VIDEO_CONFIG_V2.colors;
+  const frame = useCurrentFrame();
+  const { fps, width, height } = useVideoConfig();
+  const colors = VIDEO_CONFIG_V2.colors;
 
-    return (
-        <div
+  // ==========================================
+  // 🎥 1. CÚ MÁY 2.5D DIORAMA (DEPTH-LAYER-MOVES & TILT-GLIDE)
+  // ==========================================
+  // Đoạn đầu (Frame 0 - 75): Camera hơi nâng đón máy bay ở tầng trên
+  const camIntroTilt = interpolate(frame, [0, 75], [35, 0], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+  const camIntroScale = interpolate(frame, [0, 75], [1.045, 1.0], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+
+  // Đoạn sau (Frame 75 - 360): Slow push-in vi mô tạo chiều sâu điện ảnh
+  const camAmbientPush = interpolate(frame, [75, 360], [1.0, 1.03], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+
+  const finalCamScale = camIntroScale * camAmbientPush;
+  const finalCamY = camIntroTilt;
+
+  // ==========================================
+  // ✈️ 2. MÁY BAY MÔ HÌNH CHUYỂN CẢNH (FLY-OVER HOOK)
+  // ==========================================
+  // Máy bay lướt từ trái sang phải bầu trời trong 85 frames (1.4s đầu)
+  // Tọa độ X: từ -30% (ngoài màn hình trái) bay sang 115% (ra khỏi màn hình phải)
+  const planeProgress = interpolate(frame, [0, 85], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+
+  const planeLeft = interpolate(planeProgress, [0, 1], [-30, 115]);
+  // Đường bay hơi lượn nhẹ dạng vòng cung tự nhiên
+  const planeTop = interpolate(planeProgress, [0, 0.45, 1], [6.0, 7.8, 5.0]);
+  const planeRotate = interpolate(planeProgress, [0, 0.5, 1], [2.5, 0.5, -2.0]);
+  // Nhịp bồng bềnh của luồng không khí
+  const planeFloat = Math.sin(frame * 0.15) * 2.5;
+
+  // ==========================================
+  // ☀️ 3. MẶT TRỜI & TẦNG MÂY GIẤY (LIVING SKY)
+  // ==========================================
+  // Mặt trời đã hiện diện sẵn, tỏa sáng & xoay chậm thư thái
+  const sunEntrance = interpolate(frame, [0, 20], [0.85, 1.0], {
+    extrapolateRight: 'clamp',
+  });
+  const sunScale = (1 + Math.sin(frame * 0.04) * 0.015);
+  const sunRotate = frame * 0.07;
+
+  // Mây trôi Parallax đa tầng ngược chiều
+  const cloud1Parallax = interpolate(frame, [0, 360], [-10, 35]);
+  const cloud2Parallax = interpolate(frame, [0, 360], [25, -25]);
+  const cloud3Parallax = interpolate(frame, [0, 360], [-8, 28]);
+
+  // ==========================================
+  // 🌊 4. HIỆU ỨNG VỆT BUNG NỞ (WAVE / TRAIL POP-UP)
+  // ==========================================
+  // Khi máy bay bay qua, các cụm bối cảnh tuần tự bung nở mượt mà
+
+  // [Cụm 1 - Phía Trái: Frame 15 - 65]
+  const leftPodiumSpring = spring({
+    frame: frame - 15,
+    fps,
+    config: { damping: 18, stiffness: 80 },
+  });
+  const leftPodiumOffsetX = interpolate(leftPodiumSpring, [0, 1], [-100, 0]);
+
+  const greenPalmSpring = spring({
+    frame: frame - 22,
+    fps,
+    config: { damping: 15, stiffness: 75 },
+  });
+  const greenPalmScale = interpolate(greenPalmSpring, [0, 1], [0.7, 1.0]);
+  const greenPalmSway = Math.sin(frame * 0.04) * 0.8;
+
+  // [Cụm 2 - Trung Tâm Sân Khấu: Frame 30 - 75]
+  const carpetSpring = spring({
+    frame: frame - 30,
+    fps,
+    config: { damping: 16, stiffness: 85 },
+  });
+  const carpetScale = interpolate(carpetSpring, [0, 1], [0.75, 1.0]);
+
+  const leftDuneSpring = spring({ frame: frame - 28, fps, config: { damping: 18, stiffness: 80 } });
+  const leftDuneRise = interpolate(leftDuneSpring, [0, 1], [70, 0]);
+
+  const rightDuneSpring = spring({ frame: frame - 36, fps, config: { damping: 18, stiffness: 80 } });
+  const rightDuneRise = interpolate(rightDuneSpring, [0, 1], [70, 0]);
+
+  // [Cụm 3 - Phía Phải: Frame 45 - 90]
+  const rightPodiumSpring = spring({
+    frame: frame - 42,
+    fps,
+    config: { damping: 18, stiffness: 80 },
+  });
+  const rightPodiumOffsetX = interpolate(rightPodiumSpring, [0, 1], [90, 0]);
+
+  const pinkPalmSpring = spring({
+    frame: frame - 48,
+    fps,
+    config: { damping: 15, stiffness: 75 },
+  });
+  const pinkPalmScale = interpolate(pinkPalmSpring, [0, 1], [0.7, 1.0]);
+  const pinkPalmSway = Math.sin(frame * 0.042 + 1.2) * 1.0;
+
+  const pinkArcSpring = spring({
+    frame: frame - 52,
+    fps,
+    config: { damping: 16, stiffness: 90 },
+  });
+
+  const chairSpring = spring({
+    frame: frame - 54,
+    fps,
+    config: { damping: 15, stiffness: 90 },
+  });
+  const chairDrop = interpolate(chairSpring, [0, 1], [-40, 0]);
+
+  const duckSpring = spring({
+    frame: frame - 58,
+    fps,
+    config: { damping: 13, stiffness: 95 },
+  });
+  const duckDrop = interpolate(duckSpring, [0, 1], [-50, 0]);
+  const duckBob = Math.sin(frame * 0.08) * 3.5;
+  const duckRock = Math.sin(frame * 0.08) * 2.2;
+
+  // ==========================================
+  // 👫 5. CẶP ĐÔI HERO (CINEMATIC GENTLE GLIDE - TRIỆT TIÊU RUNG LẮC)
+  // ==========================================
+  // Cặp đôi xuất hiện từ tốn, trang nhã sau khi đĩa thảm xanh đã nở vững chắc (từ Frame 48)
+  const coupleEntrance = spring({
+    frame: frame - 48,
+    fps,
+    config: { damping: 24, stiffness: 50 }, // Damping cao -> Chuyển động lướt cực êm ái, hoàn toàn không giật cục
+  });
+
+  // Lướt nhẹ nhàng từ cánh trái vào đúng tâm đĩa thảm
+  const coupleOffsetX = interpolate(coupleEntrance, [0, 1], [-220, 0]);
+  // Khẽ đáp chân nhẹ nhàng khi chạm thảm
+  const coupleOffsetY = interpolate(coupleEntrance, [0, 0.7, 1], [-18, 2, 0]);
+  const coupleScale = interpolate(coupleEntrance, [0, 1], [0.94, 1.0]);
+
+  // Khi đang lướt vào (Frame 48 - 130), chỉ có nhịp gió lướt vi mô vô cùng êm (~1px)
+  const isGliding = frame >= 48 && frame < 135;
+  const glideFloat = isGliding ? Math.sin((frame - 48) * 0.1) * 1.0 : 0;
+
+  // Sau khi dừng chân vững vàng (Frame 135+), nhịp thở đại dương thư thái
+  const idleBreathing = frame >= 135 ? Math.sin((frame - 135) * 0.04) * 1.5 : 0;
+  const subtleSway = frame >= 135 ? Math.sin((frame - 135) * 0.03) * 0.35 : 0;
+
+  // ==========================================
+  // 📍 TỌA ĐỘ GỐC DO BẠN TINH CHỈNH (PRESERVED 100%)
+  // ==========================================
+  const BASE_OFFSETS = {
+    leftPodiumHills: { x: -6.5, y: 46.2 },
+    greenPalm: { x: 0.9, y: 48.5 },
+    pinkArcBird: { x: -458.5, y: -320.7 },
+    bluePodiumCarpet: { x: 133.6, y: 2.9 },
+    leftDune: { x: 0, y: -25.2 },
+    rightDune: { x: -537.6, y: -483.9 },
+    couple: { x: 203.5, y: -13.8 },
+    beachChair: { x: -38.2, y: -58.9 },
+    rubberDuck: { x: -91.8, y: -5.0 },
+  };
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width,
+        height,
+        backgroundColor: colors.bgLight,
+        overflow: 'hidden',
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
+        perspective: 2000,
+        transformStyle: 'preserve-3d',
+      }}
+    >
+      {/* KHUNG DIORAMA 2.5D CÓ CÚ MÁY TILT-GLIDE & DEPTH-LAYER-MOVES */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          transform: `scale(${finalCamScale}) translateY(${finalCamY}px)`,
+          transformOrigin: '50% 55%',
+          transformStyle: 'preserve-3d',
+        }}
+      >
+        {/* 1. NỀN BIỂN VÀ BÃI CÁT PAPER-CUT (16:9) */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.bg.src)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: STAGING_SHOT_3_1.bg.zIndex,
+            pointerEvents: 'none',
+          }}
+        />
+
+        {/* 2. MẶT TRỜI GIẤY NHIỀU TIA (Góc trên bên phải) */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.sun.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.sun.left,
+            top: STAGING_SHOT_3_1.sun.top,
+            width: STAGING_SHOT_3_1.sun.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.sun.zIndex,
+            pointerEvents: 'none',
+            opacity: sunEntrance,
+            transform: `scale(${sunScale}) rotate(${sunRotate}deg)`,
+            transformOrigin: 'center center',
+          }}
+        />
+
+        {/* 3. TẦNG MÂY GIẤY 1 (Góc trên bên trái) */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.cloud1.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.cloud1.left,
+            top: STAGING_SHOT_3_1.cloud1.top,
+            width: STAGING_SHOT_3_1.cloud1.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.cloud1.zIndex,
+            pointerEvents: 'none',
+            transform: `translateX(${cloud1Parallax}px)`,
+          }}
+        />
+
+        {/* 4. TẦNG MÂY GIẤY 2 (Trung tâm bầu trời) */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.cloud2.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.cloud2.left,
+            top: STAGING_SHOT_3_1.cloud2.top,
+            width: STAGING_SHOT_3_1.cloud2.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.cloud2.zIndex,
+            pointerEvents: 'none',
+            transform: `translateX(${cloud2Parallax}px)`,
+          }}
+        />
+
+        {/* 5. TẦNG MÂY GIẤY 3 (Phía trên bên phải) */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.cloud3.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.cloud3.left,
+            top: STAGING_SHOT_3_1.cloud3.top,
+            width: STAGING_SHOT_3_1.cloud3.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.cloud3.zIndex,
+            pointerEvents: 'none',
+            transform: `translateX(${cloud3Parallax}px)`,
+          }}
+        />
+
+        {/* ✈️ 6. CHIẾC MÁY BAY MÔ HÌNH (CẦU NỐI CHUYỂN CẢNH FLY-OVER HOOK) */}
+        {planeProgress < 1 && (
+          <Img
+            src={staticFile(STAGING_SHOT_3_1.airplane.src)}
             style={{
-                position: 'relative',
-                width,
-                height,
-                backgroundColor: colors.bgLight,
-                overflow: 'hidden',
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+              position: 'absolute',
+              left: `${planeLeft}%`,
+              top: `${planeTop}%`,
+              width: STAGING_SHOT_3_1.airplane.width,
+              height: 'auto',
+              zIndex: STAGING_SHOT_3_1.airplane.zIndex,
+              pointerEvents: 'none',
+              transform: `translateY(${planeFloat}px) rotate(${planeRotate}deg)`,
+              transformOrigin: 'center center',
+              filter: 'drop-shadow(0 15px 25px rgba(0, 0, 0, 0.12))',
             }}
-        >
-            {/* 1. LỚP NỀN BIỂN VÀ BÃI CÁT PAPER-CUT (16:9 bao phủ toàn khung) */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.bg.src)}
-                style={{
-                    position: 'absolute',
-                    inset: 0,
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    zIndex: STAGING_SHOT_3_1.bg.zIndex,
-                    pointerEvents: 'none',
-                }}
-            />
+          />
+        )}
 
-            {/* 2. MẶT TRỜI GIẤY NHIỀU TIA (Góc trên bên phải) */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.sun.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.sun.left,
-                    top: STAGING_SHOT_3_1.sun.top,
-                    width: STAGING_SHOT_3_1.sun.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.sun.zIndex,
-                    pointerEvents: 'none',
-                }}
-            />
+        {/* 7. BẬC THANG PODIUM HỒNG BÊN TRÁI & TÁN ĐỒI XANH */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.leftPodiumHills.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.leftPodiumHills.left,
+            top: STAGING_SHOT_3_1.leftPodiumHills.top,
+            width: STAGING_SHOT_3_1.leftPodiumHills.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.leftPodiumHills.zIndex,
+            pointerEvents: 'none',
+            opacity: leftPodiumSpring,
+            transform: `translate(${BASE_OFFSETS.leftPodiumHills.x + leftPodiumOffsetX}px, ${BASE_OFFSETS.leftPodiumHills.y}px)`,
+          }}
+        />
 
-            {/* 3. TẦNG MÂY GIẤY 1 (Góc trên bên trái) */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.cloud1.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.cloud1.left,
-                    top: STAGING_SHOT_3_1.cloud1.top,
-                    width: STAGING_SHOT_3_1.cloud1.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.cloud1.zIndex,
-                    pointerEvents: 'none',
-                }}
-            />
+        {/* 8. CÂY DỪA XANH LỚN BÊN TRÁI */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.greenPalm.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.greenPalm.left,
+            top: STAGING_SHOT_3_1.greenPalm.top,
+            width: STAGING_SHOT_3_1.greenPalm.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.greenPalm.zIndex,
+            pointerEvents: 'none',
+            opacity: greenPalmSpring,
+            transform: `translate(${BASE_OFFSETS.greenPalm.x}px, ${BASE_OFFSETS.greenPalm.y}px) scale(${greenPalmScale}) rotate(${greenPalmSway}deg)`,
+            transformOrigin: '25% 95%',
+          }}
+        />
 
-            {/* 4. TẦNG MÂY GIẤY 2 (Trung tâm bầu trời) */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.cloud2.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.cloud2.left,
-                    top: STAGING_SHOT_3_1.cloud2.top,
-                    width: STAGING_SHOT_3_1.cloud2.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.cloud2.zIndex,
-                    pointerEvents: 'none',
-                }}
-            />
+        {/* 9. CÂY DỪA HỒNG BÊN PHẢI (Trước mặt trời) */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.pinkPalm.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.pinkPalm.left,
+            top: STAGING_SHOT_3_1.pinkPalm.top,
+            width: STAGING_SHOT_3_1.pinkPalm.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.pinkPalm.zIndex,
+            pointerEvents: 'none',
+            opacity: pinkPalmSpring,
+            transform: `scale(${pinkPalmScale}) rotate(${pinkPalmSway}deg)`,
+            transformOrigin: '80% 95%',
+          }}
+        />
 
-            {/* 5. TẦNG MÂY GIẤY 3 (Phía trên bên phải) */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.cloud3.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.cloud3.left,
-                    top: STAGING_SHOT_3_1.cloud3.top,
-                    width: STAGING_SHOT_3_1.cloud3.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.cloud3.zIndex,
-                    pointerEvents: 'none',
-                }}
-            />
+        {/* 10. BẬC THANG XOẮN ỐC BÊN PHẢI */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.rightPodiumStairs.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.rightPodiumStairs.left,
+            top: STAGING_SHOT_3_1.rightPodiumStairs.top,
+            width: STAGING_SHOT_3_1.rightPodiumStairs.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.rightPodiumStairs.zIndex,
+            pointerEvents: 'none',
+            opacity: rightPodiumSpring,
+            transform: `translateX(${rightPodiumOffsetX}px)`,
+          }}
+        />
 
-            {/* 6. BẬC THANG PODIUM HỒNG BÊN TRÁI & TÁN ĐỒI XANH */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.leftPodiumHills.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.leftPodiumHills.left,
-                    top: STAGING_SHOT_3_1.leftPodiumHills.top,
-                    width: STAGING_SHOT_3_1.leftPodiumHills.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.leftPodiumHills.zIndex,
-                    pointerEvents: 'none',
-                    translate: '-6.5px 46.2px',
-                }}
-            />
+        {/* 11. VÒNG CUNG NGHỆ THUẬT / CÁNH CHIM HỒNG (Điểm xuyết trên cầu thang phải) */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.pinkArcBird.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.pinkArcBird.left,
+            top: STAGING_SHOT_3_1.pinkArcBird.top,
+            width: STAGING_SHOT_3_1.pinkArcBird.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.pinkArcBird.zIndex,
+            pointerEvents: 'none',
+            opacity: pinkArcSpring,
+            transform: `translate(${BASE_OFFSETS.pinkArcBird.x}px, ${BASE_OFFSETS.pinkArcBird.y}px) scale(${pinkArcSpring})`,
+          }}
+        />
 
-            {/* 7. CÂY DỪA XANH LỚN BÊN TRÁI */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.greenPalm.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.greenPalm.left,
-                    top: STAGING_SHOT_3_1.greenPalm.top,
-                    width: STAGING_SHOT_3_1.greenPalm.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.greenPalm.zIndex,
-                    pointerEvents: 'none',
-                    translate: '0.9px 48.5px',
-                }}
-            />
+        {/* 12. ĐĨA THẢM TRÒN XANH PASTEL (Podium trung tâm) */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.bluePodiumCarpet.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.bluePodiumCarpet.left,
+            top: STAGING_SHOT_3_1.bluePodiumCarpet.top,
+            width: STAGING_SHOT_3_1.bluePodiumCarpet.width,
+            height: STAGING_SHOT_3_1.bluePodiumCarpet.height,
+            zIndex: STAGING_SHOT_3_1.bluePodiumCarpet.zIndex,
+            pointerEvents: 'none',
+            opacity: carpetSpring,
+            transform: `translate(${BASE_OFFSETS.bluePodiumCarpet.x}px, ${BASE_OFFSETS.bluePodiumCarpet.y}px) scale(${carpetScale})`,
+            transformOrigin: 'center center',
+          }}
+        />
 
-            {/* 8. CÂY DỪA HỒNG BÊN PHẢI (Trước mặt trời) */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.pinkPalm.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.pinkPalm.left,
-                    top: STAGING_SHOT_3_1.pinkPalm.top,
-                    width: STAGING_SHOT_3_1.pinkPalm.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.pinkPalm.zIndex,
-                    pointerEvents: 'none',
-                }}
-            />
+        {/* 13. ĐỤN CÁT TRẮNG XẾP LỚP TIỀN CẢNH BÊN TRÁI */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.leftDune.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.leftDune.left,
+            top: STAGING_SHOT_3_1.leftDune.top,
+            width: STAGING_SHOT_3_1.leftDune.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.leftDune.zIndex,
+            pointerEvents: 'none',
+            opacity: leftDuneSpring,
+            transform: `translate(${BASE_OFFSETS.leftDune.x}px, ${BASE_OFFSETS.leftDune.y + leftDuneRise}px)`,
+          }}
+        />
 
-            {/* 9. BẬC THANG XOẮN ỐC BÊN PHẢI */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.rightPodiumStairs.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.rightPodiumStairs.left,
-                    top: STAGING_SHOT_3_1.rightPodiumStairs.top,
-                    width: STAGING_SHOT_3_1.rightPodiumStairs.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.rightPodiumStairs.zIndex,
-                    pointerEvents: 'none',
-                }}
-            />
+        {/* 14. ĐỤN CÁT TRẮNG XẾP LỚP TIỀN CẢNH BÊN PHẢI */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.rightDune.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.rightDune.left,
+            top: STAGING_SHOT_3_1.rightDune.top,
+            width: STAGING_SHOT_3_1.rightDune.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.rightDune.zIndex,
+            pointerEvents: 'none',
+            opacity: rightDuneSpring,
+            transform: `translate(${BASE_OFFSETS.rightDune.x}px, ${BASE_OFFSETS.rightDune.y + rightDuneRise}px)`,
+          }}
+        />
 
-            {/* 10. VÒNG CUNG NGHỆ THUẬT / CÁNH CHIM HỒNG (Điểm xuyết trên cầu thang phải) */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.pinkArcBird.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.pinkArcBird.left,
-                    top: STAGING_SHOT_3_1.pinkArcBird.top,
-                    width: STAGING_SHOT_3_1.pinkArcBird.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.pinkArcBird.zIndex,
-                    pointerEvents: 'none',
-                    translate: '-458.5px -320.7px',
-                }}
-            />
+        {/* 15. CẶP ĐÔI DU LỊCH KÉO VALI HỒNG (CINEMATIC GENTLE GLIDE) */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.couple.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.couple.left,
+            top: STAGING_SHOT_3_1.couple.top,
+            width: STAGING_SHOT_3_1.couple.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.couple.zIndex,
+            pointerEvents: 'none',
+            opacity: coupleEntrance,
+            transform: `translate(${BASE_OFFSETS.couple.x + coupleOffsetX}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + glideFloat + idleBreathing}px) scale(${coupleScale}) rotate(${subtleSway}deg)`,
+            transformOrigin: 'center bottom',
+          }}
+        />
 
-            {/* 11. ĐĨA THẢM TRÒN XANH PASTEL (Podium trung tâm) */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.bluePodiumCarpet.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.bluePodiumCarpet.left,
-                    top: STAGING_SHOT_3_1.bluePodiumCarpet.top,
-                    width: STAGING_SHOT_3_1.bluePodiumCarpet.width,
-                    height: STAGING_SHOT_3_1.bluePodiumCarpet.height,
-                    zIndex: STAGING_SHOT_3_1.bluePodiumCarpet.zIndex,
-                    pointerEvents: 'none',
-                    translate: '133.6px 2.9px',
-                }}
-            />
+        {/* 16. GHẾ NGHỈ BÃI BIỂN SỌC XANH TRẮNG */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.beachChair.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.beachChair.left,
+            top: STAGING_SHOT_3_1.beachChair.top,
+            width: STAGING_SHOT_3_1.beachChair.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.beachChair.zIndex,
+            pointerEvents: 'none',
+            opacity: chairSpring,
+            transform: `translate(${BASE_OFFSETS.beachChair.x}px, ${BASE_OFFSETS.beachChair.y + chairDrop}px)`,
+          }}
+        />
 
-            {/* 12. ĐỤN CÁT TRẮNG XẾP LỚP TIỀN CẢNH BÊN TRÁI */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.leftDune.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.leftDune.left,
-                    top: STAGING_SHOT_3_1.leftDune.top,
-                    width: STAGING_SHOT_3_1.leftDune.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.leftDune.zIndex,
-                    pointerEvents: 'none',
-                    translate: '0px -25.2px',
-                }}
-            />
-
-            {/* 13. ĐỤN CÁT TRẮNG XẾP LỚP TIỀN CẢNH BÊN PHẢI */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.rightDune.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.rightDune.left,
-                    top: STAGING_SHOT_3_1.rightDune.top,
-                    width: STAGING_SHOT_3_1.rightDune.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.rightDune.zIndex,
-                    pointerEvents: 'none',
-                    translate: '-537.6px -483.9px',
-                }}
-            />
-
-            {/* 14. CẶP ĐÔI DU LỊCH KÉO VALI HỒNG (Tâm điểm Hero) */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.couple.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.couple.left,
-                    top: STAGING_SHOT_3_1.couple.top,
-                    width: STAGING_SHOT_3_1.couple.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.couple.zIndex,
-                    pointerEvents: 'none',
-                    translate: '203.5px -13.8px',
-                }}
-            />
-
-            {/* 15. GHẾ NGHỈ BÃI BIỂN SỌC XANH TRẮNG */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.beachChair.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.beachChair.left,
-                    top: STAGING_SHOT_3_1.beachChair.top,
-                    width: STAGING_SHOT_3_1.beachChair.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.beachChair.zIndex,
-                    pointerEvents: 'none',
-                    translate: '-38.2px -58.9px',
-                }}
-            />
-
-            {/* 16. CHÚ PHAO VỊT VÀNG 3D DỄ THƯƠNG */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_1.rubberDuck.src)}
-                style={{
-                    position: 'absolute',
-                    left: STAGING_SHOT_3_1.rubberDuck.left,
-                    top: STAGING_SHOT_3_1.rubberDuck.top,
-                    width: STAGING_SHOT_3_1.rubberDuck.width,
-                    height: 'auto',
-                    zIndex: STAGING_SHOT_3_1.rubberDuck.zIndex,
-                    pointerEvents: 'none',
-                    translate: '-91.8px -5px',
-                }}
-            />
-        </div>
-    );
+        {/* 17. CHÚ PHAO VỊT VÀNG 3D DỄ THƯƠNG */}
+        <Img
+          src={staticFile(STAGING_SHOT_3_1.rubberDuck.src)}
+          style={{
+            position: 'absolute',
+            left: STAGING_SHOT_3_1.rubberDuck.left,
+            top: STAGING_SHOT_3_1.rubberDuck.top,
+            width: STAGING_SHOT_3_1.rubberDuck.width,
+            height: 'auto',
+            zIndex: STAGING_SHOT_3_1.rubberDuck.zIndex,
+            pointerEvents: 'none',
+            opacity: duckSpring,
+            transform: `translate(${BASE_OFFSETS.rubberDuck.x}px, ${BASE_OFFSETS.rubberDuck.y + duckDrop + duckBob}px) rotate(${duckRock}deg)`,
+            transformOrigin: 'center bottom',
+          }}
+        />
+      </div>
+    </div>
+  );
 };
