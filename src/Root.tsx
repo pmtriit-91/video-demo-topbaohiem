@@ -67,7 +67,15 @@ export const RemotionRoot: React.FC = () => {
 
       {/* 🎬 5. XEM LIỀN MẠCH TRỌN VẸN CẢNH 1 VÀ CẢNH 2 (4330 frames ~ 72.17s @ 60fps) 🎬 */}
       <Composition
-        id="Preview-Scene1-Scene2-Full"
+        id="Preview-Scene1-Scene2-4K"
+        component={Scene1Scene2Combined}
+        durationInFrames={scenes.scene1_problem_snap.duration + scenes.scene2_showcase.duration}
+        fps={fps}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="Preview-Scene1-Scene2-1080p"
         component={Scene1Scene2Combined}
         durationInFrames={scenes.scene1_problem_snap.duration + scenes.scene2_showcase.duration}
         fps={fps}
