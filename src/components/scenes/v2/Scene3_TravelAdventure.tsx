@@ -149,6 +149,7 @@ const STAGING_SHOT_3_1 = {
     // 17. Chú phao vịt vàng 3D siêu dễ thương (Mép sóng bên phải)
     rubberDuck: {
         src: 'assets/elements/screen3/3.1/vit.png',
+        worriedSrc: 'assets/elements/screen3/3.1/vit_lolang.png',
         dizzySrc: 'assets/elements/screen3/3.1/vit_roiram.png',
         left: '67.83%',
         top: '76.00%',
@@ -440,52 +441,162 @@ export const Scene3_TravelAdventure: React.FC = () => {
     const currentCoupleSrc = isShocked ? STAGING_SHOT_3_1.couple.shockSrc : STAGING_SHOT_3_1.couple.src;
 
     // ==========================================
-    // 🦆 5.6. SHOT 3.2: CHÚ VỊT RỐI RẮM CHẠY LĂNG XĂNG (FRAME 360+)
+    // 🦆 5.6. SHOT 3.2: CHÚ VỊT BỊ LỐC XOÁY CUỐN BAY, XOAY TÍT 360° ĐỈNH CAO & ĐÁP CẠNH GHẾ XANH
     // ==========================================
-    const isDuckDizzy = frame >= 360;
+    // 1. Frame 0 - 354: Bập bềnh thư thả mép sóng (vit.png)
+    // 2. Frame 355 - 371: Lốc xoáy hút bốc bổng lên cao (vit_roiram.png, xoay vòng 1: 0 -> 360°)
+    // 3. Frame 372 - 391: ĐỈNH QUỸ ĐẠO: Xoay tròn tít tít 360° thứ hai (360° -> 720°)
+    // 4. Frame 392 - 415: Lượn cầu vồng parabol rơi êm xuống cát cạnh ghế xanh
+    // 5. Frame 416 - 427: Tiếp đất nén dẹt đàn hồi (Squash & Stretch)
+    // 6. Frame 428+: Ngồi bệt choáng váng lắc lư cạnh chân ghế xanh + 3D Orbit Halo
 
-    // Cú giật thót nảy người lên khi vali nổ kíp (Frame 360 - 372)
-    const duckShockSpring = spring({
-        frame: frame - 360,
-        fps,
-        config: { damping: 10, stiffness: 240, mass: 0.6 },
+    const isDuckSwirled = frame >= 355;
+    const isDuckLifting = frame >= 355 && frame < 372;
+    const isDuckSpinningTop = frame >= 372 && frame < 392;
+    const isDuckDescending = frame >= 392 && frame < 416;
+    const isDuckLanding = frame >= 416 && frame < 428;
+    const isDuckSafe = frame >= 428;
+
+    // Ảnh vịt: F355+ chuyển sang mắt xoắn ốc hoa mắt vit_roiram.png
+    const currentDuckSrc = isDuckSwirled
+        ? STAGING_SHOT_3_1.rubberDuck.dizzySrc
+        : STAGING_SHOT_3_1.rubberDuck.src;
+
+    // Tọa độ X (Từ 0 -> -28px hút về lốc xoáy -> lượn sang +48px cạnh ghế xanh)
+    let duckFlightX = 0;
+    if (frame < 355) {
+        duckFlightX = 0;
+    } else if (isDuckLifting) {
+        // Hút chếch sang trái về phía tâm lốc xoáy: 0 -> -28px
+        const t = (frame - 355) / 17;
+        duckFlightX = interpolate(t, [0, 1], [0, -28], { easing: (x) => x * x });
+    } else if (isDuckSpinningTop) {
+        // Đỉnh quỹ đạo: lơ lửng và lượn nhẹ từ -28px sang -12px
+        const t = (frame - 372) / 20;
+        duckFlightX = interpolate(t, [0, 1], [-28, -12]);
+    } else if (isDuckDescending) {
+        // Lượn cầu vồng sang phải đáp cạnh ghế: -12px -> +48px
+        const t = (frame - 392) / 24;
+        const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        duckFlightX = interpolate(ease, [0, 1], [-12, 48]);
+    } else {
+        // Yên vị an toàn cạnh ghế xanh
+        duckFlightX = 48;
+    }
+
+    // Tọa độ Y (Bốc cao -115px -> Đỉnh nhấp nhô -> Rơi êm xuống -28px cạnh chân ghế)
+    let duckFlightY = 0;
+    if (frame < 355) {
+        duckFlightY = duckBob;
+    } else if (isDuckLifting) {
+        // Bốc vút lên cao: 0 -> -115px
+        const t = (frame - 355) / 17;
+        duckFlightY = interpolate(t, [0, 1], [0, -115], { easing: (x) => 1 - Math.pow(1 - x, 2) });
+    } else if (isDuckSpinningTop) {
+        // Lơ lửng đỉnh sóng: khẽ nhấp nhô quanh -115px đến -119px
+        const t = (frame - 372) / 20;
+        duckFlightY = -115 - Math.sin(t * Math.PI) * 4;
+    } else if (isDuckDescending) {
+        // Rơi êm ái xuống mặt cát: -115px -> -28px
+        const t = (frame - 392) / 24;
+        duckFlightY = interpolate(t, [0, 1], [-115, -28], { easing: (x) => x * x });
+    } else if (isDuckLanding) {
+        // Tiếp đất nảy nhẹ lò xo
+        const t = (frame - 416) / 12;
+        duckFlightY = -28 + Math.sin(t * Math.PI) * -5;
+    } else {
+        // Ngồi thở nhẹ trên cát cạnh ghế
+        duckFlightY = -28 + Math.sin((frame - 428) * 0.05) * 1.2;
+    }
+
+    // Tọa độ Z (3D Spatial Depth: bay vọt ra phía trước camera khi ở trên không)
+    let duckFlightZ = 0;
+    if (frame < 355) {
+        duckFlightZ = 0;
+    } else if (isDuckLifting) {
+        duckFlightZ = interpolate(frame, [355, 372], [0, 120]);
+    } else if (isDuckSpinningTop) {
+        duckFlightZ = 120;
+    } else if (isDuckDescending) {
+        duckFlightZ = interpolate(frame, [392, 416], [120, 0]);
+    } else {
+        duckFlightZ = 0;
+    }
+
+    // Góc xoay (Rotation):
+    // - Pha bốc lên: xoay 1 vòng 0 -> 360°
+    // - Đỉnh quỹ đạo: CÚ XOAY TÍT 360° THỨ HAI (360° -> 720°)
+    // - Rơi xuống: ổn định thăng bằng 720° (tương đương 0°)
+    // - Sau tiếp đất: lắc lư lảo đảo ±4.5°
+    let duckRotation = 0;
+    if (frame < 355) {
+        duckRotation = duckRock;
+    } else if (isDuckLifting) {
+        const t = (frame - 355) / 17;
+        duckRotation = t * 360;
+    } else if (isDuckSpinningTop) {
+        // 🌪️ CÚ XOAY TÍT 360° ĐỈNH CAO: Gia tốc mượt mà ở giữa
+        const t = (frame - 372) / 20;
+        const spinEase = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        duckRotation = 360 + spinEase * 360;
+    } else if (isDuckDescending) {
+        duckRotation = 720;
+    } else if (isDuckLanding) {
+        duckRotation = 720;
+    } else {
+        // Lắc lư lảo đảo vì còn choáng váng
+        duckRotation = 720 + Math.sin((frame - 428) * 0.15) * 4.5;
+    }
+
+    // Co dãn hình thể đàn hồi (Squash & Stretch)
+    let duckSquashX = 1;
+    let duckSquashY = 1;
+    if (isDuckLifting) {
+        // Bị kéo dài thon theo chiều dọc khi bốc lên
+        duckSquashX = 0.94;
+        duckSquashY = 1.08;
+    } else if (isDuckSpinningTop) {
+        duckSquashX = 1;
+        duckSquashY = 1;
+    } else if (isDuckLanding) {
+        // Tiếp đất nén dẹt rồi nảy hồi
+        const t = (frame - 416) / 12;
+        duckSquashX = 1 + Math.sin(t * Math.PI) * 0.10;
+        duckSquashY = 1 - Math.sin(t * Math.PI) * 0.10;
+    }
+
+    // Tỉ lệ scale cho ảnh vuông 2048x2048 (vit_roiram có padding 1:1)
+    const duckDisplayScale = isDuckSwirled ? 1.48 : 1.0;
+    const duckAlignOffsetY = isDuckSwirled ? 18 : 0;
+
+    // Bóng sàn thích ứng 2.5D:
+    // Khi vịt bay lên cao, bóng mờ dần và thu nhỏ; khi rơi xuống đất cạnh ghế, bóng đậm lại
+    const duckAltitude = Math.max(0, -duckFlightY);
+    const duckShadowOpacity = interpolate(duckAltitude, [0, 90], [0.55, 0.10], {
+        extrapolateRight: 'clamp',
     });
-    const duckShockJoltY = isDuckDizzy ? interpolate(duckShockSpring, [0, 0.35, 1], [0, -32, 0]) : 0;
-    const duckShockScale = isDuckDizzy ? 1 + Math.sin(interpolate(duckShockSpring, [0, 1], [0, Math.PI])) * 0.12 : 1;
+    const duckShadowScale = interpolate(duckAltitude, [0, 90], [1.0, 0.50], {
+        extrapolateRight: 'clamp',
+    });
 
-    // Chạy lăng xăng theo quỹ đạo hình số 8 / elip quanh mép thảm và bãi cát (Frame 370+)
-    const duckRunAngle = isDuckDizzy && frame >= 370 ? (frame - 370) * 0.13 : 0;
-    const duckPanicOffsetX = isDuckDizzy && frame >= 370 ? Math.sin(duckRunAngle) * 48 : 0;
-    const duckPanicOffsetY = isDuckDizzy && frame >= 370 ? Math.cos(duckRunAngle * 2) * 14 : 0;
-
-    // Nhịp chạy lạch bạch (Waddle bobbing & rocking)
-    const duckWaddleBob = isDuckDizzy && frame >= 370 ? Math.abs(Math.sin((frame - 370) * 0.45)) * -12 : duckBob;
-    const duckWaddleRock = isDuckDizzy && frame >= 370 ? Math.cos((frame - 370) * 0.45) * 16 : duckRock;
-
-    // Hướng nhìn của chú vịt: lật ngược mặt (scaleX: -1) khi quay đầu chạy sang trái
-    const duckFacing = isDuckDizzy && frame >= 370 && Math.cos(duckRunAngle) < 0 ? -1 : 1;
-
-    // Bù trừ scale và căn chỉnh tâm cho vit_roiram.png (do có khoảng đệm trong suốt 1:1)
-    const duckDisplayScale = isDuckDizzy ? 1.48 * duckShockScale : 1.0;
-    const duckAlignOffsetY = isDuckDizzy ? 18 : 0; // Căn chuẩn mép nước cho chú vịt
-
-    // 🌟 VÒNG 3 NGÔI SAO CHOÁNG VÁNG 3D XOAY TÍT QUANH ĐỈNH ĐẦU (3D Orbit Halo)
-    const starOrbitSpeed = (frame - 360) * 0.16;
-    const starHaloVisible = isDuckDizzy && frame >= 365;
-    const starHaloOpacity = interpolate(frame, [365, 375], [0, 1], {
+    // 🌟 VÒNG 3 NGÔI SAO CHOÁNG VÁNG 3D XOAY TÍT QUANH ĐỈNH ĐẦU
+    // Bắt đầu hé nở từ Frame 375 (ngay trên đỉnh xoay tít) và tỏa sáng rực rỡ khi tiếp đất!
+    const starHaloVisible = isDuckSwirled && frame >= 375;
+    const starHaloOpacity = interpolate(frame, [375, 395], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
+    const starOrbitSpeed = (frame - 375) * 0.12;
     const dizzyStars = [0, (2 * Math.PI) / 3, (4 * Math.PI) / 3].map((phase) => {
         const a = starOrbitSpeed + phase;
         const sinVal = Math.sin(a);
         const cosVal = Math.cos(a);
         return {
-            x: cosVal * 46, // Bán kính elip ngang
-            y: sinVal * 14 - 108, // Lơ lửng ngay trên vòm đỉnh đầu vịt
-            scale: interpolate(sinVal, [-1, 1], [0.75, 1.25]), // Chiều sâu 3D: bay ra trước to hơn, ra sau nhỏ hơn
+            x: cosVal * 42,
+            y: sinVal * 12 - 108,
+            scale: interpolate(sinVal, [-1, 1], [0.75, 1.25]),
             opacity: interpolate(sinVal, [-1, 1], [0.65, 1.0]) * starHaloOpacity,
-            zIndex: sinVal > 0 ? 32 : 27, // Lớp 3D: phía trước hoặc phía sau đầu
+            zIndex: sinVal > 0 ? 32 : 27,
         };
     });
 
@@ -968,7 +1079,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                     }}
                 />
 
-                {/* 17. CHÚ PHAO VỊT VÀNG 3D (SHOT 3.1 BỒNG BỀNH -> SHOT 3.2 RỐI RẮM CHẠY LĂNG XĂNG) */}
+                {/* 17. CHÚ PHAO VỊT VÀNG 3D (BỊ LỐC XOÁY CUỐN BAY, XOAY TÍT 360° ĐỈNH CAO & ĐÁP CẠNH GHẾ XANH) */}
                 <div
                     style={{
                         position: 'absolute',
@@ -976,24 +1087,40 @@ export const Scene3_TravelAdventure: React.FC = () => {
                         top: STAGING_SHOT_3_1.rubberDuck.top,
                         width: STAGING_SHOT_3_1.rubberDuck.width,
                         aspectRatio: '1 / 1',
-                        zIndex: STAGING_SHOT_3_1.rubberDuck.zIndex,
+                        zIndex: isDuckSwirled && frame < 416 ? 31 : STAGING_SHOT_3_1.rubberDuck.zIndex,
                         pointerEvents: 'none',
                         opacity: duckSpring,
-                        transform: `translate(${BASE_OFFSETS.rubberDuck.x + duckPanicOffsetX}px, ${BASE_OFFSETS.rubberDuck.y + duckDrop + duckShockJoltY + duckPanicOffsetY + duckWaddleBob + duckAlignOffsetY}px) rotate(${duckWaddleRock}deg)`,
-                        transformOrigin: 'center bottom',
+                        transform: `translate3d(${BASE_OFFSETS.rubberDuck.x + duckFlightX}px, ${BASE_OFFSETS.rubberDuck.y + duckDrop + duckFlightY + duckAlignOffsetY}px, ${duckFlightZ}px) rotate(${duckRotation}deg)`,
+                        transformOrigin: 'center center',
                     }}
                 >
-                    {/* Thân chú vịt (Shot 3.1 bồng bềnh -> Shot 3.2 mắt xoắn ốc) */}
+                    {/* Bóng sàn 2.5D thích ứng theo độ cao và tiếp đất (Contact Shadow) */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            bottom: isDuckSwirled ? '16%' : '8%',
+                            left: '50%',
+                            width: '68%',
+                            height: '18%',
+                            borderRadius: '50%',
+                            background:
+                                'radial-gradient(ellipse at center, rgba(15, 23, 42, 0.48) 0%, rgba(15, 23, 42, 0.18) 50%, rgba(15, 23, 42, 0) 75%)',
+                            transform: `translateX(-50%) scale(${duckShadowScale})`,
+                            opacity: duckShadowOpacity,
+                            pointerEvents: 'none',
+                            zIndex: -1,
+                        }}
+                    />
+
+                    {/* Thân chú vịt (Shot 3.1 bồng bềnh -> F355+ cuốn bay xoay tít với vit_roiram.png) */}
                     <Img
-                        src={staticFile(
-                            isDuckDizzy ? STAGING_SHOT_3_1.rubberDuck.dizzySrc : STAGING_SHOT_3_1.rubberDuck.src
-                        )}
+                        src={staticFile(currentDuckSrc)}
                         style={{
                             width: '100%',
                             height: 'auto',
-                            transform: `scale(${duckDisplayScale}) scaleX(${duckFacing})`,
-                            transformOrigin: 'center bottom',
-                            filter: 'drop-shadow(-3px 6px 8px rgba(15, 23, 42, 0.55)) drop-shadow(-6px 18px 26px rgba(15, 23, 42, 0.32))',
+                            transform: `scale(${duckDisplayScale}) scaleX(${duckSquashX}) scaleY(${duckSquashY})`,
+                            transformOrigin: 'center center',
+                            filter: 'drop-shadow(-3px 5px 7px rgba(15, 23, 42, 0.45)) drop-shadow(-6px 16px 22px rgba(15, 23, 42, 0.26))',
                         }}
                     />
 
