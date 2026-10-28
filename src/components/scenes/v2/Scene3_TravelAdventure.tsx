@@ -132,7 +132,8 @@ const STAGING_SHOT_3_1 = {
     // 15. Cặp đôi thanh lịch kéo vali hồng (Hero trung tâm khung hình)
     couple: {
         src: 'assets/elements/screen3/3.1/couple.png',
-        shockSrc: 'assets/elements/screen3/3.1/cuple_lolang_2.png',
+        // shockSrc: 'assets/elements/screen3/3.1/cuple_lolang_2.png',
+        shockSrc: 'assets/elements/screen3/3.1/cupple_lolang_3.png',
         left: '8.83%',
         top: '16.41%',
         width: '75.47%',
@@ -168,6 +169,115 @@ const QUIRKY_PLANE_ASSETS = {
     zip: 'assets/elements/screen3/airplane_quirky/maybay-tachnen/plane_pose_5_zip_run_trant.png',
     vortex: 'assets/elements/screen3/airplane_quirky/maybay-tachnen/wind_swirl_vortex_trant.png',
 };
+
+// Bảng tài nguyên 7 vật dụng du lịch bay lơ lửng trên nắp vali bên trái (Shot 3.2 F360+)
+const FLOATING_VALI_PROPS = [
+    {
+        name: 'ticket',
+        src: 'assets/elements/screen3/3.2/dna_vali/tachnen/ticket.png',
+        targetX: 14.5, // Tầng cao mép trái
+        targetY: 36.0,
+        width: 10.5,
+        baseRotate: -14,
+        z: 110,
+        stagger: 0,
+        speed: 0.08,
+        phase: 0,
+        ampY: 6.5,
+        ampX: 3,
+        ampRot: 5,
+    },
+    {
+        name: 'passport',
+        src: 'assets/elements/screen3/3.2/dna_vali/tachnen/passport.png',
+        targetX: 23.5, // Tầng cao phía trong (gần bạn nữ nhưng không che người)
+        targetY: 33.0,
+        width: 8.8,
+        baseRotate: 10,
+        z: 95,
+        stagger: 3,
+        speed: 0.07,
+        phase: 1.2,
+        ampY: 5.5,
+        ampX: 2.5,
+        ampRot: 4.5,
+    },
+    {
+        name: 'ao_thun',
+        src: 'assets/elements/screen3/3.2/dna_vali/tachnen/ao_thun.png',
+        targetX: 8.5, // Tầng giữa mép trái
+        targetY: 48.0,
+        width: 11.2,
+        baseRotate: -8,
+        z: 85,
+        stagger: 5,
+        speed: 0.09,
+        phase: 2.4,
+        ampY: 7.5,
+        ampX: 3.5,
+        ampRot: 6,
+    },
+    {
+        name: 'may_anh',
+        src: 'assets/elements/screen3/3.2/dna_vali/tachnen/may_anh.png',
+        targetX: 18.5, // Trung tâm cụm, nhô ra trước camera nhất
+        targetY: 47.5,
+        width: 9.5,
+        baseRotate: 6,
+        z: 135,
+        stagger: 2,
+        speed: 0.075,
+        phase: 3.6,
+        ampY: 6.0,
+        ampX: 2.5,
+        ampRot: 4,
+    },
+    {
+        name: 'tui_xach',
+        src: 'assets/elements/screen3/3.2/dna_vali/tachnen/tui_xach.png',
+        targetX: 11.0, // Tầng dưới bên trái (sát nắp vali)
+        targetY: 59.5,
+        width: 9.8,
+        baseRotate: 12,
+        z: 70,
+        stagger: 7,
+        speed: 0.065,
+        phase: 4.8,
+        ampY: 5.0,
+        ampX: 2,
+        ampRot: 3.5,
+    },
+    {
+        name: 'book',
+        src: 'assets/elements/screen3/3.2/dna_vali/tachnen/book.png',
+        targetX: 22.0, // Tầng dưới bên phải nắp vali
+        targetY: 58.0,
+        width: 8.2,
+        baseRotate: -9,
+        z: 55,
+        stagger: 9,
+        speed: 0.085,
+        phase: 5.5,
+        ampY: 4.5,
+        ampX: 2,
+        ampRot: 4,
+    },
+    {
+        name: 'thoi_son',
+        src: 'assets/elements/screen3/3.2/dna_vali/tachnen/thoi_son.png',
+        targetX: 16.5, // Nhỏ xinh lơ lửng ngay mép miệng vali
+        targetY: 67.0,
+        width: 5.6,
+        baseRotate: 16,
+        z: 75,
+        stagger: 4,
+        speed: 0.11,
+        phase: 1.8,
+        ampY: 4.0,
+        ampX: 1.5,
+        ampRot: 7,
+    },
+];
 
 export const Scene3_TravelAdventure: React.FC = () => {
     const frame = useCurrentFrame();
@@ -458,9 +568,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
     const isDuckSafe = frame >= 428;
 
     // Ảnh vịt: F355+ chuyển sang mắt xoắn ốc hoa mắt vit_roiram.png
-    const currentDuckSrc = isDuckSwirled
-        ? STAGING_SHOT_3_1.rubberDuck.dizzySrc
-        : STAGING_SHOT_3_1.rubberDuck.src;
+    const currentDuckSrc = isDuckSwirled ? STAGING_SHOT_3_1.rubberDuck.dizzySrc : STAGING_SHOT_3_1.rubberDuck.src;
 
     // Tọa độ X (Từ 0 -> -28px hút về lốc xoáy -> lượn sang +48px cạnh ghế xanh)
     let duckFlightX = 0;
@@ -561,8 +669,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
     } else if (isDuckLanding) {
         // Tiếp đất nén dẹt rồi nảy hồi
         const t = (frame - 416) / 12;
-        duckSquashX = 1 + Math.sin(t * Math.PI) * 0.10;
-        duckSquashY = 1 - Math.sin(t * Math.PI) * 0.10;
+        duckSquashX = 1 + Math.sin(t * Math.PI) * 0.1;
+        duckSquashY = 1 - Math.sin(t * Math.PI) * 0.1;
     }
 
     // Tỉ lệ scale cho ảnh vuông 2048x2048 (vit_roiram có padding 1:1)
@@ -572,10 +680,10 @@ export const Scene3_TravelAdventure: React.FC = () => {
     // Bóng sàn thích ứng 2.5D:
     // Khi vịt bay lên cao, bóng mờ dần và thu nhỏ; khi rơi xuống đất cạnh ghế, bóng đậm lại
     const duckAltitude = Math.max(0, -duckFlightY);
-    const duckShadowOpacity = interpolate(duckAltitude, [0, 90], [0.55, 0.10], {
+    const duckShadowOpacity = interpolate(duckAltitude, [0, 90], [0.55, 0.1], {
         extrapolateRight: 'clamp',
     });
-    const duckShadowScale = interpolate(duckAltitude, [0, 90], [1.0, 0.50], {
+    const duckShadowScale = interpolate(duckAltitude, [0, 90], [1.0, 0.5], {
         extrapolateRight: 'clamp',
     });
 
@@ -1059,8 +1167,77 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             : `translate(${BASE_OFFSETS.couple.x + coupleOffsetX + shockShiver}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + shockJumpY + shockBreath}px) scale(${coupleScale})`,
                         transformOrigin: 'center bottom',
                         filter: 'drop-shadow(0 4px 6px rgba(15, 23, 42, 0.45)) drop-shadow(-4px 16px 24px rgba(15, 23, 42, 0.30)) drop-shadow(-8px 32px 48px rgba(15, 23, 42, 0.22))',
+                        translate: '83.5px -16.5px',
                     }}
                 />
+
+                {/* 15.5. CỤM 7 VẬT DỤNG DU LỊCH BAY LƠ LỬNG TRÊN VALI NGƯỜI NỮ BÊN TRÁI (SHOT 3.2 FRAME 360+) */}
+                {isShocked && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_1.couple.left,
+                            top: STAGING_SHOT_3_1.couple.top,
+                            width: STAGING_SHOT_3_1.couple.width,
+                            aspectRatio: '2400 / 1340',
+                            zIndex: 26, // Nằm trên couple (zIndex 25)
+                            pointerEvents: 'none',
+                            transform: `translate(${BASE_OFFSETS.couple.x + coupleOffsetX + shockShiver}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + shockJumpY + shockBreath}px) scale(${coupleScale})`,
+                            transformOrigin: 'center bottom',
+                            transformStyle: 'preserve-3d',
+                            translate: '83.5px -16.5px',
+                        }}
+                    >
+                        {FLOATING_VALI_PROPS.map((prop, idx) => {
+                            const launchFrame = 360 + prop.stagger;
+                            const launchSpring = spring({
+                                frame: frame - launchFrame,
+                                fps,
+                                config: { damping: 14, stiffness: 85, mass: 0.7 },
+                            });
+                            const opacity = interpolate(launchSpring, [0, 0.25, 1], [0, 1, 1]);
+                            const scale = interpolate(launchSpring, [0, 0.7, 1], [0.35, 1.1, 1.0]);
+
+                            // Bắn từ đáy vali (17.5%, 78.0%) lên trạm lơ lửng trên nắp vali
+                            const currentLeft = interpolate(launchSpring, [0, 1], [17.5, prop.targetX]);
+                            const currentTop = interpolate(launchSpring, [0, 1], [78.0, prop.targetY]);
+
+                            // Chuyển động lơ lửng hữu cơ (Organic Floating Hover Wave)
+                            const floatTime = Math.max(0, frame - launchFrame - 15);
+                            const hoverY = Math.sin(floatTime * prop.speed + prop.phase) * prop.ampY;
+                            const hoverX = Math.cos(floatTime * prop.speed * 0.7 + prop.phase) * prop.ampX;
+                            const hoverRot =
+                                prop.baseRotate + Math.sin(floatTime * prop.speed + prop.phase) * prop.ampRot;
+
+                            return (
+                                <div
+                                    key={idx}
+                                    style={{
+                                        position: 'absolute',
+                                        left: `${currentLeft}%`,
+                                        top: `${currentTop}%`,
+                                        width: `${prop.width}%`,
+                                        aspectRatio: '1 / 1',
+                                        opacity,
+                                        transform: `translate(-50%, -50%) translate3d(${hoverX}px, ${hoverY}px, ${prop.z}px) rotate(${hoverRot}deg) scale(${scale})`,
+                                        transformOrigin: 'center center',
+                                        filter: 'drop-shadow(0 4px 6px rgba(15, 23, 42, 0.22)) drop-shadow(0 10px 16px rgba(15, 23, 42, 0.15))',
+                                    }}
+                                >
+                                    <Img
+                                        src={staticFile(prop.src)}
+                                        style={{
+                                            width: '100%',
+                                            height: 'auto',
+                                            display: 'block',
+                                            translate: '141px -134.3px',
+                                        }}
+                                    />
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
 
                 {/* 16. GHẾ NGHỈ BÃI BIỂN SỌC XANH TRẮNG (SHARP WOODEN LEG CONTACT SHADOW) */}
                 <Img
@@ -1076,6 +1253,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                         opacity: chairSpring,
                         transform: `translate(${BASE_OFFSETS.beachChair.x}px, ${BASE_OFFSETS.beachChair.y + chairDrop}px)`,
                         filter: 'drop-shadow(-3px 5px 7px rgba(15, 23, 42, 0.45)) drop-shadow(-6px 18px 25px rgba(15, 23, 42, 0.28))',
+                        translate: '44.7px 15.9px',
                     }}
                 />
 

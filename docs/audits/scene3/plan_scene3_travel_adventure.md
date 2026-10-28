@@ -58,14 +58,21 @@
 
 ---
 
-### HỒI 2: SỰ CỐ BẤT NGỜ DỄ THƯƠNG (6.0s – 12.0s · Frame 360 – 720)
-* **Shot 3.2: The Suitcase Pop & Flying Hat (6.0s – 9.5s · Frame 360 – 570)**
-  - **Diễn biến:** Đang đi vui vẻ, chiếc vali hồng nảy nhẹ qua một gờ cát và nắp vali bật mở (Spring physics nhẹ nhàng, hài hước).
-  - **Chi tiết hoạt họa:** Một vài tấm vé máy bay, hộ chiếu và phụ kiện du lịch bằng giấy bay lơ lửng trong không trung. Một cơn gió biển nhấc chiếc mũ cói của bạn nữ bay bổng sang chụp đúng lên đầu bạn nam.
-  - **Cảm xúc:** Hai nhân vật khựng lại nhìn nhau, ngạc nhiên rồi bật cười duyên dáng, không hề có cảm giác sợ hãi hay thảm họa, đúng tinh thần Gen Z du lịch tự do.
-* **Shot 3.3: Rolling Paper Waves & Spinning Rubber Duck (9.5s – 12.0s · Frame 570 – 720)**
-  - **Góc máy:** Camera hạ góc thấp (Low-angle), focus vào lớp sóng giấy dập dềnh ở mép biển.
-  - **Điểm nhấn hài hước:** Chú phao vịt vàng (Rubber Duck) bị một đợt sóng nhỏ cuốn xoay tròn 360 độ rồi lắc lư tinh nghịch, tạo điểm nghỉ thị giác cực kỳ dễ thương.
+### HỒI 2: SỰ CỐ BẤT NGỜ DỄ THƯƠNG & BỘ 3 CHI TIẾT CÀ KHỊA HÀI DÓN (6.0s – 12.0s · Frame 360 – 720)
+* **Shot 3.2: Vali bung nắp & Cặp đôi hoảng hốt (Frame 360 – 430 · ĐÃ XONG)**
+  - Máy bay bắn lốc xoáy giấy 3D thổi bật nắp vali.
+  - Cặp đôi chuyển sang `cupple_lolang_3.png` ôm mặt hoảng hốt, vali trái để lộ khoảng trống cho đồ đạc bay ra.
+  - Chú phao vịt bị cuốn bay bốc lên không trung, xoay tít 360° trên đỉnh cao rồi đáp êm ái cạnh chân ghế xanh (`vit_roiram.png` + 3D Orbit Halo).
+
+* **Shot 3.2.1: Cụm 7 vật dụng du lịch bay bồng bềnh trên vali trái (Frame 360 – 720 · ĐÃ XONG)**
+  - 7 món đồ (Vé máy bay, Hộ chiếu, Áo thun, Máy ảnh, Túi clutch, Sách, Thỏi son) nổ kíp vọt lên từ đáy vali.
+  - Neo vững vàng trong không gian $X: 8.5\% – 23.5\%$, nằm trọn vẹn trên nắp vali bên trái, **tuyệt đối không che khuất nhân vật**.
+  - Nhịp lơ lửng Stop-motion hữu cơ với độ sâu trục $Z: 55\text{px} – 135\text{px}$.
+
+* **Shot 3.2.2: Bộ 3 Chi Tiết Cà Khịa & Hài Dón (The Comedy Enhancement Triad · ĐANG CHUẨN BỊ TRIỂN KHAI)**
+  1. 🌪️ **Cơn gió "bỉ ổi" (Cheeky Breeze Swoosh):** Dải luồng gió cartoon uốn lượn hình chữ S lướt từ lòng vali qua cụm đồ, vuốt nhẹ vành mũ bạn nữ rồi lượn vút sang trêu chọc cặp đôi.
+  2. 🌀 **Vòng xoáy gió bồng bềnh (Orbiting Wind Spirals):** Các nét xoáy gió cartoon mềm mại quấn quanh thân máy ảnh, áo thun và vé máy bay, giải thích sinh động lý do đồ vật không bị rơi.
+  3. 🌞 **Ông mặt trời "Cười Khinh Bỉ" (Smug Smirking Sun):** Tại F360, tâm ông mặt trời chuyển sang biểu cảm liếc xéo (side-eye) nhìn chéo xuống cặp đôi, một bên mày nhướng cao, khóe miệng nhếch lên cười đểu đầy mỉa mai hài hước!
 
 ---
 
@@ -110,6 +117,22 @@ Toàn bộ tài nguyên phục vụ dựng sườn bố cục 3.1 đã được 
 | `may_2.png`, `may_3.png` | Đám mây giấy bồng bềnh | Tầng mây trôi bầu trời | **Sẵn sàng** |
 | `chim_do.png` | Cánh chim giấy màu hồng/đỏ lượn sóng | Điểm nhấn chuyển động trên cao | **Sẵn sàng** |
 | `slide4_travel.png` (trong `canva_v2`) | Thiết kế hoàn chỉnh gốc (Hero Landing) | Đích đến hội tụ ở Shot 3.5 | **Sẵn sàng** |
+
+### Bản Đồ Tài Nguyên Shot 3.2 & Shot 3.2.2 (Sự Cố Vali & Bộ 3 Cà Khịa):
+
+| Tên File | Phân Loại & Đặc Điểm Mỹ Thuật | Vị Trí / Vai Trò | Trạng Thái |
+| :--- | :--- | :--- | :--- |
+| `cupple_lolang_3.png` | Cặp đôi ôm mặt hoảng hốt, vali dọn bớt đồ | Tâm điểm trung tâm F360+ | **Sẵn sàng 100%** |
+| `ticket.png` (trong `dna_vali/tachnen/`) | Vé máy bay 3D clay viền hồng | Bay bổng trên nắp vali trái ($Z: 110\text{px}$) | **Sẵn sàng 100%** |
+| `passport.png` (trong `dna_vali/tachnen/`) | Hộ chiếu mini 3D clay xanh navy | Bay bổng trên nắp vali trái ($Z: 95\text{px}$) | **Sẵn sàng 100%** |
+| `ao_thun.png` (trong `dna_vali/tachnen/`) | Áo thun baby blue phồng tròn | Bay bổng trên nắp vali trái ($Z: 85\text{px}$) | **Sẵn sàng 100%** |
+| `may_anh.png` (trong `dna_vali/tachnen/`) | Máy ảnh đồ chơi 3D cyan & hồng | Tâm cụm lơ lửng ($Z: 135\text{px}$) | **Sẵn sàng 100%** |
+| `tui_xach.png` (trong `dna_vali/tachnen/`) | Túi clutch viên thuốc màu xám | Lơ lửng mép vali ($Z: 70\text{px}$) | **Sẵn sàng 100%** |
+| `book.png` (trong `dna_vali/tachnen/`) | Cuốn sách gập mini | Lơ lửng mép vali ($Z: 55\text{px}$) | **Sẵn sàng 100%** |
+| `thoi_son.png` (trong `dna_vali/tachnen/`) | Thỏi son 2 màu hồng - xanh | Lơ lửng miệng vali ($Z: 75\text{px}$) | **Sẵn sàng 100%** |
+| `mat_troi_smirk.png` | Mặt cười đểu / khinh bỉ (Smug smirk) | Đè tâm ông mặt trời tại F360+ | **Cần chuẩn bị** |
+| `gio_bioi.png` / Vector Gió | Vệt luồng gió chữ S xoắn đuôi lướt ngang | Lướt qua trêu chọc cặp đôi | **Cần chuẩn bị** |
+| `gio_xoan_oc.png` / Vector Vòng | Vòng gió xoắn ốc quấn quanh cụm đồ | Nâng đỡ cụm 7 vật dụng bay | **Cần chuẩn bị** |
 
 ---
 
