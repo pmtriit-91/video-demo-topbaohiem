@@ -132,6 +132,7 @@ const STAGING_SHOT_3_1 = {
     // 15. Cặp đôi thanh lịch kéo vali hồng (Hero trung tâm khung hình)
     couple: {
         src: 'assets/elements/screen3/3.1/couple.png',
+        shockSrc: 'assets/elements/screen3/3.1/cuple_lolang_2.png',
         left: '8.83%',
         top: '16.41%',
         width: '75.47%',
@@ -148,6 +149,7 @@ const STAGING_SHOT_3_1 = {
     // 17. Chú phao vịt vàng 3D siêu dễ thương (Mép sóng bên phải)
     rubberDuck: {
         src: 'assets/elements/screen3/3.1/vit.png',
+        dizzySrc: 'assets/elements/screen3/3.1/vit_roiram.png',
         left: '67.83%',
         top: '76.00%',
         width: '10.63%',
@@ -190,8 +192,17 @@ export const Scene3_TravelAdventure: React.FC = () => {
         extrapolateRight: 'clamp',
     });
 
+    // Cú rung chấn vi mô khi vệt lốc xoáy chạm nắp vali (Frame 360 - 378)
+    const impactProgress = interpolate(frame, [360, 378], [1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const impactShakeX = frame >= 360 && frame < 378 ? Math.sin((frame - 360) * 1.8) * 4.0 * impactProgress : 0;
+    const impactShakeY = frame >= 360 && frame < 378 ? Math.cos((frame - 360) * 1.8) * 3.0 * impactProgress : 0;
+
     const finalCamScale = camIntroScale * camAmbientPush;
-    const finalCamY = camIntroTilt;
+    const finalCamY = camIntroTilt + impactShakeY;
+    const finalCamX = impactShakeX;
 
     // ==========================================
     // ✈️ 2. MÁY BAY MÔ HÌNH CHUYỂN CẢNH (FLY-OVER HOOK)
@@ -279,18 +290,24 @@ export const Scene3_TravelAdventure: React.FC = () => {
         quirkyPlaneShadow = '0 10px 24px rgba(15, 23, 42, 0.20)';
     }
 
-    // Luồng lốc xoáy giấy 3D (Wind Vortex) rơi từ máy bay xuống vali (F320 - F360)
-    const isVortexActive = frame >= 320 && frame <= 360;
+    // Luồng lốc xoáy giấy 3D (Wind Vortex) rơi từ máy bay xuống vali (F320 - F368)
+    const isVortexActive = frame >= 320 && frame <= 368;
     const vortexProgress = interpolate(frame, [320, 360], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    // Điểm xuất phát từ máy bay (top ~12%, left ~52%), xoáy rơi thẳng xuống vali bạn nam (top ~58%, left ~49%)
+    // Điểm xuất phát từ máy bay (top ~11%, left ~52%), xoáy rơi thẳng xuống vali bạn nam (top ~57%, left ~48.5%)
     const vortexTop = interpolate(vortexProgress, [0, 0.7, 1], [11, 42, 57]);
     const vortexLeft = interpolate(vortexProgress, [0, 0.7, 1], [52, 50, 48.5]);
-    const vortexScale = interpolate(vortexProgress, [0, 0.6, 1], [0.25, 0.9, 1.15]);
-    const vortexRotate = interpolate(vortexProgress, [0, 1], [0, 720]); // Xoay 2 vòng xoáy lốc
-    const vortexOpacity = interpolate(vortexProgress, [0, 0.2, 0.85, 1], [0, 1, 0.95, 0.9]);
+    const vortexScale =
+        frame <= 360
+            ? interpolate(vortexProgress, [0, 0.6, 1], [0.25, 0.9, 1.15])
+            : interpolate(frame, [360, 368], [1.15, 1.45], { extrapolateRight: 'clamp' });
+    const vortexRotate = interpolate(vortexProgress, [0, 1], [0, 720]) + (frame > 360 ? (frame - 360) * 14 : 0);
+    const vortexOpacity =
+        frame <= 360
+            ? interpolate(vortexProgress, [0, 0.2, 0.85, 1], [0, 1, 0.95, 0.9])
+            : interpolate(frame, [360, 368], [0.9, 0], { extrapolateRight: 'clamp' });
 
     // ==========================================
     // ☀️ 3. MẶT TRỜI & TẦNG MÂY GIẤY (LIVING SKY)
@@ -400,9 +417,77 @@ export const Scene3_TravelAdventure: React.FC = () => {
     const isGliding = frame >= 48 && frame < 135;
     const glideFloat = isGliding ? Math.sin((frame - 48) * 0.1) * 1.0 : 0;
 
-    // Sau khi dừng chân vững vàng (Frame 135+), nhịp thở đại dương thư thái
-    const idleBreathing = frame >= 135 ? Math.sin((frame - 135) * 0.04) * 1.5 : 0;
-    const subtleSway = frame >= 135 ? Math.sin((frame - 135) * 0.03) * 0.35 : 0;
+    // Sau khi dừng chân vững vàng (Frame 135 - 360), nhịp thở đại dương thư thái
+    const idleBreathing = frame >= 135 && frame < 360 ? Math.sin((frame - 135) * 0.04) * 1.5 : 0;
+    const subtleSway = frame >= 135 && frame < 360 ? Math.sin((frame - 135) * 0.03) * 0.35 : 0;
+
+    // ==========================================
+    // 😱 5.5. SHOT 3.2: CẶP ĐÔI GIẬT MÌNH & VALI BUNG NẮP (FRAME 360+)
+    // ==========================================
+    const isShocked = frame >= 360;
+    // Cú nảy giật mình tức thì (Startle Jolt)
+    const shockSpring = spring({
+        frame: frame - 360,
+        fps,
+        config: { damping: 12, stiffness: 220, mass: 0.7 },
+    });
+    // Nảy người lên cao ~14px rồi đáp vững chãi xuống thảm
+    const shockJumpY = isShocked ? interpolate(shockSpring, [0, 0.35, 1], [0, -14, 0]) : 0;
+    // Rung giật bần bật vi mô vì hoảng hốt (F372+)
+    const shockShiver = isShocked && frame >= 372 ? Math.sin((frame - 372) * 0.45) * 0.85 : 0;
+    // Khẽ đung đưa mồ hôi cartoon
+    const shockBreath = isShocked && frame >= 380 ? Math.sin((frame - 380) * 0.06) * 1.2 : 0;
+    const currentCoupleSrc = isShocked ? STAGING_SHOT_3_1.couple.shockSrc : STAGING_SHOT_3_1.couple.src;
+
+    // ==========================================
+    // 🦆 5.6. SHOT 3.2: CHÚ VỊT RỐI RẮM CHẠY LĂNG XĂNG (FRAME 360+)
+    // ==========================================
+    const isDuckDizzy = frame >= 360;
+
+    // Cú giật thót nảy người lên khi vali nổ kíp (Frame 360 - 372)
+    const duckShockSpring = spring({
+        frame: frame - 360,
+        fps,
+        config: { damping: 10, stiffness: 240, mass: 0.6 },
+    });
+    const duckShockJoltY = isDuckDizzy ? interpolate(duckShockSpring, [0, 0.35, 1], [0, -32, 0]) : 0;
+    const duckShockScale = isDuckDizzy ? 1 + Math.sin(interpolate(duckShockSpring, [0, 1], [0, Math.PI])) * 0.12 : 1;
+
+    // Chạy lăng xăng theo quỹ đạo hình số 8 / elip quanh mép thảm và bãi cát (Frame 370+)
+    const duckRunAngle = isDuckDizzy && frame >= 370 ? (frame - 370) * 0.13 : 0;
+    const duckPanicOffsetX = isDuckDizzy && frame >= 370 ? Math.sin(duckRunAngle) * 48 : 0;
+    const duckPanicOffsetY = isDuckDizzy && frame >= 370 ? Math.cos(duckRunAngle * 2) * 14 : 0;
+
+    // Nhịp chạy lạch bạch (Waddle bobbing & rocking)
+    const duckWaddleBob = isDuckDizzy && frame >= 370 ? Math.abs(Math.sin((frame - 370) * 0.45)) * -12 : duckBob;
+    const duckWaddleRock = isDuckDizzy && frame >= 370 ? Math.cos((frame - 370) * 0.45) * 16 : duckRock;
+
+    // Hướng nhìn của chú vịt: lật ngược mặt (scaleX: -1) khi quay đầu chạy sang trái
+    const duckFacing = isDuckDizzy && frame >= 370 && Math.cos(duckRunAngle) < 0 ? -1 : 1;
+
+    // Bù trừ scale và căn chỉnh tâm cho vit_roiram.png (do có khoảng đệm trong suốt 1:1)
+    const duckDisplayScale = isDuckDizzy ? 1.48 * duckShockScale : 1.0;
+    const duckAlignOffsetY = isDuckDizzy ? 18 : 0; // Căn chuẩn mép nước cho chú vịt
+
+    // 🌟 VÒNG 3 NGÔI SAO CHOÁNG VÁNG 3D XOAY TÍT QUANH ĐỈNH ĐẦU (3D Orbit Halo)
+    const starOrbitSpeed = (frame - 360) * 0.16;
+    const starHaloVisible = isDuckDizzy && frame >= 365;
+    const starHaloOpacity = interpolate(frame, [365, 375], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const dizzyStars = [0, (2 * Math.PI) / 3, (4 * Math.PI) / 3].map((phase) => {
+        const a = starOrbitSpeed + phase;
+        const sinVal = Math.sin(a);
+        const cosVal = Math.cos(a);
+        return {
+            x: cosVal * 46, // Bán kính elip ngang
+            y: sinVal * 14 - 108, // Lơ lửng ngay trên vòm đỉnh đầu vịt
+            scale: interpolate(sinVal, [-1, 1], [0.75, 1.25]), // Chiều sâu 3D: bay ra trước to hơn, ra sau nhỏ hơn
+            opacity: interpolate(sinVal, [-1, 1], [0.65, 1.0]) * starHaloOpacity,
+            zIndex: sinVal > 0 ? 32 : 27, // Lớp 3D: phía trước hoặc phía sau đầu
+        };
+    });
 
     // ==========================================
     // 📍 TỌA ĐỘ GỐC DO BẠN TINH CHỈNH (PRESERVED 100%)
@@ -437,7 +522,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                 style={{
                     position: 'absolute',
                     inset: 0,
-                    transform: `scale(${finalCamScale}) translateY(${finalCamY}px)`,
+                    transform: `scale(${finalCamScale}) translate(${finalCamX}px, ${finalCamY}px)`,
                     transformOrigin: '50% 55%',
                     transformStyle: 'preserve-3d',
                 }}
@@ -557,7 +642,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             transform: `translate(${quirkyPlaneX}px, ${quirkyPlaneY}px) scale(${quirkyPlaneScaleX * quirkyPlaneScale}, ${quirkyPlaneScale}) rotate(${quirkyPlaneRotate}deg)`,
                             transformOrigin: 'center center',
                             filter: `drop-shadow(${quirkyPlaneShadow})`,
-                            translate: '-245.5px -224.8px'
+                            translate: '-245.5px -224.8px',
                         }}
                     />
                 )}
@@ -722,56 +807,133 @@ export const Scene3_TravelAdventure: React.FC = () => {
                 />
 
                 {/* 14.5. BÓNG TIẾP ĐẤT & CHIẾU SÀN DƯỚI 2 CHIẾC VALI TRÊN MẶT THẢM */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        left: STAGING_SHOT_3_1.couple.left,
-                        top: STAGING_SHOT_3_1.couple.top,
-                        width: STAGING_SHOT_3_1.couple.width,
-                        aspectRatio: '1671 / 941',
-                        zIndex: 24, // Nằm ngay dưới couple (zIndex 25) và trên mặt thảm (zIndex 15)
-                        pointerEvents: 'none',
-                        opacity: coupleEntrance,
-                        transform: `translate(${BASE_OFFSETS.couple.x + coupleOffsetX}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + glideFloat + idleBreathing}px) scale(${coupleScale}) rotate(${subtleSway}deg)`,
-                        transformOrigin: 'center bottom',
-                    }}
-                >
-                    {/* Bóng chiếu sàn dưới người phụ nữ */}
+                {!isShocked ? (
                     <div
                         style={{
                             position: 'absolute',
-                            left: '25.2%',
-                            top: '90.2%',
-                            width: '17.8%',
-                            height: '5.6%',
-                            borderRadius: '50%',
-                            background:
-                                'radial-gradient(ellipse at center, rgba(12, 74, 110, 0.70) 0%, rgba(15, 23, 42, 0.48) 45%, rgba(15, 23, 42, 0) 75%)',
-                            filter: 'blur(5px)',
-                            transform: 'rotate(-1deg)',
+                            left: STAGING_SHOT_3_1.couple.left,
+                            top: STAGING_SHOT_3_1.couple.top,
+                            width: STAGING_SHOT_3_1.couple.width,
+                            aspectRatio: '1671 / 941',
+                            zIndex: 24, // Nằm ngay dưới couple (zIndex 25) và trên mặt thảm (zIndex 15)
+                            pointerEvents: 'none',
+                            opacity: coupleEntrance,
+                            transform: `translate(${BASE_OFFSETS.couple.x + coupleOffsetX}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + glideFloat + idleBreathing}px) scale(${coupleScale}) rotate(${subtleSway}deg)`,
+                            transformOrigin: 'center bottom',
                         }}
-                    />
+                    >
+                        {/* Bóng chiếu sàn dưới người phụ nữ */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '25.2%',
+                                top: '90.2%',
+                                width: '17.8%',
+                                height: '5.6%',
+                                borderRadius: '50%',
+                                background:
+                                    'radial-gradient(ellipse at center, rgba(12, 74, 110, 0.70) 0%, rgba(15, 23, 42, 0.48) 45%, rgba(15, 23, 42, 0) 75%)',
+                                filter: 'blur(5px)',
+                                transform: 'rotate(-1deg)',
+                            }}
+                        />
 
-                    {/* Bóng chiếu sàn dưới người đàn ông */}
+                        {/* Bóng chiếu sàn dưới người đàn ông */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '41.6%',
+                                top: '89.8%',
+                                width: '22.4%',
+                                height: '5.2%',
+                                borderRadius: '50%',
+                                background:
+                                    'radial-gradient(ellipse at center, rgba(12, 74, 110, 0.55) 0%, rgba(15, 23, 42, 0.38) 50%, rgba(15, 23, 42, 0) 80%)',
+                                filter: 'blur(9px)',
+                                transform: 'rotate(0.5deg)',
+                            }}
+                        />
+                    </div>
+                ) : (
+                    /* HỆ THỐNG BÓNG SÀN SHOT 3.2: 2 VALI BUNG NẮP & ĐỒ ĐẠC TRÀN RA */
                     <div
                         style={{
                             position: 'absolute',
-                            left: '41.6%',
-                            top: '89.8%',
-                            width: '22.4%',
-                            height: '5.2%',
-                            borderRadius: '50%',
-                            background:
-                                'radial-gradient(ellipse at center, rgba(12, 74, 110, 0.55) 0%, rgba(15, 23, 42, 0.38) 50%, rgba(15, 23, 42, 0) 80%)',
-                            filter: 'blur(9px)',
-                            transform: 'rotate(0.5deg)',
+                            left: STAGING_SHOT_3_1.couple.left,
+                            top: STAGING_SHOT_3_1.couple.top,
+                            width: STAGING_SHOT_3_1.couple.width,
+                            aspectRatio: '2400 / 1340',
+                            zIndex: 24,
+                            pointerEvents: 'none',
+                            opacity: coupleEntrance,
+                            transform: `translate(${BASE_OFFSETS.couple.x + coupleOffsetX + shockShiver}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + shockJumpY + shockBreath}px) scale(${coupleScale})`,
+                            transformOrigin: 'center bottom',
                         }}
-                    />
-                </div>
+                    >
+                        {/* Bóng sàn dưới vali to bên trái bung ngửa + quần áo tràn */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '7.5%',
+                                top: '88.5%',
+                                width: '31.0%',
+                                height: '6.8%',
+                                borderRadius: '50%',
+                                background:
+                                    'radial-gradient(ellipse at center, rgba(12, 74, 110, 0.72) 0%, rgba(15, 23, 42, 0.45) 50%, rgba(15, 23, 42, 0) 80%)',
+                                filter: 'blur(6px)',
+                                transform: 'rotate(-2deg)',
+                            }}
+                        />
+                        {/* Bóng sàn dưới chân bạn nữ */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '36.5%',
+                                top: '91.8%',
+                                width: '9.5%',
+                                height: '4.5%',
+                                borderRadius: '50%',
+                                background:
+                                    'radial-gradient(ellipse at center, rgba(12, 74, 110, 0.65) 0%, rgba(15, 23, 42, 0.40) 50%, rgba(15, 23, 42, 0) 75%)',
+                                filter: 'blur(5px)',
+                            }}
+                        />
+                        {/* Bóng sàn dưới chân bạn nam */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '55.2%',
+                                top: '91.2%',
+                                width: '13.5%',
+                                height: '4.8%',
+                                borderRadius: '50%',
+                                background:
+                                    'radial-gradient(ellipse at center, rgba(12, 74, 110, 0.60) 0%, rgba(15, 23, 42, 0.38) 50%, rgba(15, 23, 42, 0) 80%)',
+                                filter: 'blur(7px)',
+                            }}
+                        />
+                        {/* Bóng sàn dưới vali nhỏ bên phải bật nắp */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '63.5%',
+                                top: '88.0%',
+                                width: '25.0%',
+                                height: '6.2%',
+                                borderRadius: '50%',
+                                background:
+                                    'radial-gradient(ellipse at center, rgba(12, 74, 110, 0.68) 0%, rgba(15, 23, 42, 0.42) 50%, rgba(15, 23, 42, 0) 80%)',
+                                filter: 'blur(6px)',
+                                transform: 'rotate(1deg)',
+                            }}
+                        />
+                    </div>
+                )}
 
-                {/* 15. CẶP ĐÔI DU LỊCH KÉO VALI HỒNG (CINEMATIC GENTLE GLIDE + CANVA HERO SHADOW) */}
+                {/* 15. CẶP ĐÔI DU LỊCH (SHOT 3.1 THONG DONG -> SHOT 3.2 HOẢNG HỐT VALI BUNG NẮP) */}
                 <Img
-                    src={staticFile(STAGING_SHOT_3_1.couple.src)}
+                    src={staticFile(currentCoupleSrc)}
                     style={{
                         position: 'absolute',
                         left: STAGING_SHOT_3_1.couple.left,
@@ -781,7 +943,9 @@ export const Scene3_TravelAdventure: React.FC = () => {
                         zIndex: STAGING_SHOT_3_1.couple.zIndex,
                         pointerEvents: 'none',
                         opacity: coupleEntrance,
-                        transform: `translate(${BASE_OFFSETS.couple.x + coupleOffsetX}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + glideFloat + idleBreathing}px) scale(${coupleScale}) rotate(${subtleSway}deg)`,
+                        transform: !isShocked
+                            ? `translate(${BASE_OFFSETS.couple.x + coupleOffsetX}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + glideFloat + idleBreathing}px) scale(${coupleScale}) rotate(${subtleSway}deg)`
+                            : `translate(${BASE_OFFSETS.couple.x + coupleOffsetX + shockShiver}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + shockJumpY + shockBreath}px) scale(${coupleScale})`,
                         transformOrigin: 'center bottom',
                         filter: 'drop-shadow(0 4px 6px rgba(15, 23, 42, 0.45)) drop-shadow(-4px 16px 24px rgba(15, 23, 42, 0.30)) drop-shadow(-8px 32px 48px rgba(15, 23, 42, 0.22))',
                     }}
@@ -804,23 +968,67 @@ export const Scene3_TravelAdventure: React.FC = () => {
                     }}
                 />
 
-                {/* 17. CHÚ PHAO VỊT VÀNG 3D DỄ THƯƠNG (DEEP WATER CONTACT SHADOW) */}
-                <Img
-                    src={staticFile(STAGING_SHOT_3_1.rubberDuck.src)}
+                {/* 17. CHÚ PHAO VỊT VÀNG 3D (SHOT 3.1 BỒNG BỀNH -> SHOT 3.2 RỐI RẮM CHẠY LĂNG XĂNG) */}
+                <div
                     style={{
                         position: 'absolute',
                         left: STAGING_SHOT_3_1.rubberDuck.left,
                         top: STAGING_SHOT_3_1.rubberDuck.top,
                         width: STAGING_SHOT_3_1.rubberDuck.width,
-                        height: 'auto',
+                        aspectRatio: '1 / 1',
                         zIndex: STAGING_SHOT_3_1.rubberDuck.zIndex,
                         pointerEvents: 'none',
                         opacity: duckSpring,
-                        transform: `translate(${BASE_OFFSETS.rubberDuck.x}px, ${BASE_OFFSETS.rubberDuck.y + duckDrop + duckBob}px) rotate(${duckRock}deg)`,
+                        transform: `translate(${BASE_OFFSETS.rubberDuck.x + duckPanicOffsetX}px, ${BASE_OFFSETS.rubberDuck.y + duckDrop + duckShockJoltY + duckPanicOffsetY + duckWaddleBob + duckAlignOffsetY}px) rotate(${duckWaddleRock}deg)`,
                         transformOrigin: 'center bottom',
-                        filter: 'drop-shadow(-3px 6px 8px rgba(15, 23, 42, 0.55)) drop-shadow(-6px 18px 26px rgba(15, 23, 42, 0.32))',
                     }}
-                />
+                >
+                    {/* Thân chú vịt (Shot 3.1 bồng bềnh -> Shot 3.2 mắt xoắn ốc) */}
+                    <Img
+                        src={staticFile(
+                            isDuckDizzy ? STAGING_SHOT_3_1.rubberDuck.dizzySrc : STAGING_SHOT_3_1.rubberDuck.src
+                        )}
+                        style={{
+                            width: '100%',
+                            height: 'auto',
+                            transform: `scale(${duckDisplayScale}) scaleX(${duckFacing})`,
+                            transformOrigin: 'center bottom',
+                            filter: 'drop-shadow(-3px 6px 8px rgba(15, 23, 42, 0.55)) drop-shadow(-6px 18px 26px rgba(15, 23, 42, 0.32))',
+                        }}
+                    />
+
+                    {/* 🌟 Vòng 3 ngôi sao choáng váng 3D xoay tít trên đỉnh đầu vịt */}
+                    {starHaloVisible && (
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '50%',
+                                top: '22%',
+                                pointerEvents: 'none',
+                            }}
+                        >
+                            {dizzyStars.map((s, idx) => (
+                                <div
+                                    key={idx}
+                                    style={{
+                                        position: 'absolute',
+                                        left: s.x,
+                                        top: s.y,
+                                        zIndex: s.zIndex,
+                                        transform: `scale(${s.scale}) translate(-50%, -50%)`,
+                                        opacity: s.opacity,
+                                        fontSize: 26,
+                                        lineHeight: 1,
+                                        filter: 'drop-shadow(0 2px 5px rgba(245, 158, 11, 0.75))',
+                                        userSelect: 'none',
+                                    }}
+                                >
+                                    ⭐
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
