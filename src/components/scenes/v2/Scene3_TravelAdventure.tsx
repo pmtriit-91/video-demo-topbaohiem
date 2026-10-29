@@ -132,8 +132,10 @@ const STAGING_SHOT_3_1 = {
     // 15. Cặp đôi thanh lịch kéo vali hồng (Hero trung tâm khung hình)
     couple: {
         src: 'assets/elements/screen3/3.1/couple.png',
-        // shockSrc: 'assets/elements/screen3/3.1/cuple_lolang_2.png',
-        shockSrc: 'assets/elements/screen3/3.1/cupple_lolang_3.png',
+        shockWithHatSrc: 'assets/elements/screen3/3.1/cupple_lolang_3.png',
+        shockNoHatSrc: 'assets/elements/screen3/3.2/tachnen/cupple_khong_mu.png',
+        flyingHatSrc: 'assets/elements/screen3/3.2/tachnen/hat_tilted_clean.png',
+        flyingManHatSrc: 'assets/elements/screen3/3.2/tachnen/mu_nam_tight.png',
         left: '8.83%',
         top: '16.41%',
         width: '75.47%',
@@ -168,6 +170,30 @@ const QUIRKY_PLANE_ASSETS = {
     snap: 'assets/elements/screen3/airplane_quirky/maybay-tachnen/plane_pose_4_snap_flip_trant.png',
     zip: 'assets/elements/screen3/airplane_quirky/maybay-tachnen/plane_pose_5_zip_run_trant.png',
     vortex: 'assets/elements/screen3/airplane_quirky/maybay-tachnen/wind_swirl_vortex_trant.png',
+};
+
+// Bảng tài nguyên bộ 3 chi tiết Cà Khịa & Hài Dón (Shot 3.2 F360+)
+// Lựa chọn biến thể nụ cười mặt trời ('meme_master' | 'v1_leo' | 'v2_anya' | 'v3_cheshire' | 'v4_sideeye' | 'original_preview')
+export const SUN_SMIRK_VARIANT:
+    | 'meme_master'
+    | 'v1_leo'
+    | 'v2_anya'
+    | 'v3_cheshire'
+    | 'v4_sideeye'
+    | 'original_preview' = 'meme_master';
+
+export const SUN_SMIRK_ASSETS = {
+    meme_master: 'assets/elements/screen3/3.2/mat_troi_smirk_meme_master.png', // Siêu phẩm Meme Mặt Trời cười đểu cà khịa của Bạn
+    v1_leo: 'assets/elements/screen3/3.2/mat_troi_smirk_v1_leo.png', // The Smug Leo / Noble Side-Eye
+    v2_anya: 'assets/elements/screen3/3.2/mat_troi_smirk_v2_anya.png', // The Anya 'Heh' Crescent Smirk
+    v3_cheshire: 'assets/elements/screen3/3.2/mat_troi_smirk_v3_cheshire.png', // The Mischievous Wide Tooth Grin
+    v4_sideeye: 'assets/elements/screen3/3.2/mat_troi_smirk_v4_sideeye.png', // The Deadpan Judging Kermit Eye
+    original_preview: 'assets/elements/screen3/3.2/mat_troi_smirk_preview.png',
+};
+
+const SHOT_3_2_COMEDY_ASSETS = {
+    // Mặt trời gốc kết hợp biểu cảm cười khinh bỉ (Smirk) chuẩn 100% màu vàng chanh gốc
+    sunSmirk: SUN_SMIRK_ASSETS[SUN_SMIRK_VARIANT],
 };
 
 // Bảng tài nguyên 7 vật dụng du lịch bay lơ lửng trên nắp vali bên trái (Shot 3.2 F360+)
@@ -278,6 +304,232 @@ const FLOATING_VALI_PROPS = [
         ampRot: 7,
     },
 ];
+
+// Bảng hạt bụi gió lấp lánh hoạt hình bay lơ lửng quanh cụm đồ (Shot 3.2 F360+)
+const WIND_DUST_PARTICLES = [
+    { targetX: 13, targetY: 34, speed: 0.12, ampX: 14, ampY: 8, phase: 0.4, char: '✦', size: 14, color: '#38BDF8' },
+    { targetX: 21, targetY: 36, speed: 0.15, ampX: 12, ampY: 10, phase: 1.8, char: '•', size: 11, color: '#FFFFFF' },
+    { targetX: 9, targetY: 46, speed: 0.11, ampX: 15, ampY: 9, phase: 3.1, char: '✦', size: 13, color: '#E0F2FE' },
+    { targetX: 18, targetY: 50, speed: 0.14, ampX: 13, ampY: 11, phase: 4.6, char: '•', size: 12, color: '#7DD3FC' },
+    { targetX: 14, targetY: 61, speed: 0.16, ampX: 14, ampY: 8, phase: 2.2, char: '✦', size: 14, color: '#FFFFFF' },
+    { targetX: 23, targetY: 63, speed: 0.13, ampX: 11, ampY: 12, phase: 5.5, char: '•', size: 10, color: '#38BDF8' },
+];
+
+// Component đường xoáy gió vector hoạt hình 3D (Cartoon Wind Swirl)
+const CartoonWindSwirl: React.FC<{
+    left: number;
+    top: number;
+    width: number;
+    aspectRatio: number;
+    rotation: number;
+    opacity: number;
+    scale: number;
+    id: string;
+    reverse?: boolean;
+    zIndex?: number;
+}> = ({ left, top, width, aspectRatio, rotation, opacity, scale, id, reverse, zIndex = 50 }) => {
+    return (
+        <div
+            style={{
+                position: 'absolute',
+                left: `${left}%`,
+                top: `${top}%`,
+                width: `${width}%`,
+                aspectRatio,
+                transform: `translate(-50%, -50%) rotateX(62deg) rotateZ(${rotation}deg) scale(${scale})`,
+                transformOrigin: 'center center',
+                opacity,
+                zIndex,
+                pointerEvents: 'none',
+                filter: 'drop-shadow(0 4px 10px rgba(56, 189, 248, 0.45)) drop-shadow(0 2px 4px rgba(255, 255, 255, 0.75))',
+            }}
+        >
+            <svg viewBox="0 0 200 90" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
+                <defs>
+                    <linearGradient id={`windGrad_${id}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
+                        <stop offset="20%" stopColor="#E0F2FE" stopOpacity="0.95" />
+                        <stop offset="65%" stopColor="#38BDF8" stopOpacity="0.85" />
+                        <stop offset="92%" stopColor="#FFFFFF" stopOpacity="0.9" />
+                        <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+                    </linearGradient>
+                </defs>
+                {/* Luồng gió chính xoắn uốn lượn mượt mà */}
+                <path
+                    d={
+                        reverse
+                            ? 'M 185 45 C 185 68, 145 84, 100 84 C 55 84, 15 68, 15 45 C 15 22, 60 8, 105 8 C 145 8, 175 22, 175 42 C 175 58, 140 70, 105 70 C 75 70, 48 58, 48 45'
+                            : 'M 15 45 C 15 22, 55 6, 100 6 C 145 6, 185 22, 185 45 C 185 68, 140 82, 95 82 C 55 82, 25 68, 25 48 C 25 32, 60 20, 95 20 C 125 20, 152 32, 152 45'
+                    }
+                    fill="none"
+                    stroke={`url(#windGrad_${id})`}
+                    strokeWidth="4.2"
+                    strokeLinecap="round"
+                    strokeDasharray="220 60"
+                    strokeDashoffset={rotation * 2.2}
+                />
+                {/* Vệt gió phụ thanh mảnh đi kèm tăng cảm giác gió rít hoạt hình */}
+                <path
+                    d={
+                        reverse
+                            ? 'M 160 38 C 160 52, 130 64, 98 64 C 66 64, 40 52, 40 38 C 40 25, 70 16, 102 16'
+                            : 'M 40 52 C 40 38, 70 26, 102 26 C 134 26, 160 38, 160 52 C 160 65, 130 74, 98 74'
+                    }
+                    fill="none"
+                    stroke="#FFFFFF"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeDasharray="100 80"
+                    strokeDashoffset={-rotation * 1.8}
+                    opacity="0.85"
+                />
+            </svg>
+        </div>
+    );
+};
+
+// Component Cơn Gió "Bỉ Ổi" lướt ngang Full Màn Hình (100% Dynamic Vector SVG Animation)
+const DynamicWindStreamers: React.FC<{ frame: number; fps: number }> = ({ frame, fps }) => {
+    // Diễn hoạt trong khoảng Frame 366 đến Frame 430 (64 frames ~ 1.0s)
+    const isWindActive = frame >= 366 && frame <= 430;
+    if (!isWindActive) return null;
+
+    const windProgress = (frame - 366) / 64; // 0 -> 1
+
+    // Độ mờ tổng thể: xuất hiện nhanh, giữ sáng khi quét qua, tan biến ở cuối
+    const opacity = interpolate(windProgress, [0, 0.12, 0.78, 1], [0, 0.95, 0.95, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+
+    // Tọa độ dịch chuyển ngang của cả hệ thống luồng khí: từ ngoài mép trái (-450px) sang phải (+2400px)
+    const sweepX = interpolate(windProgress, [0, 1], [-450, 2400], {
+        easing: (t) => t * (2 - t), // Ease-out mượt mà lướt xé gió
+    });
+
+    // Nhịp sóng uốn lượn hình sin lan truyền liên tục (Travelling Sine Wave)
+    const wavePhase = (frame - 366) * 0.18;
+
+    return (
+        <div
+            style={{
+                position: 'absolute',
+                inset: 0,
+                zIndex: 28, // Quét trước mặt cặp đôi (zIndex 25)
+                pointerEvents: 'none',
+                opacity,
+                overflow: 'visible',
+            }}
+        >
+            <svg
+                viewBox="0 0 1920 1080"
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    overflow: 'visible',
+                }}
+            >
+                <defs>
+                    {/* Dải gradient sáng lấp lánh cho luồng gió chính */}
+                    <linearGradient id="mainWindGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
+                        <stop offset="25%" stopColor="#7DD3FC" stopOpacity="0.85" />
+                        <stop offset="55%" stopColor="#FFFFFF" stopOpacity="0.95" />
+                        <stop offset="85%" stopColor="#38BDF8" stopOpacity="0.8" />
+                        <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+                    </linearGradient>
+
+                    {/* Gradient cho tia khí phụ mỏng manh */}
+                    <linearGradient id="wispWindGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#E0F2FE" stopOpacity="0" />
+                        <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.9" />
+                        <stop offset="70%" stopColor="#BAE6FD" stopOpacity="0.75" />
+                        <stop offset="100%" stopColor="#E0F2FE" stopOpacity="0" />
+                    </linearGradient>
+
+                    {/* Filter phát sáng hào quang gió (Breeze Glow) */}
+                    <filter id="windGlow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="6" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                </defs>
+
+                {/* Nhóm luồng gió dịch chuyển theo sweepX */}
+                <g transform={`translate(${sweepX - 800}, 0)`} filter="url(#windGlow)">
+                    {/* 1. Luồng gió chính (Main Streamer) - uốn lượn S-curve quét ngang đầu bạn nữ (Y ~ 420) */}
+                    <path
+                        d={`M 0 540 C 350 ${540 + Math.sin(wavePhase) * 45}, 700 ${390 + Math.cos(wavePhase) * 40}, 1100 ${410 + Math.sin(wavePhase + 1) * 35} C 1450 ${430 + Math.cos(wavePhase + 1) * 40}, 1750 360, 2100 340`}
+                        fill="none"
+                        stroke="url(#mainWindGrad)"
+                        strokeWidth="11"
+                        strokeLinecap="round"
+                        strokeDasharray="950 350"
+                        strokeDashoffset={-windProgress * 1200}
+                    />
+
+                    {/* Lõi sáng trắng tinh khôi ở tâm luồng gió chính */}
+                    <path
+                        d={`M 0 540 C 350 ${540 + Math.sin(wavePhase) * 45}, 700 ${390 + Math.cos(wavePhase) * 40}, 1100 ${410 + Math.sin(wavePhase + 1) * 35} C 1450 ${430 + Math.cos(wavePhase + 1) * 40}, 1750 360, 2100 340`}
+                        fill="none"
+                        stroke="#FFFFFF"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeDasharray="800 500"
+                        strokeDashoffset={-windProgress * 1200 - 40}
+                        opacity="0.95"
+                    />
+
+                    {/* 2. Dải gió phụ phía trên (Upper Accent Wisp) - quẹt lướt vành nón (Y ~ 370) */}
+                    <path
+                        d={`M 250 470 C 550 ${380 + Math.cos(wavePhase + 0.5) * 35}, 900 ${340 + Math.sin(wavePhase + 0.5) * 30}, 1300 ${370 + Math.cos(wavePhase + 1.2) * 25} C 1600 390, 1900 320, 2250 300`}
+                        fill="none"
+                        stroke="url(#wispWindGrad)"
+                        strokeWidth="6"
+                        strokeLinecap="round"
+                        strokeDasharray="700 400"
+                        strokeDashoffset={-windProgress * 1400}
+                    />
+
+                    {/* 3. Dải gió phụ phía dưới (Lower Swirl Ribbon) - lượn vòng cung trêu tức bạn nam (Y ~ 480) */}
+                    <path
+                        d={`M 150 600 C 500 ${560 + Math.sin(wavePhase + 2) * 40}, 850 ${460 + Math.cos(wavePhase + 2) * 35}, 1250 ${480 + Math.sin(wavePhase + 2.5) * 30} C 1550 500, 1850 420, 2200 400`}
+                        fill="none"
+                        stroke="url(#wispWindGrad)"
+                        strokeWidth="5"
+                        strokeLinecap="round"
+                        strokeDasharray="650 450"
+                        strokeDashoffset={-windProgress * 1100}
+                    />
+
+                    {/* 4. Hạt tinh thể gió lấp lánh bay theo luồng khí */}
+                    {[
+                        { rx: 550, ry: 410, size: 5, color: '#FFFFFF', delay: 0 },
+                        { rx: 750, ry: 380, size: 4, color: '#BAE6FD', delay: 1 },
+                        { rx: 950, ry: 430, size: 6, color: '#38BDF8', delay: 2 },
+                        { rx: 1150, ry: 390, size: 5, color: '#FFFFFF', delay: 3 },
+                        { rx: 1350, ry: 420, size: 4, color: '#7DD3FC', delay: 4 },
+                        { rx: 1550, ry: 370, size: 6, color: '#FFFFFF', delay: 5 },
+                        { rx: 1750, ry: 350, size: 5, color: '#BAE6FD', delay: 6 },
+                    ].map((dot, idx) => {
+                        const bob = Math.sin(wavePhase + dot.delay) * 12;
+                        return (
+                            <circle
+                                key={idx}
+                                cx={dot.rx}
+                                cy={dot.ry + bob}
+                                r={dot.size}
+                                fill={dot.color}
+                                opacity="0.9"
+                            />
+                        );
+                    })}
+                </g>
+            </svg>
+        </div>
+    );
+};
 
 export const Scene3_TravelAdventure: React.FC = () => {
     const frame = useCurrentFrame();
@@ -430,6 +682,79 @@ export const Scene3_TravelAdventure: React.FC = () => {
     const sunScale = 1 + Math.sin(frame * 0.04) * 0.015;
     const sunRotate = frame * 0.07;
 
+    // 🌞 Hoạt cảnh Mặt Trời "Cười Khinh Bỉ / Smirk" (Shot 3.2 F360+)
+    const isSunReacting = frame >= 362;
+    // Cú giật mình nhẹ "double-take" trước khi phát hiện biến cố (F362 - F368)
+    const sunShockJolt = isSunReacting && frame < 368 ? Math.sin((frame - 362) * 1.5) * 3 : 0;
+    // 3D Flip card lật mặt trời sang nét mặt cười đểu (F366 - F378)
+    const sunFlipT = interpolate(frame, [366, 378], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const sunFlipRotY = interpolate(sunFlipT, [0, 0.5, 1], [0, 90, 0]);
+    const isSmirkVisible = sunFlipT >= 0.5;
+
+    // Khi đã đổi mặt Smirk: nghiêng đầu -7.5° nhìn xéo xuống cặp đôi + nhịp cười rung rinh
+    const smirkTilt = isSmirkVisible ? -7.5 + Math.sin((frame - 378) * 0.08) * 2.2 : 0;
+    const smirkChuckleY = isSmirkVisible ? Math.sin((frame - 378) * 0.22) * 2.5 : 0;
+    const smirkChuckleScale = isSmirkVisible ? 1 + Math.sin((frame - 378) * 0.22) * 0.025 : 1;
+
+    // 👒 Hoạt cảnh Chiếc Mũ Cói Bạn Nữ & Bạn Nam bị gió tốc lật bay bổng (Shot 3.2 F376 - F418)
+    const isHatFlying = frame >= 376 && frame < 418;
+    let hatFlyY = 0;
+    let hatFlyTilt = 0;
+    let hatFlyScale = 1;
+    let hatFlyOpacity = 1;
+
+    let guyHatFlyY = 0;
+    let guyHatFlyTilt = 0;
+    let guyHatFlyScale = 1;
+    let guyHatFlyOpacity = 1;
+
+    if (frame >= 376 && frame < 390) {
+        // [Pha 1: F376 - F390] Gió tạt vào, nón bốc vút lên cao khỏi đầu và chao nghiêng
+        const t = (frame - 376) / 14;
+        const ease = 1 - Math.pow(1 - t, 2);
+        hatFlyY = interpolate(ease, [0, 1], [0, -52]);
+        hatFlyTilt = interpolate(ease, [0, 1], [0, -18]);
+        hatFlyScale = interpolate(ease, [0, 1], [1.0, 1.05]);
+        hatFlyOpacity = interpolate(t, [0, 0.15], [0.8, 1]);
+
+        guyHatFlyY = interpolate(ease, [0, 1], [0, -48]);
+        guyHatFlyTilt = interpolate(ease, [0, 1], [0, 14]);
+        guyHatFlyScale = interpolate(ease, [0, 1], [1.0, 1.05]);
+        guyHatFlyOpacity = interpolate(t, [0, 0.15], [0.8, 1]);
+    } else if (frame >= 390 && frame < 404) {
+        // [Pha 2: F390 - F404] Đỉnh gió: Nón chao đảo lơ lửng bồng bềnh trên không trung
+        const flutter = Math.sin((frame - 390) * 0.75) * 4;
+        hatFlyY = -52 + Math.sin((frame - 390) * 0.5) * 5;
+        hatFlyTilt = -18 + flutter;
+        hatFlyScale = 1.05;
+        hatFlyOpacity = 1;
+
+        const guyFlutter = Math.sin((frame - 390) * 0.8) * 3.5;
+        guyHatFlyY = -48 + Math.sin((frame - 390) * 0.55) * 4.5;
+        guyHatFlyTilt = 14 + guyFlutter;
+        guyHatFlyScale = 1.05;
+        guyHatFlyOpacity = 1;
+    } else if (frame >= 404 && frame < 418) {
+        // [Pha 3: F404 - F418] Gió vừa dứt, nón rơi êm xuống đầu đàn hồi lò xo
+        const dropSpring = spring({
+            frame: frame - 404,
+            fps,
+            config: { damping: 11, stiffness: 130 },
+        });
+        hatFlyY = interpolate(dropSpring, [0, 1], [-52, 0]);
+        hatFlyTilt = interpolate(dropSpring, [0, 1], [-18, 0]);
+        hatFlyScale = interpolate(dropSpring, [0, 0.7, 1], [1.05, 0.98, 1.0]);
+        hatFlyOpacity = interpolate(dropSpring, [0.85, 1], [1, 0.2]);
+
+        guyHatFlyY = interpolate(dropSpring, [0, 1], [-48, 0]);
+        guyHatFlyTilt = interpolate(dropSpring, [0, 1], [14, 0]);
+        guyHatFlyScale = interpolate(dropSpring, [0, 0.7, 1], [1.05, 0.98, 1.0]);
+        guyHatFlyOpacity = interpolate(dropSpring, [0.85, 1], [1, 0.2]);
+    }
+
     // Mây trôi Parallax đa tầng ngược chiều
     const cloud1Parallax = interpolate(frame, [0, 360], [-10, 35]);
     const cloud2Parallax = interpolate(frame, [0, 360], [25, -25]);
@@ -548,7 +873,11 @@ export const Scene3_TravelAdventure: React.FC = () => {
     const shockShiver = isShocked && frame >= 372 ? Math.sin((frame - 372) * 0.45) * 0.85 : 0;
     // Khẽ đung đưa mồ hôi cartoon
     const shockBreath = isShocked && frame >= 380 ? Math.sin((frame - 380) * 0.06) * 1.2 : 0;
-    const currentCoupleSrc = isShocked ? STAGING_SHOT_3_1.couple.shockSrc : STAGING_SHOT_3_1.couple.src;
+    const currentCoupleSrc = !isShocked
+        ? STAGING_SHOT_3_1.couple.src
+        : isHatFlying
+          ? STAGING_SHOT_3_1.couple.shockNoHatSrc
+          : STAGING_SHOT_3_1.couple.shockWithHatSrc;
 
     // ==========================================
     // 🦆 5.6. SHOT 3.2: CHÚ VỊT BỊ LỐC XOÁY CUỐN BAY, XOAY TÍT 360° ĐỈNH CAO & ĐÁP CẠNH GHẾ XANH
@@ -760,23 +1089,34 @@ export const Scene3_TravelAdventure: React.FC = () => {
                     }}
                 />
 
-                {/* 2. MẶT TRỜI GIẤY NHIỀU TIA (Góc trên bên phải) */}
-                <Img
-                    src={staticFile(STAGING_SHOT_3_1.sun.src)}
+                {/* 2. MẶT TRỜI GIẤY NHIỀU TIA & BIỂU CẢM CƯỜI KHINH BỈ (SMIRK SIDE-EYE) */}
+                <div
                     style={{
                         position: 'absolute',
                         left: STAGING_SHOT_3_1.sun.left,
                         top: STAGING_SHOT_3_1.sun.top,
                         width: STAGING_SHOT_3_1.sun.width,
-                        height: 'auto',
                         zIndex: STAGING_SHOT_3_1.sun.zIndex,
                         pointerEvents: 'none',
                         opacity: sunEntrance,
-                        transform: `scale(${sunScale}) rotate(${sunRotate}deg)`,
+                        transform: !isSmirkVisible
+                            ? `translate(53px, ${-25 + sunShockJolt}px) scale(${sunScale}) rotate(${sunRotate}deg) rotateY(${sunFlipRotY}deg)`
+                            : `translate(53px, ${-25 + smirkChuckleY}px) scale(${sunScale * smirkChuckleScale}) rotate(${smirkTilt}deg) rotateY(${sunFlipRotY}deg)`,
                         transformOrigin: 'center center',
-                        translate: '53px -25px',
+                        perspective: 800,
                     }}
-                />
+                >
+                    <Img
+                        src={staticFile(!isSmirkVisible ? STAGING_SHOT_3_1.sun.src : SHOT_3_2_COMEDY_ASSETS.sunSmirk)}
+                        style={{
+                            width: '120%',
+                            height: 'auto',
+                            display: 'block',
+                            filter: isSmirkVisible ? 'drop-shadow(0 10px 22px rgba(245, 158, 11, 0.40))' : undefined,
+                            translate: '87px -174.2px'
+                        }}
+                    />
+                </div>
 
                 {/* 3. TẦNG MÂY GIẤY 1 (Góc trên bên trái) */}
                 <Img
@@ -885,6 +1225,9 @@ export const Scene3_TravelAdventure: React.FC = () => {
                         }}
                     />
                 )}
+
+                {/* 🌪️ 6.7. CƠN GIÓ "BỈ ỔI" LƯỚT QUANH FULL MÀN HÌNH (100% DYNAMIC VECTOR SVG STREAMERS) */}
+                <DynamicWindStreamers frame={frame} fps={fps} />
 
                 {/* 7. BẬC THANG PODIUM HỒNG BÊN TRÁI & TÁN ĐỒI XANH */}
                 <Img
@@ -1150,15 +1493,15 @@ export const Scene3_TravelAdventure: React.FC = () => {
                     </div>
                 )}
 
-                {/* 15. CẶP ĐÔI DU LỊCH (SHOT 3.1 THONG DONG -> SHOT 3.2 HOẢNG HỐT VALI BUNG NẮP) */}
-                <Img
-                    src={staticFile(currentCoupleSrc)}
+                {/* 15. CẶP ĐÔI DU LỊCH (SHOT 3.1 THONG DONG -> SHOT 3.2 HOẢNG HỐT VALI BUNG NẮP & TỐC NÓN) */}
+                <div
                     style={{
                         position: 'absolute',
                         left: STAGING_SHOT_3_1.couple.left,
                         top: STAGING_SHOT_3_1.couple.top,
                         width: STAGING_SHOT_3_1.couple.width,
                         height: 'auto',
+                        aspectRatio: !isShocked ? '1671 / 941' : '2400 / 1340',
                         zIndex: STAGING_SHOT_3_1.couple.zIndex,
                         pointerEvents: 'none',
                         opacity: coupleEntrance,
@@ -1169,9 +1512,73 @@ export const Scene3_TravelAdventure: React.FC = () => {
                         filter: 'drop-shadow(0 4px 6px rgba(15, 23, 42, 0.45)) drop-shadow(-4px 16px 24px rgba(15, 23, 42, 0.30)) drop-shadow(-8px 32px 48px rgba(15, 23, 42, 0.22))',
                         translate: '83.5px -16.5px',
                     }}
-                />
+                >
+                    {/* Thân cặp đôi (Khi không bay nón: cupple_lolang_3.png nguyên vẹn 100%; Khi gió tốc nón: cupple_khong_mu.png với tóc bồng bềnh sạch sẽ) */}
+                    <Img
+                        src={staticFile(currentCoupleSrc)}
+                        style={{
+                            width: '100%',
+                            height: 'auto',
+                            display: 'block',
+                        }}
+                    />
 
-                {/* 15.5. CỤM 7 VẬT DỤNG DU LỊCH BAY LƠ LỬNG TRÊN VALI NGƯỜI NỮ BÊN TRÁI (SHOT 3.2 FRAME 360+) */}
+                    {/* Chiếc mũ cói nguyên vẹn bay bổng trên không trung khi gió quét qua (F376 - F418) */}
+                    {isShocked && isHatFlying && (
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '39.92%',
+                                top: '17.20%',
+                                width: '19.15%',
+                                transform: `translate(-50%, -50%) translateY(${hatFlyY}px) rotate(${hatFlyTilt}deg) scale(${hatFlyScale})`,
+                                transformOrigin: 'center center',
+                                filter: 'drop-shadow(0 10px 20px rgba(15, 23, 42, 0.35))',
+                                opacity: hatFlyOpacity,
+                                pointerEvents: 'none',
+                            }}
+                        >
+                            <Img
+                                src={staticFile(STAGING_SHOT_3_1.couple.flyingHatSrc)}
+                                style={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    display: 'block',
+                                    translate: '-11.7px -205.8px',
+                                }}
+                            />
+                        </div>
+                    )}
+
+                    {/* Chiếc mũ bạn nam bay bổng trên không trung khi gió quét qua (F376 - F418) */}
+                    {isShocked && isHatFlying && (
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '60.42%',
+                                top: '13.25%',
+                                width: '17.92%',
+                                transform: `translate(-50%, -50%) translateY(${guyHatFlyY}px) rotate(${guyHatFlyTilt}deg) scale(${guyHatFlyScale})`,
+                                transformOrigin: 'center center',
+                                filter: 'drop-shadow(0 10px 20px rgba(15, 23, 42, 0.35))',
+                                opacity: guyHatFlyOpacity,
+                                pointerEvents: 'none',
+                            }}
+                        >
+                            <Img
+                                src={staticFile(STAGING_SHOT_3_1.couple.flyingManHatSrc)}
+                                style={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    display: 'block',
+                                    translate: '-22.6px -243.8px',
+                                }}
+                            />
+                        </div>
+                    )}
+                </div>
+
+                {/* 15.5. CỤM 7 VẬT DỤNG DU LỊCH BAY LƠ LỬNG TRÊN VALI NGƯỜI NỮ BÊN TRÁI & VÒNG XOÁY GIÓ HOẠT HÌNH (SHOT 3.2 FRAME 360+) */}
                 {isShocked && (
                     <div
                         style={{
@@ -1188,6 +1595,128 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             translate: '83.5px -16.5px',
                         }}
                     >
+                        {/* 🌀 HỆ THỐNG VÒNG XOÁY GIÓ HOẠT HÌNH & HẠT BỤI GIÓ 3D (CARTOON WIND SWIRLS) */}
+                        {(() => {
+                            const windSwirlSpring = spring({
+                                frame: frame - 360,
+                                fps,
+                                config: { damping: 15, stiffness: 90 },
+                            });
+                            const windSwirlOpacity = interpolate(windSwirlSpring, [0, 0.3, 1], [0, 0.95, 0.9]);
+                            const windSwirlScale = interpolate(windSwirlSpring, [0, 0.7, 1], [0.2, 1.08, 1.0]);
+
+                            return (
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        inset: 0,
+                                        translate: '141px -134.3px',
+                                        pointerEvents: 'none',
+                                    }}
+                                >
+                                    {/* [Lớp Gió Sau] 3 Vòng xoáy chính ôm trọn 3 tầng đồ vật */}
+                                    <CartoonWindSwirl
+                                        id="top"
+                                        left={19}
+                                        top={34.5}
+                                        width={24}
+                                        aspectRatio={2.1}
+                                        rotation={(frame - 360) * 4.2}
+                                        opacity={windSwirlOpacity}
+                                        scale={windSwirlScale}
+                                        zIndex={45}
+                                    />
+                                    <CartoonWindSwirl
+                                        id="mid"
+                                        left={14}
+                                        top={48.0}
+                                        width={26}
+                                        aspectRatio={2.2}
+                                        rotation={-(frame - 360) * 4.8}
+                                        opacity={windSwirlOpacity}
+                                        scale={windSwirlScale}
+                                        reverse
+                                        zIndex={45}
+                                    />
+                                    <CartoonWindSwirl
+                                        id="low"
+                                        left={16.5}
+                                        top={61.5}
+                                        width={23}
+                                        aspectRatio={2.0}
+                                        rotation={(frame - 360) * 3.8}
+                                        opacity={windSwirlOpacity}
+                                        scale={windSwirlScale}
+                                        zIndex={45}
+                                    />
+
+                                    {/* [Lớp Gió Trước & Hạt Bụi Lấp Lánh] Đan xen đè lên đồ vật tạo chiều sâu không gian 3D */}
+                                    <CartoonWindSwirl
+                                        id="front_cam"
+                                        left={18.5}
+                                        top={47.5}
+                                        width={16}
+                                        aspectRatio={2.0}
+                                        rotation={(frame - 360) * 5.6}
+                                        opacity={windSwirlOpacity * 0.85}
+                                        scale={windSwirlScale * 0.95}
+                                        zIndex={140}
+                                    />
+                                    <CartoonWindSwirl
+                                        id="front_ticket"
+                                        left={14.5}
+                                        top={36.0}
+                                        width={14}
+                                        aspectRatio={2.0}
+                                        rotation={-(frame - 360) * 6.2}
+                                        opacity={windSwirlOpacity * 0.85}
+                                        scale={windSwirlScale * 0.95}
+                                        reverse
+                                        zIndex={140}
+                                    />
+
+                                    {/* Hạt bụi gió lấp lánh (Wind Sparkle Dust Particles) bay lơ lửng */}
+                                    {WIND_DUST_PARTICLES.map((dust, dIdx) => {
+                                        const launchFrame = 360 + (dIdx % 3) * 2;
+                                        const dustSpring = spring({
+                                            frame: frame - launchFrame,
+                                            fps,
+                                            config: { damping: 13, stiffness: 95 },
+                                        });
+                                        const dustOpacity = interpolate(dustSpring, [0, 0.3, 1], [0, 0.95, 0.85]);
+                                        const dLeft = interpolate(dustSpring, [0, 1], [17.5, dust.targetX]);
+                                        const dTop = interpolate(dustSpring, [0, 1], [78.0, dust.targetY]);
+
+                                        const floatTime = Math.max(0, frame - launchFrame - 10);
+                                        const dX = Math.cos(floatTime * dust.speed + dust.phase) * dust.ampX;
+                                        const dY = Math.sin(floatTime * dust.speed * 1.2 + dust.phase) * dust.ampY;
+
+                                        return (
+                                            <div
+                                                key={`dust_${dIdx}`}
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: `${dLeft}%`,
+                                                    top: `${dTop}%`,
+                                                    transform: `translate(-50%, -50%) translate(${dX}px, ${dY}px)`,
+                                                    fontSize: dust.size,
+                                                    lineHeight: 1,
+                                                    color: dust.color,
+                                                    opacity: dustOpacity,
+                                                    zIndex: 145,
+                                                    filter: `drop-shadow(0 2px 4px ${dust.color})`,
+                                                    userSelect: 'none',
+                                                    pointerEvents: 'none',
+                                                }}
+                                            >
+                                                {dust.char}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            );
+                        })()}
+
                         {FLOATING_VALI_PROPS.map((prop, idx) => {
                             const launchFrame = 360 + prop.stagger;
                             const launchSpring = spring({

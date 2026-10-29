@@ -69,10 +69,15 @@
   - Neo vững vàng trong không gian $X: 8.5\% – 23.5\%$, nằm trọn vẹn trên nắp vali bên trái, **tuyệt đối không che khuất nhân vật**.
   - Nhịp lơ lửng Stop-motion hữu cơ với độ sâu trục $Z: 55\text{px} – 135\text{px}$.
 
-* **Shot 3.2.2: Bộ 3 Chi Tiết Cà Khịa & Hài Dón (The Comedy Enhancement Triad · ĐANG CHUẨN BỊ TRIỂN KHAI)**
-  1. 🌪️ **Cơn gió "bỉ ổi" (Cheeky Breeze Swoosh):** Dải luồng gió cartoon uốn lượn hình chữ S lướt từ lòng vali qua cụm đồ, vuốt nhẹ vành mũ bạn nữ rồi lượn vút sang trêu chọc cặp đôi.
-  2. 🌀 **Vòng xoáy gió bồng bềnh (Orbiting Wind Spirals):** Các nét xoáy gió cartoon mềm mại quấn quanh thân máy ảnh, áo thun và vé máy bay, giải thích sinh động lý do đồ vật không bị rơi.
-  3. 🌞 **Ông mặt trời "Cười Khinh Bỉ" (Smug Smirking Sun):** Tại F360, tâm ông mặt trời chuyển sang biểu cảm liếc xéo (side-eye) nhìn chéo xuống cặp đôi, một bên mày nhướng cao, khóe miệng nhếch lên cười đểu đầy mỉa mai hài hước!
+* **Shot 3.2.2: Bộ 3 Chi Tiết Cà Khịa & Hài Dón (The Comedy Enhancement Triad · ĐÃ NÂNG CẤP HOÀN MỸ THEO FEEDBACK)**
+  1. 🌪️ **Cơn gió "bỉ ổi" (100% Dynamic Vector SVG Streamers):** Thay thế hoàn toàn ảnh tĩnh bằng hệ thống sóng gió vector uốn lượn hình sin quét mượt toàn màn hình (*Full Viewport*), kết hợp dải gradient lấp lánh `#7DD3FC` và các hạt tinh thể gió.
+  2. 👒 **Tương tác hất lật nón đôi (Seamless Dual Hat Flight - Bạn Nữ & Bạn Nam):** 
+     - Khi nón ở trên đầu (F360-375 & F418+): hiển thị `cupple_lolang_3.png` nguyên vẹn 100% không vết cắt.
+     - Khi gió quét qua (F376-418): nền chuyển sang `cupple_khong_mu.png` để lộ mái tóc đen sạch sẽ không tì vết cho cả 2 nhân vật.
+     - **Nón bạn nữ:** `flyingHatSrc` (`hat_tilted_clean.png`) bốc cao $-52\text{px}$, lật nghiêng $-18^\circ$, flutter bồng bềnh rồi rơi êm ái úp đàn hồi lò xo (*boing*) trở lại đầu bạn nữ!
+     - **Nón bạn nam:** `flyingManHatSrc` (`mu_nam_tight.png` chuẩn bị sẵn) đặt ngay trên đầu bạn nam (`left: 60.42%`, `top: 13.25%`), bốc cao $-48\text{px}$, lật nghiêng $14^\circ$ theo luồng gió, flutter rồi rơi úp đàn hồi lò xo (*boing*) đáp xuống đầu bạn nam đồng bộ!
+  3. 🌀 **Vòng xoáy gió bồng bềnh (Orbiting Wind Spirals):** Hệ thống 3 vòng xoáy vector SVG 3D (`CartoonWindSwirl`) đa tầng (trước & sau) quấn quanh 3 tầng đồ vật, đi kèm 6 hạt bụi gió lấp lánh (Wind Sparkle Dust).
+  4. 🌞 **Ông mặt trời "Cười Khinh Bỉ" (Original Sun + Smirk Decal):** Sử dụng 100% bức ảnh mặt trời gốc `mat_troi.png` kết hợp bộ nét mặt smirk `mat_troi_smirk_preview.png` (bảo toàn 100% màu vàng chanh pastel và các cánh tia giấy xếp lớp). Tại F362+, mặt trời làm cú double-take giật mình, lật 3D sang nét mặt cười đểu khinh bỉ, nghiêng đầu $-7.5^\circ$ liếc xéo xuống cặp đôi và gật gù cười rung rinh!
 
 ---
 
