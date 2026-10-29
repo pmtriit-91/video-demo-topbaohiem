@@ -183,6 +183,7 @@ export const SUN_SMIRK_VARIANT:
     | 'original_preview' = 'meme_master';
 
 export const SUN_SMIRK_ASSETS = {
+    meme_face_only: 'assets/elements/screen3/3.2/mat_troi_meme_face_only.png', // Tầng khuôn mặt Meme độc lập (giữ vành xoay liên tục)
     meme_master: 'assets/elements/screen3/3.2/mat_troi_smirk_meme_master.png', // Siêu phẩm Meme Mặt Trời cười đểu cà khịa của Bạn
     v1_leo: 'assets/elements/screen3/3.2/mat_troi_smirk_v1_leo.png', // The Smug Leo / Noble Side-Eye
     v2_anya: 'assets/elements/screen3/3.2/mat_troi_smirk_v2_anya.png', // The Anya 'Heh' Crescent Smirk
@@ -680,24 +681,15 @@ export const Scene3_TravelAdventure: React.FC = () => {
         extrapolateRight: 'clamp',
     });
     const sunScale = 1 + Math.sin(frame * 0.04) * 0.015;
+    // Vành tam giác mặt trời xoay vòng liên tục như code gốc
     const sunRotate = frame * 0.07;
 
-    // 🌞 Hoạt cảnh Mặt Trời "Cười Khinh Bỉ / Smirk" (Shot 3.2 F360+)
-    const isSunReacting = frame >= 362;
-    // Cú giật mình nhẹ "double-take" trước khi phát hiện biến cố (F362 - F368)
-    const sunShockJolt = isSunReacting && frame < 368 ? Math.sin((frame - 362) * 1.5) * 3 : 0;
-    // 3D Flip card lật mặt trời sang nét mặt cười đểu (F366 - F378)
-    const sunFlipT = interpolate(frame, [366, 378], [0, 1], {
+    // 🌞 Khuôn mặt Meme ở trung tâm cố định: xuất hiện êm ái từ F366+
+    const isSmirkActive = frame >= 366;
+    const smirkOpacity = interpolate(frame, [366, 376], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const sunFlipRotY = interpolate(sunFlipT, [0, 0.5, 1], [0, 90, 0]);
-    const isSmirkVisible = sunFlipT >= 0.5;
-
-    // Khi đã đổi mặt Smirk: nghiêng đầu -7.5° nhìn xéo xuống cặp đôi + nhịp cười rung rinh
-    const smirkTilt = isSmirkVisible ? -7.5 + Math.sin((frame - 378) * 0.08) * 2.2 : 0;
-    const smirkChuckleY = isSmirkVisible ? Math.sin((frame - 378) * 0.22) * 2.5 : 0;
-    const smirkChuckleScale = isSmirkVisible ? 1 + Math.sin((frame - 378) * 0.22) * 0.025 : 1;
 
     // 👒 Hoạt cảnh Chiếc Mũ Cói Bạn Nữ & Bạn Nam bị gió tốc lật bay bổng (Shot 3.2 F376 - F418)
     const isHatFlying = frame >= 376 && frame < 418;
@@ -1089,7 +1081,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                     }}
                 />
 
-                {/* 2. MẶT TRỜI GIẤY NHIỀU TIA & BIỂU CẢM CƯỜI KHINH BỈ (SMIRK SIDE-EYE) */}
+                {/* 2. MẶT TRỜI: KHUÔN MẶT TRUNG TÂM CỐ ĐỊNH + VÒNG NGOÀI TAM GIÁC XOAY VÒNG & BLUR NHÒA LÓE SÁNG */}
                 <div
                     style={{
                         position: 'absolute',
@@ -1099,23 +1091,79 @@ export const Scene3_TravelAdventure: React.FC = () => {
                         zIndex: STAGING_SHOT_3_1.sun.zIndex,
                         pointerEvents: 'none',
                         opacity: sunEntrance,
-                        transform: !isSmirkVisible
-                            ? `translate(53px, ${-25 + sunShockJolt}px) scale(${sunScale}) rotate(${sunRotate}deg) rotateY(${sunFlipRotY}deg)`
-                            : `translate(53px, ${-25 + smirkChuckleY}px) scale(${sunScale * smirkChuckleScale}) rotate(${smirkTilt}deg) rotateY(${sunFlipRotY}deg)`,
+                        transform: `translate(53px, -25px) scale(${sunScale})`,
                         transformOrigin: 'center center',
-                        perspective: 800,
                     }}
                 >
-                    <Img
-                        src={staticFile(!isSmirkVisible ? STAGING_SHOT_3_1.sun.src : SHOT_3_2_COMEDY_ASSETS.sunSmirk)}
+                    {/* Khung chứa tổng thể mặt trời (bảo toàn 100% tọa độ gốc) */}
+                    <div
                         style={{
                             width: '120%',
                             height: 'auto',
-                            display: 'block',
-                            filter: isSmirkVisible ? 'drop-shadow(0 10px 22px rgba(245, 158, 11, 0.40))' : undefined,
-                            translate: '87px -174.2px'
+                            translate: '87px -174.2px',
+                            position: 'relative',
                         }}
-                    />
+                    >
+                        {/* ☀️ VÒNG NGOÀI: CÁC TAM GIÁC TIA MẶT TRỜI XOAY VÒNG NHƯ CODE GỐC + BLUR NHÒA LÓE SÁNG */}
+                        <div
+                            style={{
+                                width: '100%',
+                                height: 'auto',
+                                transform: `rotate(${sunRotate}deg)`,
+                                transformOrigin: '50% 50%',
+                                position: 'relative',
+                            }}
+                        >
+                            {/* Lớp 1: Các tam giác sắc nét xoay vòng như code gốc */}
+                            <Img
+                                src={staticFile(STAGING_SHOT_3_1.sun.src)}
+                                style={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    display: 'block',
+                                    filter: 'drop-shadow(0 0 15px rgba(251, 191, 36, 0.40))',
+                                }}
+                            />
+
+                            {/* Lớp 2: Hiệu ứng blur nhòa lóe sáng lên các tam giác tia mặt trời */}
+                            <Img
+                                src={staticFile(STAGING_SHOT_3_1.sun.src)}
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    width: '100%',
+                                    height: 'auto',
+                                    display: 'block',
+                                    filter: 'blur(10px) brightness(1.35) drop-shadow(0 0 25px rgba(253, 224, 71, 0.85))',
+                                    opacity: 0.70 + Math.sin(frame * 0.08) * 0.15,
+                                    mixBlendMode: 'screen',
+                                    pointerEvents: 'none',
+                                }}
+                            />
+                        </div>
+
+                        {/* 😃 TRUNG TÂM: KHUÔN MẶT CỐ ĐỊNH (HOÀN TOÀN KHÔNG XOAY THEO CÁC VÒNG NGOÀI) */}
+                        {smirkOpacity > 0 && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    opacity: smirkOpacity,
+                                    pointerEvents: 'none',
+                                }}
+                            >
+                                <Img
+                                    src={staticFile('assets/elements/screen3/3.2/mat_troi_meme_face_only.png')}
+                                    style={{
+                                        width: '100%',
+                                        height: 'auto',
+                                        display: 'block',
+                                        filter: 'drop-shadow(0 8px 18px rgba(245, 158, 11, 0.35))',
+                                    }}
+                                />
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 {/* 3. TẦNG MÂY GIẤY 1 (Góc trên bên trái) */}
