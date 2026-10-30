@@ -1526,17 +1526,11 @@ export const Scene3_TravelAdventure: React.FC = () => {
     const frame = useCurrentFrame();
     const { fps, width, height } = useVideoConfig();
     const colors = VIDEO_CONFIG_V2.colors;
+    const s = width / 1920;
 
     // 🌟 CHẾ ĐỘ HIỂN THỊ CẢNH 3:
     // 1. Nếu chọn cố định 'static_staging_34': luôn hiển thị Cảnh 3.4
     if ((SCENE3_VIEW_MODE as string) === 'static_staging_34') {
-        return <StaticStaging34 width={width} height={height} colors={colors} showOverlay={SHOW_REFERENCE_OVERLAY} />;
-    }
-
-    // 2. Nếu ở chế độ 'timeline_flow':
-    //    - Frame 0 -> 449: Chạy toàn bộ diễn hoạt Shot 3.1 & Shot 3.2
-    //    - Frame 450+: Hiển thị khung đích đến Cảnh 3.4
-    if ((SCENE3_VIEW_MODE as string) === 'timeline_flow' && frame >= 450) {
         return <StaticStaging34 width={width} height={height} colors={colors} showOverlay={SHOW_REFERENCE_OVERLAY} />;
     }
 
@@ -1567,8 +1561,22 @@ export const Scene3_TravelAdventure: React.FC = () => {
     const impactShakeX = frame >= 360 && frame < 378 ? Math.sin((frame - 360) * 1.8) * 4.0 * impactProgress : 0;
     const impactShakeY = frame >= 360 && frame < 378 ? Math.cos((frame - 360) * 1.8) * 3.0 * impactProgress : 0;
 
-    const finalCamScale = camIntroScale * camAmbientPush;
-    const finalCamY = camIntroTilt + impactShakeY;
+    // Giai đoạn chuyển tiếp (F510 - F580): Camera từ từ lùi nhẹ về scale 1.0 và nhường không gian bên phải cho Smartphone
+    const camTransitionScale = interpolate(frame, [510, 580], [1.0, 1.0 / 1.03], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: (t) => t * (2 - t),
+    });
+
+    // Cú rung chấn khi khiên hồng chạm đất (Frame 512 - 528)
+    const shieldImpactProgress = interpolate(frame, [512, 528], [1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const shieldShakeY = frame >= 512 && frame < 528 ? Math.sin((frame - 512) * 2.0) * 3.0 * shieldImpactProgress : 0;
+
+    const finalCamScale = camIntroScale * camAmbientPush * camTransitionScale;
+    const finalCamY = camIntroTilt + impactShakeY + shieldShakeY;
     const finalCamX = impactShakeX;
 
     // ==========================================
@@ -1687,12 +1695,30 @@ export const Scene3_TravelAdventure: React.FC = () => {
     // Vành tam giác mặt trời xoay vòng liên tục như code gốc
     const sunRotate = frame * 0.07;
 
-    // 🌞 Khuôn mặt Meme ở trung tâm cố định: xuất hiện êm ái từ F366+
-    const isSmirkActive = frame >= 366;
-    const smirkOpacity = interpolate(frame, [366, 376], [0, 1], {
+    // 🌞 Khuôn mặt Meme ở trung tâm cố định: xuất hiện êm ái từ F366+ và mờ dần khi khiên bảo vệ hạ cánh (F450 - F485)
+    const isSmirkActive = frame >= 366 && frame < 490;
+    const smirkIn = interpolate(frame, [366, 376], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
+    const smirkOut = interpolate(frame, [450, 485], [1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const smirkOpacity = isSmirkActive ? smirkIn * smirkOut : 0;
+
+    // Quỹ đạo chuyển tiếp mượt mà của Mặt Trời từ vị trí 3.1 sang vị trí chuẩn 3.4 (F505 - F575)
+    const sunTransition = interpolate(frame, [505, 575], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: (t) => t * (2 - t),
+    });
+    const sunLeftVal = interpolate(sunTransition, [0, 1], [79.20, 65.95]);
+    const sunTopVal = interpolate(sunTransition, [0, 1], [3.56, 9.05]);
+    const sunTransX = interpolate(sunTransition, [0, 1], [140 * s, 214.2 * s]);
+    const sunTransY = interpolate(sunTransition, [0, 1], [-199.2 * s, -195.5 * s]);
+    const sunScaleTrans = interpolate(sunTransition, [0, 1], [1.2, 1.0]);
+    const sunWidthVal = interpolate(sunTransition, [0, 1], [12.80, 10.09]);
 
     // 👒 Hoạt cảnh Chiếc Mũ Cói Bạn Nữ & Bạn Nam bị gió tốc lật bay bổng (Shot 3.2 F376 - F418)
     const isHatFlying = frame >= 376 && frame < 418;
@@ -1750,10 +1776,33 @@ export const Scene3_TravelAdventure: React.FC = () => {
         guyHatFlyOpacity = interpolate(dropSpring, [0.85, 1], [1, 0.2]);
     }
 
-    // Mây trôi Parallax đa tầng ngược chiều
-    const cloud1Parallax = interpolate(frame, [0, 360], [-10, 35]);
-    const cloud2Parallax = interpolate(frame, [0, 360], [25, -25]);
-    const cloud3Parallax = interpolate(frame, [0, 360], [-8, 28]);
+    // Mây trôi Parallax đa tầng ngược chiều & chuyển tiếp mượt mà vào tọa độ 3.4 (F505 - F575)
+    const cloudTransition = interpolate(frame, [505, 575], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+        easing: (t) => t * (2 - t),
+    });
+
+    const cloud1Parallax = interpolate(frame, [0, 360], [-10 * s, 35 * s]);
+    const cloud1Left = interpolate(cloudTransition, [0, 1], [3.73, 16.42]);
+    const cloud1Top = interpolate(cloudTransition, [0, 1], [2.61, 21.07]);
+    const cloud1Width = interpolate(cloudTransition, [0, 1], [12.60, 13.30]);
+    const cloud1TransX = interpolate(cloudTransition, [0, 1], [cloud1Parallax, -23.3 * s]);
+    const cloud1TransY = interpolate(cloudTransition, [0, 1], [0, -365.1 * s]);
+
+    const cloud2Parallax = interpolate(frame, [0, 360], [25 * s, -25 * s]);
+    const cloud2Left = interpolate(cloudTransition, [0, 1], [34.00, 29.91]);
+    const cloud2Top = interpolate(cloudTransition, [0, 1], [1.90, 5.25]);
+    const cloud2Width = interpolate(cloudTransition, [0, 1], [12.53, 10.48]);
+    const cloud2TransX = interpolate(cloudTransition, [0, 1], [cloud2Parallax, 135.1 * s]);
+    const cloud2TransY = interpolate(cloudTransition, [0, 1], [0, -49.7 * s]);
+
+    const cloud3Parallax = interpolate(frame, [0, 360], [-8 * s, 28 * s]);
+    const cloud3Left = interpolate(cloudTransition, [0, 1], [59.67, 60.54]);
+    const cloud3Top = interpolate(cloudTransition, [0, 1], [10.19, 19.61]);
+    const cloud3Width = interpolate(cloudTransition, [0, 1], [13.47, 10.34]);
+    const cloud3TransX = interpolate(cloudTransition, [0, 1], [cloud3Parallax, 204.9 * s]);
+    const cloud3TransY = interpolate(cloudTransition, [0, 1], [0, -177.4 * s]);
 
     // ==========================================
     // 🌊 4. HIỆU ỨNG VỆT BUNG NỞ (WAVE / TRAIL POP-UP)
@@ -2047,6 +2096,171 @@ export const Scene3_TravelAdventure: React.FC = () => {
         rubberDuck: { x: -91.8, y: -5.0 },
     };
 
+    // ==========================================
+    // 🌪️ CHUYỂN TIẾP THU HỒI & TẬP HỢP CẢNH 3.4 (SHOT 3.3 & ASSEMBLE TRANSITION)
+    // ==========================================
+    // Hệ số mờ dần của toàn bộ các mảnh ghép Cảnh 3.1 khi bước sang giai đoạn tập hợp 3.4 (F505 - F538)
+    const oldDioramaFade = interpolate(frame, [505, 538], [1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+
+    // Cặp đôi hoảng hốt thở phào nhẹ nhõm và mờ dần nhường chỗ cho cặp đôi Hero đứng hiên ngang (F505 - F535)
+    const shockedCoupleFade = interpolate(frame, [505, 535], [1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+
+    // ==========================================
+    // 🛡️ SHOT 3.3: KHIÊN HỒNG BẢO VỆ GIÁNG THẾ (FRAME 470 - 550)
+    // ==========================================
+    // 1. Khiên hồng trung tâm hạ cánh từ trên cao
+    const shieldSpring = spring({
+        frame: frame - 470,
+        fps,
+        config: { damping: 14, stiffness: 75, mass: 1.1 },
+    });
+    const shieldDropY = interpolate(shieldSpring, [0, 1], [-1100 * s, 0]);
+    const shieldOpacity = interpolate(shieldSpring, [0, 0.15, 1], [0, 1, 1]);
+
+    // 2. Sóng xung kích hào quang hồng lan tỏa khi khiên tiếp đất (F512 - F555)
+    const isShieldPulseActive = frame >= 512 && frame <= 555;
+    const pulseProgress = interpolate(frame, [512, 550], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const pulseScale = interpolate(pulseProgress, [0, 1], [0.2, 2.3]);
+    const pulseOpacity = interpolate(pulseProgress, [0, 0.15, 0.7, 1], [0, 0.85, 0.35, 0]);
+
+    // 3. Huy hiệu khiên vali hồng nhỏ + tick xanh ở vai phải khung nảy ra
+    const badgeSpring = spring({
+        frame: frame - 512,
+        fps,
+        config: { damping: 12, stiffness: 110 },
+    });
+    const badgeScale = interpolate(badgeSpring, [0, 1], [0, 1.0]);
+    const badgeOpacity = interpolate(badgeSpring, [0, 0.2, 1], [0, 1, 1]);
+
+    // 4. Tiêu đề 'Bảo hiểm du lịch' bên trong đỉnh khiên
+    const archTextSpring = spring({
+        frame: frame - 516,
+        fps,
+        config: { damping: 15, stiffness: 90 },
+    });
+    const archTextY = interpolate(archTextSpring, [0, 1], [-25 * s, 0]);
+    const archTextOpacity = interpolate(archTextSpring, [0, 0.25, 1], [0, 1, 1]);
+
+    // 5. Cặp đôi Hero (Bạn Nam & Bạn Nữ tách biệt) xuất hiện vững chãi trong khiên
+    const heroCoupleSpring = spring({
+        frame: frame - 508,
+        fps,
+        config: { damping: 16, stiffness: 90 },
+    });
+    const heroCoupleDropY = interpolate(heroCoupleSpring, [0, 1], [25 * s, 0]);
+    const heroCoupleOpacity = interpolate(heroCoupleSpring, [0, 0.25, 1], [0, 1, 1]);
+    const heroIdleBreath = frame >= 540 ? Math.sin((frame - 540) * 0.04) * 1.2 * s : 0;
+    const heroGirlIdleBreath = frame >= 540 ? Math.sin((frame - 540) * 0.04 + 0.6) * 1.2 * s : 0;
+
+    // 6. Thảm cát trung tâm mới bung nở
+    const sandRugSpring = spring({
+        frame: frame - 502,
+        fps,
+        config: { damping: 15, stiffness: 85 },
+    });
+    const sandRugScale = interpolate(sandRugSpring, [0, 1], [0.75, 1.0]);
+    const sandRugOpacity = interpolate(sandRugSpring, [0, 0.25, 1], [0, 1, 1]);
+
+    // 7. Dải nước biển xanh nhiều lớp dâng lên
+    const seaWaterSpring = spring({
+        frame: frame - 512,
+        fps,
+        config: { damping: 18, stiffness: 70 },
+    });
+    const seaWaterRiseY = interpolate(seaWaterSpring, [0, 1], [140 * s, 0]);
+    const seaWaterOpacity = interpolate(seaWaterSpring, [0, 0.25, 1], [0, 1, 1]);
+    const seaWaterWave = frame >= 540 ? Math.sin((frame - 540) * 0.04) * 2.0 * s : 0;
+
+    // 8. Đảo dừa giấy hậu cảnh trượt vào
+    const islandSpring = spring({
+        frame: frame - 518,
+        fps,
+        config: { damping: 17, stiffness: 75 },
+    });
+    const islandSlideX = interpolate(islandSpring, [0, 1], [-100 * s, 0]);
+    const islandOpacity = interpolate(islandSpring, [0, 0.25, 1], [0, 1, 1]);
+
+    // 9. Ghế hồng đáp xuống cát
+    const pinkChairSpring = spring({
+        frame: frame - 522,
+        fps,
+        config: { damping: 14, stiffness: 85 },
+    });
+    const pinkChairDropY = interpolate(pinkChairSpring, [0, 1], [-90 * s, 0]);
+    const pinkChairOpacity = interpolate(pinkChairSpring, [0, 0.2, 1], [0, 1, 1]);
+
+    // 10. Vali hồng đứng cạnh chân bạn nam đáp xuống
+    const pinkSuitcaseSpring = spring({
+        frame: frame - 526,
+        fps,
+        config: { damping: 13, stiffness: 95 },
+    });
+    const pinkSuitcaseDropY = interpolate(pinkSuitcaseSpring, [0, 1], [-70 * s, 0]);
+    const pinkSuitcaseOpacity = interpolate(pinkSuitcaseSpring, [0, 0.2, 1], [0, 1, 1]);
+
+    // 11. Thảm nước & chú vịt vàng phao bơi đáp xuống
+    const duckPuddleSpring = spring({
+        frame: frame - 528,
+        fps,
+        config: { damping: 16, stiffness: 85 },
+    });
+    const duckPuddleScale = interpolate(duckPuddleSpring, [0, 1], [0.5, 1.0]);
+    const duckPuddleOpacity = interpolate(duckPuddleSpring, [0, 0.2, 1], [0, 1, 1]);
+
+    const duckSpring34 = spring({
+        frame: frame - 532,
+        fps,
+        config: { damping: 13, stiffness: 95 },
+    });
+    const duckDropY34 = interpolate(duckSpring34, [0, 1], [-80 * s, 0]);
+    const duckOpacity34 = interpolate(duckSpring34, [0, 0.2, 1], [0, 1, 1]);
+    const duckBob34 = frame >= 560 ? Math.sin((frame - 560) * 0.08) * 2.0 * s : 0;
+
+    // ==========================================
+    // 📱 SHOT 3.5: SMARTPHONE, TIÊU ĐỀ & CTA TƯƠNG TÁC (FRAME 600+)
+    // ==========================================
+    // 12. Tiêu đề chính bên trái: Sẵn sàng cho hành trình
+    const headingSpring = spring({
+        frame: frame - 600,
+        fps,
+        config: { damping: 16, stiffness: 85 },
+    });
+    const headingX = interpolate(headingSpring, [0, 1], [-120 * s, 0]);
+    const headingOpacity = interpolate(headingSpring, [0, 0.2, 1], [0, 1, 1]);
+
+    // 13. Smartphone Mockup trượt vào từ cạnh phải
+    const phoneSpring = spring({
+        frame: frame - 625,
+        fps,
+        config: { damping: 18, stiffness: 70 },
+    });
+    const phoneSlideX = interpolate(phoneSpring, [0, 1], [400 * s, 0]);
+    const phoneOpacity = interpolate(phoneSpring, [0, 0.15, 1], [0, 1, 1]);
+
+    // 14. Mũi tên hồng uốn cong chỉ sang điện thoại
+    const arrowSpring = spring({
+        frame: frame - 665,
+        fps,
+        config: { damping: 14, stiffness: 85 },
+    });
+    const arrowScale = interpolate(arrowSpring, [0, 1], [0, 1.0]);
+    const arrowOpacity = interpolate(arrowSpring, [0, 0.2, 1], [0, 1, 1]);
+
+    // 15. Hiệu ứng nhịp đập & Click cho nút CTA "CHỌN GÓI" (định kỳ mỗi 120 frames sau F750)
+    const ctaCycle = Math.max(0, frame - 750) % 120;
+    const isCtaPulsing = frame >= 750 && ctaCycle >= 50 && ctaCycle <= 85;
+    const ctaBump = isCtaPulsing ? Math.sin(((ctaCycle - 50) / 35) * Math.PI) * 0.05 : 0;
+    const ctaGlow = isCtaPulsing ? Math.sin(((ctaCycle - 50) / 35) * Math.PI) * 18 : 0;
+
     return (
         <div
             style={{
@@ -2071,39 +2285,40 @@ export const Scene3_TravelAdventure: React.FC = () => {
                 }}
             >
                 {/* 1. NỀN BIỂN VÀ BÃI CÁT PAPER-CUT (16:9) */}
-                <Img
-                    src={staticFile(STAGING_SHOT_3_1.bg.src)}
-                    style={{
-                        position: 'absolute',
-                        inset: 0,
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        zIndex: STAGING_SHOT_3_1.bg.zIndex,
-                        pointerEvents: 'none',
-                    }}
-                />
+                {oldDioramaFade > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_1.bg.src)}
+                        style={{
+                            position: 'absolute',
+                            inset: 0,
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            zIndex: STAGING_SHOT_3_1.bg.zIndex,
+                            pointerEvents: 'none',
+                            opacity: oldDioramaFade,
+                        }}
+                    />
+                )}
 
                 {/* 2. MẶT TRỜI: KHUÔN MẶT TRUNG TÂM CỐ ĐỊNH + VÒNG NGOÀI TAM GIÁC XOAY VÒNG & BLUR NHÒA LÓE SÁNG */}
                 <div
                     style={{
                         position: 'absolute',
-                        left: STAGING_SHOT_3_1.sun.left,
-                        top: STAGING_SHOT_3_1.sun.top,
-                        width: STAGING_SHOT_3_1.sun.width,
-                        zIndex: STAGING_SHOT_3_1.sun.zIndex,
+                        left: `${sunLeftVal}%`,
+                        top: `${sunTopVal}%`,
+                        width: `${sunWidthVal}%`,
+                        zIndex: STAGING_SHOT_3_4.sun.zIndex,
                         pointerEvents: 'none',
                         opacity: sunEntrance,
-                        transform: `translate(53px, -25px) scale(${sunScale})`,
+                        transform: `translate(${sunTransX}px, ${sunTransY}px) scale(${sunScale * sunScaleTrans})`,
                         transformOrigin: 'center center',
                     }}
                 >
-                    {/* Khung chứa tổng thể mặt trời (bảo toàn 100% tọa độ gốc) */}
                     <div
                         style={{
-                            width: '120%',
+                            width: '100%',
                             height: 'auto',
-                            translate: '87px -174.2px',
                             position: 'relative',
                         }}
                     >
@@ -2119,18 +2334,19 @@ export const Scene3_TravelAdventure: React.FC = () => {
                         >
                             {/* Lớp 1: Các tam giác sắc nét xoay vòng như code gốc */}
                             <Img
-                                src={staticFile(STAGING_SHOT_3_1.sun.src)}
+                                src={staticFile(STAGING_SHOT_3_4.sun.src)}
                                 style={{
                                     width: '100%',
                                     height: 'auto',
                                     display: 'block',
-                                    filter: 'drop-shadow(0 0 15px rgba(251, 191, 36, 0.40))',
+                                    filter: 'drop-shadow(0 0 25px rgba(251, 191, 36, 0.45))',
+                                    translate: '-67.6px 255.1px'
                                 }}
                             />
 
                             {/* Lớp 2: Hiệu ứng blur nhòa lóe sáng lên các tam giác tia mặt trời */}
                             <Img
-                                src={staticFile(STAGING_SHOT_3_1.sun.src)}
+                                src={staticFile(STAGING_SHOT_3_4.sun.src)}
                                 style={{
                                     position: 'absolute',
                                     inset: 0,
@@ -2141,6 +2357,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                     opacity: 0.7 + Math.sin(frame * 0.08) * 0.15,
                                     mixBlendMode: 'screen',
                                     pointerEvents: 'none',
+                                    translate: '-75.9px 255.5px'
                                 }}
                             />
                         </div>
@@ -2162,6 +2379,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                         height: 'auto',
                                         display: 'block',
                                         filter: 'drop-shadow(0 8px 18px rgba(245, 158, 11, 0.35))',
+                                        translate: '-193.2px 181.1px'
                                     }}
                                 />
                             </div>
@@ -2171,46 +2389,46 @@ export const Scene3_TravelAdventure: React.FC = () => {
 
                 {/* 3. TẦNG MÂY GIẤY 1 (Góc trên bên trái) */}
                 <Img
-                    src={staticFile(STAGING_SHOT_3_1.cloud1.src)}
+                    src={staticFile(STAGING_SHOT_3_4.cloud1.src)}
                     style={{
                         position: 'absolute',
-                        left: STAGING_SHOT_3_1.cloud1.left,
-                        top: STAGING_SHOT_3_1.cloud1.top,
-                        width: STAGING_SHOT_3_1.cloud1.width,
+                        left: `${cloud1Left}%`,
+                        top: `${cloud1Top}%`,
+                        width: `${cloud1Width}%`,
                         height: 'auto',
-                        zIndex: STAGING_SHOT_3_1.cloud1.zIndex,
+                        zIndex: STAGING_SHOT_3_4.cloud1.zIndex,
                         pointerEvents: 'none',
-                        transform: `translateX(${cloud1Parallax}px)`,
+                        transform: `translate(${cloud1TransX}px, ${cloud1TransY}px)`,
                     }}
                 />
 
                 {/* 4. TẦNG MÂY GIẤY 2 (Trung tâm bầu trời) */}
                 <Img
-                    src={staticFile(STAGING_SHOT_3_1.cloud2.src)}
+                    src={staticFile(STAGING_SHOT_3_4.cloud2.src)}
                     style={{
                         position: 'absolute',
-                        left: STAGING_SHOT_3_1.cloud2.left,
-                        top: STAGING_SHOT_3_1.cloud2.top,
-                        width: STAGING_SHOT_3_1.cloud2.width,
+                        left: `${cloud2Left}%`,
+                        top: `${cloud2Top}%`,
+                        width: `${cloud2Width}%`,
                         height: 'auto',
-                        zIndex: STAGING_SHOT_3_1.cloud2.zIndex,
+                        zIndex: STAGING_SHOT_3_4.cloud2.zIndex,
                         pointerEvents: 'none',
-                        transform: `translateX(${cloud2Parallax}px)`,
+                        transform: `translate(${cloud2TransX}px, ${cloud2TransY}px)`,
                     }}
                 />
 
                 {/* 5. TẦNG MÂY GIẤY 3 (Phía trên bên phải) */}
                 <Img
-                    src={staticFile(STAGING_SHOT_3_1.cloud3.src)}
+                    src={staticFile(STAGING_SHOT_3_4.cloud3.src)}
                     style={{
                         position: 'absolute',
-                        left: STAGING_SHOT_3_1.cloud3.left,
-                        top: STAGING_SHOT_3_1.cloud3.top,
-                        width: STAGING_SHOT_3_1.cloud3.width,
+                        left: `${cloud3Left}%`,
+                        top: `${cloud3Top}%`,
+                        width: `${cloud3Width}%`,
                         height: 'auto',
-                        zIndex: STAGING_SHOT_3_1.cloud3.zIndex,
+                        zIndex: STAGING_SHOT_3_4.cloud3.zIndex,
                         pointerEvents: 'none',
-                        transform: `translateX(${cloud3Parallax}px)`,
+                        transform: `translate(${cloud3TransX}px, ${cloud3TransY}px)`,
                     }}
                 />
 
@@ -2281,143 +2499,159 @@ export const Scene3_TravelAdventure: React.FC = () => {
                 <DynamicWindStreamers frame={frame} fps={fps} />
 
                 {/* 7. BẬC THANG PODIUM HỒNG BÊN TRÁI & TÁN ĐỒI XANH */}
-                <Img
-                    src={staticFile(STAGING_SHOT_3_1.leftPodiumHills.src)}
-                    style={{
-                        position: 'absolute',
-                        left: STAGING_SHOT_3_1.leftPodiumHills.left,
-                        top: STAGING_SHOT_3_1.leftPodiumHills.top,
-                        width: STAGING_SHOT_3_1.leftPodiumHills.width,
-                        height: 'auto',
-                        zIndex: STAGING_SHOT_3_1.leftPodiumHills.zIndex,
-                        pointerEvents: 'none',
-                        opacity: leftPodiumSpring,
-                        transform: `translate(${BASE_OFFSETS.leftPodiumHills.x + leftPodiumOffsetX}px, ${BASE_OFFSETS.leftPodiumHills.y}px)`,
-                        filter: 'drop-shadow(0 12px 18px rgba(15, 23, 42, 0.12))',
-                    }}
-                />
+                {oldDioramaFade > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_1.leftPodiumHills.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_1.leftPodiumHills.left,
+                            top: STAGING_SHOT_3_1.leftPodiumHills.top,
+                            width: STAGING_SHOT_3_1.leftPodiumHills.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_1.leftPodiumHills.zIndex,
+                            pointerEvents: 'none',
+                            opacity: leftPodiumSpring * oldDioramaFade,
+                            transform: `translate(${BASE_OFFSETS.leftPodiumHills.x + leftPodiumOffsetX}px, ${BASE_OFFSETS.leftPodiumHills.y}px)`,
+                            filter: 'drop-shadow(0 12px 18px rgba(15, 23, 42, 0.12))',
+                        }}
+                    />
+                )}
 
                 {/* 8. CÂY DỪA XANH LỚN BÊN TRÁI */}
-                <Img
-                    src={staticFile(STAGING_SHOT_3_1.greenPalm.src)}
-                    style={{
-                        position: 'absolute',
-                        left: STAGING_SHOT_3_1.greenPalm.left,
-                        top: STAGING_SHOT_3_1.greenPalm.top,
-                        width: STAGING_SHOT_3_1.greenPalm.width,
-                        height: 'auto',
-                        zIndex: STAGING_SHOT_3_1.greenPalm.zIndex,
-                        pointerEvents: 'none',
-                        opacity: greenPalmSpring,
-                        transform: `translate(${BASE_OFFSETS.greenPalm.x}px, ${BASE_OFFSETS.greenPalm.y}px) scale(${greenPalmScale}) rotate(${greenPalmSway}deg)`,
-                        transformOrigin: '25% 95%',
-                        filter: 'drop-shadow(0 14px 22px rgba(15, 23, 42, 0.14))',
-                    }}
-                />
+                {oldDioramaFade > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_1.greenPalm.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_1.greenPalm.left,
+                            top: STAGING_SHOT_3_1.greenPalm.top,
+                            width: STAGING_SHOT_3_1.greenPalm.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_1.greenPalm.zIndex,
+                            pointerEvents: 'none',
+                            opacity: greenPalmSpring * oldDioramaFade,
+                            transform: `translate(${BASE_OFFSETS.greenPalm.x}px, ${BASE_OFFSETS.greenPalm.y}px) scale(${greenPalmScale}) rotate(${greenPalmSway}deg)`,
+                            transformOrigin: '25% 95%',
+                            filter: 'drop-shadow(0 14px 22px rgba(15, 23, 42, 0.14))',
+                        }}
+                    />
+                )}
 
                 {/* 9. CÂY DỪA HỒNG BÊN PHẢI (Trước mặt trời) */}
-                <Img
-                    src={staticFile(STAGING_SHOT_3_1.pinkPalm.src)}
-                    style={{
-                        position: 'absolute',
-                        left: STAGING_SHOT_3_1.pinkPalm.left,
-                        top: STAGING_SHOT_3_1.pinkPalm.top,
-                        width: STAGING_SHOT_3_1.pinkPalm.width,
-                        height: 'auto',
-                        zIndex: STAGING_SHOT_3_1.pinkPalm.zIndex,
-                        pointerEvents: 'none',
-                        opacity: pinkPalmSpring,
-                        transform: `scale(${pinkPalmScale}) rotate(${pinkPalmSway}deg)`,
-                        transformOrigin: '80% 95%',
-                        filter: 'drop-shadow(0 12px 18px rgba(15, 23, 42, 0.12))',
-                    }}
-                />
+                {oldDioramaFade > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_1.pinkPalm.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_1.pinkPalm.left,
+                            top: STAGING_SHOT_3_1.pinkPalm.top,
+                            width: STAGING_SHOT_3_1.pinkPalm.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_1.pinkPalm.zIndex,
+                            pointerEvents: 'none',
+                            opacity: pinkPalmSpring * oldDioramaFade,
+                            transform: `scale(${pinkPalmScale}) rotate(${pinkPalmSway}deg)`,
+                            transformOrigin: '80% 95%',
+                            filter: 'drop-shadow(0 12px 18px rgba(15, 23, 42, 0.12))',
+                        }}
+                    />
+                )}
 
                 {/* 10. BẬC THANG XOẮN ỐC BÊN PHẢI */}
-                <Img
-                    src={staticFile(STAGING_SHOT_3_1.rightPodiumStairs.src)}
-                    style={{
-                        position: 'absolute',
-                        left: STAGING_SHOT_3_1.rightPodiumStairs.left,
-                        top: STAGING_SHOT_3_1.rightPodiumStairs.top,
-                        width: STAGING_SHOT_3_1.rightPodiumStairs.width,
-                        height: 'auto',
-                        zIndex: STAGING_SHOT_3_1.rightPodiumStairs.zIndex,
-                        pointerEvents: 'none',
-                        opacity: rightPodiumSpring,
-                        transform: `translateX(${rightPodiumOffsetX}px)`,
-                        filter: 'drop-shadow(0 14px 20px rgba(15, 23, 42, 0.13))',
-                    }}
-                />
+                {oldDioramaFade > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_1.rightPodiumStairs.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_1.rightPodiumStairs.left,
+                            top: STAGING_SHOT_3_1.rightPodiumStairs.top,
+                            width: STAGING_SHOT_3_1.rightPodiumStairs.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_1.rightPodiumStairs.zIndex,
+                            pointerEvents: 'none',
+                            opacity: rightPodiumSpring * oldDioramaFade,
+                            transform: `translateX(${rightPodiumOffsetX}px)`,
+                            filter: 'drop-shadow(0 14px 20px rgba(15, 23, 42, 0.13))',
+                        }}
+                    />
+                )}
 
                 {/* 11. VÒNG CUNG NGHỆ THUẬT / CÁNH CHIM HỒNG (Điểm xuyết trên cầu thang phải) */}
-                <Img
-                    src={staticFile(STAGING_SHOT_3_1.pinkArcBird.src)}
-                    style={{
-                        position: 'absolute',
-                        left: STAGING_SHOT_3_1.pinkArcBird.left,
-                        top: STAGING_SHOT_3_1.pinkArcBird.top,
-                        width: STAGING_SHOT_3_1.pinkArcBird.width,
-                        height: 'auto',
-                        zIndex: STAGING_SHOT_3_1.pinkArcBird.zIndex,
-                        pointerEvents: 'none',
-                        opacity: pinkArcSpring,
-                        transform: `translate(${BASE_OFFSETS.pinkArcBird.x}px, ${BASE_OFFSETS.pinkArcBird.y}px) scale(${pinkArcSpring})`,
-                        filter: 'drop-shadow(0 8px 14px rgba(15, 23, 42, 0.14))',
-                    }}
-                />
+                {oldDioramaFade > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_1.pinkArcBird.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_1.pinkArcBird.left,
+                            top: STAGING_SHOT_3_1.pinkArcBird.top,
+                            width: STAGING_SHOT_3_1.pinkArcBird.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_1.pinkArcBird.zIndex,
+                            pointerEvents: 'none',
+                            opacity: pinkArcSpring * oldDioramaFade,
+                            transform: `translate(${BASE_OFFSETS.pinkArcBird.x}px, ${BASE_OFFSETS.pinkArcBird.y}px) scale(${pinkArcSpring})`,
+                            filter: 'drop-shadow(0 8px 14px rgba(15, 23, 42, 0.14))',
+                        }}
+                    />
+                )}
 
                 {/* 12. ĐĨA THẢM TRÒN XANH PASTEL (Podium trung tâm - BÓNG SẮC NÉT CHUẨN PAPER-CUT) */}
-                <Img
-                    src={staticFile(STAGING_SHOT_3_1.bluePodiumCarpet.src)}
-                    style={{
-                        position: 'absolute',
-                        left: STAGING_SHOT_3_1.bluePodiumCarpet.left,
-                        top: STAGING_SHOT_3_1.bluePodiumCarpet.top,
-                        width: STAGING_SHOT_3_1.bluePodiumCarpet.width,
-                        height: STAGING_SHOT_3_1.bluePodiumCarpet.height,
-                        zIndex: STAGING_SHOT_3_1.bluePodiumCarpet.zIndex,
-                        pointerEvents: 'none',
-                        opacity: carpetSpring,
-                        transform: `translate(${BASE_OFFSETS.bluePodiumCarpet.x}px, ${BASE_OFFSETS.bluePodiumCarpet.y}px) scale(${carpetScale})`,
-                        transformOrigin: 'center center',
-                        filter: 'drop-shadow(0 3px 3px rgba(15, 23, 42, 0.40)) drop-shadow(0 6px 12px rgba(15, 23, 42, 0.22))',
-                    }}
-                />
+                {oldDioramaFade > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_1.bluePodiumCarpet.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_1.bluePodiumCarpet.left,
+                            top: STAGING_SHOT_3_1.bluePodiumCarpet.top,
+                            width: STAGING_SHOT_3_1.bluePodiumCarpet.width,
+                            height: STAGING_SHOT_3_1.bluePodiumCarpet.height,
+                            zIndex: STAGING_SHOT_3_1.bluePodiumCarpet.zIndex,
+                            pointerEvents: 'none',
+                            opacity: carpetSpring * oldDioramaFade,
+                            transform: `translate(${BASE_OFFSETS.bluePodiumCarpet.x}px, ${BASE_OFFSETS.bluePodiumCarpet.y}px) scale(${carpetScale})`,
+                            transformOrigin: 'center center',
+                            filter: 'drop-shadow(0 3px 3px rgba(15, 23, 42, 0.40)) drop-shadow(0 6px 12px rgba(15, 23, 42, 0.22))',
+                        }}
+                    />
+                )}
 
                 {/* 13. ĐỤN CÁT TRẮNG XẾP LỚP TIỀN CẢNH BÊN TRÁI */}
-                <Img
-                    src={staticFile(STAGING_SHOT_3_1.leftDune.src)}
-                    style={{
-                        position: 'absolute',
-                        left: STAGING_SHOT_3_1.leftDune.left,
-                        top: STAGING_SHOT_3_1.leftDune.top,
-                        width: STAGING_SHOT_3_1.leftDune.width,
-                        height: 'auto',
-                        zIndex: STAGING_SHOT_3_1.leftDune.zIndex,
-                        pointerEvents: 'none',
-                        opacity: leftDuneSpring,
-                        transform: `translate(${BASE_OFFSETS.leftDune.x}px, ${BASE_OFFSETS.leftDune.y + leftDuneRise}px)`,
-                        filter: 'drop-shadow(0 14px 22px rgba(15, 23, 42, 0.12))',
-                    }}
-                />
+                {oldDioramaFade > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_1.leftDune.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_1.leftDune.left,
+                            top: STAGING_SHOT_3_1.leftDune.top,
+                            width: STAGING_SHOT_3_1.leftDune.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_1.leftDune.zIndex,
+                            pointerEvents: 'none',
+                            opacity: leftDuneSpring * oldDioramaFade,
+                            transform: `translate(${BASE_OFFSETS.leftDune.x}px, ${BASE_OFFSETS.leftDune.y + leftDuneRise}px)`,
+                            filter: 'drop-shadow(0 14px 22px rgba(15, 23, 42, 0.12))',
+                        }}
+                    />
+                )}
 
                 {/* 14. ĐỤN CÁT TRẮNG XẾP LỚP TIỀN CẢNH BÊN PHẢI */}
-                <Img
-                    src={staticFile(STAGING_SHOT_3_1.rightDune.src)}
-                    style={{
-                        position: 'absolute',
-                        left: STAGING_SHOT_3_1.rightDune.left,
-                        top: STAGING_SHOT_3_1.rightDune.top,
-                        width: STAGING_SHOT_3_1.rightDune.width,
-                        height: 'auto',
-                        zIndex: STAGING_SHOT_3_1.rightDune.zIndex,
-                        pointerEvents: 'none',
-                        opacity: rightDuneSpring,
-                        transform: `translate(${BASE_OFFSETS.rightDune.x}px, ${BASE_OFFSETS.rightDune.y + rightDuneRise}px)`,
-                        filter: 'drop-shadow(0 14px 22px rgba(15, 23, 42, 0.12))',
-                    }}
-                />
+                {oldDioramaFade > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_1.rightDune.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_1.rightDune.left,
+                            top: STAGING_SHOT_3_1.rightDune.top,
+                            width: STAGING_SHOT_3_1.rightDune.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_1.rightDune.zIndex,
+                            pointerEvents: 'none',
+                            opacity: rightDuneSpring * oldDioramaFade,
+                            transform: `translate(${BASE_OFFSETS.rightDune.x}px, ${BASE_OFFSETS.rightDune.y + rightDuneRise}px)`,
+                            filter: 'drop-shadow(0 14px 22px rgba(15, 23, 42, 0.12))',
+                        }}
+                    />
+                )}
 
                 {/* 14.5. BÓNG TIẾP ĐẤT & CHIẾU SÀN DƯỚI 2 CHIẾC VALI TRÊN MẶT THẢM */}
                 {!isShocked ? (
@@ -2430,7 +2664,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             aspectRatio: '1671 / 941',
                             zIndex: 24, // Nằm ngay dưới couple (zIndex 25) và trên mặt thảm (zIndex 15)
                             pointerEvents: 'none',
-                            opacity: coupleEntrance,
+                            opacity: coupleEntrance * shockedCoupleFade,
                             transform: `translate(${BASE_OFFSETS.couple.x + coupleOffsetX}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + glideFloat + idleBreathing}px) scale(${coupleScale}) rotate(${subtleSway}deg)`,
                             transformOrigin: 'center bottom',
                         }}
@@ -2478,7 +2712,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             aspectRatio: '2400 / 1340',
                             zIndex: 24,
                             pointerEvents: 'none',
-                            opacity: coupleEntrance,
+                            opacity: coupleEntrance * shockedCoupleFade,
                             transform: `translate(${BASE_OFFSETS.couple.x + coupleOffsetX + shockShiver}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + shockJumpY + shockBreath}px) scale(${coupleScale})`,
                             transformOrigin: 'center bottom',
                         }}
@@ -2545,89 +2779,91 @@ export const Scene3_TravelAdventure: React.FC = () => {
                 )}
 
                 {/* 15. CẶP ĐÔI DU LỊCH (SHOT 3.1 THONG DONG -> SHOT 3.2 HOẢNG HỐT VALI BUNG NẮP & TỐC NÓN) */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        left: STAGING_SHOT_3_1.couple.left,
-                        top: STAGING_SHOT_3_1.couple.top,
-                        width: STAGING_SHOT_3_1.couple.width,
-                        height: 'auto',
-                        aspectRatio: !isShocked ? '1671 / 941' : '2400 / 1340',
-                        zIndex: STAGING_SHOT_3_1.couple.zIndex,
-                        pointerEvents: 'none',
-                        opacity: coupleEntrance,
-                        transform: !isShocked
-                            ? `translate(${BASE_OFFSETS.couple.x + coupleOffsetX}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + glideFloat + idleBreathing}px) scale(${coupleScale}) rotate(${subtleSway}deg)`
-                            : `translate(${BASE_OFFSETS.couple.x + coupleOffsetX + shockShiver}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + shockJumpY + shockBreath}px) scale(${coupleScale})`,
-                        transformOrigin: 'center bottom',
-                        filter: 'drop-shadow(0 4px 6px rgba(15, 23, 42, 0.45)) drop-shadow(-4px 16px 24px rgba(15, 23, 42, 0.30)) drop-shadow(-8px 32px 48px rgba(15, 23, 42, 0.22))',
-                        translate: '83.5px -16.5px',
-                    }}
-                >
-                    {/* Thân cặp đôi (Khi không bay nón: cupple_lolang_3.png nguyên vẹn 100%; Khi gió tốc nón: cupple_khong_mu.png với tóc bồng bềnh sạch sẽ) */}
-                    <Img
-                        src={staticFile(currentCoupleSrc)}
+                {shockedCoupleFade > 0.001 && (
+                    <div
                         style={{
-                            width: '100%',
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_1.couple.left,
+                            top: STAGING_SHOT_3_1.couple.top,
+                            width: STAGING_SHOT_3_1.couple.width,
                             height: 'auto',
-                            display: 'block',
+                            aspectRatio: !isShocked ? '1671 / 941' : '2400 / 1340',
+                            zIndex: STAGING_SHOT_3_1.couple.zIndex,
+                            pointerEvents: 'none',
+                            opacity: coupleEntrance * shockedCoupleFade,
+                            transform: !isShocked
+                                ? `translate(${BASE_OFFSETS.couple.x + coupleOffsetX}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + glideFloat + idleBreathing}px) scale(${coupleScale}) rotate(${subtleSway}deg)`
+                                : `translate(${BASE_OFFSETS.couple.x + coupleOffsetX + shockShiver}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + shockJumpY + shockBreath}px) scale(${coupleScale})`,
+                            transformOrigin: 'center bottom',
+                            filter: 'drop-shadow(0 4px 6px rgba(15, 23, 42, 0.45)) drop-shadow(-4px 16px 24px rgba(15, 23, 42, 0.30)) drop-shadow(-8px 32px 48px rgba(15, 23, 42, 0.22))',
+                            translate: '83.5px -16.5px',
                         }}
-                    />
-
-                    {/* Chiếc mũ cói nguyên vẹn bay bổng trên không trung khi gió quét qua (F376 - F418) */}
-                    {isShocked && isHatFlying && (
-                        <div
+                    >
+                        {/* Thân cặp đôi (Khi không bay nón: cupple_lolang_3.png nguyên vẹn 100%; Khi gió tốc nón: cupple_khong_mu.png với tóc bồng bềnh sạch sẽ) */}
+                        <Img
+                            src={staticFile(currentCoupleSrc)}
                             style={{
-                                position: 'absolute',
-                                left: '39.92%',
-                                top: '17.20%',
-                                width: '19.15%',
-                                transform: `translate(-50%, -50%) translateY(${hatFlyY}px) rotate(${hatFlyTilt}deg) scale(${hatFlyScale})`,
-                                transformOrigin: 'center center',
-                                filter: 'drop-shadow(0 10px 20px rgba(15, 23, 42, 0.35))',
-                                opacity: hatFlyOpacity,
-                                pointerEvents: 'none',
+                                width: '100%',
+                                height: 'auto',
+                                display: 'block',
                             }}
-                        >
-                            <Img
-                                src={staticFile(STAGING_SHOT_3_1.couple.flyingHatSrc)}
-                                style={{
-                                    width: '100%',
-                                    height: 'auto',
-                                    display: 'block',
-                                    translate: '-11.7px -205.8px',
-                                }}
-                            />
-                        </div>
-                    )}
+                        />
 
-                    {/* Chiếc mũ bạn nam bay bổng trên không trung khi gió quét qua (F376 - F418) */}
-                    {isShocked && isHatFlying && (
-                        <div
-                            style={{
-                                position: 'absolute',
-                                left: '60.42%',
-                                top: '13.25%',
-                                width: '17.92%',
-                                transform: `translate(-50%, -50%) translateY(${guyHatFlyY}px) rotate(${guyHatFlyTilt}deg) scale(${guyHatFlyScale})`,
-                                transformOrigin: 'center center',
-                                filter: 'drop-shadow(0 10px 20px rgba(15, 23, 42, 0.35))',
-                                opacity: guyHatFlyOpacity,
-                                pointerEvents: 'none',
-                            }}
-                        >
-                            <Img
-                                src={staticFile(STAGING_SHOT_3_1.couple.flyingManHatSrc)}
+                        {/* Chiếc mũ cói nguyên vẹn bay bổng trên không trung khi gió quét qua (F376 - F418) */}
+                        {isShocked && isHatFlying && (
+                            <div
                                 style={{
-                                    width: '100%',
-                                    height: 'auto',
-                                    display: 'block',
-                                    translate: '-22.6px -243.8px',
+                                    position: 'absolute',
+                                    left: '39.92%',
+                                    top: '17.20%',
+                                    width: '19.15%',
+                                    transform: `translate(-50%, -50%) translateY(${hatFlyY}px) rotate(${hatFlyTilt}deg) scale(${hatFlyScale})`,
+                                    transformOrigin: 'center center',
+                                    filter: 'drop-shadow(0 10px 20px rgba(15, 23, 42, 0.35))',
+                                    opacity: hatFlyOpacity,
+                                    pointerEvents: 'none',
                                 }}
-                            />
-                        </div>
-                    )}
-                </div>
+                            >
+                                <Img
+                                    src={staticFile(STAGING_SHOT_3_1.couple.flyingHatSrc)}
+                                    style={{
+                                        width: '100%',
+                                        height: 'auto',
+                                        display: 'block',
+                                        translate: '-11.7px -205.8px',
+                                    }}
+                                />
+                            </div>
+                        )}
+
+                        {/* Chiếc mũ bạn nam bay bổng trên không trung khi gió quét qua (F376 - F418) */}
+                        {isShocked && isHatFlying && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    left: '60.42%',
+                                    top: '13.25%',
+                                    width: '17.92%',
+                                    transform: `translate(-50%, -50%) translateY(${guyHatFlyY}px) rotate(${guyHatFlyTilt}deg) scale(${guyHatFlyScale})`,
+                                    transformOrigin: 'center center',
+                                    filter: 'drop-shadow(0 10px 20px rgba(15, 23, 42, 0.35))',
+                                    opacity: guyHatFlyOpacity,
+                                    pointerEvents: 'none',
+                                }}
+                            >
+                                <Img
+                                    src={staticFile(STAGING_SHOT_3_1.couple.flyingManHatSrc)}
+                                    style={{
+                                        width: '100%',
+                                        height: 'auto',
+                                        display: 'block',
+                                        translate: '-22.6px -243.8px',
+                                    }}
+                                />
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 {/* 15.5. CỤM 7 VẬT DỤNG DU LỊCH BAY LƠ LỬNG TRÊN VALI NGƯỜI NỮ BÊN TRÁI & VÒNG XOÁY GIÓ HOẠT HÌNH (SHOT 3.2 FRAME 360+) */}
                 {isShocked && (
@@ -2653,7 +2889,15 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                 fps,
                                 config: { damping: 15, stiffness: 90 },
                             });
-                            const windSwirlOpacity = interpolate(windSwirlSpring, [0, 0.3, 1], [0, 0.95, 0.9]);
+                            let windSwirlOpacity = interpolate(windSwirlSpring, [0, 0.3, 1], [0, 0.95, 0.9]);
+                            if (frame >= 450) {
+                                const swirlFade = interpolate(frame, [450, 480], [1, 0], {
+                                    extrapolateLeft: 'clamp',
+                                    extrapolateRight: 'clamp',
+                                });
+                                windSwirlOpacity *= swirlFade;
+                            }
+                            if (windSwirlOpacity <= 0.001) return null;
                             const windSwirlScale = interpolate(windSwirlSpring, [0, 0.7, 1], [0.2, 1.08, 1.0]);
 
                             return (
@@ -2734,7 +2978,14 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                             fps,
                                             config: { damping: 13, stiffness: 95 },
                                         });
-                                        const dustOpacity = interpolate(dustSpring, [0, 0.3, 1], [0, 0.95, 0.85]);
+                                        let dustOpacity = interpolate(dustSpring, [0, 0.3, 1], [0, 0.95, 0.85]);
+                                        if (frame >= 450) {
+                                            dustOpacity *= interpolate(frame, [450, 485], [1, 0], {
+                                                extrapolateLeft: 'clamp',
+                                                extrapolateRight: 'clamp',
+                                            });
+                                        }
+                                        if (dustOpacity <= 0.001) return null;
                                         const dLeft = interpolate(dustSpring, [0, 1], [17.5, dust.targetX]);
                                         const dTop = interpolate(dustSpring, [0, 1], [78.0, dust.targetY]);
 
@@ -2775,8 +3026,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                 fps,
                                 config: { damping: 14, stiffness: 85, mass: 0.7 },
                             });
-                            const opacity = interpolate(launchSpring, [0, 0.25, 1], [0, 1, 1]);
-                            const scale = interpolate(launchSpring, [0, 0.7, 1], [0.35, 1.1, 1.0]);
+                            const initialOpacity = interpolate(launchSpring, [0, 0.25, 1], [0, 1, 1]);
+                            const initialScale = interpolate(launchSpring, [0, 0.7, 1], [0.35, 1.1, 1.0]);
 
                             // Bắn từ đáy vali (17.5%, 78.0%) lên trạm lơ lửng trên nắp vali
                             const currentLeft = interpolate(launchSpring, [0, 1], [17.5, prop.targetX]);
@@ -2789,17 +3040,40 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             const hoverRot =
                                 prop.baseRotate + Math.sin(floatTime * prop.speed + prop.phase) * prop.ampRot;
 
+                            // 🧳 GIAI ĐOẠN THU HỒI HÀNH LÝ VÀO VALI (SHOT 3.3: F450 - F495)
+                            let finalLeft = currentLeft;
+                            let finalTop = currentTop;
+                            let finalScale = initialScale;
+                            let finalOpacity = initialOpacity;
+                            let finalRot = hoverRot;
+
+                            if (frame >= 450) {
+                                const recallStart = 450 + prop.stagger * 1.5;
+                                const recallSpring = spring({
+                                    frame: frame - recallStart,
+                                    fps,
+                                    config: { damping: 15, stiffness: 110, mass: 0.8 },
+                                });
+                                finalLeft = interpolate(recallSpring, [0, 1], [prop.targetX, 17.5]);
+                                finalTop = interpolate(recallSpring, [0, 1], [prop.targetY, 78.0]);
+                                finalScale = interpolate(recallSpring, [0, 0.4, 1], [initialScale, initialScale * 0.7, 0]);
+                                finalOpacity = interpolate(recallSpring, [0, 0.6, 1], [initialOpacity, initialOpacity * 0.7, 0]);
+                                finalRot = interpolate(recallSpring, [0, 1], [hoverRot, hoverRot + 180]);
+                            }
+
+                            if (finalOpacity <= 0.001) return null;
+
                             return (
                                 <div
                                     key={idx}
                                     style={{
                                         position: 'absolute',
-                                        left: `${currentLeft}%`,
-                                        top: `${currentTop}%`,
+                                        left: `${finalLeft}%`,
+                                        top: `${finalTop}%`,
                                         width: `${prop.width}%`,
                                         aspectRatio: '1 / 1',
-                                        opacity,
-                                        transform: `translate(-50%, -50%) translate3d(${hoverX}px, ${hoverY}px, ${prop.z}px) rotate(${hoverRot}deg) scale(${scale})`,
+                                        opacity: finalOpacity,
+                                        transform: `translate(-50%, -50%) translate3d(${hoverX}px, ${hoverY}px, ${prop.z}px) rotate(${finalRot}deg) scale(${finalScale})`,
                                         transformOrigin: 'center center',
                                         filter: 'drop-shadow(0 4px 6px rgba(15, 23, 42, 0.22)) drop-shadow(0 10px 16px rgba(15, 23, 42, 0.15))',
                                     }}
@@ -2820,100 +3094,892 @@ export const Scene3_TravelAdventure: React.FC = () => {
                 )}
 
                 {/* 16. GHẾ NGHỈ BÃI BIỂN SỌC XANH TRẮNG (SHARP WOODEN LEG CONTACT SHADOW) */}
-                <Img
-                    src={staticFile(STAGING_SHOT_3_1.beachChair.src)}
-                    style={{
-                        position: 'absolute',
-                        left: STAGING_SHOT_3_1.beachChair.left,
-                        top: STAGING_SHOT_3_1.beachChair.top,
-                        width: STAGING_SHOT_3_1.beachChair.width,
-                        height: 'auto',
-                        zIndex: STAGING_SHOT_3_1.beachChair.zIndex,
-                        pointerEvents: 'none',
-                        opacity: chairSpring,
-                        transform: `translate(${BASE_OFFSETS.beachChair.x}px, ${BASE_OFFSETS.beachChair.y + chairDrop}px)`,
-                        filter: 'drop-shadow(-3px 5px 7px rgba(15, 23, 42, 0.45)) drop-shadow(-6px 18px 25px rgba(15, 23, 42, 0.28))',
-                        translate: '44.7px 15.9px',
-                    }}
-                />
+                {oldDioramaFade > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_1.beachChair.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_1.beachChair.left,
+                            top: STAGING_SHOT_3_1.beachChair.top,
+                            width: STAGING_SHOT_3_1.beachChair.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_1.beachChair.zIndex,
+                            pointerEvents: 'none',
+                            opacity: chairSpring * oldDioramaFade,
+                            transform: `translate(${BASE_OFFSETS.beachChair.x}px, ${BASE_OFFSETS.beachChair.y + chairDrop}px)`,
+                            filter: 'drop-shadow(-3px 5px 7px rgba(15, 23, 42, 0.45)) drop-shadow(-6px 18px 25px rgba(15, 23, 42, 0.28))',
+                            translate: '44.7px 15.9px',
+                        }}
+                    />
+                )}
 
                 {/* 17. CHÚ PHAO VỊT VÀNG 3D (BỊ LỐC XOÁY CUỐN BAY, XOAY TÍT 360° ĐỈNH CAO & ĐÁP CẠNH GHẾ XANH) */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        left: STAGING_SHOT_3_1.rubberDuck.left,
-                        top: STAGING_SHOT_3_1.rubberDuck.top,
-                        width: STAGING_SHOT_3_1.rubberDuck.width,
-                        aspectRatio: '1 / 1',
-                        zIndex: isDuckSwirled && frame < 416 ? 31 : STAGING_SHOT_3_1.rubberDuck.zIndex,
-                        pointerEvents: 'none',
-                        opacity: duckSpring,
-                        transform: `translate3d(${BASE_OFFSETS.rubberDuck.x + duckFlightX}px, ${BASE_OFFSETS.rubberDuck.y + duckDrop + duckFlightY + duckAlignOffsetY}px, ${duckFlightZ}px) rotate(${duckRotation}deg)`,
-                        transformOrigin: 'center center',
-                    }}
-                >
-                    {/* Bóng sàn 2.5D thích ứng theo độ cao và tiếp đất (Contact Shadow) */}
+                {oldDioramaFade > 0.001 && (
                     <div
                         style={{
                             position: 'absolute',
-                            bottom: isDuckSwirled ? '16%' : '8%',
-                            left: '50%',
-                            width: '68%',
-                            height: '18%',
-                            borderRadius: '50%',
-                            background:
-                                'radial-gradient(ellipse at center, rgba(15, 23, 42, 0.48) 0%, rgba(15, 23, 42, 0.18) 50%, rgba(15, 23, 42, 0) 75%)',
-                            transform: `translateX(-50%) scale(${duckShadowScale})`,
-                            opacity: duckShadowOpacity,
+                            left: STAGING_SHOT_3_1.rubberDuck.left,
+                            top: STAGING_SHOT_3_1.rubberDuck.top,
+                            width: STAGING_SHOT_3_1.rubberDuck.width,
+                            aspectRatio: '1 / 1',
+                            zIndex: isDuckSwirled && frame < 416 ? 31 : STAGING_SHOT_3_1.rubberDuck.zIndex,
                             pointerEvents: 'none',
-                            zIndex: -1,
-                        }}
-                    />
-
-                    {/* Thân chú vịt (Shot 3.1 bồng bềnh -> F355+ cuốn bay xoay tít với vit_roiram.png) */}
-                    <Img
-                        src={staticFile(currentDuckSrc)}
-                        style={{
-                            width: '100%',
-                            height: 'auto',
-                            transform: `scale(${duckDisplayScale}) scaleX(${duckSquashX}) scaleY(${duckSquashY})`,
+                            opacity: duckSpring * oldDioramaFade,
+                            transform: `translate3d(${BASE_OFFSETS.rubberDuck.x + duckFlightX}px, ${BASE_OFFSETS.rubberDuck.y + duckDrop + duckFlightY + duckAlignOffsetY}px, ${duckFlightZ}px) rotate(${duckRotation}deg)`,
                             transformOrigin: 'center center',
-                            filter: 'drop-shadow(-3px 5px 7px rgba(15, 23, 42, 0.45)) drop-shadow(-6px 16px 22px rgba(15, 23, 42, 0.26))',
                         }}
-                    />
-
-                    {/* 🌟 Vòng 3 ngôi sao choáng váng 3D xoay tít trên đỉnh đầu vịt */}
-                    {starHaloVisible && (
+                    >
+                        {/* Bóng sàn 2.5D thích ứng theo độ cao và tiếp đất (Contact Shadow) */}
                         <div
                             style={{
                                 position: 'absolute',
+                                bottom: isDuckSwirled ? '16%' : '8%',
                                 left: '50%',
-                                top: '22%',
+                                width: '68%',
+                                height: '18%',
+                                borderRadius: '50%',
+                                background:
+                                    'radial-gradient(ellipse at center, rgba(15, 23, 42, 0.48) 0%, rgba(15, 23, 42, 0.18) 50%, rgba(15, 23, 42, 0) 75%)',
+                                transform: `translateX(-50%) scale(${duckShadowScale})`,
+                                opacity: duckShadowOpacity,
                                 pointerEvents: 'none',
+                                zIndex: -1,
+                            }}
+                        />
+
+                        {/* Thân chú vịt (Shot 3.1 bồng bềnh -> F355+ cuốn bay xoay tít với vit_roiram.png) */}
+                        <Img
+                            src={staticFile(currentDuckSrc)}
+                            style={{
+                                width: '100%',
+                                height: 'auto',
+                                transform: `scale(${duckDisplayScale}) scaleX(${duckSquashX}) scaleY(${duckSquashY})`,
+                                transformOrigin: 'center center',
+                                filter: 'drop-shadow(-3px 5px 7px rgba(15, 23, 42, 0.45)) drop-shadow(-6px 16px 22px rgba(15, 23, 42, 0.26))',
+                            }}
+                        />
+
+                        {/* 🌟 Vòng 3 ngôi sao choáng váng 3D xoay tít trên đỉnh đầu vịt */}
+                        {starHaloVisible && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    left: '50%',
+                                    top: '22%',
+                                    pointerEvents: 'none',
+                                }}
+                            >
+                                {dizzyStars.map((s, idx) => (
+                                    <div
+                                        key={idx}
+                                        style={{
+                                            position: 'absolute',
+                                            left: s.x,
+                                            top: s.y,
+                                            zIndex: s.zIndex,
+                                            transform: `scale(${s.scale}) translate(-50%, -50%)`,
+                                            opacity: s.opacity * oldDioramaFade,
+                                            fontSize: 26,
+                                            lineHeight: 1,
+                                            filter: 'drop-shadow(0 2px 5px rgba(245, 158, 11, 0.75))',
+                                            userSelect: 'none',
+                                        }}
+                                    >
+                                        ⭐
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* ========================================================================= */}
+                {/* 🌟 CẢNH 3.3 & CẢNH 3.4/3.5: CÁC MẢNH GHÉP TẬP HỢP VÀ THIẾT KẾ ĐÍCH ĐẾN 🌟 */}
+                {/* ========================================================================= */}
+
+                {/* 🏝️ 18. HÒN ĐẢO DỪA GIẤY & DẢI BIỂN XANH HẬU CẢNH */}
+                {islandOpacity > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_4.island.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.island.left,
+                            top: STAGING_SHOT_3_4.island.top,
+                            width: STAGING_SHOT_3_4.island.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_4.island.zIndex,
+                            pointerEvents: 'none',
+                            filter: 'drop-shadow(0 12px 25px rgba(15, 23, 42, 0.08))',
+                            translate: '-469.9px -230.3px',
+                            transform: `translateX(${islandSlideX}px)`,
+                            opacity: islandOpacity,
+                        }}
+                    />
+                )}
+
+                {/* 🌊 19. DẢI SÓNG NƯỚC BIỂN NHIỀU LỚP HẬU CẢNH */}
+                {seaWaterOpacity > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_4.seaWater.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.seaWater.left,
+                            top: STAGING_SHOT_3_4.seaWater.top,
+                            width: STAGING_SHOT_3_4.seaWater.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_4.seaWater.zIndex,
+                            pointerEvents: 'none',
+                            filter: 'drop-shadow(0 8px 20px rgba(14, 165, 233, 0.12))',
+                            translate: '-385.2px -551px',
+                            transform: `translateY(${seaWaterRiseY + seaWaterWave}px)`,
+                            opacity: seaWaterOpacity,
+                        }}
+                    />
+                )}
+
+                {/* 💫 20. SÓNG XUNG KÍCH HÀO QUANG HỒNG (PULSE GLOW WAVE) KHI KHIÊN TIẾP ĐẤT */}
+                {isShieldPulseActive && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: '46.6%',
+                            top: '68.5%',
+                            width: '32%',
+                            height: '9%',
+                            borderRadius: '50%',
+                            border: `${4 * s}px solid #E11D48`,
+                            boxShadow: `0 0 ${25 * s}px #E11D48, inset 0 0 ${15 * s}px #E11D48`,
+                            transform: `translate(-50%, -50%) scale(${pulseScale})`,
+                            opacity: pulseOpacity,
+                            zIndex: 9,
+                            pointerEvents: 'none',
+                            filter: `blur(${2 * s}px)`,
+                        }}
+                    />
+                )}
+
+                {/* 🛡️ 21. KHUNG KHIÊN HỒNG NEON TRUNG TÂM */}
+                {shieldOpacity > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_4.centralArch.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.centralArch.left,
+                            top: STAGING_SHOT_3_4.centralArch.top,
+                            width: STAGING_SHOT_3_4.centralArch.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_4.centralArch.zIndex,
+                            pointerEvents: 'none',
+                            filter: 'drop-shadow(0 18px 45px rgba(225, 29, 72, 0.18)) drop-shadow(0 8px 20px rgba(15, 23, 42, 0.10))',
+                            translate: '55.9px -6.1px',
+                            transform: `translateY(${shieldDropY}px)`,
+                            opacity: shieldOpacity,
+                        }}
+                    />
+                )}
+
+                {/* 🏷️ 22. TIÊU ĐỀ 'BẢO HIỂM DU LỊCH' BÊN TRONG ĐỈNH KHUNG KHIÊN */}
+                {archTextOpacity > 0.001 && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.archText.left,
+                            top: STAGING_SHOT_3_4.archText.top,
+                            zIndex: STAGING_SHOT_3_4.archText.zIndex,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 4 * s,
+                            pointerEvents: 'none',
+                            transform: `translateY(${archTextY}px)`,
+                            opacity: archTextOpacity,
+                        }}
+                    >
+                        <span
+                            style={{
+                                color: '#1E293B',
+                                fontSize: 44 * s,
+                                fontWeight: 900,
+                                lineHeight: 1.12,
+                                letterSpacing: -0.5 * s,
                             }}
                         >
-                            {dizzyStars.map((s, idx) => (
+                            Bảo hiểm
+                        </span>
+                        <span
+                            style={{
+                                color: '#E11D48',
+                                fontSize: 44 * s,
+                                fontWeight: 900,
+                                lineHeight: 1.12,
+                                letterSpacing: -0.5 * s,
+                            }}
+                        >
+                            du lịch
+                        </span>
+                    </div>
+                )}
+
+                {/* 🛡️ 23. HUY HIỆU KHIÊN VALI HỒNG + TICK XANH Ở VAI PHẢI KHUNG */}
+                {badgeOpacity > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_4.suitcaseBadge.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.suitcaseBadge.left,
+                            top: STAGING_SHOT_3_4.suitcaseBadge.top,
+                            width: STAGING_SHOT_3_4.suitcaseBadge.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_4.suitcaseBadge.zIndex,
+                            pointerEvents: 'none',
+                            filter: 'drop-shadow(0 14px 30px rgba(225, 29, 72, 0.28))',
+                            translate: '43.6px -1px',
+                            transform: `scale(${badgeScale})`,
+                            transformOrigin: 'center center',
+                            opacity: badgeOpacity,
+                        }}
+                    />
+                )}
+
+                {/* 🏖️ 24. THẢM CÁT TRẮNG / BỤC TRUNG TÂM (KÈM BÓNG SILHOUETTE ÔM KHÍT ĐÁY THẢM & HẠT MÈ TĂNG NÉT) */}
+                {sandRugOpacity > 0.001 && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.sandRug.left,
+                            top: STAGING_SHOT_3_4.sandRug.top,
+                            width: STAGING_SHOT_3_4.sandRug.width,
+                            zIndex: 8, // Nằm trên nước biển (6), đảo dừa (7) và dưới khung khiên (10)
+                            pointerEvents: 'none',
+                            translate: '-27.3px -248.6px',
+                            transform: `scale(${sandRugScale})`,
+                            transformOrigin: '50% 50%',
+                            opacity: sandRugOpacity,
+                        }}
+                    >
+                        {/* 🌟 1. Viền bóng ôm sát mép dưới theo toàn bộ đường lượn sóng của thảm cát (Contact Bevel Shadow) */}
+                        <Img
+                            src={staticFile(STAGING_SHOT_3_4.sandRug.src)}
+                            style={{
+                                position: 'absolute',
+                                left: 0,
+                                top: 0,
+                                width: '100%',
+                                height: 'auto',
+                                transform: `translateY(${3.5 * s}px)`,
+                                filter: `brightness(0) blur(${1.8 * s}px)`,
+                                opacity: 0.55,
+                                pointerEvents: 'none',
+                            }}
+                        />
+
+                        {/* 🌟 2. Lớp đệm bóng giấy papercraft lan tỏa phía dưới (Ambient Depth Shadow) */}
+                        <Img
+                            src={staticFile(STAGING_SHOT_3_4.sandRug.src)}
+                            style={{
+                                position: 'absolute',
+                                left: 0,
+                                top: 0,
+                                width: '100%',
+                                height: 'auto',
+                                transform: `translateY(${7.0 * s}px)`,
+                                filter: `brightness(0) blur(${5.0 * s}px)`,
+                                opacity: 0.35,
+                                pointerEvents: 'none',
+                            }}
+                        />
+
+                        {/* 🌟 3. Tấm thảm cát chính (Tăng nét & tương phản bề mặt) */}
+                        <Img
+                            src={staticFile(STAGING_SHOT_3_4.sandRug.src)}
+                            style={{
+                                width: '100%',
+                                height: 'auto',
+                                display: 'block',
+                                filter: 'contrast(1.15) brightness(0.96) drop-shadow(0 8px 16px rgba(15, 23, 42, 0.10)) drop-shadow(0 22px 42px rgba(15, 23, 42, 0.12))',
+                            }}
+                        />
+
+                        {/* 🌟 4. Lớp chấm đen sắc nét nổi bật (Crisp Black Stipple Dots) */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                inset: 0,
+                                pointerEvents: 'none',
+                                maskImage: `url(${staticFile(STAGING_SHOT_3_4.sandRug.src)})`,
+                                WebkitMaskImage: `url(${staticFile(STAGING_SHOT_3_4.sandRug.src)})`,
+                                maskSize: '100% 100%',
+                                WebkitMaskSize: '100% 100%',
+                                maskRepeat: 'no-repeat',
+                                WebkitMaskRepeat: 'no-repeat',
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='dotsDark_flow'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.08  0 0 0 0 0.06  0 0 0 0 0.04  0 0 0 11 -4.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23dotsDark_flow)'/%3E%3C/svg%3E")`,
+                                backgroundSize: `${48 * s}px ${48 * s}px`,
+                                backgroundRepeat: 'repeat',
+                                mixBlendMode: 'multiply',
+                                opacity: 0.5,
+                            }}
+                        />
+
+                        {/* 🌟 5. Lớp chấm trắng tinh thể nổi bật đan xen (Crisp White Stipple Dots) */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                inset: 0,
+                                pointerEvents: 'none',
+                                maskImage: `url(${staticFile(STAGING_SHOT_3_4.sandRug.src)})`,
+                                WebkitMaskImage: `url(${staticFile(STAGING_SHOT_3_4.sandRug.src)})`,
+                                maskSize: '100% 100%',
+                                WebkitMaskSize: '100% 100%',
+                                maskRepeat: 'no-repeat',
+                                WebkitMaskRepeat: 'no-repeat',
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='dotsLight_flow'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='2' stitchTiles='stitch' seed='99'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 11 -4.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23dotsLight_flow)'/%3E%3C/svg%3E")`,
+                                backgroundSize: `${48 * s}px ${48 * s}px`,
+                                backgroundRepeat: 'repeat',
+                                mixBlendMode: 'screen',
+                                opacity: 0.75,
+                            }}
+                        />
+                    </div>
+                )}
+
+                {/* 🌊 25. THẢM NƯỚC XANH GỢN SÓNG DƯỚI CHÂN VỊT */}
+                {duckPuddleOpacity > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_4.duckPuddle.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.duckPuddle.left,
+                            top: STAGING_SHOT_3_4.duckPuddle.top,
+                            width: STAGING_SHOT_3_4.duckPuddle.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_4.duckPuddle.zIndex,
+                            pointerEvents: 'none',
+                            filter: 'drop-shadow(0 4px 10px rgba(15, 23, 42, 0.14)) drop-shadow(0 10px 22px rgba(14, 165, 233, 0.22))',
+                            translate: '154.6px -94.1px',
+                            transform: `scale(${duckPuddleScale})`,
+                            transformOrigin: 'center center',
+                            opacity: duckPuddleOpacity,
+                        }}
+                    />
+                )}
+
+                {/* 🪑 26. GHẾ NGHỈ BÃI BIỂN SỌC HỒNG TRẮNG (BÓNG CHÂN TIẾP ĐẤT & BÓNG GẦM GHẾ) */}
+                {pinkChairOpacity > 0.001 && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.beachChair.left,
+                            top: STAGING_SHOT_3_4.beachChair.top,
+                            width: STAGING_SHOT_3_4.beachChair.width,
+                            zIndex: STAGING_SHOT_3_4.beachChair.zIndex,
+                            pointerEvents: 'none',
+                            translate: '-46.2px -189.1px',
+                            scale: 1.022,
+                            transform: `translateY(${pinkChairDropY}px)`,
+                            opacity: pinkChairOpacity,
+                        }}
+                    >
+                        {/* 4 Điểm bóng tiếp xúc chân gỗ trên mặt cát (Leg Contact Dots) */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '35.0%',
+                                top: '66.5%',
+                                width: '25.0%',
+                                height: '50.0%',
+                                transform: 'translate(-35%, -50%) rotate(78deg) skewY(-20deg) skewX(-30deg)',
+                                borderRadius: '50%',
+                                background:
+                                    'radial-gradient(ellipse at center, rgba(71, 73, 78, 0.7) 0%, rgba(38, 41, 51, 0.20) 40%, rgba(38, 43, 56, 0) 90%)',
+                                filter: `blur(${12 * s}px)`,
+                            }}
+                        />
+                        <Img
+                            src={staticFile(STAGING_SHOT_3_4.beachChair.src)}
+                            style={{
+                                width: '100%',
+                                height: 'auto',
+                                display: 'block',
+                                filter: 'drop-shadow(-4px 8px 18px rgba(15, 23, 42, 0.22))',
+                            }}
+                        />
+                    </div>
+                )}
+
+                {/* 🐥 27. CHÚ VỊT VÀNG PHAO BƠI SỌC HỒNG TRẮNG (BÓNG TIẾP XÚC MẶT NƯỚC) */}
+                {duckOpacity34 > 0.001 && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.rubberDuck.left,
+                            top: STAGING_SHOT_3_4.rubberDuck.top,
+                            width: STAGING_SHOT_3_4.rubberDuck.width,
+                            zIndex: STAGING_SHOT_3_4.rubberDuck.zIndex,
+                            pointerEvents: 'none',
+                            translate: '143.9px -107.8px',
+                            scale: 0.958,
+                            transform: `translateY(${duckDropY34 + duckBob34}px)`,
+                            opacity: duckOpacity34,
+                        }}
+                    >
+                        {/* Bóng tiếp xúc đáy phao tròn đè lên thảm nước (Contact Float Shadow) */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '52.0%',
+                                top: '90.0%',
+                                width: '52.0%',
+                                height: '14.0%',
+                                transform: 'translate(-50%, -50%)',
+                                borderRadius: '50%',
+                                background:
+                                    'radial-gradient(ellipse at center, rgba(19, 23, 26, 0.58) 0%, rgba(7, 12, 22, 0.28) 45%, rgba(15, 23, 42, 0) 75%)',
+                                filter: `blur(${1 * s}px)`,
+                            }}
+                        />
+                        <Img
+                            src={staticFile(STAGING_SHOT_3_4.rubberDuck.src)}
+                            style={{
+                                width: '100%',
+                                height: 'auto',
+                                display: 'block',
+                                filter: 'drop-shadow(0 8px 18px rgba(15, 23, 42, 0.20))',
+                                translate: '5.4px 1.5px',
+                            }}
+                        />
+                    </div>
+                )}
+
+                {/* 🧳 28. CHIẾC VALI HỒNG ĐỨNG CẠNH CHÂN BẠN NAM (BÓNG TIẾP ĐẤT BÁNH XE & ĐÁY VALI) */}
+                {pinkSuitcaseOpacity > 0.001 && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.pinkSuitcase.left,
+                            top: STAGING_SHOT_3_4.pinkSuitcase.top,
+                            width: STAGING_SHOT_3_4.pinkSuitcase.width,
+                            zIndex: STAGING_SHOT_3_4.pinkSuitcase.zIndex,
+                            pointerEvents: 'none',
+                            translate: '72.6px -54.2px',
+                            transform: `translateY(${pinkSuitcaseDropY}px)`,
+                            opacity: pinkSuitcaseOpacity,
+                        }}
+                    >
+                        {/* Bóng tiếp đất dưới 2 bánh xe và mép đáy vali hồng (Suitcase Ground Shadow) */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '49.5%',
+                                top: '87.8%',
+                                width: '25.0%',
+                                height: '6.2%',
+                                transform: 'translate(-55%, -50%) rotate(2deg) skewY(2deg) skewX(42deg)',
+                                borderRadius: '50%',
+                                background:
+                                    'radial-gradient(ellipse at center, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.32) 45%, rgba(15, 23, 42, 0) 75%)',
+                                filter: `blur(${3.5 * s}px)`,
+                            }}
+                        />
+                        <Img
+                            src={staticFile(STAGING_SHOT_3_4.pinkSuitcase.src)}
+                            style={{
+                                width: '100%',
+                                height: 'auto',
+                                display: 'block',
+                                filter: 'drop-shadow(0 14px 28px rgba(15, 23, 42, 0.24))',
+                                translate: '3px -24.4px',
+                            }}
+                        />
+                    </div>
+                )}
+
+                {/* 🙋‍♂️ 29. BẠN NAM GIƠ VÉ MÁY BAY, ĐEO MÁY ẢNH & KÍNH RÂM (BÓNG XIÊN TRỤC Z & BÓNG ÔM ĐẾ GIÀY) */}
+                {heroCoupleOpacity > 0.001 && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.boyHero.left,
+                            top: STAGING_SHOT_3_4.boyHero.top,
+                            width: STAGING_SHOT_3_4.boyHero.width,
+                            zIndex: STAGING_SHOT_3_4.boyHero.zIndex,
+                            pointerEvents: 'none',
+                            translate: '79.1px -39.8px',
+                            transform: `translateY(${heroCoupleDropY + heroIdleBreath}px)`,
+                            opacity: heroCoupleOpacity,
+                        }}
+                    >
+                        {/* Bóng nhân vật nam xiên trục Z loang về sau bên phải */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '43.0%',
+                                top: '85.5%',
+                                width: '38.0%',
+                                height: '22.0%',
+                                transform: 'translate(-35%, -50%) rotate(72deg) skewY(-20deg) skewX(-40deg)',
+                                borderRadius: '50%',
+                                background:
+                                    'radial-gradient(ellipse at center, rgba(35, 38, 46, 0.7) 0%, rgba(38, 41, 51, 0.20) 30%, rgba(38, 43, 56, 0) 90%)',
+                                filter: `blur(${15 * s}px)`,
+                            }}
+                        />
+
+                        {/* 👞 Viền bóng chỉ ôm khít mặt dưới đế giày Bạn Nam (Exact Sole Bottom Rim Only) */}
+                        <Img
+                            src={staticFile(STAGING_SHOT_3_4.boyHero.src)}
+                            style={{
+                                position: 'absolute',
+                                left: 0,
+                                top: 0,
+                                width: '100%',
+                                height: 'auto',
+                                transform: `translateY(${1.8 * s}px)`,
+                                filter: `brightness(0) blur(${1.1 * s}px)`,
+                                opacity: 0.42,
+                                clipPath: 'polygon(0% 95.2%, 100% 95.2%, 100% 100%, 0% 100%)',
+                                pointerEvents: 'none',
+                            }}
+                        />
+
+                        <Img
+                            src={staticFile(STAGING_SHOT_3_4.boyHero.src)}
+                            style={{
+                                width: '100%',
+                                height: 'auto',
+                                display: 'block',
+                                filter: 'drop-shadow(0 16px 32px rgba(15, 23, 42, 0.20))',
+                            }}
+                        />
+                    </div>
+                )}
+
+                {/* 🙋‍♀️ 30. BẠN NỮ TAY GIỮ NÓN CÓI NƠ HỒNG, TÚI XÁCH HỒNG (BÓNG TIẾP ĐẤT ĐÔI GIÀY) */}
+                {heroCoupleOpacity > 0.001 && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.girlHero.left,
+                            top: STAGING_SHOT_3_4.girlHero.top,
+                            width: STAGING_SHOT_3_4.girlHero.width,
+                            zIndex: STAGING_SHOT_3_4.girlHero.zIndex,
+                            pointerEvents: 'none',
+                            translate: '90.8px -68.5px',
+                            transform: `translateY(${heroCoupleDropY + heroGirlIdleBreath}px)`,
+                            opacity: heroCoupleOpacity,
+                        }}
+                    >
+                        {/* Bóng nhân vật nữ */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: '35.0%',
+                                top: '89.5%',
+                                width: '48.0%',
+                                height: '29.0%',
+                                transform: 'translate(-35%, -50%) rotate(62deg) skewY(-20deg) skewX(-40deg)',
+                                borderRadius: '50%',
+                                background:
+                                    'radial-gradient(ellipse at center, rgba(33, 35, 40, 0.7) 0%, rgba(38, 41, 51, 0.20) 40%, rgba(38, 43, 56, 0) 90%)',
+                                filter: `blur(${15 * s}px)`,
+                            }}
+                        />
+
+                        {/* 👠 Viền bóng chỉ ôm khít mặt dưới đế giày Bạn Nữ (Exact Sole Bottom Rim Only) */}
+                        <Img
+                            src={staticFile(STAGING_SHOT_3_4.girlHero.src)}
+                            style={{
+                                position: 'absolute',
+                                left: 0,
+                                top: 0,
+                                width: '100%',
+                                height: 'auto',
+                                transform: `translateY(${1.8 * s}px)`,
+                                filter: `brightness(0) blur(${1.1 * s}px)`,
+                                opacity: 0.42,
+                                clipPath: 'polygon(0% 94.8%, 100% 94.8%, 100% 100%, 0% 100%)',
+                                pointerEvents: 'none',
+                            }}
+                        />
+
+                        <Img
+                            src={staticFile(STAGING_SHOT_3_4.girlHero.src)}
+                            style={{
+                                width: '100%',
+                                height: 'auto',
+                                display: 'block',
+                                filter: 'drop-shadow(0 16px 32px rgba(15, 23, 42, 0.20))',
+                            }}
+                        />
+                    </div>
+                )}
+
+                {/* 🏹 31. MŨI TÊN HỒNG UỐN CONG CHỈ SANG SMARTPHONE */}
+                {arrowOpacity > 0.001 && (
+                    <Img
+                        src={staticFile(STAGING_SHOT_3_4.pinkArrow.src)}
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.pinkArrow.left,
+                            top: STAGING_SHOT_3_4.pinkArrow.top,
+                            width: STAGING_SHOT_3_4.pinkArrow.width,
+                            height: 'auto',
+                            zIndex: STAGING_SHOT_3_4.pinkArrow.zIndex,
+                            pointerEvents: 'none',
+                            filter: 'drop-shadow(0 4px 12px rgba(225, 29, 72, 0.25))',
+                            translate: '58.4px -136.1px',
+                            transform: `scale(${arrowScale})`,
+                            transformOrigin: 'left center',
+                            opacity: arrowOpacity,
+                        }}
+                    />
+                )}
+
+                {/* ✍️ 32. TIÊU ĐỀ CHÍNH BÊN TRÁI: Sẵn sàng / cho hành trình */}
+                {headingOpacity > 0.001 && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.headingLeft.left,
+                            top: STAGING_SHOT_3_4.headingLeft.top,
+                            zIndex: STAGING_SHOT_3_4.headingLeft.zIndex,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 6 * s,
+                            transform: `translateX(${headingX}px)`,
+                            opacity: headingOpacity,
+                        }}
+                    >
+                        <span
+                            style={{
+                                color: '#E11D48',
+                                fontSize: 78 * s,
+                                fontWeight: 900,
+                                lineHeight: 1.12,
+                                letterSpacing: -1 * s,
+                                filter: `drop-shadow(0 ${3 * s}px ${8 * s}px rgba(225, 29, 72, 0.16))`,
+                            }}
+                        >
+                            Sẵn sàng
+                        </span>
+                        <span
+                            style={{
+                                color: '#1E293B',
+                                fontSize: 74 * s,
+                                fontWeight: 900,
+                                lineHeight: 1.12,
+                                letterSpacing: -1 * s,
+                            }}
+                        >
+                            cho hành trình
+                        </span>
+                    </div>
+                )}
+
+                {/* 📱 33. SMARTPHONE MOCKUP ỨNG DỤNG TỐP BẢO HIỂM (BÊN PHẢI) */}
+                {phoneOpacity > 0.001 && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: STAGING_SHOT_3_4.smartphone.left,
+                            top: STAGING_SHOT_3_4.smartphone.top,
+                            width: STAGING_SHOT_3_4.smartphone.width,
+                            aspectRatio: '1 / 1.76',
+                            zIndex: STAGING_SHOT_3_4.smartphone.zIndex,
+                            pointerEvents: 'none',
+                            backgroundColor: '#FFFFFF',
+                            borderRadius: 44 * s,
+                            border: `${10 * s}px solid #FFFFFF`,
+                            boxShadow: `0 ${30 * s}px ${70 * s}px -${15 * s}px rgba(15, 23, 42, 0.25), 0 0 0 ${1.5 * s}px rgba(226, 232, 240, 0.85)`,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            overflow: 'hidden',
+                            padding: `${24 * s}px ${20 * s}px`,
+                            boxSizing: 'border-box',
+                            gap: 16 * s,
+                            transform: `translateX(${phoneSlideX}px)`,
+                            opacity: phoneOpacity,
+                        }}
+                    >
+                        {/* Header thanh điều hướng: Logo + Menu */}
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                paddingBottom: 4 * s,
+                            }}
+                        >
+                            <div style={{ fontSize: 24 * s, fontWeight: 900, letterSpacing: -0.5 * s }}>
+                                <span style={{ color: '#E11D48' }}>TOP</span>
+                                <span style={{ color: '#0F172A' }}>baohiem</span>
+                            </div>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: 4 * s,
+                                    cursor: 'pointer',
+                                }}
+                            >
                                 <div
-                                    key={idx}
+                                    style={{ width: 22 * s, height: 2.5 * s, backgroundColor: '#64748B', borderRadius: 2 * s }}
+                                />
+                                <div
+                                    style={{ width: 22 * s, height: 2.5 * s, backgroundColor: '#64748B', borderRadius: 2 * s }}
+                                />
+                                <div
+                                    style={{ width: 22 * s, height: 2.5 * s, backgroundColor: '#64748B', borderRadius: 2 * s }}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Card sản phẩm nổi bật: Bảo hiểm Du lịch */}
+                        <div
+                            style={{
+                                backgroundColor: '#FFFFFF',
+                                borderRadius: 22 * s,
+                                border: `${1.5 * s}px solid #F1F5F9`,
+                                boxShadow: `0 ${4 * s}px ${16 * s}px rgba(15, 23, 42, 0.04)`,
+                                position: 'relative',
+                                height: '43%',
+                                overflow: 'hidden',
+                            }}
+                        >
+                            {/* Minh họa gói du lịch: đóng vai trò như background bao trùm toàn bộ cụm card trên */}
+                            <Img
+                                src={staticFile('assets/elements/screen3/3.4/logo_vali_dulich.png')}
+                                style={{
+                                    position: 'absolute',
+                                    left: '7.5%',
+                                    top: '9%',
+                                    width: '115%',
+                                    height: 'auto',
+                                    display: 'block',
+                                    pointerEvents: 'none',
+                                    filter: `drop-shadow(0 ${2 * s}px ${8 * s}px rgba(15, 23, 42, 0.06))`,
+                                }}
+                            />
+
+                            {/* Cột chữ bên trái card */}
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    left: 15 * s,
+                                    top: 22 * s,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: 3 * s,
+                                    zIndex: 2,
+                                }}
+                            >
+                                <span
                                     style={{
-                                        position: 'absolute',
-                                        left: s.x,
-                                        top: s.y,
-                                        zIndex: s.zIndex,
-                                        transform: `scale(${s.scale}) translate(-50%, -50%)`,
-                                        opacity: s.opacity,
-                                        fontSize: 26,
-                                        lineHeight: 1,
-                                        filter: 'drop-shadow(0 2px 5px rgba(245, 158, 11, 0.75))',
-                                        userSelect: 'none',
+                                        color: '#1E293B',
+                                        fontSize: 23 * s,
+                                        fontWeight: 800,
+                                        lineHeight: 1.15,
+                                        letterSpacing: -0.4 * s,
                                     }}
                                 >
-                                    ⭐
-                                </div>
-                            ))}
+                                    Bảo hiểm
+                                </span>
+                                <span
+                                    style={{
+                                        color: '#E11D48',
+                                        fontSize: 23 * s,
+                                        fontWeight: 800,
+                                        lineHeight: 1.15,
+                                        letterSpacing: -0.4 * s,
+                                    }}
+                                >
+                                    Du lịch
+                                </span>
+                            </div>
                         </div>
-                    )}
-                </div>
+
+                        {/* Khối Skeleton & thông tin mô phỏng gói bảo hiểm (Card dưới) */}
+                        <div
+                            style={{
+                                backgroundColor: '#FFFFFF',
+                                borderRadius: 20 * s,
+                                border: `${1.5 * s}px solid #F1F5F9`,
+                                boxShadow: `0 ${4 * s}px ${14 * s}px rgba(15, 23, 42, 0.03)`,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 16 * s,
+                                padding: `${16 * s}px ${16 * s}px`,
+                                height: '26%',
+                                justifyContent: 'flex-start',
+                            }}
+                        >
+                            {/* Thanh hồng placeholder */}
+                            <div
+                                style={{
+                                    width: '50%',
+                                    height: 18 * s,
+                                    borderRadius: 9 * s,
+                                    backgroundColor: '#FCE7F3',
+                                }}
+                            />
+
+                            {/* Các dòng gạch ngang xám mô phỏng text specs */}
+                            <div
+                                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 14 * s }}
+                            >
+                                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 10 * s }}>
+                                    <div
+                                        style={{
+                                            width: '95%',
+                                            height: 13 * s,
+                                            borderRadius: 7 * s,
+                                            backgroundColor: '#E2E8F0',
+                                        }}
+                                    />
+                                    <div
+                                        style={{
+                                            width: '65%',
+                                            height: 13 * s,
+                                            borderRadius: 7 * s,
+                                            backgroundColor: '#E2E8F0',
+                                        }}
+                                    />
+                                </div>
+
+                                {/* Ô vuông thumbnail placeholder */}
+                                <div
+                                    style={{
+                                        width: 68 * s,
+                                        height: 56 * s,
+                                        borderRadius: 12 * s,
+                                        backgroundColor: '#F8FAFC',
+                                        border: `${1.5 * s}px solid #E2E8F0`,
+                                    }}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Nút CTA lớn nổi bật: CHỌN GÓI (kèm hiệu ứng nhịp đập & lóa sáng click) */}
+                        <div
+                            style={{
+                                marginTop: 'auto',
+                                backgroundColor: '#E11D48',
+                                borderRadius: 14 * s,
+                                padding: `${14 * s}px ${20 * s}px`,
+                                textAlign: 'center',
+                                color: '#FFFFFF',
+                                fontSize: 20 * s,
+                                fontWeight: 900,
+                                letterSpacing: 1.2 * s,
+                                boxShadow: `0 ${6 * s}px ${20 * s + ctaGlow}px rgba(225, 29, 72, ${0.35 + ctaBump * 2})`,
+                                transform: `scale(${1 + ctaBump})`,
+                                transition: 'box-shadow 0.15s ease',
+                                cursor: 'pointer',
+                                textTransform: 'uppercase',
+                            }}
+                        >
+                            CHỌN GÓI
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
