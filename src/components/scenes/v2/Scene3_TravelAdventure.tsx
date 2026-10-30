@@ -19,6 +19,167 @@ import { VIDEO_CONFIG_V2 } from '../../../config/videoConfigV2';
  * 5. 📍 Bảo toàn 100% tọa độ tĩnh và các giá trị translate đã căn chỉnh thủ công.
  */
 
+// ==============================================================================
+// 🌟 CHẾ ĐỘ HIỂN THỊ CẢNH 3:
+// 'timeline_flow': Tự động chạy theo timeline liền mạch:
+//    - Frame 0 -> 450 (00:00 - 00:07.15): Diễn hoạt Shot 3.1 & Shot 3.2 (máy bay, couple, tốc nón, mặt trời meme, 7 đồ bay)
+//    - Frame 450+ (00:07.15+): Hiển thị khung đích đến Cảnh 3.4
+// 'animated_shot31_32': Luôn chạy Shot 3.1 & 3.2 trên toàn bộ timeline
+// 'static_staging_34': Khóa cứng Cảnh 3.4 trên toàn bộ timeline
+// ==============================================================================
+export const SCENE3_VIEW_MODE: 'timeline_flow' | 'animated_shot31_32' | 'static_staging_34' = 'timeline_flow';
+
+// Bật true để hiển thị lớp phủ mờ bán trong suốt (50% opacity) của ảnh gốc Cảnh 3.4 giúp soi độ lệch pixel
+export const SHOW_REFERENCE_OVERLAY: boolean = false;
+
+// Bảng tọa độ tĩnh chuẩn xác của Cảnh 3.4 (Static Staging Blueprint 3.4)
+export const STAGING_SHOT_3_4 = {
+    // 1. Bầu trời & Mây
+    cloud1: {
+        src: 'assets/elements/screen3/3.4/may_1_1.png',
+        left: '16.42%',
+        top: '21.07%',
+        width: '13.30%',
+        zIndex: 2,
+    },
+    cloud2: {
+        src: 'assets/elements/screen3/3.4/may_2.png',
+        left: '29.91%',
+        top: '5.25%',
+        width: '10.48%',
+        zIndex: 2,
+    },
+    sun: {
+        src: 'assets/elements/screen3/3.4/mat_troi.png',
+        left: '65.95%',
+        top: '9.05%',
+        width: '10.09%',
+        zIndex: 3,
+    },
+    cloud3: {
+        src: 'assets/elements/screen3/3.4/may_3.png',
+        left: '60.54%',
+        top: '19.61%',
+        width: '10.34%',
+        zIndex: 4,
+    },
+    // 2. Đảo dừa xanh và dải biển giấy (kéo dài toàn cảnh hậu cảnh)
+    island: {
+        src: 'assets/elements/screen3/3.4/dao_giay.png',
+        left: '9.67%',
+        top: '40.79%',
+        width: '25.95%',
+        zIndex: 7,
+    },
+    // 2.1 Nước biển (Dải sóng nước biển nhiều lớp nối liền chân bục cát và chân trời)
+    seaWater: {
+        src: 'assets/elements/screen3/3.4/nuoc_bien.png',
+        left: '5.96%',
+        top: '64.41%',
+        width: '108.14%',
+        zIndex: 6,
+    },
+    // 3. Khung khiên hồng neon trung tâm
+    centralArch: {
+        src: 'assets/elements/screen3/3.4/khung_trung_tam.png',
+        left: '32.05%',
+        top: '9.21%',
+        width: '29.11%',
+        zIndex: 10,
+    },
+    // 4. Tiêu đề chữ 'Bảo hiểm du lịch' bên trong đỉnh khiên
+    archText: {
+        left: '40.13%',
+        top: '19.18%',
+        zIndex: 7,
+    },
+    // 5. Huy hiệu khiên vali hồng nhỏ + tick xanh ở vai phải khung
+    suitcaseBadge: {
+        src: 'assets/elements/screen3/3.4/khien_tren_khung_trungtam.png',
+        left: '46.99%',
+        top: '11.90%',
+        width: '20.56%',
+        zIndex: 11,
+    },
+    // 6. Thảm cát trắng / bục trung tâm
+    sandRug: {
+        src: 'assets/elements/screen3/3.4/tam_tham_trungtam.png',
+        left: '12.21%',
+        top: '72.30%',
+        width: '66.75%',
+        zIndex: 4,
+    },
+    // 7. Thảm nước xanh gợn sóng dưới chân vịt
+    duckPuddle: {
+        src: 'assets/elements/screen3/3.4/tham_cua_vit.png',
+        left: '55.79%',
+        top: '80.07%',
+        width: '17.53%',
+        zIndex: 10,
+    },
+    // 8. Ghế nghỉ bãi biển sọc hồng
+    beachChair: {
+        src: 'assets/elements/screen3/3.4/ghehong.png',
+        left: '8.27%',
+        top: '64.04%',
+        width: '30.42%',
+        zIndex: 11,
+    },
+    // 9. Chú vịt vàng phao bơi sọc hồng trắng
+    rubberDuck: {
+        src: 'assets/elements/screen3/3.4/vit_vang.png',
+        left: '55.22%',
+        top: '74.82%',
+        width: '17.30%',
+        zIndex: 12,
+    },
+    // 10. Vali hồng đứng cạnh chân bạn nam
+    pinkSuitcase: {
+        src: 'assets/elements/screen3/3.4/vali_hong.png',
+        left: '18.45%',
+        top: '59.48%',
+        width: '32.03%',
+        zIndex: 13,
+    },
+    // 11. Bạn nam giơ vé máy bay, đeo máy ảnh
+    boyHero: {
+        src: 'assets/elements/screen3/3.4/nhanvat_nam.png',
+        left: '28.05%',
+        top: '33.43%',
+        width: '21.97%',
+        zIndex: 16,
+    },
+    // 12. Bạn nữ giữ nơ nón cói, túi xách hồng
+    girlHero: {
+        src: 'assets/elements/screen3/3.4/nhanvat_nu.png',
+        left: '43.50%',
+        top: '33.80%',
+        width: '13.21%',
+        zIndex: 15,
+    },
+    // 13. Mũi tên hồng uốn cong chỉ sang điện thoại
+    pinkArrow: {
+        src: 'assets/elements/screen3/3.4/arrow_hong.png',
+        left: '61.52%',
+        top: '41.66%',
+        width: '10.69%',
+        zIndex: 20,
+    },
+    // 14. Smartphone Mockup hiển thị ứng dụng Tốp bảo hiểm (bên phải)
+    smartphone: {
+        left: '76.66%',
+        top: '25.95%',
+        width: '19.53%',
+        zIndex: 22,
+    },
+    // 15. Tiêu đề lớn bên trái
+    headingLeft: {
+        left: '2.34%',
+        top: '15.51%',
+        zIndex: 25,
+    },
+};
+
 // Bảng tọa độ tĩnh chuẩn xác của từng mảnh ghép 3.1
 const STAGING_SHOT_3_1 = {
     // 1. Nền biển & trời Paper-Cut (16:9)
@@ -532,10 +693,610 @@ const DynamicWindStreamers: React.FC<{ frame: number; fps: number }> = ({ frame,
     );
 };
 
+/**
+ * 🏝️ BỐ CỤC TĨNH CẢNH 3.4 (DESTINATION BLUEPRINT)
+ * ------------------------------------------------
+ * Tái hiện 100% bố cục khung hình đích 3.4 từ 16 asset đã được bóc tách và staged.
+ * Khóa chết tọa độ tĩnh, hỗ trợ soi trùng khớp pixel với ảnh thiết kế gốc.
+ */
+interface StaticStaging34Props {
+    width?: number;
+    height?: number;
+    colors?: any;
+    showOverlay?: boolean;
+}
+
+export const StaticStaging34: React.FC<StaticStaging34Props> = (props) => {
+    const videoConfig = useVideoConfig();
+    const width = props.width ?? videoConfig.width;
+    const height = props.height ?? videoConfig.height;
+    const showOverlay = props.showOverlay ?? SHOW_REFERENCE_OVERLAY;
+    // Tỷ lệ scale thích ứng theo độ phân giải (chuẩn 1080p: s=1, 4K UHD 2160p: s=2)
+    const s = width / 1920;
+
+    return (
+        <div
+            style={{
+                position: 'relative',
+                width,
+                height,
+                backgroundColor: '#F8FAFC',
+                overflow: 'hidden',
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+            }}
+        >
+            {/* Lớp phủ tham chiếu bán trong suốt (50%) để kiểm tra độ trùng khớp */}
+            {showOverlay && (
+                <Img
+                    src={staticFile('assets/elements/screen3/ref_3_4.png')}
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        opacity: 0.5,
+                        zIndex: 999,
+                        pointerEvents: 'none',
+                    }}
+                />
+            )}
+
+            {/* ✍️ 1. TIÊU ĐỀ CHÍNH BÊN TRÁI: Sẵn sàng / cho hành trình */}
+            <div
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.headingLeft.left,
+                    top: STAGING_SHOT_3_4.headingLeft.top,
+                    zIndex: STAGING_SHOT_3_4.headingLeft.zIndex,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 6 * s,
+                }}
+            >
+                <span
+                    style={{
+                        color: '#E11D48',
+                        fontSize: 78 * s,
+                        fontWeight: 900,
+                        lineHeight: 1.12,
+                        letterSpacing: -1 * s,
+                        filter: `drop-shadow(0 ${3 * s}px ${8 * s}px rgba(225, 29, 72, 0.16))`,
+                    }}
+                >
+                    Sẵn sàng
+                </span>
+                <span
+                    style={{
+                        color: '#1E293B',
+                        fontSize: 74 * s,
+                        fontWeight: 900,
+                        lineHeight: 1.12,
+                        letterSpacing: -1 * s,
+                    }}
+                >
+                    cho hành trình
+                </span>
+            </div>
+
+            {/* ☁️ 3. TẦNG MÂY 1 (Góc trên bên trái) */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.cloud1.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.cloud1.left,
+                    top: STAGING_SHOT_3_4.cloud1.top,
+                    width: STAGING_SHOT_3_4.cloud1.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.cloud1.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 10px 20px rgba(15, 23, 42, 0.04))',
+                    translate: '-23.3px -365.1px',
+                }}
+            />
+
+            {/* ☁️ 4. TẦNG MÂY 2 (Trung tâm trên cao) */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.cloud2.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.cloud2.left,
+                    top: STAGING_SHOT_3_4.cloud2.top,
+                    width: STAGING_SHOT_3_4.cloud2.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.cloud2.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 10px 20px rgba(15, 23, 42, 0.04))',
+                    translate: '135.1px -49.7px',
+                }}
+            />
+
+            {/* ☀️ 5. MẶT TRỜI VÀNG PAPER-CUT NHIỀU TIA */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.sun.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.sun.left,
+                    top: STAGING_SHOT_3_4.sun.top,
+                    width: STAGING_SHOT_3_4.sun.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.sun.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 0 25px rgba(251, 191, 36, 0.45))',
+                    translate: '214.2px -195.5px',
+                }}
+            />
+
+            {/* ☁️ 6. TẦNG MÂY 3 (Phía trên bên phải che trước mặt trời) */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.cloud3.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.cloud3.left,
+                    top: STAGING_SHOT_3_4.cloud3.top,
+                    width: STAGING_SHOT_3_4.cloud3.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.cloud3.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 10px 20px rgba(15, 23, 42, 0.05))',
+                    translate: '204.9px -177.4px',
+                }}
+            />
+
+            {/* 🏝️ 7. HÒN ĐẢO DỪA GIẤY & DẢI BIỂN XANH HẬU CẢNH */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.island.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.island.left,
+                    top: STAGING_SHOT_3_4.island.top,
+                    width: STAGING_SHOT_3_4.island.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.island.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 12px 25px rgba(15, 23, 42, 0.08))',
+                    translate: '-469.9px -230.3px',
+                }}
+            />
+
+            {/* 🌊 7.1. DẢI SÓNG NƯỚC BIỂN NHIỀU LỚP HẬU CẢNH */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.seaWater.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.seaWater.left,
+                    top: STAGING_SHOT_3_4.seaWater.top,
+                    width: STAGING_SHOT_3_4.seaWater.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.seaWater.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 8px 20px rgba(14, 165, 233, 0.12))',
+                    translate: '-385.2px -551px',
+                }}
+            />
+
+            {/* 🌊 7.1. DẢI SÓNG NƯỚC BIỂN NHIỀU LỚP HẬU CẢNH */}
+
+            {/* 🛡️ 8. KHUNG KHIÊN HỒNG NEON TRUNG TÂM */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.centralArch.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.centralArch.left,
+                    top: STAGING_SHOT_3_4.centralArch.top,
+                    width: STAGING_SHOT_3_4.centralArch.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.centralArch.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 18px 45px rgba(225, 29, 72, 0.18))',
+                    translate: '55.9px -6.1px'
+                }}
+            />
+
+            {/* 🏷️ 9. TIÊU ĐỀ 'BẢO HIỂM DU LỊCH' BÊN TRONG ĐỈNH KHUNG KHIÊN */}
+            <div
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.archText.left,
+                    top: STAGING_SHOT_3_4.archText.top,
+                    zIndex: STAGING_SHOT_3_4.archText.zIndex,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 4 * s,
+                    pointerEvents: 'none',
+                }}
+            >
+                <span
+                    style={{
+                        color: '#1E293B',
+                        fontSize: 44 * s,
+                        fontWeight: 900,
+                        lineHeight: 1.12,
+                        letterSpacing: -0.5 * s,
+                    }}
+                >
+                    Bảo hiểm
+                </span>
+                <span
+                    style={{
+                        color: '#E11D48',
+                        fontSize: 44 * s,
+                        fontWeight: 900,
+                        lineHeight: 1.12,
+                        letterSpacing: -0.5 * s,
+                    }}
+                >
+                    du lịch
+                </span>
+            </div>
+
+            {/* 🛡️ 10. HUY HIỆU KHIÊN VALI HỒNG + TICK XANH Ở VAI PHẢI KHUNG */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.suitcaseBadge.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.suitcaseBadge.left,
+                    top: STAGING_SHOT_3_4.suitcaseBadge.top,
+                    width: STAGING_SHOT_3_4.suitcaseBadge.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.suitcaseBadge.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 14px 30px rgba(225, 29, 72, 0.28))',
+                    translate: '43.6px -1px'
+                }}
+            />
+
+            {/* 🏖️ 11. THẢM CÁT TRẮNG / BỤC TRUNG TÂM */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.sandRug.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.sandRug.left,
+                    top: STAGING_SHOT_3_4.sandRug.top,
+                    width: STAGING_SHOT_3_4.sandRug.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.sandRug.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 18px 35px rgba(15, 23, 42, 0.12))',
+                    translate: '-27.3px -248.6px',
+                }}
+            />
+
+            {/* 🌊 12. THẢM NƯỚC XANH GỢN SÓNG DƯỚI CHÂN VỊT */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.duckPuddle.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.duckPuddle.left,
+                    top: STAGING_SHOT_3_4.duckPuddle.top,
+                    width: STAGING_SHOT_3_4.duckPuddle.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.duckPuddle.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 8px 18px rgba(14, 165, 233, 0.22))',
+                    translate: '137.9px -99.3px',
+                }}
+            />
+
+            {/* 🪑 13. GHẾ NGHỈ BÃI BIỂN SỌC HỒNG TRẮNG */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.beachChair.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.beachChair.left,
+                    top: STAGING_SHOT_3_4.beachChair.top,
+                    width: STAGING_SHOT_3_4.beachChair.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.beachChair.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(-4px 8px 18px rgba(15, 23, 42, 0.22))',
+                    translate: '-46.2px -189.1px',
+                    scale: 1.022,
+                }}
+            />
+
+            {/* 🐥 14. CHÚ VỊT VÀNG PHAO BƠI SỌC HỒNG TRẮNG */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.rubberDuck.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.rubberDuck.left,
+                    top: STAGING_SHOT_3_4.rubberDuck.top,
+                    width: STAGING_SHOT_3_4.rubberDuck.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.rubberDuck.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 8px 18px rgba(15, 23, 42, 0.20))',
+                    translate: '143.9px -107.8px',
+                    scale: 0.958,
+                }}
+            />
+
+            {/* 🧳 15. CHIẾC VALI HỒNG ĐỨNG CẠNH CHÂN BẠN NAM */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.pinkSuitcase.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.pinkSuitcase.left,
+                    top: STAGING_SHOT_3_4.pinkSuitcase.top,
+                    width: STAGING_SHOT_3_4.pinkSuitcase.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.pinkSuitcase.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 14px 28px rgba(15, 23, 42, 0.24))',
+                    translate: '72.6px -54.2px',
+                }}
+            />
+
+            {/* 🙋‍♂️ 16. BẠN NAM GIƠ VÉ MÁY BAY, ĐEO MÁY ẢNH & KÍNH RÂM */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.boyHero.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.boyHero.left,
+                    top: STAGING_SHOT_3_4.boyHero.top,
+                    width: STAGING_SHOT_3_4.boyHero.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.boyHero.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 16px 32px rgba(15, 23, 42, 0.20))',
+                    translate: '79.1px -39.8px',
+                }}
+            />
+
+            {/* 🙋‍♀️ 17. BẠN NỮ TAY GIỮ NÓN CÓI NƠ HỒNG, TÚI XÁCH HỒNG */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.girlHero.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.girlHero.left,
+                    top: STAGING_SHOT_3_4.girlHero.top,
+                    width: STAGING_SHOT_3_4.girlHero.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.girlHero.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 16px 32px rgba(15, 23, 42, 0.20))',
+                    translate: '90.8px -68.5px',
+                }}
+            />
+
+            {/* 🏹 18. MŨI TÊN HỒNG UỐN CONG CHỈ SANG SMARTPHONE */}
+            <Img
+                src={staticFile(STAGING_SHOT_3_4.pinkArrow.src)}
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.pinkArrow.left,
+                    top: STAGING_SHOT_3_4.pinkArrow.top,
+                    width: STAGING_SHOT_3_4.pinkArrow.width,
+                    height: 'auto',
+                    zIndex: STAGING_SHOT_3_4.pinkArrow.zIndex,
+                    pointerEvents: 'none',
+                    filter: 'drop-shadow(0 4px 12px rgba(225, 29, 72, 0.25))',
+                    translate: '58.4px -136.1px'
+                }}
+            />
+
+            {/* 📱 19. SMARTPHONE MOCKUP ỨNG DỤNG TỐP BẢO HIỂM (BÊN PHẢI) */}
+            <div
+                style={{
+                    position: 'absolute',
+                    left: STAGING_SHOT_3_4.smartphone.left,
+                    top: STAGING_SHOT_3_4.smartphone.top,
+                    width: STAGING_SHOT_3_4.smartphone.width,
+                    aspectRatio: '1 / 1.76',
+                    zIndex: STAGING_SHOT_3_4.smartphone.zIndex,
+                    pointerEvents: 'none',
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: 44 * s,
+                    border: `${10 * s}px solid #FFFFFF`,
+                    boxShadow: `0 ${30 * s}px ${70 * s}px -${15 * s}px rgba(15, 23, 42, 0.25), 0 0 0 ${1.5 * s}px rgba(226, 232, 240, 0.85)`,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    overflow: 'hidden',
+                    padding: `${24 * s}px ${20 * s}px`,
+                    boxSizing: 'border-box',
+                    gap: 16 * s,
+                }}
+            >
+                {/* Header thanh điều hướng: Logo + Menu */}
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        paddingBottom: 4 * s,
+                    }}
+                >
+                    <div style={{ fontSize: 24 * s, fontWeight: 900, letterSpacing: -0.5 * s }}>
+                        <span style={{ color: '#E11D48' }}>TOP</span>
+                        <span style={{ color: '#0F172A' }}>baohiem</span>
+                    </div>
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 4 * s,
+                            cursor: 'pointer',
+                        }}
+                    >
+                        <div
+                            style={{ width: 22 * s, height: 2.5 * s, backgroundColor: '#64748B', borderRadius: 2 * s }}
+                        />
+                        <div
+                            style={{ width: 22 * s, height: 2.5 * s, backgroundColor: '#64748B', borderRadius: 2 * s }}
+                        />
+                        <div
+                            style={{ width: 22 * s, height: 2.5 * s, backgroundColor: '#64748B', borderRadius: 2 * s }}
+                        />
+                    </div>
+                </div>
+
+                {/* Card sản phẩm nổi bật: Bảo hiểm Du lịch */}
+                <div
+                    style={{
+                        backgroundColor: '#FFFFFF',
+                        borderRadius: 22 * s,
+                        border: `${1.5 * s}px solid #F1F5F9`,
+                        boxShadow: `0 ${4 * s}px ${16 * s}px rgba(15, 23, 42, 0.04)`,
+                        position: 'relative',
+                        height: '43%',
+                        overflow: 'hidden',
+                    }}
+                >
+                    {/* Minh họa gói du lịch: đóng vai trò như background bao trùm toàn bộ cụm card trên */}
+                    <Img
+                        src={staticFile('assets/elements/screen3/3.4/logo_vali_dulich.png')}
+                        style={{
+                            position: 'absolute',
+                            left: '7.5%',
+                            top: '9%',
+                            width: '115%',
+                            height: 'auto',
+                            display: 'block',
+                            pointerEvents: 'none',
+                            filter: `drop-shadow(0 ${2 * s}px ${8 * s}px rgba(15, 23, 42, 0.06))`,
+                        }}
+                    />
+
+                    {/* Cột chữ bên trái card */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: 15 * s,
+                            top: 22 * s,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 3 * s,
+                            zIndex: 2,
+                        }}
+                    >
+                        <span
+                            style={{
+                                color: '#1E293B',
+                                fontSize: 23 * s,
+                                fontWeight: 800,
+                                lineHeight: 1.15,
+                                letterSpacing: -0.4 * s,
+                            }}
+                        >
+                            Bảo hiểm
+                        </span>
+                        <span
+                            style={{
+                                color: '#E11D48',
+                                fontSize: 23 * s,
+                                fontWeight: 800,
+                                lineHeight: 1.15,
+                                letterSpacing: -0.4 * s,
+                            }}
+                        >
+                            Du lịch
+                        </span>
+                    </div>
+                </div>
+
+                {/* Khối Skeleton & thông tin mô phỏng gói bảo hiểm (Card dưới) */}
+                <div
+                    style={{
+                        backgroundColor: '#FFFFFF',
+                        borderRadius: 20 * s,
+                        border: `${1.5 * s}px solid #F1F5F9`,
+                        boxShadow: `0 ${4 * s}px ${14 * s}px rgba(15, 23, 42, 0.03)`,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 16 * s,
+                        padding: `${16 * s}px ${16 * s}px`,
+                        height: '26%',
+                        justifyContent: 'flex-start',
+                    }}
+                >
+                    {/* Thanh hồng placeholder */}
+                    <div
+                        style={{
+                            width: '50%',
+                            height: 18 * s,
+                            borderRadius: 9 * s,
+                            backgroundColor: '#FCE7F3',
+                        }}
+                    />
+
+                    {/* Các dòng gạch ngang xám mô phỏng text specs */}
+                    <div
+                        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 14 * s }}
+                    >
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 10 * s }}>
+                            <div
+                                style={{
+                                    width: '95%',
+                                    height: 13 * s,
+                                    borderRadius: 7 * s,
+                                    backgroundColor: '#E2E8F0',
+                                }}
+                            />
+                            <div
+                                style={{
+                                    width: '65%',
+                                    height: 13 * s,
+                                    borderRadius: 7 * s,
+                                    backgroundColor: '#E2E8F0',
+                                }}
+                            />
+                        </div>
+
+                        {/* Ô vuông thumbnail placeholder */}
+                        <div
+                            style={{
+                                width: 68 * s,
+                                height: 56 * s,
+                                borderRadius: 12 * s,
+                                backgroundColor: '#F8FAFC',
+                                border: `${1.5 * s}px solid #E2E8F0`,
+                            }}
+                        />
+                    </div>
+                </div>
+
+                {/* Nút CTA lớn nổi bật: CHỌN GÓI */}
+                <div
+                    style={{
+                        marginTop: 'auto',
+                        backgroundColor: '#E11D48',
+                        borderRadius: 14 * s,
+                        padding: `${14 * s}px ${20 * s}px`,
+                        textAlign: 'center',
+                        color: '#FFFFFF',
+                        fontSize: 20 * s,
+                        fontWeight: 900,
+                        letterSpacing: 1.2 * s,
+                        boxShadow: `0 ${6 * s}px ${20 * s}px rgba(225, 29, 72, 0.35)`,
+                        cursor: 'pointer',
+                        textTransform: 'uppercase',
+                    }}
+                >
+                    CHỌN GÓI
+                </div>
+            </div>
+        </div>
+    );
+};
+
 export const Scene3_TravelAdventure: React.FC = () => {
     const frame = useCurrentFrame();
     const { fps, width, height } = useVideoConfig();
     const colors = VIDEO_CONFIG_V2.colors;
+
+    // 🌟 CHẾ ĐỘ HIỂN THỊ CẢNH 3:
+    // 1. Nếu chọn cố định 'static_staging_34': luôn hiển thị Cảnh 3.4
+    if ((SCENE3_VIEW_MODE as string) === 'static_staging_34') {
+        return <StaticStaging34 width={width} height={height} colors={colors} showOverlay={SHOW_REFERENCE_OVERLAY} />;
+    }
+
+    // 2. Nếu ở chế độ 'timeline_flow':
+    //    - Frame 0 -> 449: Chạy toàn bộ diễn hoạt Shot 3.1 & Shot 3.2
+    //    - Frame 450+: Hiển thị khung đích đến Cảnh 3.4
+    if ((SCENE3_VIEW_MODE as string) === 'timeline_flow' && frame >= 450) {
+        return <StaticStaging34 width={width} height={height} colors={colors} showOverlay={SHOW_REFERENCE_OVERLAY} />;
+    }
 
     // ==========================================
     // 🎥 1. CÚ MÁY 2.5D DIORAMA (DEPTH-LAYER-MOVES & TILT-GLIDE)
@@ -1135,7 +1896,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                     height: 'auto',
                                     display: 'block',
                                     filter: 'blur(10px) brightness(1.35) drop-shadow(0 0 25px rgba(253, 224, 71, 0.85))',
-                                    opacity: 0.70 + Math.sin(frame * 0.08) * 0.15,
+                                    opacity: 0.7 + Math.sin(frame * 0.08) * 0.15,
                                     mixBlendMode: 'screen',
                                     pointerEvents: 'none',
                                 }}

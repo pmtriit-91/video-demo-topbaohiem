@@ -4,7 +4,7 @@ import { MainVideoV2 } from "./MainVideoV2";
 import { VIDEO_CONFIG_V2 } from "./config/videoConfigV2";
 import { Scene1_ProblemSnap } from "./components/scenes/v2/Scene1_ProblemSnap";
 import { Scene2_TopBaoHiemShowcase } from "./components/scenes/v2/Scene2_TopBaoHiemShowcase";
-import { Scene3_TravelAdventure } from "./components/scenes/v2/Scene3_TravelAdventure";
+import { Scene3_TravelAdventure, StaticStaging34 } from "./components/scenes/v2/Scene3_TravelAdventure";
 import { Scene4_InsuranceCategories } from "./components/scenes/v2/Scene4_InsuranceCategories";
 import { Scene5_PurchaseFlowCMS } from "./components/scenes/v2/Scene5_PurchaseFlowCMS";
 import { Scene6_OutroCTA } from "./components/scenes/v2/Scene6_OutroCTA";
@@ -108,6 +108,16 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="Scene3-TravelAdventure"
         component={Scene3_TravelAdventure}
+        durationInFrames={scenes.scene3_travel.duration}
+        fps={fps}
+        width={3840}
+        height={2160}
+      />
+
+      {/* Cảnh 3.4: Bố cục tĩnh Đích đến (Destination Blueprint 3.4) để duyệt riêng biệt */}
+      <Composition
+        id="Scene3-Shot34-Static"
+        component={StaticStaging34}
         durationInFrames={scenes.scene3_travel.duration}
         fps={fps}
         width={3840}
