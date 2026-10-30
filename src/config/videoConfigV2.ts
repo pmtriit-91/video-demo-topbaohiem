@@ -6,8 +6,8 @@ export interface SceneTimeline {
 
 export const VIDEO_CONFIG_V2 = {
     fps: 60,
-    totalFrames: 11950, // 3 phút 19 giây @ 60fps (khớp khít điểm chuyển giao Cảnh 1 -> Cảnh 2 tại F1930)
-    durationInSeconds: 199,
+    totalFrames: 11590, // Đã tối ưu Cảnh 3 về chuẩn 14s (840 frames = 12s nội dung + 2s kết cảnh)
+    durationInSeconds: 193,
 
     // 6 Hồi Kịch Bản Chuẩn Theo Storyboard Canva
     scenes: {
@@ -23,27 +23,27 @@ export const VIDEO_CONFIG_V2 = {
             duration: 2400,
             name: 'Cảnh 2: Trình diễn TOPbaohiem Laptop & Mobile',
         },
-        // 1:12 - 1:32 (20s | 1200 frames): Tiểu cảnh Bảo hiểm Du lịch (Cặp đôi kéo vali, sóng giấy, phao vịt)
+        // 1:12 - 1:26 (14s | 840 frames = 12s chính + 2s kết cảnh): Tiểu cảnh Bảo hiểm Du lịch Paper-Cut
         scene3_travel: {
             start: 4330,
-            duration: 1200,
+            duration: 840,
             name: 'Cảnh 3: Tiểu cảnh Bảo hiểm Du lịch Paper-Cut',
         },
-        // 1:32 - 2:08 (36s | 2160 frames): Các nhóm sản phẩm: Xe cộ, Sức khỏe, Tài sản/Nhà cửa
+        // 1:26 - 2:02 (36s | 2160 frames): Các nhóm sản phẩm: Xe cộ, Sức khỏe, Tài sản/Nhà cửa
         scene4_categories: {
-            start: 5530,
+            start: 5170,
             duration: 2160,
             name: 'Cảnh 4: Các nhóm sản phẩm Xe cộ, Sức khỏe, Nhà cửa',
         },
-        // 2:08 - 2:54 (46s | 2760 frames): Hành trình mua 1-chạm (4 bước) -> Cú búng tay lật mặt sau sang CMS Dashboard Dark Mode
+        // 2:02 - 2:48 (46s | 2760 frames): Hành trình mua 1-chạm (4 bước) -> Cú búng tay lật mặt sau sang CMS Dashboard Dark Mode
         scene5_purchase_cms: {
-            start: 7690,
+            start: 7330,
             duration: 2760,
             name: 'Cảnh 5: Hành trình mua 1-chạm & CMS Dashboard',
         },
-        // 2:54 - 3:19 (25s | 1500 frames): Hệ sinh thái toàn diện + Nhân vật tự tin + Logo TOPbaohiem & CTA
+        // 2:48 - 3:13 (25s | 1500 frames): Hệ sinh thái toàn diện + Nhân vật tự tin + Logo TOPbaohiem & CTA
         scene6_outro_cta: {
-            start: 10450,
+            start: 10090,
             duration: 1500,
             name: 'Cảnh 6: Hệ sinh thái trọn gói & Kêu gọi hành động',
         },

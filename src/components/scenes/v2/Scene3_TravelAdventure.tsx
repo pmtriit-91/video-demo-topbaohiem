@@ -552,11 +552,11 @@ const CartoonWindSwirl: React.FC<{
 
 // Component Cơn Gió "Bỉ Ổi" lướt ngang Full Màn Hình (100% Dynamic Vector SVG Animation)
 const DynamicWindStreamers: React.FC<{ frame: number; fps: number }> = ({ frame, fps }) => {
-    // Diễn hoạt trong khoảng Frame 366 đến Frame 430 (64 frames ~ 1.0s)
-    const isWindActive = frame >= 366 && frame <= 430;
+    // Diễn hoạt ngay khi lốc xoáy đập bung vali (Frame 262 đến Frame 336 — 74 frames ~ 1.23s)
+    const isWindActive = frame >= 262 && frame <= 336;
     if (!isWindActive) return null;
 
-    const windProgress = (frame - 366) / 64; // 0 -> 1
+    const windProgress = (frame - 262) / 74; // 0 -> 1
 
     // Độ mờ tổng thể: xuất hiện nhanh, giữ sáng khi quét qua, tan biến ở cuối
     const opacity = interpolate(windProgress, [0, 0.12, 0.78, 1], [0, 0.95, 0.95, 0], {
@@ -570,7 +570,7 @@ const DynamicWindStreamers: React.FC<{ frame: number; fps: number }> = ({ frame,
     });
 
     // Nhịp sóng uốn lượn hình sin lan truyền liên tục (Travelling Sine Wave)
-    const wavePhase = (frame - 366) * 0.18;
+    const wavePhase = (frame - 262) * 0.18;
 
     return (
         <div
@@ -1604,233 +1604,235 @@ export const Scene3_TravelAdventure: React.FC = () => {
     }
 
     // ============================================================================
-    // ⏱️ HỆ THỐNG ĐỒNG HỒ KÉP (DUAL-CLOCK) CHO BULLET-TIME FREEZE ORBIT (SHOT 3.2)
+    // ⏱️ HỆ THỐNG ĐỒNG HỒ KÉP (DUAL-CLOCK) CHO BULLET-TIME ORBIT & GOLDEN COMEDY HOLD (SHOT 3.2)
     // ============================================================================
-    // Khi vali nổ tung ở F360 và toàn bộ 7 món đồ + 2 chiếc nón + vịt vàng đạt đỉnh lơ lửng (F380),
-    // đồng hồ vật lý (frame) phanh gấp về chế độ Matrix Bullet-Time Freeze trong khoảng F384 - F418,
-    // để Camera 3D xoay vòng Orbit lượn qua các tầng đồ đạc đang đứng hình trên không,
-    // sau đó Sakuga Speed-Ramp tăng tốc bắt kịp thời gian thực tại F446!
+    // - Khi vali nổ tung ở F258 và toàn bộ 7 món đồ + 2 chiếc nón vọt lên đỉnh (F276),
+    //   đồng hồ vật lý (frame) hãm Bullet-Time trong F276 - F302 để Camera 3D xoay vòng Orbit,
+    //   rồi bắt kịp thời gian thực ngay tại F320.
+    // - Từ F320 đến F465 (~2.42 giây tốc độ thực 1.0x): Khung hình giữ nguyên "Bức tranh Hài Hước Đỉnh Cao"
+    //   (7 món đồ bay + 2 chiếc mũ lơ lửng + cặp đôi hốt hoảng + vịt ngồi xoay 3 ngôi sao + Mặt trời Meme cười đểu)
+    //   để khán giả chiêm ngưỡng trọn vẹn!
     const frame = (() => {
-        if (rawFrame <= 380 || rawFrame >= 446) return rawFrame;
-        if (rawFrame <= 388) {
-            // 8 frames phanh mượt vào điểm đóng băng đỉnh vụ nổ (380 -> 385.8)
-            const p = scRamp(rawFrame, 380, 8, SC_EASE.snappy);
-            return scMix(380, 385.8, p);
+        if (rawFrame <= 276 || rawFrame >= 320) return rawFrame;
+        if (rawFrame <= 282) {
+            const p = scRamp(rawFrame, 276, 6, SC_EASE.snappy);
+            return scMix(276, 280.5, p);
         }
-        if (rawFrame <= 418) {
-            // 30 frames (0.5s) Matrix Bullet-Time Freeze: trôi siêu chậm 0.08x (385.8 -> 388.2)
-            const p = (rawFrame - 388) / 30;
-            return scMix(385.8, 388.2, p);
+        if (rawFrame <= 302) {
+            const p = (rawFrame - 282) / 20;
+            return scMix(280.5, 284.0, p);
         }
-        // 28 frames (418 -> 446) Sakuga Speed-Ramp bứt tốc bắt kịp rawFrame (388.2 -> 446)
-        const p = scRamp(rawFrame, 418, 28, SC_EASE.heavy);
-        return scMix(388.2, 446, p);
+        const p = scRamp(rawFrame, 302, 18, SC_EASE.heavy);
+        return scMix(284.0, 320, p);
     })();
 
     // ============================================================================
     // 🎥 1. HỆ THỐNG CAMERA 3D 5 HỒI CHUẨN VIDEO-SHOTCRAFT (TILT-REVEAL / CRASH-ZOOM /
     //       BULLET-TIME ORBIT / IMPACT-BURST SLAM / KANADA SNAP / PORTAL-WIPE DIVE)
+    //       (ĐÃ TỐI ƯU TIMELINE CHUẨN 14.0S = 840 FRAMES @ 60FPS)
     // ============================================================================
 
-    // --- [HỒI 1: F0 - F64] TILT-REVEAL 3D POP-UP STAGE + AIR-CUSHION BRAKE (TiltReveal.tsx) ---
-    // Sân khấu mở ra như lật dựng một cuốn sách Pop-Up 3D từ đường chân trời (72° -> -2.4° overshoot -> 0°)
-    const introLiftMain = scRamp(rawFrame, 0, 34, SC_EASE.airBrake);
-    const introOvershootSettle = scRamp(rawFrame, 34, 28, SC_EASE.snappy);
+    // --- [HỒI 1: F0 - F58] TILT-REVEAL 3D POP-UP STAGE + AIR-CUSHION BRAKE (TiltReveal.tsx) ---
+    // Sân khấu mở ra như lật dựng một cuốn sách Pop-Up 3D từ đường chân trời (68° -> -2.4° overshoot -> 0°)
+    const introLiftMain = scRamp(rawFrame, 0, 32, SC_EASE.airBrake);
+    const introOvershootSettle = scRamp(rawFrame, 32, 26, SC_EASE.snappy);
     const camIntroRotX =
-        rawFrame < 34
+        rawFrame < 32
             ? scMix(68, -2.4, introLiftMain)
-            : rawFrame < 62
+            : rawFrame < 58
               ? scMix(-2.4, 0, introOvershootSettle)
               : 0;
     const camIntroRotY =
-        rawFrame < 34
+        rawFrame < 32
             ? scMix(14, -1.0, introLiftMain)
-            : rawFrame < 62
+            : rawFrame < 58
               ? scMix(-1.0, 0, introOvershootSettle)
               : 0;
     const camIntroRotZ =
-        rawFrame < 34
+        rawFrame < 32
             ? scMix(-7.5, 0.5, introLiftMain)
-            : rawFrame < 62
+            : rawFrame < 58
               ? scMix(0.5, 0, introOvershootSettle)
               : 0;
     const camIntroScale =
-        rawFrame < 34
+        rawFrame < 32
             ? scMix(1.52, 0.988, introLiftMain)
-            : rawFrame < 62
+            : rawFrame < 58
               ? scMix(0.988, 1.0, introOvershootSettle)
               : 1.0;
     const camIntroY =
-        rawFrame < 34
+        rawFrame < 32
             ? scMix(165 * s, -8 * s, introLiftMain)
-            : rawFrame < 62
+            : rawFrame < 58
               ? scMix(-8 * s, 0, introOvershootSettle)
               : 0;
 
-    // --- [HỒI 1.5: F75 - F345] AMBIENT PUSH & QUIRKY PLANE TRACKING TILT ---
-    const camAmbientPush = interpolate(rawFrame, [75, 345], [1.0, 1.035], {
+    // --- [HỒI 1.5: F65 - F245] AMBIENT PUSH & QUIRKY PLANE TRACKING TILT ---
+    const camAmbientPush = interpolate(rawFrame, [65, 245], [1.0, 1.035], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    // Khi máy bay đỏng đảnh phanh kít & nén lò xo trên trời (F255 - F345), camera hơi ngước nhẹ theo dõi
+    // Khi máy bay đỏng đảnh phanh kít & nén lò xo trên trời (F150 - F256), camera hơi ngước nhẹ theo dõi
     const planeTrackEnv =
-        rawFrame >= 250 && rawFrame < 358
-            ? Math.sin(scRamp(rawFrame, 250, 108) * Math.PI)
+        rawFrame >= 150 && rawFrame < 256
+            ? Math.sin(scRamp(rawFrame, 150, 106) * Math.PI)
             : 0;
     const camPlaneTrackRotX = planeTrackEnv * 4.5;
     const camPlaneTrackY = planeTrackEnv * 22 * s;
 
-    // --- [HỒI 2: F345 - F446] CRASH-ZOOM IMPACT + MATRIX BULLET-TIME 3D ORBIT ---
-    // Pha 2A (F345 - F358): Anticipation pull-back (-4.5% scale) lấy đà trước khi lốc xoáy đập vào vali
-    const windup32 = scRamp(rawFrame, 345, 13, SC_EASE.smooth);
-    // Pha 2B (F358 - F366): 8-frame Crash-Zoom Punch thẳng vào tâm vụ nổ vali + cặp đôi!
-    const crashIn32 = scRamp(rawFrame, 358, 8, SC_EASE.heavy);
-    // Pha 2C (F382 - F438): Matrix Bullet-Time 3D Camera Orbit lượn vòng qua đồ đạc đang đứng hình!
-    const orbitSwing1 = scRamp(rawFrame, 382, 20, SC_EASE.snappy); // Quăng sang góc nghiêng trái (-22° Y, +12° X)
-    const orbitSwing2 = scRamp(rawFrame, 402, 18, SC_EASE.smooth); // Lượn vòng sang góc phải (+14° Y, +6° X)
-    const orbitReturn = scRamp(rawFrame, 420, 22, SC_EASE.snappy); // Trả về chính diện (0°) đúng nhịp Sakuga Speed-Ramp!
+    // --- [HỒI 2: F245 - F468] CRASH-ZOOM IMPACT + BULLET-TIME 3D ORBIT + GOLDEN COMEDY HOLD ---
+    // Pha 2A (F245 - F258): Anticipation pull-back (-4.5% scale) lấy đà trước khi lốc xoáy đập vào vali
+    const windup32 = scRamp(rawFrame, 245, 13, SC_EASE.smooth);
+    // Pha 2B (F258 - F266): 8-frame Crash-Zoom Punch thẳng vào tâm vụ nổ vali + cặp đôi!
+    const crashIn32 = scRamp(rawFrame, 258, 8, SC_EASE.heavy);
+    // Pha 2C (F274 - F326): Matrix Bullet-Time 3D Camera Orbit lượn vòng qua đồ đạc đang đứng hình!
+    const orbitSwing1 = scRamp(rawFrame, 274, 18, SC_EASE.snappy); // Quăng sang góc nghiêng trái (-24° Y, +13° X)
+    const orbitSwing2 = scRamp(rawFrame, 292, 16, SC_EASE.smooth); // Lượn vòng sang góc phải (+15° Y, +7° X)
+    const orbitReturn = scRamp(rawFrame, 308, 20, SC_EASE.snappy); // Trả về chính diện (0°) tại F328 để mở Golden Comedy Hold!
 
     const crashZoomScale =
-        rawFrame < 345
+        rawFrame < 245
             ? 1.0
-            : rawFrame < 358
+            : rawFrame < 258
               ? scMix(1.0, 0.955 / 1.035, windup32)
-              : rawFrame < 366
-                ? scMix(0.955 / 1.035, 1.28 / 1.035, crashIn32)
-                : rawFrame < 420
-                  ? (1.28 + Math.sin(((rawFrame - 366) / 54) * Math.PI) * 0.08) / 1.035
-                  : rawFrame < 444
-                    ? scMix(1.28 / 1.035, 1.0, orbitReturn)
-                    : 1.0;
+              : rawFrame < 266
+                ? scMix(0.955 / 1.035, 1.26 / 1.035, crashIn32)
+                : rawFrame < 308
+                  ? (1.26 + Math.sin(((rawFrame - 266) / 42) * Math.PI) * 0.07) / 1.035
+                  : rawFrame < 328
+                    ? scMix(1.26 / 1.035, 1.02 / 1.035, orbitReturn)
+                    : rawFrame < 468
+                      ? scMix(1.02 / 1.035, 1.0, scRamp(rawFrame, 328, 140, SC_EASE.smooth))
+                      : 1.0;
 
     const crashPanX =
-        rawFrame < 358
+        rawFrame < 258
             ? 0
-            : rawFrame < 366
+            : rawFrame < 266
               ? scMix(0, 118 * s, crashIn32)
-              : rawFrame < 402
+              : rawFrame < 292
                 ? scMix(118 * s, 165 * s, orbitSwing1)
-                : rawFrame < 420
+                : rawFrame < 308
                   ? scMix(165 * s, 65 * s, orbitSwing2)
-                  : rawFrame < 444
+                  : rawFrame < 328
                     ? scMix(65 * s, 0, orbitReturn)
                     : 0;
 
     const crashPanY =
-        rawFrame < 358
+        rawFrame < 258
             ? 0
-            : rawFrame < 366
+            : rawFrame < 266
               ? scMix(0, -32 * s, crashIn32)
-              : rawFrame < 402
+              : rawFrame < 292
                 ? scMix(-32 * s, -54 * s, orbitSwing1)
-                : rawFrame < 420
+                : rawFrame < 308
                   ? scMix(-54 * s, -18 * s, orbitSwing2)
-                  : rawFrame < 444
+                  : rawFrame < 328
                     ? scMix(-18 * s, 0, orbitReturn)
                     : 0;
 
     const orbitRotY =
-        rawFrame < 358
+        rawFrame < 258
             ? 0
-            : rawFrame < 366
+            : rawFrame < 266
               ? scMix(0, -6, crashIn32)
-              : rawFrame < 402
+              : rawFrame < 292
                 ? scMix(-6, -24, orbitSwing1)
-                : rawFrame < 420
+                : rawFrame < 308
                   ? scMix(-24, 15, orbitSwing2)
-                  : rawFrame < 444
+                  : rawFrame < 328
                     ? scMix(15, 0, orbitReturn)
                     : 0;
 
     const orbitRotX =
-        rawFrame < 345
+        rawFrame < 245
             ? 0
-            : rawFrame < 358
+            : rawFrame < 258
               ? scMix(0, 5, windup32)
-              : rawFrame < 366
+              : rawFrame < 266
                 ? scMix(5, -4, crashIn32)
-                : rawFrame < 402
+                : rawFrame < 292
                   ? scMix(-4, 13, orbitSwing1)
-                  : rawFrame < 420
+                  : rawFrame < 308
                     ? scMix(13, 7, orbitSwing2)
-                    : rawFrame < 444
+                    : rawFrame < 328
                       ? scMix(7, 0, orbitReturn)
                       : 0;
 
     const orbitRotZ =
-        rawFrame < 358
+        rawFrame < 258
             ? 0
-            : rawFrame < 366
+            : rawFrame < 266
               ? scMix(0, -2.8, crashIn32)
-              : rawFrame < 402
+              : rawFrame < 292
                 ? scMix(-2.8, -4.5, orbitSwing1)
-                : rawFrame < 420
+                : rawFrame < 308
                   ? scMix(-4.5, 2.8, orbitSwing2)
-                  : rawFrame < 444
+                  : rawFrame < 328
                     ? scMix(2.8, 0, orbitReturn)
                     : 0;
 
-    // Rung chấn Va đập Cực mạnh khi Vali Nổ (F360 - F378, CrashImpactReal.tsx)
-    const shake32T = rawFrame - 360;
+    // Rung chấn Va đập Cực mạnh khi Vali Nổ (F258 - F276, CrashImpactReal.tsx)
+    const shake32T = rawFrame - 258;
     const shake32Env = shake32T >= 0 && shake32T < 18 ? 16 * s * Math.exp(-shake32T / 2.2) : 0;
     const impactShakeX = shake32Env * 0.65 * Math.sin(shake32T * 2.5 + 0.6);
     const impactShakeY = shake32Env * Math.cos(shake32T * 2.9);
     const impactShakeRot = (shake32Env / s) * 0.08 * Math.sin(shake32T * 3.7 + 1.9);
 
-    // --- [HỒI 3: F488 - F560] WHIP-IMPLOSION TWIST -> IMPACT-BURST-KIT SLAM (ImpactBurstKit.tsx) ---
+    // --- [HỒI 3: F474 - F545] WHIP-IMPLOSION TWIST -> IMPACT-BURST-KIT SLAM (ImpactBurstKit.tsx) ---
     // Khi chuẩn bị chuyển sang Cảnh 3.4:
-    // F490 - F506: Camera lùi nhẹ + nghiêng ngửa đón Khiên Hồng & Cặp đôi Hero đang lơ lửng sát ống kính
-    // F506 - F512 (6f): Khiên & Cặp đôi đập sập xuống sàn! Tại HIT = 512, sóng xung kích & rung chấn nổ tung!
-    const slamWindup = scRamp(rawFrame, 490, 16, SC_EASE.smooth);
-    const slamHitRecover = scRamp(rawFrame, 512, 36, SC_EASE.snappy);
+    // F476 - F492: Camera lùi nhẹ + nghiêng ngửa đón Khiên Hồng & Cặp đôi Hero đang lơ lửng sát ống kính
+    // F492 - F498 (6f): Khiên & Cặp đôi đập sập xuống sàn! Tại HIT_34 = 498, sóng xung kích & rung chấn nổ tung!
+    const slamWindup = scRamp(rawFrame, 476, 16, SC_EASE.smooth);
+    const slamHitRecover = scRamp(rawFrame, 498, 36, SC_EASE.snappy);
     const camSlamScale =
-        rawFrame < 490
+        rawFrame < 476
             ? 1.0
-            : rawFrame < 506
+            : rawFrame < 492
               ? scMix(1.0, 0.94, slamWindup)
-              : rawFrame < 512
-                ? scMix(0.94, 1.06, scRamp(rawFrame, 506, 6, SC_EASE.slam))
-                : rawFrame < 548
+              : rawFrame < 498
+                ? scMix(0.94, 1.06, scRamp(rawFrame, 492, 6, SC_EASE.slam))
+                : rawFrame < 534
                   ? scMix(1.06, 1.0, slamHitRecover)
                   : 1.0;
     const camSlamRotX =
-        rawFrame < 490
+        rawFrame < 476
             ? 0
-            : rawFrame < 506
+            : rawFrame < 492
               ? scMix(0, 9.5, slamWindup)
-              : rawFrame < 512
-                ? scMix(9.5, -3.2, scRamp(rawFrame, 506, 6, SC_EASE.slam))
-                : rawFrame < 548
+              : rawFrame < 498
+                ? scMix(9.5, -3.2, scRamp(rawFrame, 492, 6, SC_EASE.slam))
+                : rawFrame < 534
                   ? scMix(-3.2, 0, slamHitRecover)
                   : 0;
     const camSlamRotZ =
-        rawFrame < 490
+        rawFrame < 476
             ? 0
-            : rawFrame < 506
+            : rawFrame < 492
               ? scMix(0, 2.4, slamWindup)
-              : rawFrame < 512
-                ? scMix(2.4, -1.8, scRamp(rawFrame, 506, 6, SC_EASE.slam))
-                : rawFrame < 548
+              : rawFrame < 498
+                ? scMix(2.4, -1.8, scRamp(rawFrame, 492, 6, SC_EASE.slam))
+                : rawFrame < 534
                   ? scMix(-1.8, 0, slamHitRecover)
                   : 0;
 
-    // Rung chấn Hạng Nặng khi Khiên Hồng chạm đất tại HIT_34 = 512 (ImpactBurstKit.tsx)
-    const shake34T = rawFrame - 512;
+    // Rung chấn Hạng Nặng khi Khiên Hồng chạm đất tại HIT_34 = 498 (ImpactBurstKit.tsx)
+    const shake34T = rawFrame - 498;
     const shake34Env = shake34T >= 0 && shake34T < 20 ? 20 * s * Math.exp(-shake34T / 2.1) : 0;
     const shieldShakeX = shake34Env * 0.55 * Math.sin(shake34T * 2.6 + 0.4);
     const shieldShakeY = shake34Env * Math.cos(shake34T * 3.1);
     const shieldShakeRot = (shake34Env / s) * 0.09 * Math.sin(shake34T * 3.5 + 1.2);
 
-    // Giai đoạn cân bằng khung hình về đúng tỉ lệ 1.0 cho Cảnh 3.4 (F510 - F560)
-    const camTransitionScale = interpolate(rawFrame, [485, 512], [1.0, 1.0 / 1.035], {
+    // Giai đoạn cân bằng khung hình về đúng tỉ lệ 1.0 cho Cảnh 3.4 (F472 - F498)
+    const camTransitionScale = interpolate(rawFrame, [472, 498], [1.0, 1.0 / 1.035], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: (t) => t * (2 - t),
     });
 
-    // --- [HỒI 4: F620 - F658] KANADA PERSPECTIVE SNAP CAMERA RECOIL (KanadaPerspectiveSnap.tsx) ---
-    // Khi chiếc Smartphone văng mắt cá đập phẳng vào khung phải tại SNAP = 638, toàn sân khấu giật nảy phản lực!
-    const kanadaRecoilT = rawFrame - 638;
+    // --- [HỒI 4: F594 - F634] KANADA PERSPECTIVE SNAP CAMERA RECOIL (KanadaPerspectiveSnap.tsx) ---
+    // Khi chiếc Smartphone văng mắt cá đập phẳng vào khung phải tại SNAP = 612, toàn sân khấu giật nảy phản lực!
+    const kanadaRecoilT = rawFrame - 612;
     const kanadaRecoilEnv =
         kanadaRecoilT >= 0 && kanadaRecoilT < 22
             ? Math.cos(kanadaRecoilT * 0.38) * Math.exp(-kanadaRecoilT / 5.5)
@@ -1839,37 +1841,35 @@ export const Scene3_TravelAdventure: React.FC = () => {
     const camKanadaRotZ = kanadaRecoilEnv * 1.6;
     const camKanadaX = kanadaRecoilEnv * -22 * s;
 
-    // --- [HỒI 5: F1146 - F1200] PORTAL-WIPE 3D DIVE VÀO MÀN HÌNH ĐIỆN THOẠI (PortalWipeV2.tsx) ---
-    // 16 frames lấy đà lùi nhẹ (F1146 - F1162) -> 38 frames phóng xuyên tâm màn hình Smartphone sang Cảnh 4!
-    // Tâm Smartphone nằm tại ~79.4% ngang (+564*s so với tâm 50%) và ~56% dọc (+12*s so với tâm 55%),
-    // nên khi phóng đại lên 5.2x, camPortalX dịch đúng -564 * s * camPortalScale để khóa hồng tâm vào giữa màn hình Điện thoại!
-    const portalAntic = scRamp(rawFrame, 1146, 16, SC_EASE.smooth);
-    const portalDive = scRamp(rawFrame, 1162, 38, SC_EASE.portal);
-    const portalPanP = scRamp(rawFrame, 1162, 22, SC_EASE.snappy);
+    // --- [HỒI 5: F786 - F840] PORTAL-WIPE 3D DIVE VÀO MÀN HÌNH ĐIỆN THOẠI (PortalWipeV2.tsx) ---
+    // Sau 12.0s (F720) + 1.1s hiệu ứng Click chọn gói, từ F786 - F802 (16f) lấy đà lùi nhẹ -> F802 - F840 (38f) phóng xuyên tâm Smartphone!
+    const portalAntic = scRamp(rawFrame, 786, 16, SC_EASE.smooth);
+    const portalDive = scRamp(rawFrame, 802, 38, SC_EASE.portal);
+    const portalPanP = scRamp(rawFrame, 802, 22, SC_EASE.snappy);
     const camPortalScale =
-        rawFrame < 1146
+        rawFrame < 786
             ? 1.0
-            : rawFrame < 1162
+            : rawFrame < 802
               ? scMix(1.0, 0.95, portalAntic)
               : scMix(0.95, 5.2, portalDive);
     const camPortalX =
-        rawFrame < 1162 ? 0 : -605 * s * (camPortalScale - (1 - portalPanP));
+        rawFrame < 802 ? 0 : -605 * s * (camPortalScale - (1 - portalPanP));
     const camPortalY =
-        rawFrame < 1146
+        rawFrame < 786
             ? 0
-            : rawFrame < 1162
+            : rawFrame < 802
               ? scMix(0, 14 * s, portalAntic)
               : scMix(14 * s, 18 * s * camPortalScale, portalPanP);
     const camPortalRotY =
-        rawFrame < 1146
+        rawFrame < 786
             ? 0
-            : rawFrame < 1162
+            : rawFrame < 802
               ? scMix(0, -3.5, portalAntic)
               : scMix(-3.5, 8, portalDive);
     const camPortalRotZ =
-        rawFrame < 1146
+        rawFrame < 786
             ? 0
-            : rawFrame < 1162
+            : rawFrame < 802
               ? scMix(0, 1.5, portalAntic)
               : scMix(1.5, -5.5, portalDive);
 
@@ -1893,39 +1893,37 @@ export const Scene3_TravelAdventure: React.FC = () => {
 
     // Tính vận tốc tức thời để kích hoạt <SpeedBlur> định hướng ở các cú quất máy nhanh (Whip / Slam / Dive)
     const speedBlurX =
-        (rawFrame >= 358 && rawFrame <= 366 ? 14 : 0) +
-        (rawFrame >= 383 && rawFrame <= 395 ? 7 : 0) +
-        (rawFrame >= 620 && rawFrame <= 638 ? 16 : 0) +
-        (rawFrame >= 1168 && rawFrame <= 1196 ? 12 : 0);
+        (rawFrame >= 258 && rawFrame <= 266 ? 14 : 0) +
+        (rawFrame >= 275 && rawFrame <= 288 ? 7 : 0) +
+        (rawFrame >= 594 && rawFrame <= 612 ? 16 : 0) +
+        (rawFrame >= 808 && rawFrame <= 836 ? 12 : 0);
     const speedBlurY =
         (rawFrame >= 0 && rawFrame <= 24 ? 14 * (1 - rawFrame / 24) : 0) +
-        (rawFrame >= 506 && rawFrame <= 513 ? 18 : 0) +
-        (rawFrame >= 1168 && rawFrame <= 1196 ? 6 : 0);
+        (rawFrame >= 492 && rawFrame <= 499 ? 18 : 0) +
+        (rawFrame >= 808 && rawFrame <= 836 ? 6 : 0);
     const isStageSpeedBlurActive = speedBlurX > 0.6 || speedBlurY > 0.6;
 
 
     // ==========================================
     // ✈️ 2. MÁY BAY MÔ HÌNH CHUYỂN CẢNH (FLY-OVER HOOK)
     // ==========================================
-    // Máy bay lướt từ trái sang phải bầu trời trong 85 frames (1.4s đầu)
-    // Tọa độ X: từ -30% (ngoài màn hình trái) bay sang 115% (ra khỏi màn hình phải)
-    const planeProgress = interpolate(frame, [0, 85], [0, 1], {
+    // Máy bay lướt từ trái sang phải bầu trời trong 82 frames (1.36s đầu)
+    const planeProgress = interpolate(frame, [0, 82], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
     const planeLeft = interpolate(planeProgress, [0, 1], [-30, 115]);
-    // Đường bay hơi lượn nhẹ dạng vòng cung tự nhiên
     const planeTop = interpolate(planeProgress, [0, 0.45, 1], [6.0, 7.8, 5.0]);
     const planeRotate = interpolate(planeProgress, [0, 0.5, 1], [2.5, 0.5, -2.0]);
-    // Nhịp bồng bềnh của luồng không khí
     const planeFloat = Math.sin(frame * 0.15) * 2.5;
 
     // ==========================================
-    // 🛩️ 2.5. HOẠT CẢNH "CHIẾC MÁY BAY ĐỎNG ĐẢNH" (FRAME 180 - 360)
+    // 🛩️ 2.5. HOẠT CẢNH "CHIẾC MÁY BAY ĐỎNG ĐẢNH" (FRAME 102 - 258 — VÀO NGAY KHI CẶP ĐÔI ĐỨNG CHUẨN FORM Ở ~1.8S!)
     // ==========================================
-    // Xuất hiện trên tầng mây đầu bạn nam sau khi cặp đôi ổn định vị trí (F180+)
-    const isQuirkyPlaneActive = frame >= 180 && frame <= 360;
+    // Thay vì chờ tới F180 (3.0s) gây khoảng trống thừa, ngay khi cặp đôi vừa định hình tại tâm (F102 ~ 1.7s),
+    // chiếc máy bay đỏng đảnh xuất hiện ngay trên tầng mây đầu bạn nam và đi thẳng vào chuỗi diễn xuất hài hước!
+    const isQuirkyPlaneActive = frame >= 102 && frame <= 258;
 
     let quirkyPlaneSrc = QUIRKY_PLANE_ASSETS.hover;
     let quirkyPlaneX = 0;
@@ -1936,104 +1934,101 @@ export const Scene3_TravelAdventure: React.FC = () => {
     let quirkyPlaneOpacity = 1;
     let quirkyPlaneShadow = '0 14px 22px rgba(15, 23, 42, 0.22)';
 
-    if (frame >= 180 && frame < 230) {
-        // [Giai đoạn 1: F180 - F230] Hover lơ lửng nhẹ nhàng, mũi ngóc nhẹ
+    if (frame >= 102 && frame < 122) {
+        // [Giai đoạn 1: F102 - F122 (20f)] Xuất hiện nhanh & Hover ngóc mũi nhẹ
         quirkyPlaneSrc = QUIRKY_PLANE_ASSETS.hover;
-        quirkyPlaneY = Math.sin((frame - 180) * 0.12) * 4;
-        quirkyPlaneRotate = 1.5 + Math.sin((frame - 180) * 0.08) * 1.5;
-        quirkyPlaneOpacity = interpolate(frame, [180, 195], [0, 1], {
+        quirkyPlaneY = Math.sin((frame - 102) * 0.15) * 4;
+        quirkyPlaneRotate = 1.5 + Math.sin((frame - 102) * 0.1) * 1.5;
+        quirkyPlaneOpacity = interpolate(frame, [102, 114], [0, 1], {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
         });
-        quirkyPlaneShadow = `0 ${14 + Math.sin((frame - 180) * 0.12) * 3}px ${22 + Math.sin((frame - 180) * 0.12) * 4}px rgba(15, 23, 42, 0.22)`;
-    } else if (frame >= 230 && frame < 265) {
-        // [Giai đoạn 2: F230 - F265] Wobble chao đảo đỏng đảnh, hụt trớn
+        quirkyPlaneShadow = `0 ${14 + Math.sin((frame - 102) * 0.15) * 3}px ${22 + Math.sin((frame - 102) * 0.15) * 4}px rgba(15, 23, 42, 0.22)`;
+    } else if (frame >= 122 && frame < 154) {
+        // [Giai đoạn 2: F122 - F154 (32f)] Wobble chao đảo đỏng đảnh, hụt trớn
         quirkyPlaneSrc = QUIRKY_PLANE_ASSETS.wobble;
-        quirkyPlaneY = Math.sin((frame - 230) * 0.22) * 7;
-        quirkyPlaneRotate = Math.sin((frame - 230) * 0.2) * 6;
-        quirkyPlaneX = Math.sin((frame - 230) * 0.15) * 5;
-        quirkyPlaneShadow = `0 ${15 + Math.sin((frame - 230) * 0.22) * 4}px ${24 + Math.sin((frame - 230) * 0.2) * 5}px rgba(15, 23, 42, 0.24)`;
-    } else if (frame >= 265 && frame < 290) {
-        // [Giai đoạn 3: F265 - F290] Brake Skid phanh kít trên không, há hốc mồm
+        quirkyPlaneY = Math.sin((frame - 122) * 0.24) * 7;
+        quirkyPlaneRotate = Math.sin((frame - 122) * 0.22) * 6;
+        quirkyPlaneX = Math.sin((frame - 122) * 0.16) * 5;
+        quirkyPlaneShadow = `0 ${15 + Math.sin((frame - 122) * 0.24) * 4}px ${24 + Math.sin((frame - 122) * 0.22) * 5}px rgba(15, 23, 42, 0.24)`;
+    } else if (frame >= 154 && frame < 178) {
+        // [Giai đoạn 3: F154 - F178 (24f)] Brake Skid phanh kít trên không, há hốc mồm
         quirkyPlaneSrc = QUIRKY_PLANE_ASSETS.skid;
-        const skidProgress = interpolate(frame, [265, 290], [0, 1], { extrapolateRight: 'clamp' });
+        const skidProgress = interpolate(frame, [154, 178], [0, 1], { extrapolateRight: 'clamp' });
         quirkyPlaneX = interpolate(skidProgress, [0, 0.4, 1], [0, -18, -12]);
         quirkyPlaneY = frame % 2 === 0 ? 2 : -2; // Rung giật bần bật do phanh kít
         quirkyPlaneRotate = -3;
         quirkyPlaneShadow = '0 10px 16px rgba(15, 23, 42, 0.28)';
-    } else if (frame >= 290 && frame < 315) {
-        // [Giai đoạn 4: F290 - F315] Squash & Bend cong quéo dồn nén lò xo
+    } else if (frame >= 178 && frame < 204) {
+        // [Giai đoạn 4: F178 - F204 (26f)] Squash & Bend cong quéo dồn nén lò xo
         quirkyPlaneSrc = QUIRKY_PLANE_ASSETS.squash;
-        const squashProgress = interpolate(frame, [290, 315], [0, 1], { extrapolateRight: 'clamp' });
+        const squashProgress = interpolate(frame, [178, 204], [0, 1], { extrapolateRight: 'clamp' });
         quirkyPlaneScale = 1 + Math.sin(squashProgress * Math.PI) * 0.08;
-        quirkyPlaneX = -12 + Math.sin((frame - 290) * 0.3) * 3;
-        quirkyPlaneY = Math.sin((frame - 290) * 0.3) * 3;
+        quirkyPlaneX = -12 + Math.sin((frame - 178) * 0.3) * 3;
+        quirkyPlaneY = Math.sin((frame - 178) * 0.3) * 3;
         quirkyPlaneShadow = `0 ${18 + Math.sin(squashProgress * Math.PI) * 6}px ${28 + Math.sin(squashProgress * Math.PI) * 8}px rgba(15, 23, 42, 0.26)`;
-    } else if (frame >= 315 && frame < 328) {
-        // [Giai đoạn 5: F315 - F328] Snap Flip búng thun lộn vòng 180 độ
+    } else if (frame >= 204 && frame < 218) {
+        // [Giai đoạn 5: F204 - F218 (14f)] Snap Flip búng thun lộn vòng 180 độ
         quirkyPlaneSrc = QUIRKY_PLANE_ASSETS.snap;
-        quirkyPlaneRotate = interpolate(frame, [315, 328], [0, -25]);
+        quirkyPlaneRotate = interpolate(frame, [204, 218], [0, -25]);
         quirkyPlaneScale = 1.05;
-        quirkyPlaneX = interpolate(frame, [315, 328], [-12, -40]);
+        quirkyPlaneX = interpolate(frame, [204, 218], [-12, -40]);
         quirkyPlaneShadow = '0 8px 32px rgba(15, 23, 42, 0.32)';
-    } else if (frame >= 328 && frame <= 360) {
-        // [Giai đoạn 6: F328 - F360] Zip-out quay đầu 180 độ tháo chạy sang trái
+    } else if (frame >= 218 && frame <= 258) {
+        // [Giai đoạn 6: F218 - F258 (40f)] Zip-out quay đầu 180 độ tháo chạy sang trái
         quirkyPlaneSrc = QUIRKY_PLANE_ASSETS.zip;
         quirkyPlaneScaleX = -1; // Lật ngược chiều ngang: đầu quay sang trái, đuôi xả khói sang phải
-        const zipDistance = interpolate(frame, [328, 360], [0, -2800], {
+        const zipDistance = interpolate(frame, [218, 258], [0, -2800], {
             extrapolateLeft: 'clamp',
             easing: (t) => t * t * t, // Gia tốc phi tuyến tính phóng xé gió
         });
         quirkyPlaneX = -40 + zipDistance;
-        quirkyPlaneY = interpolate(frame, [328, 360], [0, -80]);
-        quirkyPlaneRotate = 4; // Chúc nhẹ đầu sang trái theo hướng lao
+        quirkyPlaneY = interpolate(frame, [218, 258], [0, -80]);
+        quirkyPlaneRotate = 4;
         quirkyPlaneShadow = '0 10px 24px rgba(15, 23, 42, 0.20)';
     }
 
-    // Luồng lốc xoáy giấy 3D (Wind Vortex) rơi từ máy bay xuống vali (F320 - F368)
-    const isVortexActive = frame >= 320 && frame <= 368;
-    const vortexProgress = interpolate(frame, [320, 360], [0, 1], {
+    // Luồng lốc xoáy giấy 3D (Wind Vortex) rơi từ máy bay xuống vali (F212 - F266, chạm vali đúng tại F258!)
+    const isVortexActive = frame >= 212 && frame <= 266;
+    const vortexProgress = interpolate(frame, [212, 258], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    // Điểm xuất phát từ máy bay (top ~11%, left ~52%), xoáy rơi thẳng xuống vali bạn nam (top ~57%, left ~48.5%)
     const vortexTop = interpolate(vortexProgress, [0, 0.7, 1], [11, 42, 57]);
     const vortexLeft = interpolate(vortexProgress, [0, 0.7, 1], [52, 50, 48.5]);
     const vortexScale =
-        frame <= 360
+        frame <= 258
             ? interpolate(vortexProgress, [0, 0.6, 1], [0.25, 0.9, 1.15])
-            : interpolate(frame, [360, 368], [1.15, 1.45], { extrapolateRight: 'clamp' });
-    const vortexRotate = interpolate(vortexProgress, [0, 1], [0, 720]) + (frame > 360 ? (frame - 360) * 14 : 0);
+            : interpolate(frame, [258, 266], [1.15, 1.45], { extrapolateRight: 'clamp' });
+    const vortexRotate = interpolate(vortexProgress, [0, 1], [0, 720]) + (frame > 258 ? (frame - 258) * 14 : 0);
     const vortexOpacity =
-        frame <= 360
+        frame <= 258
             ? interpolate(vortexProgress, [0, 0.2, 0.85, 1], [0, 1, 0.95, 0.9])
-            : interpolate(frame, [360, 368], [0.9, 0], { extrapolateRight: 'clamp' });
+            : interpolate(frame, [258, 266], [0.9, 0], { extrapolateRight: 'clamp' });
 
     // ==========================================
     // ☀️ 3. MẶT TRỜI & TẦNG MÂY GIẤY (LIVING SKY)
     // ==========================================
-    // Mặt trời đã hiện diện sẵn, tỏa sáng & xoay chậm thư thái
     const sunEntrance = interpolate(frame, [0, 20], [0.85, 1.0], {
         extrapolateRight: 'clamp',
     });
     const sunScale = 1 + Math.sin(frame * 0.04) * 0.015;
-    // Vành tam giác mặt trời xoay vòng liên tục như code gốc
     const sunRotate = frame * 0.07;
 
-    // 🌞 Khuôn mặt Meme ở trung tâm cố định: xuất hiện êm ái từ F366+ và mờ dần khi khiên bảo vệ hạ cánh (F450 - F485)
-    const isSmirkActive = frame >= 366 && frame < 490;
-    const smirkIn = interpolate(frame, [366, 376], [0, 1], {
+    // 🌞 Khuôn mặt Meme ở trung tâm cố định: xuất hiện ngay tại F262+ và giữ suốt cao trào hài hước 3.2 tới F488!
+    const isSmirkActive = frame >= 262 && frame < 488;
+    const smirkIn = interpolate(frame, [262, 272], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const smirkOut = interpolate(frame, [450, 485], [1, 0], {
+    const smirkOut = interpolate(frame, [464, 488], [1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
     const smirkOpacity = isSmirkActive ? smirkIn * smirkOut : 0;
 
-    // Quỹ đạo chuyển tiếp mượt mà của Mặt Trời từ vị trí 3.1 sang vị trí chuẩn 3.4 (F505 - F575)
-    const sunTransition = interpolate(frame, [505, 575], [0, 1], {
+    // Quỹ đạo chuyển tiếp mượt mà của Mặt Trời từ vị trí 3.1 sang vị trí chuẩn 3.4 (F490 - F555)
+    const sunTransition = interpolate(frame, [490, 555], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: (t) => t * (2 - t),
@@ -2045,8 +2040,9 @@ export const Scene3_TravelAdventure: React.FC = () => {
     const sunScaleTrans = interpolate(sunTransition, [0, 1], [1.2, 1.0]);
     const sunWidthVal = interpolate(sunTransition, [0, 1], [12.80, 10.09]);
 
-    // 👒 Hoạt cảnh Chiếc Mũ Cói Bạn Nữ & Bạn Nam bị gió tốc lật bay bổng (Shot 3.2 F376 - F418)
-    const isHatFlying = frame >= 376 && frame < 418;
+    // 👒 Hoạt cảnh Chiếc Mũ Cói Bạn Nữ & Bạn Nam bị gió tốc lật bay bổng (Shot 3.2: F268 - F484)
+    // ĐẶC BIỆT: Giữ cả 2 chiếc mũ bay lơ lửng trên đầu suốt từ F284 đến F464 (~3.0s) để đồng bộ 100% với Bức tranh Hình 1!
+    const isHatFlying = frame >= 268 && frame < 484;
     let hatFlyY = 0;
     let hatFlyTilt = 0;
     let hatFlyScale = 1;
@@ -2057,9 +2053,9 @@ export const Scene3_TravelAdventure: React.FC = () => {
     let guyHatFlyScale = 1;
     let guyHatFlyOpacity = 1;
 
-    if (frame >= 376 && frame < 390) {
-        // [Pha 1: F376 - F390] Gió tạt vào, nón bốc vút lên cao khỏi đầu và chao nghiêng
-        const t = (frame - 376) / 14;
+    if (frame >= 268 && frame < 284) {
+        // [Pha 1: F268 - F284 (16f)] Gió tạt vào, 2 nón bốc vút lên cao khỏi đầu và chao nghiêng
+        const t = (frame - 268) / 16;
         const ease = 1 - Math.pow(1 - t, 2);
         hatFlyY = interpolate(ease, [0, 1], [0, -52]);
         hatFlyTilt = interpolate(ease, [0, 1], [0, -18]);
@@ -2070,23 +2066,23 @@ export const Scene3_TravelAdventure: React.FC = () => {
         guyHatFlyTilt = interpolate(ease, [0, 1], [0, 14]);
         guyHatFlyScale = interpolate(ease, [0, 1], [1.0, 1.05]);
         guyHatFlyOpacity = interpolate(t, [0, 0.15], [0.8, 1]);
-    } else if (frame >= 390 && frame < 404) {
-        // [Pha 2: F390 - F404] Đỉnh gió: Nón chao đảo lơ lửng bồng bềnh trên không trung
-        const flutter = Math.sin((frame - 390) * 0.75) * 4;
-        hatFlyY = -52 + Math.sin((frame - 390) * 0.5) * 5;
+    } else if (frame >= 284 && frame < 464) {
+        // [Pha 2: F284 - F464 (180 frames = 3.0s)] ĐỈNH GIÓ KÉO DÀI: Cả 2 chiếc nón lơ lửng bồng bềnh trên đầu suốt Golden Comedy Hold!
+        const flutter = Math.sin((frame - 284) * 0.22) * 4.2;
+        hatFlyY = -52 + Math.sin((frame - 284) * 0.16) * 5.5;
         hatFlyTilt = -18 + flutter;
         hatFlyScale = 1.05;
         hatFlyOpacity = 1;
 
-        const guyFlutter = Math.sin((frame - 390) * 0.8) * 3.5;
-        guyHatFlyY = -48 + Math.sin((frame - 390) * 0.55) * 4.5;
+        const guyFlutter = Math.sin((frame - 284) * 0.24 + 0.8) * 3.8;
+        guyHatFlyY = -48 + Math.sin((frame - 284) * 0.18 + 0.6) * 5.0;
         guyHatFlyTilt = 14 + guyFlutter;
         guyHatFlyScale = 1.05;
         guyHatFlyOpacity = 1;
-    } else if (frame >= 404 && frame < 418) {
-        // [Pha 3: F404 - F418] Gió vừa dứt, nón rơi êm xuống đầu đàn hồi lò xo
+    } else if (frame >= 464 && frame < 484) {
+        // [Pha 3: F464 - F484 (20f)] Kết thúc cảnh 3.2: Nón rơi êm xuống đầu đàn hồi lò xo cùng nhịp thu hồi hành lý!
         const dropSpring = spring({
-            frame: frame - 404,
+            frame: frame - 464,
             fps,
             config: { damping: 11, stiffness: 130 },
         });
@@ -2101,8 +2097,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
         guyHatFlyOpacity = interpolate(dropSpring, [0.85, 1], [1, 0.2]);
     }
 
-    // Mây trôi Parallax đa tầng ngược chiều & chuyển tiếp mượt mà vào tọa độ 3.4 (F505 - F575)
-    const cloudTransition = interpolate(frame, [505, 575], [0, 1], {
+    // Mây trôi Parallax đa tầng ngược chiều & chuyển tiếp mượt mà vào tọa độ 3.4 (F490 - F555)
+    const cloudTransition = interpolate(frame, [490, 555], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: (t) => t * (2 - t),
@@ -2132,116 +2128,105 @@ export const Scene3_TravelAdventure: React.FC = () => {
     // ==========================================
     // 🌊 4. HIỆU ỨNG VỆT BUNG NỞ (WAVE / TRAIL POP-UP)
     // ==========================================
-    // Khi máy bay bay qua, các cụm bối cảnh tuần tự bung nở mượt mà
-
-    // [Cụm 1 - Phía Trái: Frame 15 - 65]
+    // [Cụm 1 - Phía Trái: Frame 12 - 60]
     const leftPodiumSpring = spring({
-        frame: frame - 15,
+        frame: frame - 12,
         fps,
-        config: { damping: 18, stiffness: 80 },
+        config: { damping: 18, stiffness: 85 },
     });
     const leftPodiumOffsetX = interpolate(leftPodiumSpring, [0, 1], [-100, 0]);
 
     const greenPalmSpring = spring({
-        frame: frame - 22,
+        frame: frame - 18,
         fps,
-        config: { damping: 15, stiffness: 75 },
+        config: { damping: 15, stiffness: 80 },
     });
     const greenPalmScale = interpolate(greenPalmSpring, [0, 1], [0.7, 1.0]);
     const greenPalmSway = Math.sin(frame * 0.04) * 0.8;
 
-    // [Cụm 2 - Trung Tâm Sân Khấu: Frame 30 - 75]
+    // [Cụm 2 - Trung Tâm Sân Khấu: Frame 24 - 68]
     const carpetSpring = spring({
-        frame: frame - 30,
+        frame: frame - 24,
         fps,
-        config: { damping: 16, stiffness: 85 },
+        config: { damping: 16, stiffness: 90 },
     });
     const carpetScale = interpolate(carpetSpring, [0, 1], [0.75, 1.0]);
 
-    const leftDuneSpring = spring({ frame: frame - 28, fps, config: { damping: 18, stiffness: 80 } });
+    const leftDuneSpring = spring({ frame: frame - 22, fps, config: { damping: 18, stiffness: 85 } });
     const leftDuneRise = interpolate(leftDuneSpring, [0, 1], [70, 0]);
 
-    const rightDuneSpring = spring({ frame: frame - 36, fps, config: { damping: 18, stiffness: 80 } });
+    const rightDuneSpring = spring({ frame: frame - 30, fps, config: { damping: 18, stiffness: 85 } });
     const rightDuneRise = interpolate(rightDuneSpring, [0, 1], [70, 0]);
 
-    // [Cụm 3 - Phía Phải: Frame 45 - 90]
+    // [Cụm 3 - Phía Phải: Frame 36 - 80]
     const rightPodiumSpring = spring({
-        frame: frame - 42,
+        frame: frame - 36,
         fps,
-        config: { damping: 18, stiffness: 80 },
+        config: { damping: 18, stiffness: 85 },
     });
     const rightPodiumOffsetX = interpolate(rightPodiumSpring, [0, 1], [90, 0]);
 
     const pinkPalmSpring = spring({
-        frame: frame - 48,
+        frame: frame - 40,
         fps,
-        config: { damping: 15, stiffness: 75 },
+        config: { damping: 15, stiffness: 80 },
     });
     const pinkPalmScale = interpolate(pinkPalmSpring, [0, 1], [0.7, 1.0]);
     const pinkPalmSway = Math.sin(frame * 0.042 + 1.2) * 1.0;
 
     const pinkArcSpring = spring({
-        frame: frame - 52,
+        frame: frame - 44,
         fps,
-        config: { damping: 16, stiffness: 90 },
+        config: { damping: 16, stiffness: 95 },
     });
 
     const chairSpring = spring({
-        frame: frame - 54,
+        frame: frame - 46,
         fps,
-        config: { damping: 15, stiffness: 90 },
+        config: { damping: 15, stiffness: 95 },
     });
     const chairDrop = interpolate(chairSpring, [0, 1], [-40, 0]);
 
     const duckSpring = spring({
-        frame: frame - 58,
+        frame: frame - 50,
         fps,
-        config: { damping: 13, stiffness: 95 },
+        config: { damping: 13, stiffness: 100 },
     });
     const duckDrop = interpolate(duckSpring, [0, 1], [-50, 0]);
     const duckBob = Math.sin(frame * 0.08) * 3.5;
     const duckRock = Math.sin(frame * 0.08) * 2.2;
 
     // ==========================================
-    // 👫 5. CẶP ĐÔI HERO (CINEMATIC GENTLE GLIDE - TRIỆT TIÊU RUNG LẮC)
+    // 👫 5. CẶP ĐÔI HERO (CINEMATIC GENTLE GLIDE - ĐỨNG CHUẨN FORM TẠI F105 ~ 1.75S)
     // ==========================================
-    // Cặp đôi xuất hiện từ tốn, trang nhã sau khi đĩa thảm xanh đã nở vững chắc (từ Frame 48)
     const coupleEntrance = spring({
-        frame: frame - 48,
+        frame: frame - 42,
         fps,
-        config: { damping: 24, stiffness: 50 }, // Damping cao -> Chuyển động lướt cực êm ái, hoàn toàn không giật cục
+        config: { damping: 22, stiffness: 62 }, // Lướt êm và khóa nét chuẩn form đúng tại ~F105 (1.75s)
     });
 
-    // Lướt nhẹ nhàng từ cánh trái vào đúng tâm đĩa thảm
     const coupleOffsetX = interpolate(coupleEntrance, [0, 1], [-220, 0]);
-    // Khẽ đáp chân nhẹ nhàng khi chạm thảm
     const coupleOffsetY = interpolate(coupleEntrance, [0, 0.7, 1], [-18, 2, 0]);
     const coupleScale = interpolate(coupleEntrance, [0, 1], [0.94, 1.0]);
 
-    // Khi đang lướt vào (Frame 48 - 130), chỉ có nhịp gió lướt vi mô vô cùng êm (~1px)
-    const isGliding = frame >= 48 && frame < 135;
-    const glideFloat = isGliding ? Math.sin((frame - 48) * 0.1) * 1.0 : 0;
+    const isGliding = frame >= 42 && frame < 108;
+    const glideFloat = isGliding ? Math.sin((frame - 42) * 0.1) * 1.0 : 0;
 
-    // Sau khi dừng chân vững vàng (Frame 135 - 360), nhịp thở đại dương thư thái
-    const idleBreathing = frame >= 135 && frame < 360 ? Math.sin((frame - 135) * 0.04) * 1.5 : 0;
-    const subtleSway = frame >= 135 && frame < 360 ? Math.sin((frame - 135) * 0.03) * 0.35 : 0;
+    const idleBreathing = frame >= 108 && frame < 258 ? Math.sin((frame - 108) * 0.04) * 1.5 : 0;
+    const subtleSway = frame >= 108 && frame < 258 ? Math.sin((frame - 108) * 0.03) * 0.35 : 0;
 
     // ==========================================
-    // 😱 5.5. SHOT 3.2: CẶP ĐÔI GIẬT MÌNH & VALI BUNG NẮP (FRAME 360+)
+    // 😱 5.5. SHOT 3.2: CẶP ĐÔI GIẬT MÌNH & VALI BUNG NẮP (FRAME 258+)
     // ==========================================
-    const isShocked = frame >= 360;
-    // Cú nảy giật mình tức thì (Startle Jolt)
+    const isShocked = frame >= 258;
     const shockSpring = spring({
-        frame: frame - 360,
+        frame: frame - 258,
         fps,
         config: { damping: 12, stiffness: 220, mass: 0.7 },
     });
-    // Nảy người lên cao ~14px rồi đáp vững chãi xuống thảm
     const shockJumpY = isShocked ? interpolate(shockSpring, [0, 0.35, 1], [0, -14, 0]) : 0;
-    // Rung giật bần bật vi mô vì hoảng hốt (F372+)
-    const shockShiver = isShocked && frame >= 372 ? Math.sin((frame - 372) * 0.45) * 0.85 : 0;
-    // Khẽ đung đưa mồ hôi cartoon
-    const shockBreath = isShocked && frame >= 380 ? Math.sin((frame - 380) * 0.06) * 1.2 : 0;
+    const shockShiver = isShocked && frame >= 270 ? Math.sin((frame - 270) * 0.45) * 0.85 : 0;
+    const shockBreath = isShocked && frame >= 278 ? Math.sin((frame - 278) * 0.06) * 1.2 : 0;
     const currentCoupleSrc = !isShocked
         ? STAGING_SHOT_3_1.couple.src
         : isHatFlying
@@ -2249,100 +2234,81 @@ export const Scene3_TravelAdventure: React.FC = () => {
           : STAGING_SHOT_3_1.couple.shockWithHatSrc;
 
     // ==========================================
-    // 🦆 5.6. SHOT 3.2: CHÚ VỊT BỊ LỐC XOÁY CUỐN BAY, XOAY TÍT 360° ĐỈNH CAO & ĐÁP CẠNH GHẾ XANH
+    // 🦆 5.6. SHOT 3.2: CHÚ VỊT BỊ LỐC XOÁY CUỐN BAY, XOAY TÍT 720° & ĐÁP SỚM TẠI F305 ĐỂ ĐỒNG BỘ BỨC TRANH HÌNH 1!
     // ==========================================
-    // 1. Frame 0 - 354: Bập bềnh thư thả mép sóng (vit.png)
-    // 2. Frame 355 - 371: Lốc xoáy hút bốc bổng lên cao (vit_roiram.png, xoay vòng 1: 0 -> 360°)
-    // 3. Frame 372 - 391: ĐỈNH QUỸ ĐẠO: Xoay tròn tít tít 360° thứ hai (360° -> 720°)
-    // 4. Frame 392 - 415: Lượn cầu vồng parabol rơi êm xuống cát cạnh ghế xanh
-    // 5. Frame 416 - 427: Tiếp đất nén dẹt đàn hồi (Squash & Stretch)
-    // 6. Frame 428+: Ngồi bệt choáng váng lắc lư cạnh chân ghế xanh + 3D Orbit Halo
+    // 1. Frame 0 - 254: Bập bềnh thư thả mép sóng (vit.png)
+    // 2. Frame 255 - 268 (13f): Lốc xoáy hút bốc bổng lên cao (vit_roiram.png, xoay vòng 1: 0 -> 360°)
+    // 3. Frame 268 - 284 (16f): ĐỈNH QUỸ ĐẠO: Xoay tròn tít tít 360° thứ hai (360° -> 720°)
+    // 4. Frame 284 - 304 (20f): Lượn cầu vồng parabol rơi êm xuống cát cạnh ghế xanh/đụn cát phải
+    // 5. Frame 304 - 314 (10f): Tiếp đất nén dẹt đàn hồi (Squash & Stretch)
+    // 6. Frame 314 - 495 (181f = 3.0s!): Ngồi bệt choáng váng lắc lư cạnh đụn cát phải + 3 ngôi sao ⭐ xoay tít!
 
-    const isDuckSwirled = frame >= 355;
-    const isDuckLifting = frame >= 355 && frame < 372;
-    const isDuckSpinningTop = frame >= 372 && frame < 392;
-    const isDuckDescending = frame >= 392 && frame < 416;
-    const isDuckLanding = frame >= 416 && frame < 428;
-    const isDuckSafe = frame >= 428;
+    const isDuckSwirled = frame >= 255;
+    const isDuckLifting = frame >= 255 && frame < 268;
+    const isDuckSpinningTop = frame >= 268 && frame < 284;
+    const isDuckDescending = frame >= 284 && frame < 304;
+    const isDuckLanding = frame >= 304 && frame < 314;
+    const isDuckSafe = frame >= 314;
 
-    // Ảnh vịt: F355+ chuyển sang mắt xoắn ốc hoa mắt vit_roiram.png
     const currentDuckSrc = isDuckSwirled ? STAGING_SHOT_3_1.rubberDuck.dizzySrc : STAGING_SHOT_3_1.rubberDuck.src;
 
-    // Tọa độ X (Từ 0 -> -28px hút về lốc xoáy -> lượn sang +48px cạnh ghế xanh)
     let duckFlightX = 0;
-    if (frame < 355) {
+    if (frame < 255) {
         duckFlightX = 0;
     } else if (isDuckLifting) {
-        // Hút chếch sang trái về phía tâm lốc xoáy: 0 -> -28px
-        const t = (frame - 355) / 17;
+        const t = (frame - 255) / 13;
         duckFlightX = interpolate(t, [0, 1], [0, -28], { easing: (x) => x * x });
     } else if (isDuckSpinningTop) {
-        // Đỉnh quỹ đạo: lơ lửng và lượn nhẹ từ -28px sang -12px
-        const t = (frame - 372) / 20;
+        const t = (frame - 268) / 16;
         duckFlightX = interpolate(t, [0, 1], [-28, -12]);
     } else if (isDuckDescending) {
-        // Lượn cầu vồng sang phải đáp cạnh ghế: -12px -> +48px
-        const t = (frame - 392) / 24;
+        const t = (frame - 284) / 20;
         const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
         duckFlightX = interpolate(ease, [0, 1], [-12, 48]);
     } else {
-        // Yên vị an toàn cạnh ghế xanh
         duckFlightX = 48;
     }
 
-    // Tọa độ Y (Bốc cao -115px -> Đỉnh nhấp nhô -> Rơi êm xuống -28px cạnh chân ghế)
     let duckFlightY = 0;
-    if (frame < 355) {
+    if (frame < 255) {
         duckFlightY = duckBob;
     } else if (isDuckLifting) {
-        // Bốc vút lên cao: 0 -> -115px
-        const t = (frame - 355) / 17;
+        const t = (frame - 255) / 13;
         duckFlightY = interpolate(t, [0, 1], [0, -115], { easing: (x) => 1 - Math.pow(1 - x, 2) });
     } else if (isDuckSpinningTop) {
-        // Lơ lửng đỉnh sóng: khẽ nhấp nhô quanh -115px đến -119px
-        const t = (frame - 372) / 20;
+        const t = (frame - 268) / 16;
         duckFlightY = -115 - Math.sin(t * Math.PI) * 4;
     } else if (isDuckDescending) {
-        // Rơi êm ái xuống mặt cát: -115px -> -28px
-        const t = (frame - 392) / 24;
+        const t = (frame - 284) / 20;
         duckFlightY = interpolate(t, [0, 1], [-115, -28], { easing: (x) => x * x });
     } else if (isDuckLanding) {
-        // Tiếp đất nảy nhẹ lò xo
-        const t = (frame - 416) / 12;
+        const t = (frame - 304) / 10;
         duckFlightY = -28 + Math.sin(t * Math.PI) * -5;
     } else {
-        // Ngồi thở nhẹ trên cát cạnh ghế
-        duckFlightY = -28 + Math.sin((frame - 428) * 0.05) * 1.2;
+        duckFlightY = -28 + Math.sin((frame - 314) * 0.05) * 1.2;
     }
 
-    // Tọa độ Z (3D Spatial Depth: bay vọt ra phía trước camera khi ở trên không)
     let duckFlightZ = 0;
-    if (frame < 355) {
+    if (frame < 255) {
         duckFlightZ = 0;
     } else if (isDuckLifting) {
-        duckFlightZ = interpolate(frame, [355, 372], [0, 120]);
+        duckFlightZ = interpolate(frame, [255, 268], [0, 120]);
     } else if (isDuckSpinningTop) {
         duckFlightZ = 120;
     } else if (isDuckDescending) {
-        duckFlightZ = interpolate(frame, [392, 416], [120, 0]);
+        duckFlightZ = interpolate(frame, [284, 304], [120, 0]);
     } else {
         duckFlightZ = 0;
     }
 
-    // Góc xoay (Rotation):
-    // - Pha bốc lên: xoay 1 vòng 0 -> 360°
-    // - Đỉnh quỹ đạo: CÚ XOAY TÍT 360° THỨ HAI (360° -> 720°)
-    // - Rơi xuống: ổn định thăng bằng 720° (tương đương 0°)
-    // - Sau tiếp đất: lắc lư lảo đảo ±4.5°
     let duckRotation = 0;
-    if (frame < 355) {
+    if (frame < 255) {
         duckRotation = duckRock;
     } else if (isDuckLifting) {
-        const t = (frame - 355) / 17;
+        const t = (frame - 255) / 13;
         duckRotation = t * 360;
     } else if (isDuckSpinningTop) {
-        // 🌪️ CÚ XOAY TÍT 360° ĐỈNH CAO: Gia tốc mượt mà ở giữa
-        const t = (frame - 372) / 20;
+        const t = (frame - 268) / 16;
         const spinEase = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
         duckRotation = 360 + spinEase * 360;
     } else if (isDuckDescending) {
@@ -2350,33 +2316,26 @@ export const Scene3_TravelAdventure: React.FC = () => {
     } else if (isDuckLanding) {
         duckRotation = 720;
     } else {
-        // Lắc lư lảo đảo vì còn choáng váng
-        duckRotation = 720 + Math.sin((frame - 428) * 0.15) * 4.5;
+        duckRotation = 720 + Math.sin((frame - 314) * 0.15) * 4.5;
     }
 
-    // Co dãn hình thể đàn hồi (Squash & Stretch)
     let duckSquashX = 1;
     let duckSquashY = 1;
     if (isDuckLifting) {
-        // Bị kéo dài thon theo chiều dọc khi bốc lên
         duckSquashX = 0.94;
         duckSquashY = 1.08;
     } else if (isDuckSpinningTop) {
         duckSquashX = 1;
         duckSquashY = 1;
     } else if (isDuckLanding) {
-        // Tiếp đất nén dẹt rồi nảy hồi
-        const t = (frame - 416) / 12;
+        const t = (frame - 304) / 10;
         duckSquashX = 1 + Math.sin(t * Math.PI) * 0.1;
         duckSquashY = 1 - Math.sin(t * Math.PI) * 0.1;
     }
 
-    // Tỉ lệ scale cho ảnh vuông 2048x2048 (vit_roiram có padding 1:1)
     const duckDisplayScale = isDuckSwirled ? 1.48 : 1.0;
     const duckAlignOffsetY = isDuckSwirled ? 18 : 0;
 
-    // Bóng sàn thích ứng 2.5D:
-    // Khi vịt bay lên cao, bóng mờ dần và thu nhỏ; khi rơi xuống đất cạnh ghế, bóng đậm lại
     const duckAltitude = Math.max(0, -duckFlightY);
     const duckShadowOpacity = interpolate(duckAltitude, [0, 90], [0.55, 0.1], {
         extrapolateRight: 'clamp',
@@ -2385,14 +2344,13 @@ export const Scene3_TravelAdventure: React.FC = () => {
         extrapolateRight: 'clamp',
     });
 
-    // 🌟 VÒNG 3 NGÔI SAO CHOÁNG VÁNG 3D XOAY TÍT QUANH ĐỈNH ĐẦU
-    // Bắt đầu hé nở từ Frame 375 (ngay trên đỉnh xoay tít) và tỏa sáng rực rỡ khi tiếp đất!
-    const starHaloVisible = isDuckSwirled && frame >= 375;
-    const starHaloOpacity = interpolate(frame, [375, 395], [0, 1], {
+    // 🌟 VÒNG 3 NGÔI SAO CHOÁNG VÁNG 3D XOAY TÍT QUANH ĐỈNH ĐẦU (Bật sáng từ F272 xuyên suốt Golden Comedy Hold!)
+    const starHaloVisible = isDuckSwirled && frame >= 272;
+    const starHaloOpacity = interpolate(frame, [272, 288], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const starOrbitSpeed = (frame - 375) * 0.12;
+    const starOrbitSpeed = (frame - 272) * 0.12;
     const dizzyStars = [0, (2 * Math.PI) / 3, (4 * Math.PI) / 3].map((phase) => {
         const a = starOrbitSpeed + phase;
         const sinVal = Math.sin(a);
@@ -2424,10 +2382,10 @@ export const Scene3_TravelAdventure: React.FC = () => {
     // ==========================================
     // 🌪️ CHUYỂN TIẾP HÚT XOÁY 3D & ĐẬP SẬP CẢNH 3.4 (WHIP-IMPLOSION -> IMPACT-BURST-KIT SLAM)
     // ==========================================
-    // Thay vì mờ dần phẳng lì, toàn bộ đạo cụ Shot 3.1/3.2 bị hút xoáy sập vào tâm trong 18f (F490 - F508)
-    // ngay trước khi Khiên Hồng & Cặp đôi Hero đập sập xuống sàn tại HIT_34 = 512!
-    const implode31P = scRamp(rawFrame, 490, 18, SC_EASE.slam);
-    const oldDioramaFade = interpolate(rawFrame, [494, 511], [1, 0], {
+    // Thay vì mờ dần phẳng lì, toàn bộ đạo cụ Shot 3.1/3.2 bị hút xoáy sập vào tâm trong 18f (F476 - F494)
+    // ngay trước khi Khiên Hồng & Cặp đôi Hero đập sập xuống sàn tại HIT_34 = 498!
+    const implode31P = scRamp(rawFrame, 476, 18, SC_EASE.slam);
+    const oldDioramaFade = interpolate(rawFrame, [480, 497], [1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -2435,66 +2393,66 @@ export const Scene3_TravelAdventure: React.FC = () => {
     const implodeRotZ = scMix(0, -16, implode31P);
     const implodeY = scMix(0, 95 * s, implode31P);
 
-    // Cặp đôi hoảng hốt bị cuốn vào tâm chớp sáng nhường chỗ cho cặp đôi Hero đập xuống (F492 - F509)
-    const shockedCoupleFade = interpolate(rawFrame, [492, 509], [1, 0], {
+    // Cặp đôi hoảng hốt bị cuốn vào tâm chớp sáng nhường chỗ cho cặp đôi Hero đập xuống (F478 - F495)
+    const shockedCoupleFade = interpolate(rawFrame, [478, 495], [1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
     // ==========================================
-    // 🛡️ SHOT 3.3 -> 3.4: KHIÊN HỒNG & CẶP ĐÔI ĐẬP SẬP "IMPACT-BURST-KIT" (FRAME 494 - 558)
+    // 🛡️ SHOT 3.3 -> 3.4: KHIÊN HỒNG & CẶP ĐÔI ĐẬP SẬP "IMPACT-BURST-KIT" (FRAME 480 - 544)
     // ==========================================
     // Theo chuẩn ImpactBurstKit.tsx của video-shotcraft:
-    // - F494 - F506 (12f): Lơ lửng sát trước ống kính máy quay (scale 1.58 -> 1.64, DOF blur 6px -> 3px) lấy đà
-    // - F506 - F512 (6f): Đập sập xuống sàn theo hàm bậc 3 (SC_EASE.slam), chạm đất đúng tại HIT_34 = 512!
-    // - F512 - F515 (3f): Nén dẹt Squash (scaleX 1.07, scaleY 0.92) -> F515 - F536: Bật nảy đàn hồi về 1.0!
-    const HIT_34 = 512;
-    const shieldHoverP = scRamp(rawFrame, 494, 12, SC_EASE.smooth);
-    const shieldSlamP = scRamp(rawFrame, 506, 6, SC_EASE.slam);
-    const shieldReboundP = scRamp(rawFrame, 515, 20, SC_EASE.snappy);
+    // - F480 - F492 (12f): Lơ lửng sát trước ống kính máy quay (scale 1.52 -> 1.58, DOF blur 6.5px -> 0px) lấy đà
+    // - F492 - F498 (6f): Đập sập xuống sàn theo hàm bậc 3 (SC_EASE.slam), chạm đất đúng tại HIT_34 = 498!
+    // - F498 - F501 (3f): Nén dẹt Squash (scaleX 1.07, scaleY 0.92) -> F501 - F521: Bật nảy đàn hồi về 1.0!
+    const HIT_34 = 498;
+    const shieldHoverP = scRamp(rawFrame, 480, 12, SC_EASE.smooth);
+    const shieldSlamP = scRamp(rawFrame, 492, 6, SC_EASE.slam);
+    const shieldReboundP = scRamp(rawFrame, 501, 20, SC_EASE.snappy);
 
-    const shieldOpacity = interpolate(rawFrame, [494, 500], [0, 1], {
+    const shieldOpacity = interpolate(rawFrame, [480, 486], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
     const shieldDropY =
-        rawFrame < 506
+        rawFrame < 492
             ? scMix(-220 * s, -165 * s, shieldHoverP)
-            : rawFrame < 512
+            : rawFrame < 498
               ? scMix(-165 * s, 0, shieldSlamP)
-              : rawFrame < 515
+              : rawFrame < 501
                 ? 8 * s
-                : rawFrame < 535
+                : rawFrame < 521
                   ? scMix(8 * s, 0, shieldReboundP)
                   : 0;
     const shieldSlamScaleX =
-        rawFrame < 506
+        rawFrame < 492
             ? scMix(1.52, 1.58, shieldHoverP)
-            : rawFrame < 512
+            : rawFrame < 498
               ? scMix(1.58, 1.0, shieldSlamP)
-              : rawFrame < 515
+              : rawFrame < 501
                 ? 1.07
-                : rawFrame < 535
+                : rawFrame < 521
                   ? scMix(1.07, 1.0, shieldReboundP)
                   : 1.0;
     const shieldSlamScaleY =
-        rawFrame < 506
+        rawFrame < 492
             ? scMix(1.52, 1.58, shieldHoverP)
-            : rawFrame < 512
+            : rawFrame < 498
               ? scMix(1.58, 1.0, shieldSlamP)
-              : rawFrame < 515
+              : rawFrame < 501
                 ? 0.92
-                : rawFrame < 535
+                : rawFrame < 521
                   ? scMix(0.92, 1.0, shieldReboundP)
                   : 1.0;
     const shieldDofBlur =
-        rawFrame >= 494 && rawFrame < 511
-            ? scMix(6.5 * s, 0, scRamp(rawFrame, 494, 17))
+        rawFrame >= 480 && rawFrame < 497
+            ? scMix(6.5 * s, 0, scRamp(rawFrame, 480, 17))
             : 0;
 
     // 🌊 SÓNG CHẤN ĐỘNG LAN TRUYỀN ĐẨY BẬT ĐẠO CỤ XUNG QUANH (Wavefront Neighbor Push - ImpactBurstKit.tsx)
-    // 3 frames sau khi Khiên & Cặp đôi đập xuống đất (F515), sóng xung kích hất văng Đảo dừa, Ghế hồng, Vali hồng, Vịt phao
-    // ra hai bên rồi dao động tắt dần cos(t*0.42)*exp(-t/9.5), trả về đúng 0px tại F558!
+    // 3 frames sau khi Khiên & Cặp đôi đập xuống đất (F501), sóng xung kích hất văng Đảo dừa, Ghế hồng, Vali hồng, Vịt phao
+    // ra hai bên rồi dao động tắt dần cos(t*0.42)*exp(-t/9.5), trả về đúng 0px tại F544!
     const neighborPushT = rawFrame - (HIT_34 + 3);
     const neighborPushEnv =
         neighborPushT >= 0 && neighborPushT < 44
@@ -2505,9 +2463,9 @@ export const Scene3_TravelAdventure: React.FC = () => {
     const pushRightX = 42 * s * neighborPushEnv;
     const pushRightRot = 4.0 * neighborPushEnv;
 
-    // 2. Sóng xung kích hào quang hồng kép + 18 mảnh đa giác lan tỏa khi khiên tiếp đất (F512 - F555)
-    const isShieldPulseActive = rawFrame >= 512 && rawFrame <= 555;
-    const pulseProgress = interpolate(rawFrame, [512, 550], [0, 1], {
+    // 2. Sóng xung kích hào quang hồng kép + 18 mảnh đa giác lan tỏa khi khiên tiếp đất (F498 - F542)
+    const isShieldPulseActive = rawFrame >= 498 && rawFrame <= 542;
+    const pulseProgress = interpolate(rawFrame, [498, 536], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
@@ -2516,7 +2474,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
 
     // 3. Huy hiệu khiên vali hồng nhỏ + tick xanh ở vai phải khung nảy ra
     const badgeSpring = spring({
-        frame: rawFrame - 512,
+        frame: rawFrame - 498,
         fps,
         config: { damping: 11, stiffness: 135 },
     });
@@ -2525,7 +2483,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
 
     // 4. Tiêu đề 'Bảo hiểm du lịch' bên trong đỉnh khiên
     const archTextSpring = spring({
-        frame: rawFrame - 514,
+        frame: rawFrame - 500,
         fps,
         config: { damping: 14, stiffness: 110 },
     });
@@ -2533,28 +2491,28 @@ export const Scene3_TravelAdventure: React.FC = () => {
     const archTextOpacity = interpolate(archTextSpring, [0, 0.25, 1], [0, 1, 1]);
 
     // 5. Cặp đôi Hero (Bạn Nam & Bạn Nữ tách biệt) đập sập từ sát ống kính xuống cùng Khiên Hồng (Impact-Burst-Kit)
-    const heroCoupleOpacity = interpolate(rawFrame, [496, 502], [0, 1], {
+    const heroCoupleOpacity = interpolate(rawFrame, [482, 488], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
     const heroCoupleDropY =
-        rawFrame < 506
+        rawFrame < 492
             ? scMix(-180 * s, -135 * s, shieldHoverP)
-            : rawFrame < 512
+            : rawFrame < 498
               ? scMix(-135 * s, 0, shieldSlamP)
-              : rawFrame < 515
+              : rawFrame < 501
                 ? 10 * s
-                : rawFrame < 535
+                : rawFrame < 521
                   ? scMix(10 * s, 0, shieldReboundP)
                   : 0;
     const heroSlamScaleX = shieldSlamScaleX;
     const heroSlamScaleY = shieldSlamScaleY;
-    const heroIdleBreath = rawFrame >= 540 ? Math.sin((rawFrame - 540) * 0.04) * 1.2 * s : 0;
-    const heroGirlIdleBreath = rawFrame >= 540 ? Math.sin((rawFrame - 540) * 0.04 + 0.6) * 1.2 * s : 0;
+    const heroIdleBreath = rawFrame >= 526 ? Math.sin((rawFrame - 526) * 0.04) * 1.2 * s : 0;
+    const heroGirlIdleBreath = rawFrame >= 526 ? Math.sin((rawFrame - 526) * 0.04 + 0.6) * 1.2 * s : 0;
 
     // 6. Thảm cát trung tâm mới bung nở đón cú đập
     const sandRugSpring = spring({
-        frame: rawFrame - 500,
+        frame: rawFrame - 486,
         fps,
         config: { damping: 14, stiffness: 105 },
     });
@@ -2563,17 +2521,17 @@ export const Scene3_TravelAdventure: React.FC = () => {
 
     // 7. Dải nước biển xanh nhiều lớp dâng lên
     const seaWaterSpring = spring({
-        frame: rawFrame - 508,
+        frame: rawFrame - 494,
         fps,
         config: { damping: 16, stiffness: 85 },
     });
     const seaWaterRiseY = interpolate(seaWaterSpring, [0, 1], [160 * s, 0]);
     const seaWaterOpacity = interpolate(seaWaterSpring, [0, 0.25, 1], [0, 1, 1]);
-    const seaWaterWave = rawFrame >= 540 ? Math.sin((rawFrame - 540) * 0.04) * 2.0 * s : 0;
+    const seaWaterWave = rawFrame >= 526 ? Math.sin((rawFrame - 526) * 0.04) * 2.0 * s : 0;
 
     // 8. Đảo dừa giấy hậu cảnh trượt vào + chịu lực hất sóng xung kích (pushLeftX)
     const islandSpring = spring({
-        frame: rawFrame - 510,
+        frame: rawFrame - 496,
         fps,
         config: { damping: 15, stiffness: 95 },
     });
@@ -2582,7 +2540,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
 
     // 9. Ghế hồng đáp xuống cát + bị hất văng nhẹ bởi sóng xung kích Khiên Hồng (pushLeftX, pushLeftRot)
     const pinkChairSpring = spring({
-        frame: rawFrame - 511,
+        frame: rawFrame - 497,
         fps,
         config: { damping: 13, stiffness: 105 },
     });
@@ -2591,7 +2549,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
 
     // 10. Vali hồng đứng cạnh chân bạn nam đáp xuống + phản hồi sóng xung kích
     const pinkSuitcaseSpring = spring({
-        frame: rawFrame - 512,
+        frame: rawFrame - 498,
         fps,
         config: { damping: 12, stiffness: 110 },
     });
@@ -2600,7 +2558,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
 
     // 11. Thảm nước & chú vịt vàng phao bơi đáp xuống + phản hồi sóng xung kích (pushRightX, pushRightRot)
     const duckPuddleSpring = spring({
-        frame: rawFrame - 513,
+        frame: rawFrame - 499,
         fps,
         config: { damping: 14, stiffness: 100 },
     });
@@ -2608,104 +2566,108 @@ export const Scene3_TravelAdventure: React.FC = () => {
     const duckPuddleOpacity = interpolate(duckPuddleSpring, [0, 0.2, 1], [0, 1, 1]);
 
     const duckSpring34 = spring({
-        frame: rawFrame - 514,
+        frame: rawFrame - 500,
         fps,
         config: { damping: 12, stiffness: 110 },
     });
     const duckDropY34 = interpolate(duckSpring34, [0, 1], [-110 * s, 0]);
     const duckOpacity34 = interpolate(duckSpring34, [0, 0.2, 1], [0, 1, 1]);
-    const duckBob34 = rawFrame >= 560 ? Math.sin((rawFrame - 560) * 0.08) * 2.0 * s : 0;
+    const duckBob34 = rawFrame >= 546 ? Math.sin((rawFrame - 546) * 0.08) * 2.0 * s : 0;
 
     // ==========================================
-    // 📱 SHOT 3.5: CÚ VẨY MẮT CÁ "KANADA PERSPECTIVE SNAP" CHO TIÊU ĐỀ & SMARTPHONE (FRAME 598+)
+    // 📱 SHOT 3.5: CÚ VẨY MẮT CÁ "KANADA PERSPECTIVE SNAP" CHO TIÊU ĐỀ & SMARTPHONE (FRAME 576+)
     // ==========================================
-    // 12. Tiêu đề chính bên trái: Văng phối cảnh 3D từ cánh trái đập phẳng (F598 - F622)
-    const headingMoveP = scRamp(rawFrame, 598, 16, SC_EASE.heavy);
-    const headingTwistP = scRamp(rawFrame, 598, 18, SC_EASE.twist);
-    const headingReboundT = rawFrame - 614;
+    // 12. Tiêu đề chính bên trái: Văng phối cảnh 3D từ cánh trái đập phẳng (F576 - F600)
+    const headingMoveP = scRamp(rawFrame, 576, 16, SC_EASE.heavy);
+    const headingTwistP = scRamp(rawFrame, 576, 18, SC_EASE.twist);
+    const headingReboundT = rawFrame - 592;
     const headingReboundEnv =
         headingReboundT >= 0 && headingReboundT < 14
             ? Math.sin((headingReboundT / 14) * Math.PI)
             : 0;
-    const headingX = rawFrame < 614 ? scMix(-540 * s, 0, headingMoveP) : 0;
+    const headingX = rawFrame < 592 ? scMix(-540 * s, 0, headingMoveP) : 0;
     const headingRotY =
-        rawFrame < 616
+        rawFrame < 594
             ? scMix(52, 0, headingTwistP)
             : headingReboundEnv * -5.5;
     const headingRotZ =
-        rawFrame < 616
+        rawFrame < 594
             ? scMix(-8, 0, headingTwistP)
             : headingReboundEnv * 1.2;
     const headingScale =
-        rawFrame < 614
+        rawFrame < 592
             ? scMix(1.42, 0.96, headingMoveP)
-            : scMix(0.96, 1.0, scRamp(rawFrame, 614, 12, SC_EASE.snappy));
-    const headingOpacity = interpolate(rawFrame, [598, 603], [0, 1], {
+            : scMix(0.96, 1.0, scRamp(rawFrame, 592, 12, SC_EASE.snappy));
+    const headingOpacity = interpolate(rawFrame, [576, 581], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
-    // 13. Smartphone Mockup: Cú Vẩy Mắt Cá "Kanada Perspective Snap" (KanadaPerspectiveSnap.tsx, F620 - F652)
-    // - F620 - F638 (18f): Lao từ góc mắt cá cực đại (perspective 260 -> 1800, scale 1.76 -> 1.0, translateX +1150 -> 0)
-    // - Góc xoắn 3 trục rotate3d(0.45, -1, 0.12, 64° -> 0°) trả phẳng trễ hơn vị trí 2 frames (F620 - F640) tạo cú vẩy cổ tay!
-    // - Tại SNAP_35 = 638: Điện thoại đập phẳng với cú nảy overshoot rotateY (+7.5° -> 0°) + bung 36 tia Focus & 7 vệt xé gió!
-    const SNAP_35 = 638;
-    const phoneMoveP = scRamp(rawFrame, 620, 18, SC_EASE.snappy);
-    const phoneTwistP = scRamp(rawFrame, 620, 20, SC_EASE.twist);
-    const phoneReboundP = scRamp(rawFrame, 638, 14, SC_EASE.snappy);
+    // 13. Smartphone Mockup: Cú Vẩy Mắt Cá "Kanada Perspective Snap" (KanadaPerspectiveSnap.tsx, F594 - F626)
+    // - F594 - F612 (18f): Lao từ góc mắt cá cực đại (perspective 260 -> 1800, scale 1.68 -> 0.95 -> 1.0)
+    // - Góc xoắn 3 trục rotate3d(0.45, -1, 0.12, 64° -> 0°) trả phẳng trễ hơn vị trí 2 frames (F594 - F614) tạo cú vẩy cổ tay!
+    // - Tại SNAP_35 = 612: Điện thoại đập phẳng với cú nảy overshoot rotateY (+7.5° -> 0°) + bung 36 tia Focus & 7 vệt xé gió!
+    const SNAP_35 = 612;
+    const phoneMoveP = scRamp(rawFrame, 594, 18, SC_EASE.snappy);
+    const phoneTwistP = scRamp(rawFrame, 594, 20, SC_EASE.twist);
+    const phoneReboundP = scRamp(rawFrame, 612, 14, SC_EASE.snappy);
     const phoneSnapOvershoot =
-        rawFrame >= 638 && rawFrame < 652
-            ? Math.sin(((rawFrame - 638) / 14) * Math.PI)
+        rawFrame >= 612 && rawFrame < 626
+            ? Math.sin(((rawFrame - 612) / 14) * Math.PI)
             : 0;
 
-    const phoneOpacity = interpolate(rawFrame, [620, 623], [0, 1], {
+    const phoneOpacity = interpolate(rawFrame, [594, 597], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const phoneSlideX = rawFrame < 638 ? scMix(520 * s, 0, phoneMoveP) : 0;
-    const phoneSlideY = rawFrame < 638 ? scMix(-110 * s, 0, phoneMoveP) : 0;
+    const phoneSlideX = rawFrame < 612 ? scMix(520 * s, 0, phoneMoveP) : 0;
+    const phoneSlideY = rawFrame < 612 ? scMix(-110 * s, 0, phoneMoveP) : 0;
     const phoneKanadaScale =
-        rawFrame < 638
+        rawFrame < 612
             ? scMix(1.68, 0.95, phoneMoveP)
-            : rawFrame < 652
+            : rawFrame < 626
               ? scMix(0.95, 1.0, phoneReboundP)
               : 1.0;
-    const phoneTwistDeg = rawFrame < 640 ? scMix(64, 0, phoneTwistP) : 0;
+    const phoneTwistDeg = rawFrame < 614 ? scMix(64, 0, phoneTwistP) : 0;
     const phoneSnapRotY = phoneSnapOvershoot * 7.5;
     const phoneSnapRotZ = phoneSnapOvershoot * -1.8;
 
-    // Nhịp bung Radial Ripple cho các thẻ bên trong Smartphone ngay trong pha vẩy Kanada Snap (F624 - F658)
+    // Nhịp bung Radial Ripple cho các thẻ bên trong Smartphone ngay trong pha vẩy Kanada Snap (F598 - F628)
     const phoneCard1Spring = spring({
-        frame: rawFrame - 624,
+        frame: rawFrame - 598,
         fps,
         config: { damping: 12, stiffness: 140 },
     });
     const phoneCard2Spring = spring({
-        frame: rawFrame - 631,
+        frame: rawFrame - 605,
         fps,
         config: { damping: 12, stiffness: 140 },
     });
     const phoneCtaEntranceSpring = spring({
-        frame: rawFrame - 638,
+        frame: rawFrame - 612,
         fps,
         config: { damping: 11, stiffness: 150 },
     });
 
     // 14. Mũi tên hồng uốn cong chỉ sang điện thoại (bung nảy ngay sau khi điện thoại khóa nét)
     const arrowSpring = spring({
-        frame: rawFrame - 652,
+        frame: rawFrame - 624,
         fps,
         config: { damping: 11, stiffness: 135 },
     });
     const arrowScale = interpolate(arrowSpring, [0, 1], [0, 1.0]);
     const arrowOpacity = interpolate(arrowSpring, [0, 0.2, 1], [0, 1, 1]);
 
-    // 15. Hiệu ứng nhịp đập & Click cho nút CTA "CHỌN GÓI" (định kỳ mỗi 120 frames sau F720)
-    const ctaCycle = Math.max(0, rawFrame - 720) % 120;
-    const isCtaPulsing = rawFrame >= 720 && ctaCycle >= 30 && ctaCycle <= 68;
-    const ctaPulseP = isCtaPulsing ? (ctaCycle - 30) / 38 : 0;
-    const ctaBump = isCtaPulsing ? Math.sin(ctaPulseP * Math.PI) * 0.065 : 0;
-    const ctaGlow = isCtaPulsing ? Math.sin(ctaPulseP * Math.PI) * 24 : 0;
+    // 15. Hiệu ứng Click tương tác chủ động + Radial Ripple cho nút CTA "CHỌN GÓI" trong 2s kết cảnh (F720 - F786)
+    const isCtaPulsing = rawFrame >= 728 && rawFrame <= 776;
+    const ctaPulseP = isCtaPulsing ? (rawFrame - 728) / 48 : 0;
+    const ctaBump =
+        rawFrame >= 724 && rawFrame < 734
+            ? -0.075 * Math.sin(((rawFrame - 724) / 10) * Math.PI) // Nhấn lún nút trước khi bung sóng
+            : isCtaPulsing
+              ? Math.sin(ctaPulseP * Math.PI) * 0.085
+              : 0;
+    const ctaGlow = isCtaPulsing ? Math.sin(ctaPulseP * Math.PI) * 28 : 0;
 
     return (
         <div
@@ -2714,7 +2676,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                 width,
                 height,
                 background:
-                    rawFrame < 508
+                    rawFrame < 494
                         ? 'linear-gradient(180deg, #BAE6FD 0%, #E0F2FE 55%, #FDE68A 100%)'
                         : colors.bgLight,
                 overflow: 'hidden',
@@ -2813,7 +2775,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             />
                         </div>
 
-                        {/* 😃 TRUNG TÂM: KHUÔN MẶT CỐ ĐỊNH (KÈM NHỊP JUMP-CUT PUNCH-IN KHI VÀO BULLET-TIME) */}
+                        {/* 😃 TRUNG TÂM: KHUÔN MẶT CỐ ĐỊNH (KÈM NHỊP JUMP-CUT PUNCH-IN & DOUBLE-TAKE SMIRK PULSE TRONG NHỊP DỪNG VÀNG) */}
                         {smirkOpacity > 0 && (
                             <div
                                 style={{
@@ -2822,12 +2784,18 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                     opacity: smirkOpacity,
                                     pointerEvents: 'none',
                                     transform: `scale(${
-                                        rawFrame >= 372 && rawFrame < 382
+                                        rawFrame >= 268 && rawFrame < 278
                                             ? 1.18
-                                            : rawFrame >= 382 && rawFrame < 398
+                                            : rawFrame >= 278 && rawFrame < 294
                                               ? 1.34
-                                              : 1.0
-                                    })`,
+                                              : rawFrame >= 375 && rawFrame <= 415
+                                                ? 1.0 + 0.16 * Math.sin(((rawFrame - 375) / 40) * Math.PI)
+                                                : 1.0
+                                    }) rotate(${
+                                        rawFrame >= 375 && rawFrame <= 415
+                                            ? -5.5 * Math.sin(((rawFrame - 375) / 40) * Math.PI)
+                                            : 0
+                                    }deg)`,
                                     transformOrigin: '35% 75%',
                                 }}
                             >
@@ -2956,7 +2924,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                 )}
 
                 {/* 💥 6.65. SÓNG XUNG KÍCH NỔ VALI + VÒNG QUỸ ĐẠO BULLET-TIME FREEZE (CrashImpactReal + BulletTimeFreezeOrbit) */}
-                {rawFrame >= 359 && rawFrame <= 434 && (
+                {rawFrame >= 257 && rawFrame <= 326 && (
                     <div
                         style={{
                             position: 'absolute',
@@ -2970,13 +2938,13 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             transformStyle: 'preserve-3d',
                         }}
                     >
-                        {/* 2 Vòng sóng xung kích nổ bung ngay khi lốc xoáy chạm vali (F360 - F380) */}
-                        {rawFrame >= 360 &&
-                            rawFrame <= 380 &&
+                        {/* 2 Vòng sóng xung kích nổ bung ngay khi lốc xoáy chạm vali (F258 - F278) */}
+                        {rawFrame >= 258 &&
+                            rawFrame <= 278 &&
                             [0, 3].map((delay, k) => {
-                                const p = scRamp(rawFrame, 360 + delay, 16, SC_EASE.snappy);
+                                const p = scRamp(rawFrame, 258 + delay, 16, SC_EASE.snappy);
                                 const rad = scMix(60 * s, (k === 0 ? 780 : 540) * s, p);
-                                const op = (1 - p) * (k === 0 ? 0.9 : 0.65) * (rawFrame >= 360 + delay ? 1 : 0);
+                                const op = (1 - p) * (k === 0 ? 0.9 : 0.65) * (rawFrame >= 258 + delay ? 1 : 0);
                                 return (
                                     <div
                                         key={`crash_ring_${k}`}
@@ -2995,12 +2963,12 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                 );
                             })}
 
-                        {/* Vòng Halo 3D Bullet-Time & Tia Scanline quét qua đồ đạc đang đóng băng trên không (F382 - F428) */}
-                        {rawFrame >= 382 && rawFrame <= 428 && (() => {
+                        {/* Vòng Halo 3D Bullet-Time & Tia Scanline quét qua đồ đạc đang đóng băng trên không (F276 - F322) */}
+                        {rawFrame >= 276 && rawFrame <= 322 && (() => {
                             const btEnv =
-                                scRamp(rawFrame, 382, 8, SC_EASE.snappy) *
-                                (1 - scRamp(rawFrame, 418, 10, SC_EASE.smooth));
-                            const scanY = scMix(-360 * s, 160 * s, scRamp(rawFrame, 384, 34, SC_EASE.smooth));
+                                scRamp(rawFrame, 276, 8, SC_EASE.snappy) *
+                                (1 - scRamp(rawFrame, 312, 10, SC_EASE.smooth));
+                            const scanY = scMix(-360 * s, 160 * s, scRamp(rawFrame, 278, 34, SC_EASE.smooth));
                             return (
                                 <>
                                     <div
@@ -3013,7 +2981,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                             borderRadius: '50%',
                                             border: `${2.5 * s}px dashed rgba(56, 189, 248, ${(0.65 * btEnv).toFixed(3)})`,
                                             boxShadow: `0 0 ${32 * s}px rgba(56, 189, 248, ${(0.35 * btEnv).toFixed(3)})`,
-                                            transform: `rotateX(68deg) rotateZ(${(rawFrame - 382) * 2.8}deg)`,
+                                            transform: `rotateX(68deg) rotateZ(${(rawFrame - 276) * 2.8}deg)`,
                                         }}
                                     />
                                     <div
@@ -3426,13 +3394,13 @@ export const Scene3_TravelAdventure: React.FC = () => {
                         {/* 🌀 HỆ THỐNG VÒNG XOÁY GIÓ HOẠT HÌNH & HẠT BỤI GIÓ 3D (CARTOON WIND SWIRLS) */}
                         {(() => {
                             const windSwirlSpring = spring({
-                                frame: frame - 360,
+                                frame: frame - 258,
                                 fps,
                                 config: { damping: 15, stiffness: 90 },
                             });
                             let windSwirlOpacity = interpolate(windSwirlSpring, [0, 0.3, 1], [0, 0.95, 0.9]);
-                            if (frame >= 450) {
-                                const swirlFade = interpolate(frame, [450, 480], [1, 0], {
+                            if (frame >= 464) {
+                                const swirlFade = interpolate(frame, [464, 488], [1, 0], {
                                     extrapolateLeft: 'clamp',
                                     extrapolateRight: 'clamp',
                                 });
@@ -3457,7 +3425,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                         top={34.5}
                                         width={24}
                                         aspectRatio={2.1}
-                                        rotation={(frame - 360) * 4.2}
+                                        rotation={(frame - 258) * 4.2}
                                         opacity={windSwirlOpacity}
                                         scale={windSwirlScale}
                                         zIndex={45}
@@ -3468,7 +3436,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                         top={48.0}
                                         width={26}
                                         aspectRatio={2.2}
-                                        rotation={-(frame - 360) * 4.8}
+                                        rotation={-(frame - 258) * 4.8}
                                         opacity={windSwirlOpacity}
                                         scale={windSwirlScale}
                                         reverse
@@ -3480,7 +3448,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                         top={61.5}
                                         width={23}
                                         aspectRatio={2.0}
-                                        rotation={(frame - 360) * 3.8}
+                                        rotation={(frame - 258) * 3.8}
                                         opacity={windSwirlOpacity}
                                         scale={windSwirlScale}
                                         zIndex={45}
@@ -3493,7 +3461,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                         top={47.5}
                                         width={16}
                                         aspectRatio={2.0}
-                                        rotation={(frame - 360) * 5.6}
+                                        rotation={(frame - 258) * 5.6}
                                         opacity={windSwirlOpacity * 0.85}
                                         scale={windSwirlScale * 0.95}
                                         zIndex={140}
@@ -3504,7 +3472,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                         top={36.0}
                                         width={14}
                                         aspectRatio={2.0}
-                                        rotation={-(frame - 360) * 6.2}
+                                        rotation={-(frame - 258) * 6.2}
                                         opacity={windSwirlOpacity * 0.85}
                                         scale={windSwirlScale * 0.95}
                                         reverse
@@ -3513,15 +3481,15 @@ export const Scene3_TravelAdventure: React.FC = () => {
 
                                     {/* Hạt bụi gió lấp lánh (Wind Sparkle Dust Particles) bay lơ lửng */}
                                     {WIND_DUST_PARTICLES.map((dust, dIdx) => {
-                                        const launchFrame = 360 + (dIdx % 3) * 2;
+                                        const launchFrame = 258 + (dIdx % 3) * 2;
                                         const dustSpring = spring({
                                             frame: frame - launchFrame,
                                             fps,
                                             config: { damping: 13, stiffness: 95 },
                                         });
                                         let dustOpacity = interpolate(dustSpring, [0, 0.3, 1], [0, 0.95, 0.85]);
-                                        if (frame >= 450) {
-                                            dustOpacity *= interpolate(frame, [450, 485], [1, 0], {
+                                        if (frame >= 464) {
+                                            dustOpacity *= interpolate(frame, [464, 490], [1, 0], {
                                                 extrapolateLeft: 'clamp',
                                                 extrapolateRight: 'clamp',
                                             });
@@ -3561,7 +3529,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                         })()}
 
                         {FLOATING_VALI_PROPS.map((prop, idx) => {
-                            const launchFrame = 360 + prop.stagger;
+                            const launchFrame = 258 + prop.stagger;
                             const launchSpring = spring({
                                 frame: frame - launchFrame,
                                 fps,
@@ -3581,15 +3549,15 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             const hoverRot =
                                 prop.baseRotate + Math.sin(floatTime * prop.speed + prop.phase) * prop.ampRot;
 
-                            // 🧳 GIAI ĐOẠN THU HỒI HÀNH LÝ VÀO VALI (SHOT 3.3: F450 - F495)
+                            // 🧳 GIAI ĐOẠN THU HỒI HÀNH LÝ VÀO VALI (SHOT 3.3: F464 - F494)
                             let finalLeft = currentLeft;
                             let finalTop = currentTop;
                             let finalScale = initialScale;
                             let finalOpacity = initialOpacity;
                             let finalRot = hoverRot;
 
-                            if (frame >= 450) {
-                                const recallStart = 450 + prop.stagger * 1.5;
+                            if (frame >= 464) {
+                                const recallStart = 464 + prop.stagger * 1.2;
                                 const recallSpring = spring({
                                     frame: frame - recallStart,
                                     fps,
@@ -3663,7 +3631,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             top: STAGING_SHOT_3_1.rubberDuck.top,
                             width: STAGING_SHOT_3_1.rubberDuck.width,
                             aspectRatio: '1 / 1',
-                            zIndex: isDuckSwirled && frame < 416 ? 31 : STAGING_SHOT_3_1.rubberDuck.zIndex,
+                            zIndex: isDuckSwirled && frame < 304 ? 31 : STAGING_SHOT_3_1.rubberDuck.zIndex,
                             pointerEvents: 'none',
                             opacity: duckSpring * oldDioramaFade,
                             transform: `translate3d(${BASE_OFFSETS.rubberDuck.x + duckFlightX}px, ${BASE_OFFSETS.rubberDuck.y + duckDrop + duckFlightY + duckAlignOffsetY}px, ${duckFlightZ + z3d(115)}px) scale(${implodeScale}) rotate(${duckRotation}deg)`,
@@ -3779,8 +3747,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
                     />
                 )}
 
-                {/* 💫 20. HỆ THỐNG NỔ SÓNG XUNG KÍCH & 18 MẢNH ĐA GIÁC "IMPACT-BURST-KIT" KHI KHIÊN ĐẬP SẬP (F504 - F555) */}
-                {rawFrame >= 504 && rawFrame <= 555 && (
+                {/* 💫 20. HỆ THỐNG NỔ SÓNG XUNG KÍCH & 18 MẢNH ĐA GIÁC "IMPACT-BURST-KIT" KHI KHIÊN ĐẬP SẬP (F490 - F542) */}
+                {rawFrame >= 490 && rawFrame <= 542 && (
                     <div
                         style={{
                             position: 'absolute',
@@ -3793,8 +3761,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             transform: `translate3d(0px, 0px, ${z3d(72)}px)`,
                         }}
                     >
-                        {/* Nhịp chớp nhân trắng-hồng thu hút ánh nhìn ngay điểm giao thoa (F504 - F514, CardFlockTumble.tsx) */}
-                        {rawFrame >= 504 && rawFrame <= 515 && (
+                        {/* Nhịp chớp nhân trắng-hồng thu hút ánh nhìn ngay điểm giao thoa (F490 - F501, CardFlockTumble.tsx) */}
+                        {rawFrame >= 490 && rawFrame <= 501 && (
                             <div
                                 style={{
                                     position: 'absolute',
@@ -3805,11 +3773,11 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                     borderRadius: '50%',
                                     background:
                                         'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(237,3,124,0.75) 32%, rgba(237,3,124,0) 70%)',
-                                    transform: `scale(${scMix(0.3, 1.45, scRamp(rawFrame, 504, 11, SC_EASE.snappy))})`,
+                                    transform: `scale(${scMix(0.3, 1.45, scRamp(rawFrame, 490, 11, SC_EASE.snappy))})`,
                                     opacity:
-                                        rawFrame < 511
-                                            ? scRamp(rawFrame, 504, 6)
-                                            : 1 - scRamp(rawFrame, 511, 4),
+                                        rawFrame < 497
+                                            ? scRamp(rawFrame, 490, 6)
+                                            : 1 - scRamp(rawFrame, 497, 4),
                                     mixBlendMode: 'screen',
                                 }}
                             />
@@ -4402,8 +4370,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
                     </div>
                 )}
 
-                {/* ⚡ 32.5. HIỆU ỨNG VỆT XÉ GIÓ & 36 TIA FOCUS ANIME CHO CÚ VẨY MẮT CÁ SMARTPHONE (KanadaPerspectiveSnap.tsx, F620 - F652) */}
-                {rawFrame >= 620 && rawFrame <= 654 && (
+                {/* ⚡ 32.5. HIỆU ỨNG VỆT XÉ GIÓ & 36 TIA FOCUS ANIME CHO CÚ VẨY MẮT CÁ SMARTPHONE (KanadaPerspectiveSnap.tsx, F594 - F626) */}
+                {rawFrame >= 594 && rawFrame <= 628 && (
                     <div
                         style={{
                             position: 'absolute',
@@ -4412,10 +4380,10 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             pointerEvents: 'none',
                         }}
                     >
-                        {/* 7 Vệt tốc độ xé gió ngang (Speed Streaks: F620 - F638) */}
-                        {rawFrame <= 638 &&
+                        {/* 7 Vệt tốc độ xé gió ngang (Speed Streaks: F594 - F612) */}
+                        {rawFrame <= 612 &&
                             KANADA_STREAKS.map((st, idx) => {
-                                const u = scRamp(rawFrame, 620 + st.delay, st.dur, SC_EASE.snappy);
+                                const u = scRamp(rawFrame, 594 + st.delay, st.dur, SC_EASE.snappy);
                                 const xPct = scMix(110, 62, u);
                                 const op = Math.sin(u * Math.PI) * 0.78;
                                 if (op <= 0.01) return null;
@@ -4439,11 +4407,11 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                 );
                             })}
 
-                        {/* 36 Tia Focus Anime bung quanh tâm Smartphone ngay khoảnh khắc SNAP_35 = 638 (F636 - F652) */}
-                        {rawFrame >= 636 && rawFrame <= 652 && (() => {
+                        {/* 36 Tia Focus Anime bung quanh tâm Smartphone ngay khoảnh khắc SNAP_35 = 612 (F610 - F626) */}
+                        {rawFrame >= 610 && rawFrame <= 626 && (() => {
                             const fEnv =
-                                scRamp(rawFrame, 636, 3, SC_EASE.snappy) *
-                                (1 - scRamp(rawFrame, 640, 12, SC_EASE.smooth));
+                                scRamp(rawFrame, 610, 3, SC_EASE.snappy) *
+                                (1 - scRamp(rawFrame, 614, 12, SC_EASE.smooth));
                             const cx = width * 0.79;
                             const cy = height * 0.54;
                             const outer = 1100 * s;
@@ -4483,7 +4451,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             inset: 0,
                             zIndex: STAGING_SHOT_3_4.smartphone.zIndex,
                             pointerEvents: 'none',
-                            transform: `translateZ(${(rawFrame >= 620 && rawFrame <= 655 ? 240 * s : 0) + z3d(145)}px)`,
+                            transform: `translateZ(${(rawFrame >= 594 && rawFrame <= 630 ? 240 * s : 0) + z3d(145)}px)`,
                         }}
                     >
                         <div
@@ -4711,14 +4679,14 @@ export const Scene3_TravelAdventure: React.FC = () => {
                 )}
             </div>
 
-            {/* 🚪 LỚP ÁNH SÁNG PORTAL-WIPE KẾT NỐI MƯỢT MÀ SANG CẢNH 4 (F1182 - F1200, PortalWipeV2.tsx) */}
-            {rawFrame >= 1182 && (
+            {/* 🚪 LỚP ÁNH SÁNG PORTAL-WIPE KẾT NỐI MƯỢT MÀ SANG CẢNH 4 (F822 - F840, PortalWipeV2.tsx) */}
+            {rawFrame >= 822 && (
                 <div
                     style={{
                         position: 'absolute',
                         inset: 0,
                         background: `radial-gradient(circle at 75% 55%, #FFFFFF 0%, ${colors.brandPinkSoft} 45%, ${colors.bgLight} 100%)`,
-                        opacity: scRamp(rawFrame, 1182, 18, SC_EASE.smooth),
+                        opacity: scRamp(rawFrame, 822, 18, SC_EASE.smooth),
                         zIndex: 9999,
                         pointerEvents: 'none',
                     }}
