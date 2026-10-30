@@ -139,7 +139,7 @@ export const STAGING_SHOT_3_4 = {
         left: '18.45%',
         top: '59.48%',
         width: '32.03%',
-        zIndex: 13,
+        zIndex: 999,
     },
     // 11. Bạn nam giơ vé máy bay, đeo máy ảnh
     boyHero: {
@@ -888,8 +888,8 @@ export const StaticStaging34: React.FC<StaticStaging34Props> = (props) => {
                     height: 'auto',
                     zIndex: STAGING_SHOT_3_4.centralArch.zIndex,
                     pointerEvents: 'none',
-                    filter: 'drop-shadow(0 18px 45px rgba(225, 29, 72, 0.18))',
-                    translate: '55.9px -6.1px'
+                    filter: 'drop-shadow(0 18px 45px rgba(225, 29, 72, 0.18)) drop-shadow(0 8px 20px rgba(15, 23, 42, 0.10))',
+                    translate: '55.9px -6.1px',
                 }}
             />
 
@@ -942,25 +942,105 @@ export const StaticStaging34: React.FC<StaticStaging34Props> = (props) => {
                     zIndex: STAGING_SHOT_3_4.suitcaseBadge.zIndex,
                     pointerEvents: 'none',
                     filter: 'drop-shadow(0 14px 30px rgba(225, 29, 72, 0.28))',
-                    translate: '43.6px -1px'
+                    translate: '43.6px -1px',
                 }}
             />
 
-            {/* 🏖️ 11. THẢM CÁT TRẮNG / BỤC TRUNG TÂM */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_4.sandRug.src)}
+            {/* 🏖️ 11. THẢM CÁT TRẮNG / BỤC TRUNG TÂM (KÈM BÓNG SILHOUETTE ÔM KHÍT ĐÁY THẢM) */}
+            <div
                 style={{
                     position: 'absolute',
                     left: STAGING_SHOT_3_4.sandRug.left,
                     top: STAGING_SHOT_3_4.sandRug.top,
                     width: STAGING_SHOT_3_4.sandRug.width,
-                    height: 'auto',
                     zIndex: STAGING_SHOT_3_4.sandRug.zIndex,
                     pointerEvents: 'none',
-                    filter: 'drop-shadow(0 18px 35px rgba(15, 23, 42, 0.12))',
                     translate: '-27.3px -248.6px',
                 }}
-            />
+            >
+                {/* 🌟 1. Viền bóng ôm sát mép dưới theo toàn bộ đường lượn sóng của thảm cát (Contact Bevel Shadow) */}
+                <Img
+                    src={staticFile(STAGING_SHOT_3_4.sandRug.src)}
+                    style={{
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        width: '100%',
+                        height: 'auto',
+                        transform: `translateY(${3.5 * s}px)`,
+                        filter: `brightness(0) blur(${1.8 * s}px)`,
+                        opacity: 0.55,
+                        pointerEvents: 'none',
+                    }}
+                />
+
+                {/* 🌟 2. Lớp đệm bóng giấy papercraft lan tỏa phía dưới (Ambient Depth Shadow) */}
+                <Img
+                    src={staticFile(STAGING_SHOT_3_4.sandRug.src)}
+                    style={{
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        width: '100%',
+                        height: 'auto',
+                        transform: `translateY(${7.0 * s}px)`,
+                        filter: `brightness(0) blur(${5.0 * s}px)`,
+                        opacity: 0.35,
+                        pointerEvents: 'none',
+                    }}
+                />
+
+                {/* 🌟 3. Tấm thảm cát chính (Tăng nét & tương phản bề mặt) */}
+                <Img
+                    src={staticFile(STAGING_SHOT_3_4.sandRug.src)}
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                        display: 'block',
+                        filter: 'contrast(1.15) brightness(0.96) drop-shadow(0 8px 16px rgba(15, 23, 42, 0.10)) drop-shadow(0 22px 42px rgba(15, 23, 42, 0.12))',
+                    }}
+                />
+
+                {/* 🌟 4. Lớp chấm đen sắc nét nổi bật (Crisp Black Stipple Dots) */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        pointerEvents: 'none',
+                        maskImage: `url(${staticFile(STAGING_SHOT_3_4.sandRug.src)})`,
+                        WebkitMaskImage: `url(${staticFile(STAGING_SHOT_3_4.sandRug.src)})`,
+                        maskSize: '100% 100%',
+                        WebkitMaskSize: '100% 100%',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='dotsDark'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.08  0 0 0 0 0.06  0 0 0 0 0.04  0 0 0 11 -4.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23dotsDark)'/%3E%3C/svg%3E")`,
+                        backgroundSize: `${48 * s}px ${48 * s}px`,
+                        backgroundRepeat: 'repeat',
+                        mixBlendMode: 'multiply',
+                        opacity: 0.5,
+                    }}
+                />
+
+                {/* 🌟 5. Lớp chấm trắng tinh thể nổi bật đan xen (Crisp White Stipple Dots) */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        pointerEvents: 'none',
+                        maskImage: `url(${staticFile(STAGING_SHOT_3_4.sandRug.src)})`,
+                        WebkitMaskImage: `url(${staticFile(STAGING_SHOT_3_4.sandRug.src)})`,
+                        maskSize: '100% 100%',
+                        WebkitMaskSize: '100% 100%',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='dotsLight'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='2' stitchTiles='stitch' seed='99'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 11 -4.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23dotsLight)'/%3E%3C/svg%3E")`,
+                        backgroundSize: `${48 * s}px ${48 * s}px`,
+                        backgroundRepeat: 'repeat',
+                        mixBlendMode: 'screen',
+                        opacity: 0.75,
+                    }}
+                />
+            </div>
 
             {/* 🌊 12. THẢM NƯỚC XANH GỢN SÓNG DƯỚI CHÂN VỊT */}
             <Img
@@ -973,92 +1053,254 @@ export const StaticStaging34: React.FC<StaticStaging34Props> = (props) => {
                     height: 'auto',
                     zIndex: STAGING_SHOT_3_4.duckPuddle.zIndex,
                     pointerEvents: 'none',
-                    filter: 'drop-shadow(0 8px 18px rgba(14, 165, 233, 0.22))',
-                    translate: '137.9px -99.3px',
+                    filter: 'drop-shadow(0 4px 10px rgba(15, 23, 42, 0.14)) drop-shadow(0 10px 22px rgba(14, 165, 233, 0.22))',
+                    translate: '154.6px -94.1px'
                 }}
             />
 
-            {/* 🪑 13. GHẾ NGHỈ BÃI BIỂN SỌC HỒNG TRẮNG */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_4.beachChair.src)}
+            {/* 🪑 13. GHẾ NGHỈ BÃI BIỂN SỌC HỒNG TRẮNG (BÓNG CHÂN TIẾP ĐẤT & BÓNG GẦM GHẾ) */}
+            <div
                 style={{
                     position: 'absolute',
                     left: STAGING_SHOT_3_4.beachChair.left,
                     top: STAGING_SHOT_3_4.beachChair.top,
                     width: STAGING_SHOT_3_4.beachChair.width,
-                    height: 'auto',
                     zIndex: STAGING_SHOT_3_4.beachChair.zIndex,
                     pointerEvents: 'none',
-                    filter: 'drop-shadow(-4px 8px 18px rgba(15, 23, 42, 0.22))',
                     translate: '-46.2px -189.1px',
                     scale: 1.022,
                 }}
-            />
+            >
+                {/* Bóng phủ sàn dưới gầm ghế hồng (Ambient Under-Chair Shadow) */}
+                {/* <div
+                    style={{
+                        position: 'absolute',
+                        left: '49.0%',
+                        top: '92.0%',
+                        width: '46.0%',
+                        height: '8.5%',
+                        transform: 'translate(-50%, -50%) rotate(-4deg)',
+                        borderRadius: '50%',
+                        background:
+                            'radial-gradient(ellipse at center, rgba(15, 23, 42, 0.45) 0%, rgba(15, 23, 42, 0.18) 50%, rgba(15, 23, 42, 0) 75%)',
+                        filter: `blur(${6 * s}px)`,
+                    }}
+                /> */}
+                {/* 4 Điểm bóng tiếp xúc chân gỗ trên mặt cát (Leg Contact Dots) */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        left: '35.0%',
+                        top: '66.5%',
+                        width: '25.0%',
+                        height: '50.0%',
+                        transform: 'translate(-35%, -50%) rotate(78deg) skewY(-20deg) skewX(-30deg)',
+                        borderRadius: '50%',
+                        background:
+                            'radial-gradient(ellipse at center, rgba(71, 73, 78, 0.7) 0%, rgba(38, 41, 51, 0.20) 40%, rgba(38, 43, 56, 0) 90%)',
+                        filter: `blur(${12 * s}px)`,
+                    }}
+                />
+                <Img
+                    src={staticFile(STAGING_SHOT_3_4.beachChair.src)}
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                        display: 'block',
+                        filter: 'drop-shadow(-4px 8px 18px rgba(15, 23, 42, 0.22))',
+                    }}
+                />
+            </div>
 
-            {/* 🐥 14. CHÚ VỊT VÀNG PHAO BƠI SỌC HỒNG TRẮNG */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_4.rubberDuck.src)}
+            {/* 🐥 14. CHÚ VỊT VÀNG PHAO BƠI SỌC HỒNG TRẮNG (BÓNG TIẾP XÚC MẶT NƯỚC) */}
+            <div
                 style={{
                     position: 'absolute',
                     left: STAGING_SHOT_3_4.rubberDuck.left,
                     top: STAGING_SHOT_3_4.rubberDuck.top,
                     width: STAGING_SHOT_3_4.rubberDuck.width,
-                    height: 'auto',
                     zIndex: STAGING_SHOT_3_4.rubberDuck.zIndex,
                     pointerEvents: 'none',
-                    filter: 'drop-shadow(0 8px 18px rgba(15, 23, 42, 0.20))',
                     translate: '143.9px -107.8px',
                     scale: 0.958,
                 }}
-            />
+            >
+                {/* Bóng tiếp xúc đáy phao tròn đè lên thảm nước (Contact Float Shadow) */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        left: '52.0%',
+                        top: '90.0%',
+                        width: '52.0%',
+                        height: '14.0%',
+                        transform: 'translate(-50%, -50%)',
+                        borderRadius: '50%',
+                        background:
+                            'radial-gradient(ellipse at center, rgba(19, 23, 26, 0.58) 0%, rgba(7, 12, 22, 0.28) 45%, rgba(15, 23, 42, 0) 75%)',
+                        filter: `blur(${1 * s}px)`,
+                    }}
+                />
+                <Img
+                    src={staticFile(STAGING_SHOT_3_4.rubberDuck.src)}
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                        display: 'block',
+                        filter: 'drop-shadow(0 8px 18px rgba(15, 23, 42, 0.20))',
+                        translate: '5.4px 1.5px'
+                    }}
+                />
+            </div>
 
-            {/* 🧳 15. CHIẾC VALI HỒNG ĐỨNG CẠNH CHÂN BẠN NAM */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_4.pinkSuitcase.src)}
+            {/* 🧳 15. CHIẾC VALI HỒNG ĐỨNG CẠNH CHÂN BẠN NAM (BÓNG TIẾP ĐẤT BÁNH XE & ĐÁY VALI) */}
+            <div
                 style={{
                     position: 'absolute',
                     left: STAGING_SHOT_3_4.pinkSuitcase.left,
                     top: STAGING_SHOT_3_4.pinkSuitcase.top,
                     width: STAGING_SHOT_3_4.pinkSuitcase.width,
-                    height: 'auto',
                     zIndex: STAGING_SHOT_3_4.pinkSuitcase.zIndex,
                     pointerEvents: 'none',
-                    filter: 'drop-shadow(0 14px 28px rgba(15, 23, 42, 0.24))',
                     translate: '72.6px -54.2px',
                 }}
-            />
+            >
+                {/* Bóng tiếp đất dưới 2 bánh xe và mép đáy vali hồng (Suitcase Ground Shadow) */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        left: '49.5%',
+                        top: '87.8%',
+                        width: '25.0%',
+                        height: '6.2%',
+                        transform: 'translate(-55%, -50%) rotate(2deg) skewY(2deg) skewX(42deg)',
+                        borderRadius: '50%',
+                        background:
+                            'radial-gradient(ellipse at center, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.32) 45%, rgba(15, 23, 42, 0) 75%)',
+                        filter: `blur(${3.5 * s}px)`,
+                    }}
+                />
+                <Img
+                    src={staticFile(STAGING_SHOT_3_4.pinkSuitcase.src)}
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                        display: 'block',
+                        filter: 'drop-shadow(0 14px 28px rgba(15, 23, 42, 0.24))',
+                        translate: '3px -24.4px',
+                    }}
+                />
+            </div>
 
-            {/* 🙋‍♂️ 16. BẠN NAM GIƠ VÉ MÁY BAY, ĐEO MÁY ẢNH & KÍNH RÂM */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_4.boyHero.src)}
+            {/* 🙋‍♂️ 16. BẠN NAM GIƠ VÉ MÁY BAY, ĐEO MÁY ẢNH & KÍNH RÂM (BÓNG XIÊN TRỤC Z LOANG VỀ SAU BÊN PHẢI) */}
+            <div
                 style={{
                     position: 'absolute',
                     left: STAGING_SHOT_3_4.boyHero.left,
                     top: STAGING_SHOT_3_4.boyHero.top,
                     width: STAGING_SHOT_3_4.boyHero.width,
-                    height: 'auto',
                     zIndex: STAGING_SHOT_3_4.boyHero.zIndex,
                     pointerEvents: 'none',
-                    filter: 'drop-shadow(0 16px 32px rgba(15, 23, 42, 0.20))',
                     translate: '79.1px -39.8px',
                 }}
-            />
+            >
+                <div
+                    style={{
+                        position: 'absolute',
+                        left: '43.0%',
+                        top: '85.5%',
+                        width: '38.0%',
+                        height: '22.0%',
+                        transform: 'translate(-35%, -50%) rotate(72deg) skewY(-20deg) skewX(-40deg)',
+                        borderRadius: '50%',
+                        background:
+                            'radial-gradient(ellipse at center, rgba(35, 38, 46, 0.7) 0%, rgba(38, 41, 51, 0.20) 30%, rgba(38, 43, 56, 0) 90%)',
+                        filter: `blur(${15 * s}px)`,
+                    }}
+                />
 
-            {/* 🙋‍♀️ 17. BẠN NỮ TAY GIỮ NÓN CÓI NƠ HỒNG, TÚI XÁCH HỒNG */}
-            <Img
-                src={staticFile(STAGING_SHOT_3_4.girlHero.src)}
+                {/* 👞 Viền bóng chỉ ôm khít mặt dưới đế giày Bạn Nam (Exact Sole Bottom Rim Only) */}
+                <Img
+                    src={staticFile(STAGING_SHOT_3_4.boyHero.src)}
+                    style={{
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        width: '100%',
+                        height: 'auto',
+                        transform: `translateY(${1.8 * s}px)`,
+                        filter: `brightness(0) blur(${1.1 * s}px)`,
+                        opacity: 0.42,
+                        clipPath: 'polygon(0% 95.2%, 100% 95.2%, 100% 100%, 0% 100%)',
+                        pointerEvents: 'none',
+                    }}
+                />
+
+                <Img
+                    src={staticFile(STAGING_SHOT_3_4.boyHero.src)}
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                        display: 'block',
+                        filter: 'drop-shadow(0 16px 32px rgba(15, 23, 42, 0.20))',
+                    }}
+                />
+            </div>
+
+            {/* 🙋‍♀️ 17. BẠN NỮ TAY GIỮ NÓN CÓI NƠ HỒNG, TÚI XÁCH HỒNG (BÓNG TIẾP ĐẤT ĐÔI GIÀY) */}
+            <div
                 style={{
                     position: 'absolute',
                     left: STAGING_SHOT_3_4.girlHero.left,
                     top: STAGING_SHOT_3_4.girlHero.top,
                     width: STAGING_SHOT_3_4.girlHero.width,
-                    height: 'auto',
                     zIndex: STAGING_SHOT_3_4.girlHero.zIndex,
                     pointerEvents: 'none',
-                    filter: 'drop-shadow(0 16px 32px rgba(15, 23, 42, 0.20))',
                     translate: '90.8px -68.5px',
                 }}
-            />
+            >
+                {/* Bóng nhân vật nữ */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        left: '35.0%',
+                        top: '89.5%',
+                        width: '48.0%',
+                        height: '29.0%',
+                        transform: 'translate(-35%, -50%) rotate(62deg) skewY(-20deg) skewX(-40deg)',
+                        borderRadius: '50%',
+                        background:
+                            'radial-gradient(ellipse at center, rgba(33, 35, 40, 0.7) 0%, rgba(38, 41, 51, 0.20) 40%, rgba(38, 43, 56, 0) 90%)',
+                        filter: `blur(${15 * s}px)`,
+                    }}
+                />
+
+                {/* 👠 Viền bóng chỉ ôm khít mặt dưới đế giày Bạn Nữ (Exact Sole Bottom Rim Only) */}
+                <Img
+                    src={staticFile(STAGING_SHOT_3_4.girlHero.src)}
+                    style={{
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        width: '100%',
+                        height: 'auto',
+                        transform: `translateY(${1.8 * s}px)`,
+                        filter: `brightness(0) blur(${1.1 * s}px)`,
+                        opacity: 0.42,
+                        clipPath: 'polygon(0% 94.8%, 100% 94.8%, 100% 100%, 0% 100%)',
+                        pointerEvents: 'none',
+                    }}
+                />
+
+                <Img
+                    src={staticFile(STAGING_SHOT_3_4.girlHero.src)}
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                        display: 'block',
+                        filter: 'drop-shadow(0 16px 32px rgba(15, 23, 42, 0.20))',
+                    }}
+                />
+            </div>
 
             {/* 🏹 18. MŨI TÊN HỒNG UỐN CONG CHỈ SANG SMARTPHONE */}
             <Img
@@ -1072,7 +1314,7 @@ export const StaticStaging34: React.FC<StaticStaging34Props> = (props) => {
                     zIndex: STAGING_SHOT_3_4.pinkArrow.zIndex,
                     pointerEvents: 'none',
                     filter: 'drop-shadow(0 4px 12px rgba(225, 29, 72, 0.25))',
-                    translate: '58.4px -136.1px'
+                    translate: '58.4px -136.1px',
                 }}
             />
 
