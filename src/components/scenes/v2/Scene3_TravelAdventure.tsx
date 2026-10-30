@@ -1522,8 +1522,77 @@ export const StaticStaging34: React.FC<StaticStaging34Props> = (props) => {
     );
 };
 
+// ============================================================================
+// 🎬 VIDEO-SHOTCRAFT CORE MATH & FX PRIMITIVES (4K/2K @ 60FPS HEAVY-HITTING RIG)
+// ============================================================================
+const scBezier = (x1: number, y1: number, x2: number, y2: number) => (t: number) => {
+    if (t <= 0) return 0;
+    if (t >= 1) return 1;
+    const cx = 3 * x1;
+    const bx = 3 * (x2 - x1) - cx;
+    const ax = 1 - cx - bx;
+    const cy = 3 * y1;
+    const by = 3 * (y2 - y1) - cy;
+    const ay = 1 - cy - by;
+    let u = t;
+    for (let i = 0; i < 6; i++) {
+        const x = ((ax * u + bx) * u + cx) * u - t;
+        const dx = (3 * ax * u + 2 * bx) * u + cx;
+        if (Math.abs(dx) < 1e-6) break;
+        u -= x / dx;
+    }
+    return ((ay * u + by) * u + cy) * u;
+};
+
+const SC_EASE = {
+    snappy: scBezier(0.16, 1, 0.3, 1),
+    heavy: scBezier(0.7, 0, 0.15, 1),
+    slam: (t: number) => t * t * t, // EASE_IN_CUBIC for 6f Impact-Burst-Kit slam
+    twist: scBezier(0.62, 0, 0.3, 1), // Kanada 3D perspective twist settle curve
+    airBrake: (t: number) => 1 - Math.pow(1 - t, 5), // Quint-out air-cushion brake
+    portal: scBezier(0.7, 0, 0.3, 1), // Portal-Wipe window expansion curve
+    smooth: scBezier(0.4, 0, 0.2, 1),
+};
+
+const scRamp = (f: number, start: number, dur: number, ease: (t: number) => number = (t) => t) => {
+    if (dur <= 0) return f >= start ? 1 : 0;
+    const raw = Math.max(0, Math.min(1, (f - start) / dur));
+    return ease(raw);
+};
+
+const scMix = (a: number, b: number, t: number) => a + (b - a) * t;
+
+// 18 mảnh đa giác bắn tỏa tròn khi Khiên Hồng đập sập xuống sàn (ImpactBurstKit.tsx)
+const IMPACT_SHARDS_34 = Array.from({ length: 18 }, (_, i) => {
+    const a = (i / 18) * Math.PI * 2 + ((i * 7) % 5) * 0.04;
+    const r0 = 220 + (i % 3) * 35;
+    const r1 = 580 + ((i * 37) % 340);
+    const len = 48 + ((i * 19) % 56);
+    const w = 9 + (i % 4) * 4;
+    const isGold = i % 3 === 0;
+    return { a, r0, r1, len, w, isGold };
+});
+
+// 7 vệt xé gió ngang + 36 tia Focus Anime cho cú vẩy mắt cá Kanada Perspective Snap (KanadaPerspectiveSnap.tsx)
+const KANADA_STREAKS = [
+    { y: 18, x0: -25, x1: 92, h: 6, delay: 0, dur: 12 },
+    { y: 29, x0: -30, x1: 98, h: 12, delay: 1, dur: 13 },
+    { y: 42, x0: -18, x1: 95, h: 4, delay: 2, dur: 11 },
+    { y: 54, x0: -35, x1: 102, h: 15, delay: 0, dur: 14 },
+    { y: 66, x0: -22, x1: 94, h: 5, delay: 3, dur: 11 },
+    { y: 78, x0: -28, x1: 96, h: 10, delay: 1, dur: 13 },
+    { y: 88, x0: -15, x1: 90, h: 4, delay: 2, dur: 10 },
+];
+
+const KANADA_FOCUS_RAYS = Array.from({ length: 36 }, (_, i) => {
+    const a = (i / 36) * Math.PI * 2 + (i % 3) * 0.018;
+    const inner = 220 + (i % 5) * 38;
+    const w = 0.008 + (i % 4) * 0.004;
+    return { a, inner, w };
+});
+
 export const Scene3_TravelAdventure: React.FC = () => {
-    const frame = useCurrentFrame();
+    const rawFrame = useCurrentFrame();
     const { fps, width, height } = useVideoConfig();
     const colors = VIDEO_CONFIG_V2.colors;
     const s = width / 1920;
@@ -1534,50 +1603,306 @@ export const Scene3_TravelAdventure: React.FC = () => {
         return <StaticStaging34 width={width} height={height} colors={colors} showOverlay={SHOW_REFERENCE_OVERLAY} />;
     }
 
-    // ==========================================
-    // 🎥 1. CÚ MÁY 2.5D DIORAMA (DEPTH-LAYER-MOVES & TILT-GLIDE)
-    // ==========================================
-    // Đoạn đầu (Frame 0 - 75): Camera hơi nâng đón máy bay ở tầng trên
-    const camIntroTilt = interpolate(frame, [0, 75], [35, 0], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-    });
-    const camIntroScale = interpolate(frame, [0, 75], [1.045, 1.0], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-    });
+    // ============================================================================
+    // ⏱️ HỆ THỐNG ĐỒNG HỒ KÉP (DUAL-CLOCK) CHO BULLET-TIME FREEZE ORBIT (SHOT 3.2)
+    // ============================================================================
+    // Khi vali nổ tung ở F360 và toàn bộ 7 món đồ + 2 chiếc nón + vịt vàng đạt đỉnh lơ lửng (F380),
+    // đồng hồ vật lý (frame) phanh gấp về chế độ Matrix Bullet-Time Freeze trong khoảng F384 - F418,
+    // để Camera 3D xoay vòng Orbit lượn qua các tầng đồ đạc đang đứng hình trên không,
+    // sau đó Sakuga Speed-Ramp tăng tốc bắt kịp thời gian thực tại F446!
+    const frame = (() => {
+        if (rawFrame <= 380 || rawFrame >= 446) return rawFrame;
+        if (rawFrame <= 388) {
+            // 8 frames phanh mượt vào điểm đóng băng đỉnh vụ nổ (380 -> 385.8)
+            const p = scRamp(rawFrame, 380, 8, SC_EASE.snappy);
+            return scMix(380, 385.8, p);
+        }
+        if (rawFrame <= 418) {
+            // 30 frames (0.5s) Matrix Bullet-Time Freeze: trôi siêu chậm 0.08x (385.8 -> 388.2)
+            const p = (rawFrame - 388) / 30;
+            return scMix(385.8, 388.2, p);
+        }
+        // 28 frames (418 -> 446) Sakuga Speed-Ramp bứt tốc bắt kịp rawFrame (388.2 -> 446)
+        const p = scRamp(rawFrame, 418, 28, SC_EASE.heavy);
+        return scMix(388.2, 446, p);
+    })();
 
-    // Đoạn sau (Frame 75 - 360): Slow push-in vi mô tạo chiều sâu điện ảnh
-    const camAmbientPush = interpolate(frame, [75, 360], [1.0, 1.03], {
+    // ============================================================================
+    // 🎥 1. HỆ THỐNG CAMERA 3D 5 HỒI CHUẨN VIDEO-SHOTCRAFT (TILT-REVEAL / CRASH-ZOOM /
+    //       BULLET-TIME ORBIT / IMPACT-BURST SLAM / KANADA SNAP / PORTAL-WIPE DIVE)
+    // ============================================================================
+
+    // --- [HỒI 1: F0 - F64] TILT-REVEAL 3D POP-UP STAGE + AIR-CUSHION BRAKE (TiltReveal.tsx) ---
+    // Sân khấu mở ra như lật dựng một cuốn sách Pop-Up 3D từ đường chân trời (72° -> -2.4° overshoot -> 0°)
+    const introLiftMain = scRamp(rawFrame, 0, 34, SC_EASE.airBrake);
+    const introOvershootSettle = scRamp(rawFrame, 34, 28, SC_EASE.snappy);
+    const camIntroRotX =
+        rawFrame < 34
+            ? scMix(68, -2.4, introLiftMain)
+            : rawFrame < 62
+              ? scMix(-2.4, 0, introOvershootSettle)
+              : 0;
+    const camIntroRotY =
+        rawFrame < 34
+            ? scMix(14, -1.0, introLiftMain)
+            : rawFrame < 62
+              ? scMix(-1.0, 0, introOvershootSettle)
+              : 0;
+    const camIntroRotZ =
+        rawFrame < 34
+            ? scMix(-7.5, 0.5, introLiftMain)
+            : rawFrame < 62
+              ? scMix(0.5, 0, introOvershootSettle)
+              : 0;
+    const camIntroScale =
+        rawFrame < 34
+            ? scMix(1.52, 0.988, introLiftMain)
+            : rawFrame < 62
+              ? scMix(0.988, 1.0, introOvershootSettle)
+              : 1.0;
+    const camIntroY =
+        rawFrame < 34
+            ? scMix(165 * s, -8 * s, introLiftMain)
+            : rawFrame < 62
+              ? scMix(-8 * s, 0, introOvershootSettle)
+              : 0;
+
+    // --- [HỒI 1.5: F75 - F345] AMBIENT PUSH & QUIRKY PLANE TRACKING TILT ---
+    const camAmbientPush = interpolate(rawFrame, [75, 345], [1.0, 1.035], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
+    // Khi máy bay đỏng đảnh phanh kít & nén lò xo trên trời (F255 - F345), camera hơi ngước nhẹ theo dõi
+    const planeTrackEnv =
+        rawFrame >= 250 && rawFrame < 358
+            ? Math.sin(scRamp(rawFrame, 250, 108) * Math.PI)
+            : 0;
+    const camPlaneTrackRotX = planeTrackEnv * 4.5;
+    const camPlaneTrackY = planeTrackEnv * 22 * s;
 
-    // Cú rung chấn vi mô khi vệt lốc xoáy chạm nắp vali (Frame 360 - 378)
-    const impactProgress = interpolate(frame, [360, 378], [1, 0], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-    });
-    const impactShakeX = frame >= 360 && frame < 378 ? Math.sin((frame - 360) * 1.8) * 4.0 * impactProgress : 0;
-    const impactShakeY = frame >= 360 && frame < 378 ? Math.cos((frame - 360) * 1.8) * 3.0 * impactProgress : 0;
+    // --- [HỒI 2: F345 - F446] CRASH-ZOOM IMPACT + MATRIX BULLET-TIME 3D ORBIT ---
+    // Pha 2A (F345 - F358): Anticipation pull-back (-4.5% scale) lấy đà trước khi lốc xoáy đập vào vali
+    const windup32 = scRamp(rawFrame, 345, 13, SC_EASE.smooth);
+    // Pha 2B (F358 - F366): 8-frame Crash-Zoom Punch thẳng vào tâm vụ nổ vali + cặp đôi!
+    const crashIn32 = scRamp(rawFrame, 358, 8, SC_EASE.heavy);
+    // Pha 2C (F382 - F438): Matrix Bullet-Time 3D Camera Orbit lượn vòng qua đồ đạc đang đứng hình!
+    const orbitSwing1 = scRamp(rawFrame, 382, 20, SC_EASE.snappy); // Quăng sang góc nghiêng trái (-22° Y, +12° X)
+    const orbitSwing2 = scRamp(rawFrame, 402, 18, SC_EASE.smooth); // Lượn vòng sang góc phải (+14° Y, +6° X)
+    const orbitReturn = scRamp(rawFrame, 420, 22, SC_EASE.snappy); // Trả về chính diện (0°) đúng nhịp Sakuga Speed-Ramp!
 
-    // Giai đoạn chuyển tiếp (F510 - F580): Camera từ từ lùi nhẹ về scale 1.0 và nhường không gian bên phải cho Smartphone
-    const camTransitionScale = interpolate(frame, [510, 580], [1.0, 1.0 / 1.03], {
+    const crashZoomScale =
+        rawFrame < 345
+            ? 1.0
+            : rawFrame < 358
+              ? scMix(1.0, 0.955 / 1.035, windup32)
+              : rawFrame < 366
+                ? scMix(0.955 / 1.035, 1.28 / 1.035, crashIn32)
+                : rawFrame < 420
+                  ? (1.28 + Math.sin(((rawFrame - 366) / 54) * Math.PI) * 0.08) / 1.035
+                  : rawFrame < 444
+                    ? scMix(1.28 / 1.035, 1.0, orbitReturn)
+                    : 1.0;
+
+    const crashPanX =
+        rawFrame < 358
+            ? 0
+            : rawFrame < 366
+              ? scMix(0, 118 * s, crashIn32)
+              : rawFrame < 402
+                ? scMix(118 * s, 165 * s, orbitSwing1)
+                : rawFrame < 420
+                  ? scMix(165 * s, 65 * s, orbitSwing2)
+                  : rawFrame < 444
+                    ? scMix(65 * s, 0, orbitReturn)
+                    : 0;
+
+    const crashPanY =
+        rawFrame < 358
+            ? 0
+            : rawFrame < 366
+              ? scMix(0, -32 * s, crashIn32)
+              : rawFrame < 402
+                ? scMix(-32 * s, -54 * s, orbitSwing1)
+                : rawFrame < 420
+                  ? scMix(-54 * s, -18 * s, orbitSwing2)
+                  : rawFrame < 444
+                    ? scMix(-18 * s, 0, orbitReturn)
+                    : 0;
+
+    const orbitRotY =
+        rawFrame < 358
+            ? 0
+            : rawFrame < 366
+              ? scMix(0, -6, crashIn32)
+              : rawFrame < 402
+                ? scMix(-6, -24, orbitSwing1)
+                : rawFrame < 420
+                  ? scMix(-24, 15, orbitSwing2)
+                  : rawFrame < 444
+                    ? scMix(15, 0, orbitReturn)
+                    : 0;
+
+    const orbitRotX =
+        rawFrame < 345
+            ? 0
+            : rawFrame < 358
+              ? scMix(0, 5, windup32)
+              : rawFrame < 366
+                ? scMix(5, -4, crashIn32)
+                : rawFrame < 402
+                  ? scMix(-4, 13, orbitSwing1)
+                  : rawFrame < 420
+                    ? scMix(13, 7, orbitSwing2)
+                    : rawFrame < 444
+                      ? scMix(7, 0, orbitReturn)
+                      : 0;
+
+    const orbitRotZ =
+        rawFrame < 358
+            ? 0
+            : rawFrame < 366
+              ? scMix(0, -2.8, crashIn32)
+              : rawFrame < 402
+                ? scMix(-2.8, -4.5, orbitSwing1)
+                : rawFrame < 420
+                  ? scMix(-4.5, 2.8, orbitSwing2)
+                  : rawFrame < 444
+                    ? scMix(2.8, 0, orbitReturn)
+                    : 0;
+
+    // Rung chấn Va đập Cực mạnh khi Vali Nổ (F360 - F378, CrashImpactReal.tsx)
+    const shake32T = rawFrame - 360;
+    const shake32Env = shake32T >= 0 && shake32T < 18 ? 16 * s * Math.exp(-shake32T / 2.2) : 0;
+    const impactShakeX = shake32Env * 0.65 * Math.sin(shake32T * 2.5 + 0.6);
+    const impactShakeY = shake32Env * Math.cos(shake32T * 2.9);
+    const impactShakeRot = (shake32Env / s) * 0.08 * Math.sin(shake32T * 3.7 + 1.9);
+
+    // --- [HỒI 3: F488 - F560] WHIP-IMPLOSION TWIST -> IMPACT-BURST-KIT SLAM (ImpactBurstKit.tsx) ---
+    // Khi chuẩn bị chuyển sang Cảnh 3.4:
+    // F490 - F506: Camera lùi nhẹ + nghiêng ngửa đón Khiên Hồng & Cặp đôi Hero đang lơ lửng sát ống kính
+    // F506 - F512 (6f): Khiên & Cặp đôi đập sập xuống sàn! Tại HIT = 512, sóng xung kích & rung chấn nổ tung!
+    const slamWindup = scRamp(rawFrame, 490, 16, SC_EASE.smooth);
+    const slamHitRecover = scRamp(rawFrame, 512, 36, SC_EASE.snappy);
+    const camSlamScale =
+        rawFrame < 490
+            ? 1.0
+            : rawFrame < 506
+              ? scMix(1.0, 0.94, slamWindup)
+              : rawFrame < 512
+                ? scMix(0.94, 1.06, scRamp(rawFrame, 506, 6, SC_EASE.slam))
+                : rawFrame < 548
+                  ? scMix(1.06, 1.0, slamHitRecover)
+                  : 1.0;
+    const camSlamRotX =
+        rawFrame < 490
+            ? 0
+            : rawFrame < 506
+              ? scMix(0, 9.5, slamWindup)
+              : rawFrame < 512
+                ? scMix(9.5, -3.2, scRamp(rawFrame, 506, 6, SC_EASE.slam))
+                : rawFrame < 548
+                  ? scMix(-3.2, 0, slamHitRecover)
+                  : 0;
+    const camSlamRotZ =
+        rawFrame < 490
+            ? 0
+            : rawFrame < 506
+              ? scMix(0, 2.4, slamWindup)
+              : rawFrame < 512
+                ? scMix(2.4, -1.8, scRamp(rawFrame, 506, 6, SC_EASE.slam))
+                : rawFrame < 548
+                  ? scMix(-1.8, 0, slamHitRecover)
+                  : 0;
+
+    // Rung chấn Hạng Nặng khi Khiên Hồng chạm đất tại HIT_34 = 512 (ImpactBurstKit.tsx)
+    const shake34T = rawFrame - 512;
+    const shake34Env = shake34T >= 0 && shake34T < 20 ? 20 * s * Math.exp(-shake34T / 2.1) : 0;
+    const shieldShakeX = shake34Env * 0.55 * Math.sin(shake34T * 2.6 + 0.4);
+    const shieldShakeY = shake34Env * Math.cos(shake34T * 3.1);
+    const shieldShakeRot = (shake34Env / s) * 0.09 * Math.sin(shake34T * 3.5 + 1.2);
+
+    // Giai đoạn cân bằng khung hình về đúng tỉ lệ 1.0 cho Cảnh 3.4 (F510 - F560)
+    const camTransitionScale = interpolate(rawFrame, [485, 512], [1.0, 1.0 / 1.035], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: (t) => t * (2 - t),
     });
 
-    // Cú rung chấn khi khiên hồng chạm đất (Frame 512 - 528)
-    const shieldImpactProgress = interpolate(frame, [512, 528], [1, 0], {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-    });
-    const shieldShakeY = frame >= 512 && frame < 528 ? Math.sin((frame - 512) * 2.0) * 3.0 * shieldImpactProgress : 0;
+    // --- [HỒI 4: F620 - F658] KANADA PERSPECTIVE SNAP CAMERA RECOIL (KanadaPerspectiveSnap.tsx) ---
+    // Khi chiếc Smartphone văng mắt cá đập phẳng vào khung phải tại SNAP = 638, toàn sân khấu giật nảy phản lực!
+    const kanadaRecoilT = rawFrame - 638;
+    const kanadaRecoilEnv =
+        kanadaRecoilT >= 0 && kanadaRecoilT < 22
+            ? Math.cos(kanadaRecoilT * 0.38) * Math.exp(-kanadaRecoilT / 5.5)
+            : 0;
+    const camKanadaRotY = kanadaRecoilEnv * 5.2;
+    const camKanadaRotZ = kanadaRecoilEnv * 1.6;
+    const camKanadaX = kanadaRecoilEnv * -22 * s;
 
-    const finalCamScale = camIntroScale * camAmbientPush * camTransitionScale;
-    const finalCamY = camIntroTilt + impactShakeY + shieldShakeY;
-    const finalCamX = impactShakeX;
+    // --- [HỒI 5: F1146 - F1200] PORTAL-WIPE 3D DIVE VÀO MÀN HÌNH ĐIỆN THOẠI (PortalWipeV2.tsx) ---
+    // 16 frames lấy đà lùi nhẹ (F1146 - F1162) -> 38 frames phóng xuyên tâm màn hình Smartphone sang Cảnh 4!
+    // Tâm Smartphone nằm tại ~79.4% ngang (+564*s so với tâm 50%) và ~56% dọc (+12*s so với tâm 55%),
+    // nên khi phóng đại lên 5.2x, camPortalX dịch đúng -564 * s * camPortalScale để khóa hồng tâm vào giữa màn hình Điện thoại!
+    const portalAntic = scRamp(rawFrame, 1146, 16, SC_EASE.smooth);
+    const portalDive = scRamp(rawFrame, 1162, 38, SC_EASE.portal);
+    const portalPanP = scRamp(rawFrame, 1162, 22, SC_EASE.snappy);
+    const camPortalScale =
+        rawFrame < 1146
+            ? 1.0
+            : rawFrame < 1162
+              ? scMix(1.0, 0.95, portalAntic)
+              : scMix(0.95, 5.2, portalDive);
+    const camPortalX =
+        rawFrame < 1162 ? 0 : -605 * s * (camPortalScale - (1 - portalPanP));
+    const camPortalY =
+        rawFrame < 1146
+            ? 0
+            : rawFrame < 1162
+              ? scMix(0, 14 * s, portalAntic)
+              : scMix(14 * s, 18 * s * camPortalScale, portalPanP);
+    const camPortalRotY =
+        rawFrame < 1146
+            ? 0
+            : rawFrame < 1162
+              ? scMix(0, -3.5, portalAntic)
+              : scMix(-3.5, 8, portalDive);
+    const camPortalRotZ =
+        rawFrame < 1146
+            ? 0
+            : rawFrame < 1162
+              ? scMix(0, 1.5, portalAntic)
+              : scMix(1.5, -5.5, portalDive);
+
+    // --- TỔNG HỢP MA TRẬN CAMERA 3D ---
+    const finalCamScale =
+        camIntroScale * camAmbientPush * crashZoomScale * camTransitionScale * camSlamScale * camPortalScale;
+    const finalCamX = crashPanX + impactShakeX + shieldShakeX + camKanadaX + camPortalX;
+    const finalCamY = camIntroY + camPlaneTrackY + crashPanY + impactShakeY + shieldShakeY + camPortalY;
+    const finalCamRotX = camIntroRotX + camPlaneTrackRotX + orbitRotX + camSlamRotX;
+    const finalCamRotY = camIntroRotY + orbitRotY + camKanadaRotY + camPortalRotY;
+    const finalCamRotZ =
+        camIntroRotZ + orbitRotZ + impactShakeRot + camSlamRotZ + shieldShakeRot + camKanadaRotZ + camPortalRotZ;
+
+    // Envelope độ sâu 3D (chỉ bật tách lớp translateZ khi Camera đang xoay nghiêng 3D,
+    // và trả về đúng 0.0 tuyệt đối khi Camera nghỉ để bảo toàn 100.00% tọa độ pixel tĩnh!)
+    const cam3DActiveEnv = Math.min(
+        1,
+        (Math.abs(finalCamRotX) + Math.abs(finalCamRotY) + Math.abs(finalCamRotZ)) / 10
+    );
+    const z3d = (depthPx: number) => depthPx * s * cam3DActiveEnv;
+
+    // Tính vận tốc tức thời để kích hoạt <SpeedBlur> định hướng ở các cú quất máy nhanh (Whip / Slam / Dive)
+    const speedBlurX =
+        (rawFrame >= 358 && rawFrame <= 366 ? 14 : 0) +
+        (rawFrame >= 383 && rawFrame <= 395 ? 7 : 0) +
+        (rawFrame >= 620 && rawFrame <= 638 ? 16 : 0) +
+        (rawFrame >= 1168 && rawFrame <= 1196 ? 12 : 0);
+    const speedBlurY =
+        (rawFrame >= 0 && rawFrame <= 24 ? 14 * (1 - rawFrame / 24) : 0) +
+        (rawFrame >= 506 && rawFrame <= 513 ? 18 : 0) +
+        (rawFrame >= 1168 && rawFrame <= 1196 ? 6 : 0);
+    const isStageSpeedBlurActive = speedBlurX > 0.6 || speedBlurY > 0.6;
+
 
     // ==========================================
     // ✈️ 2. MÁY BAY MÔ HÌNH CHUYỂN CẢNH (FLY-OVER HOOK)
@@ -2097,169 +2422,290 @@ export const Scene3_TravelAdventure: React.FC = () => {
     };
 
     // ==========================================
-    // 🌪️ CHUYỂN TIẾP THU HỒI & TẬP HỢP CẢNH 3.4 (SHOT 3.3 & ASSEMBLE TRANSITION)
+    // 🌪️ CHUYỂN TIẾP HÚT XOÁY 3D & ĐẬP SẬP CẢNH 3.4 (WHIP-IMPLOSION -> IMPACT-BURST-KIT SLAM)
     // ==========================================
-    // Hệ số mờ dần của toàn bộ các mảnh ghép Cảnh 3.1 khi bước sang giai đoạn tập hợp 3.4 (F505 - F538)
-    const oldDioramaFade = interpolate(frame, [505, 538], [1, 0], {
+    // Thay vì mờ dần phẳng lì, toàn bộ đạo cụ Shot 3.1/3.2 bị hút xoáy sập vào tâm trong 18f (F490 - F508)
+    // ngay trước khi Khiên Hồng & Cặp đôi Hero đập sập xuống sàn tại HIT_34 = 512!
+    const implode31P = scRamp(rawFrame, 490, 18, SC_EASE.slam);
+    const oldDioramaFade = interpolate(rawFrame, [494, 511], [1, 0], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
+    });
+    const implodeScale = scMix(1.0, 0.35, implode31P);
+    const implodeRotZ = scMix(0, -16, implode31P);
+    const implodeY = scMix(0, 95 * s, implode31P);
+
+    // Cặp đôi hoảng hốt bị cuốn vào tâm chớp sáng nhường chỗ cho cặp đôi Hero đập xuống (F492 - F509)
+    const shockedCoupleFade = interpolate(rawFrame, [492, 509], [1, 0], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
 
-    // Cặp đôi hoảng hốt thở phào nhẹ nhõm và mờ dần nhường chỗ cho cặp đôi Hero đứng hiên ngang (F505 - F535)
-    const shockedCoupleFade = interpolate(frame, [505, 535], [1, 0], {
+    // ==========================================
+    // 🛡️ SHOT 3.3 -> 3.4: KHIÊN HỒNG & CẶP ĐÔI ĐẬP SẬP "IMPACT-BURST-KIT" (FRAME 494 - 558)
+    // ==========================================
+    // Theo chuẩn ImpactBurstKit.tsx của video-shotcraft:
+    // - F494 - F506 (12f): Lơ lửng sát trước ống kính máy quay (scale 1.58 -> 1.64, DOF blur 6px -> 3px) lấy đà
+    // - F506 - F512 (6f): Đập sập xuống sàn theo hàm bậc 3 (SC_EASE.slam), chạm đất đúng tại HIT_34 = 512!
+    // - F512 - F515 (3f): Nén dẹt Squash (scaleX 1.07, scaleY 0.92) -> F515 - F536: Bật nảy đàn hồi về 1.0!
+    const HIT_34 = 512;
+    const shieldHoverP = scRamp(rawFrame, 494, 12, SC_EASE.smooth);
+    const shieldSlamP = scRamp(rawFrame, 506, 6, SC_EASE.slam);
+    const shieldReboundP = scRamp(rawFrame, 515, 20, SC_EASE.snappy);
+
+    const shieldOpacity = interpolate(rawFrame, [494, 500], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
+    const shieldDropY =
+        rawFrame < 506
+            ? scMix(-220 * s, -165 * s, shieldHoverP)
+            : rawFrame < 512
+              ? scMix(-165 * s, 0, shieldSlamP)
+              : rawFrame < 515
+                ? 8 * s
+                : rawFrame < 535
+                  ? scMix(8 * s, 0, shieldReboundP)
+                  : 0;
+    const shieldSlamScaleX =
+        rawFrame < 506
+            ? scMix(1.52, 1.58, shieldHoverP)
+            : rawFrame < 512
+              ? scMix(1.58, 1.0, shieldSlamP)
+              : rawFrame < 515
+                ? 1.07
+                : rawFrame < 535
+                  ? scMix(1.07, 1.0, shieldReboundP)
+                  : 1.0;
+    const shieldSlamScaleY =
+        rawFrame < 506
+            ? scMix(1.52, 1.58, shieldHoverP)
+            : rawFrame < 512
+              ? scMix(1.58, 1.0, shieldSlamP)
+              : rawFrame < 515
+                ? 0.92
+                : rawFrame < 535
+                  ? scMix(0.92, 1.0, shieldReboundP)
+                  : 1.0;
+    const shieldDofBlur =
+        rawFrame >= 494 && rawFrame < 511
+            ? scMix(6.5 * s, 0, scRamp(rawFrame, 494, 17))
+            : 0;
 
-    // ==========================================
-    // 🛡️ SHOT 3.3: KHIÊN HỒNG BẢO VỆ GIÁNG THẾ (FRAME 470 - 550)
-    // ==========================================
-    // 1. Khiên hồng trung tâm hạ cánh từ trên cao
-    const shieldSpring = spring({
-        frame: frame - 470,
-        fps,
-        config: { damping: 14, stiffness: 75, mass: 1.1 },
-    });
-    const shieldDropY = interpolate(shieldSpring, [0, 1], [-1100 * s, 0]);
-    const shieldOpacity = interpolate(shieldSpring, [0, 0.15, 1], [0, 1, 1]);
+    // 🌊 SÓNG CHẤN ĐỘNG LAN TRUYỀN ĐẨY BẬT ĐẠO CỤ XUNG QUANH (Wavefront Neighbor Push - ImpactBurstKit.tsx)
+    // 3 frames sau khi Khiên & Cặp đôi đập xuống đất (F515), sóng xung kích hất văng Đảo dừa, Ghế hồng, Vali hồng, Vịt phao
+    // ra hai bên rồi dao động tắt dần cos(t*0.42)*exp(-t/9.5), trả về đúng 0px tại F558!
+    const neighborPushT = rawFrame - (HIT_34 + 3);
+    const neighborPushEnv =
+        neighborPushT >= 0 && neighborPushT < 44
+            ? Math.cos(neighborPushT * 0.42) * Math.exp(-neighborPushT / 9.5)
+            : 0;
+    const pushLeftX = -42 * s * neighborPushEnv;
+    const pushLeftRot = -4.0 * neighborPushEnv;
+    const pushRightX = 42 * s * neighborPushEnv;
+    const pushRightRot = 4.0 * neighborPushEnv;
 
-    // 2. Sóng xung kích hào quang hồng lan tỏa khi khiên tiếp đất (F512 - F555)
-    const isShieldPulseActive = frame >= 512 && frame <= 555;
-    const pulseProgress = interpolate(frame, [512, 550], [0, 1], {
+    // 2. Sóng xung kích hào quang hồng kép + 18 mảnh đa giác lan tỏa khi khiên tiếp đất (F512 - F555)
+    const isShieldPulseActive = rawFrame >= 512 && rawFrame <= 555;
+    const pulseProgress = interpolate(rawFrame, [512, 550], [0, 1], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
     });
-    const pulseScale = interpolate(pulseProgress, [0, 1], [0.2, 2.3]);
-    const pulseOpacity = interpolate(pulseProgress, [0, 0.15, 0.7, 1], [0, 0.85, 0.35, 0]);
+    const pulseScale = interpolate(pulseProgress, [0, 1], [0.2, 2.5]);
+    const pulseOpacity = interpolate(pulseProgress, [0, 0.12, 0.7, 1], [0, 0.92, 0.4, 0]);
 
     // 3. Huy hiệu khiên vali hồng nhỏ + tick xanh ở vai phải khung nảy ra
     const badgeSpring = spring({
-        frame: frame - 512,
+        frame: rawFrame - 512,
         fps,
-        config: { damping: 12, stiffness: 110 },
+        config: { damping: 11, stiffness: 135 },
     });
     const badgeScale = interpolate(badgeSpring, [0, 1], [0, 1.0]);
     const badgeOpacity = interpolate(badgeSpring, [0, 0.2, 1], [0, 1, 1]);
 
     // 4. Tiêu đề 'Bảo hiểm du lịch' bên trong đỉnh khiên
     const archTextSpring = spring({
-        frame: frame - 516,
+        frame: rawFrame - 514,
         fps,
-        config: { damping: 15, stiffness: 90 },
+        config: { damping: 14, stiffness: 110 },
     });
-    const archTextY = interpolate(archTextSpring, [0, 1], [-25 * s, 0]);
+    const archTextY = interpolate(archTextSpring, [0, 1], [-35 * s, 0]);
     const archTextOpacity = interpolate(archTextSpring, [0, 0.25, 1], [0, 1, 1]);
 
-    // 5. Cặp đôi Hero (Bạn Nam & Bạn Nữ tách biệt) xuất hiện vững chãi trong khiên
-    const heroCoupleSpring = spring({
-        frame: frame - 508,
-        fps,
-        config: { damping: 16, stiffness: 90 },
+    // 5. Cặp đôi Hero (Bạn Nam & Bạn Nữ tách biệt) đập sập từ sát ống kính xuống cùng Khiên Hồng (Impact-Burst-Kit)
+    const heroCoupleOpacity = interpolate(rawFrame, [496, 502], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
     });
-    const heroCoupleDropY = interpolate(heroCoupleSpring, [0, 1], [25 * s, 0]);
-    const heroCoupleOpacity = interpolate(heroCoupleSpring, [0, 0.25, 1], [0, 1, 1]);
-    const heroIdleBreath = frame >= 540 ? Math.sin((frame - 540) * 0.04) * 1.2 * s : 0;
-    const heroGirlIdleBreath = frame >= 540 ? Math.sin((frame - 540) * 0.04 + 0.6) * 1.2 * s : 0;
+    const heroCoupleDropY =
+        rawFrame < 506
+            ? scMix(-180 * s, -135 * s, shieldHoverP)
+            : rawFrame < 512
+              ? scMix(-135 * s, 0, shieldSlamP)
+              : rawFrame < 515
+                ? 10 * s
+                : rawFrame < 535
+                  ? scMix(10 * s, 0, shieldReboundP)
+                  : 0;
+    const heroSlamScaleX = shieldSlamScaleX;
+    const heroSlamScaleY = shieldSlamScaleY;
+    const heroIdleBreath = rawFrame >= 540 ? Math.sin((rawFrame - 540) * 0.04) * 1.2 * s : 0;
+    const heroGirlIdleBreath = rawFrame >= 540 ? Math.sin((rawFrame - 540) * 0.04 + 0.6) * 1.2 * s : 0;
 
-    // 6. Thảm cát trung tâm mới bung nở
+    // 6. Thảm cát trung tâm mới bung nở đón cú đập
     const sandRugSpring = spring({
-        frame: frame - 502,
+        frame: rawFrame - 500,
         fps,
-        config: { damping: 15, stiffness: 85 },
+        config: { damping: 14, stiffness: 105 },
     });
-    const sandRugScale = interpolate(sandRugSpring, [0, 1], [0.75, 1.0]);
-    const sandRugOpacity = interpolate(sandRugSpring, [0, 0.25, 1], [0, 1, 1]);
+    const sandRugScale = interpolate(sandRugSpring, [0, 1], [0.65, 1.0]);
+    const sandRugOpacity = interpolate(sandRugSpring, [0, 0.2, 1], [0, 1, 1]);
 
     // 7. Dải nước biển xanh nhiều lớp dâng lên
     const seaWaterSpring = spring({
-        frame: frame - 512,
-        fps,
-        config: { damping: 18, stiffness: 70 },
-    });
-    const seaWaterRiseY = interpolate(seaWaterSpring, [0, 1], [140 * s, 0]);
-    const seaWaterOpacity = interpolate(seaWaterSpring, [0, 0.25, 1], [0, 1, 1]);
-    const seaWaterWave = frame >= 540 ? Math.sin((frame - 540) * 0.04) * 2.0 * s : 0;
-
-    // 8. Đảo dừa giấy hậu cảnh trượt vào
-    const islandSpring = spring({
-        frame: frame - 518,
-        fps,
-        config: { damping: 17, stiffness: 75 },
-    });
-    const islandSlideX = interpolate(islandSpring, [0, 1], [-100 * s, 0]);
-    const islandOpacity = interpolate(islandSpring, [0, 0.25, 1], [0, 1, 1]);
-
-    // 9. Ghế hồng đáp xuống cát
-    const pinkChairSpring = spring({
-        frame: frame - 522,
-        fps,
-        config: { damping: 14, stiffness: 85 },
-    });
-    const pinkChairDropY = interpolate(pinkChairSpring, [0, 1], [-90 * s, 0]);
-    const pinkChairOpacity = interpolate(pinkChairSpring, [0, 0.2, 1], [0, 1, 1]);
-
-    // 10. Vali hồng đứng cạnh chân bạn nam đáp xuống
-    const pinkSuitcaseSpring = spring({
-        frame: frame - 526,
-        fps,
-        config: { damping: 13, stiffness: 95 },
-    });
-    const pinkSuitcaseDropY = interpolate(pinkSuitcaseSpring, [0, 1], [-70 * s, 0]);
-    const pinkSuitcaseOpacity = interpolate(pinkSuitcaseSpring, [0, 0.2, 1], [0, 1, 1]);
-
-    // 11. Thảm nước & chú vịt vàng phao bơi đáp xuống
-    const duckPuddleSpring = spring({
-        frame: frame - 528,
+        frame: rawFrame - 508,
         fps,
         config: { damping: 16, stiffness: 85 },
     });
-    const duckPuddleScale = interpolate(duckPuddleSpring, [0, 1], [0.5, 1.0]);
+    const seaWaterRiseY = interpolate(seaWaterSpring, [0, 1], [160 * s, 0]);
+    const seaWaterOpacity = interpolate(seaWaterSpring, [0, 0.25, 1], [0, 1, 1]);
+    const seaWaterWave = rawFrame >= 540 ? Math.sin((rawFrame - 540) * 0.04) * 2.0 * s : 0;
+
+    // 8. Đảo dừa giấy hậu cảnh trượt vào + chịu lực hất sóng xung kích (pushLeftX)
+    const islandSpring = spring({
+        frame: rawFrame - 510,
+        fps,
+        config: { damping: 15, stiffness: 95 },
+    });
+    const islandSlideX = interpolate(islandSpring, [0, 1], [-140 * s, 0]) + pushLeftX * 0.85;
+    const islandOpacity = interpolate(islandSpring, [0, 0.25, 1], [0, 1, 1]);
+
+    // 9. Ghế hồng đáp xuống cát + bị hất văng nhẹ bởi sóng xung kích Khiên Hồng (pushLeftX, pushLeftRot)
+    const pinkChairSpring = spring({
+        frame: rawFrame - 511,
+        fps,
+        config: { damping: 13, stiffness: 105 },
+    });
+    const pinkChairDropY = interpolate(pinkChairSpring, [0, 1], [-120 * s, 0]);
+    const pinkChairOpacity = interpolate(pinkChairSpring, [0, 0.2, 1], [0, 1, 1]);
+
+    // 10. Vali hồng đứng cạnh chân bạn nam đáp xuống + phản hồi sóng xung kích
+    const pinkSuitcaseSpring = spring({
+        frame: rawFrame - 512,
+        fps,
+        config: { damping: 12, stiffness: 110 },
+    });
+    const pinkSuitcaseDropY = interpolate(pinkSuitcaseSpring, [0, 1], [-110 * s, 0]);
+    const pinkSuitcaseOpacity = interpolate(pinkSuitcaseSpring, [0, 0.2, 1], [0, 1, 1]);
+
+    // 11. Thảm nước & chú vịt vàng phao bơi đáp xuống + phản hồi sóng xung kích (pushRightX, pushRightRot)
+    const duckPuddleSpring = spring({
+        frame: rawFrame - 513,
+        fps,
+        config: { damping: 14, stiffness: 100 },
+    });
+    const duckPuddleScale = interpolate(duckPuddleSpring, [0, 1], [0.4, 1.0]);
     const duckPuddleOpacity = interpolate(duckPuddleSpring, [0, 0.2, 1], [0, 1, 1]);
 
     const duckSpring34 = spring({
-        frame: frame - 532,
+        frame: rawFrame - 514,
         fps,
-        config: { damping: 13, stiffness: 95 },
+        config: { damping: 12, stiffness: 110 },
     });
-    const duckDropY34 = interpolate(duckSpring34, [0, 1], [-80 * s, 0]);
+    const duckDropY34 = interpolate(duckSpring34, [0, 1], [-110 * s, 0]);
     const duckOpacity34 = interpolate(duckSpring34, [0, 0.2, 1], [0, 1, 1]);
-    const duckBob34 = frame >= 560 ? Math.sin((frame - 560) * 0.08) * 2.0 * s : 0;
+    const duckBob34 = rawFrame >= 560 ? Math.sin((rawFrame - 560) * 0.08) * 2.0 * s : 0;
 
     // ==========================================
-    // 📱 SHOT 3.5: SMARTPHONE, TIÊU ĐỀ & CTA TƯƠNG TÁC (FRAME 600+)
+    // 📱 SHOT 3.5: CÚ VẨY MẮT CÁ "KANADA PERSPECTIVE SNAP" CHO TIÊU ĐỀ & SMARTPHONE (FRAME 598+)
     // ==========================================
-    // 12. Tiêu đề chính bên trái: Sẵn sàng cho hành trình
-    const headingSpring = spring({
-        frame: frame - 600,
-        fps,
-        config: { damping: 16, stiffness: 85 },
+    // 12. Tiêu đề chính bên trái: Văng phối cảnh 3D từ cánh trái đập phẳng (F598 - F622)
+    const headingMoveP = scRamp(rawFrame, 598, 16, SC_EASE.heavy);
+    const headingTwistP = scRamp(rawFrame, 598, 18, SC_EASE.twist);
+    const headingReboundT = rawFrame - 614;
+    const headingReboundEnv =
+        headingReboundT >= 0 && headingReboundT < 14
+            ? Math.sin((headingReboundT / 14) * Math.PI)
+            : 0;
+    const headingX = rawFrame < 614 ? scMix(-540 * s, 0, headingMoveP) : 0;
+    const headingRotY =
+        rawFrame < 616
+            ? scMix(52, 0, headingTwistP)
+            : headingReboundEnv * -5.5;
+    const headingRotZ =
+        rawFrame < 616
+            ? scMix(-8, 0, headingTwistP)
+            : headingReboundEnv * 1.2;
+    const headingScale =
+        rawFrame < 614
+            ? scMix(1.42, 0.96, headingMoveP)
+            : scMix(0.96, 1.0, scRamp(rawFrame, 614, 12, SC_EASE.snappy));
+    const headingOpacity = interpolate(rawFrame, [598, 603], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
     });
-    const headingX = interpolate(headingSpring, [0, 1], [-120 * s, 0]);
-    const headingOpacity = interpolate(headingSpring, [0, 0.2, 1], [0, 1, 1]);
 
-    // 13. Smartphone Mockup trượt vào từ cạnh phải
-    const phoneSpring = spring({
-        frame: frame - 625,
-        fps,
-        config: { damping: 18, stiffness: 70 },
+    // 13. Smartphone Mockup: Cú Vẩy Mắt Cá "Kanada Perspective Snap" (KanadaPerspectiveSnap.tsx, F620 - F652)
+    // - F620 - F638 (18f): Lao từ góc mắt cá cực đại (perspective 260 -> 1800, scale 1.76 -> 1.0, translateX +1150 -> 0)
+    // - Góc xoắn 3 trục rotate3d(0.45, -1, 0.12, 64° -> 0°) trả phẳng trễ hơn vị trí 2 frames (F620 - F640) tạo cú vẩy cổ tay!
+    // - Tại SNAP_35 = 638: Điện thoại đập phẳng với cú nảy overshoot rotateY (+7.5° -> 0°) + bung 36 tia Focus & 7 vệt xé gió!
+    const SNAP_35 = 638;
+    const phoneMoveP = scRamp(rawFrame, 620, 18, SC_EASE.snappy);
+    const phoneTwistP = scRamp(rawFrame, 620, 20, SC_EASE.twist);
+    const phoneReboundP = scRamp(rawFrame, 638, 14, SC_EASE.snappy);
+    const phoneSnapOvershoot =
+        rawFrame >= 638 && rawFrame < 652
+            ? Math.sin(((rawFrame - 638) / 14) * Math.PI)
+            : 0;
+
+    const phoneOpacity = interpolate(rawFrame, [620, 623], [0, 1], {
+        extrapolateLeft: 'clamp',
+        extrapolateRight: 'clamp',
     });
-    const phoneSlideX = interpolate(phoneSpring, [0, 1], [400 * s, 0]);
-    const phoneOpacity = interpolate(phoneSpring, [0, 0.15, 1], [0, 1, 1]);
+    const phoneSlideX = rawFrame < 638 ? scMix(520 * s, 0, phoneMoveP) : 0;
+    const phoneSlideY = rawFrame < 638 ? scMix(-110 * s, 0, phoneMoveP) : 0;
+    const phoneKanadaScale =
+        rawFrame < 638
+            ? scMix(1.68, 0.95, phoneMoveP)
+            : rawFrame < 652
+              ? scMix(0.95, 1.0, phoneReboundP)
+              : 1.0;
+    const phoneTwistDeg = rawFrame < 640 ? scMix(64, 0, phoneTwistP) : 0;
+    const phoneSnapRotY = phoneSnapOvershoot * 7.5;
+    const phoneSnapRotZ = phoneSnapOvershoot * -1.8;
 
-    // 14. Mũi tên hồng uốn cong chỉ sang điện thoại
+    // Nhịp bung Radial Ripple cho các thẻ bên trong Smartphone ngay trong pha vẩy Kanada Snap (F624 - F658)
+    const phoneCard1Spring = spring({
+        frame: rawFrame - 624,
+        fps,
+        config: { damping: 12, stiffness: 140 },
+    });
+    const phoneCard2Spring = spring({
+        frame: rawFrame - 631,
+        fps,
+        config: { damping: 12, stiffness: 140 },
+    });
+    const phoneCtaEntranceSpring = spring({
+        frame: rawFrame - 638,
+        fps,
+        config: { damping: 11, stiffness: 150 },
+    });
+
+    // 14. Mũi tên hồng uốn cong chỉ sang điện thoại (bung nảy ngay sau khi điện thoại khóa nét)
     const arrowSpring = spring({
-        frame: frame - 665,
+        frame: rawFrame - 652,
         fps,
-        config: { damping: 14, stiffness: 85 },
+        config: { damping: 11, stiffness: 135 },
     });
     const arrowScale = interpolate(arrowSpring, [0, 1], [0, 1.0]);
     const arrowOpacity = interpolate(arrowSpring, [0, 0.2, 1], [0, 1, 1]);
 
-    // 15. Hiệu ứng nhịp đập & Click cho nút CTA "CHỌN GÓI" (định kỳ mỗi 120 frames sau F750)
-    const ctaCycle = Math.max(0, frame - 750) % 120;
-    const isCtaPulsing = frame >= 750 && ctaCycle >= 50 && ctaCycle <= 85;
-    const ctaBump = isCtaPulsing ? Math.sin(((ctaCycle - 50) / 35) * Math.PI) * 0.05 : 0;
-    const ctaGlow = isCtaPulsing ? Math.sin(((ctaCycle - 50) / 35) * Math.PI) * 18 : 0;
+    // 15. Hiệu ứng nhịp đập & Click cho nút CTA "CHỌN GÓI" (định kỳ mỗi 120 frames sau F720)
+    const ctaCycle = Math.max(0, rawFrame - 720) % 120;
+    const isCtaPulsing = rawFrame >= 720 && ctaCycle >= 30 && ctaCycle <= 68;
+    const ctaPulseP = isCtaPulsing ? (ctaCycle - 30) / 38 : 0;
+    const ctaBump = isCtaPulsing ? Math.sin(ctaPulseP * Math.PI) * 0.065 : 0;
+    const ctaGlow = isCtaPulsing ? Math.sin(ctaPulseP * Math.PI) * 24 : 0;
 
     return (
         <div
@@ -2267,20 +2713,23 @@ export const Scene3_TravelAdventure: React.FC = () => {
                 position: 'relative',
                 width,
                 height,
-                backgroundColor: colors.bgLight,
+                background:
+                    rawFrame < 508
+                        ? 'linear-gradient(180deg, #BAE6FD 0%, #E0F2FE 55%, #FDE68A 100%)'
+                        : colors.bgLight,
                 overflow: 'hidden',
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
-                perspective: 2000,
+                perspective: 1850 * s,
                 transformStyle: 'preserve-3d',
             }}
         >
-            {/* KHUNG DIORAMA 2.5D CÓ CÚ MÁY TILT-GLIDE & DEPTH-LAYER-MOVES */}
+            {/* KHUNG DIORAMA 3D VỚI MA TRẬN CAMERA 5 HỒI (TILT-REVEAL / CRASH-ZOOM / BULLET-TIME ORBIT / SLAM / PORTAL) */}
             <div
                 style={{
                     position: 'absolute',
                     inset: 0,
-                    transform: `scale(${finalCamScale}) translate(${finalCamX}px, ${finalCamY}px)`,
-                    transformOrigin: '50% 55%',
+                    transform: `translate3d(${finalCamX}px, ${finalCamY}px, 0px) scale(${finalCamScale}) rotateX(${finalCamRotX}deg) rotateY(${finalCamRotY}deg) rotateZ(${finalCamRotZ}deg)`,
+                    transformOrigin: rawFrame < 65 ? '50% 82%' : '50% 55%',
                     transformStyle: 'preserve-3d',
                 }}
             >
@@ -2297,6 +2746,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: STAGING_SHOT_3_1.bg.zIndex,
                             pointerEvents: 'none',
                             opacity: oldDioramaFade,
+                            transform: `translate3d(0px, ${implodeY * 0.4}px, ${z3d(-150)}px) scale(${(1 + 0.42 * cam3DActiveEnv) * scMix(1, 0.72, implode31P)}) rotateZ(${implodeRotZ * 0.35}deg)`,
+                            transformOrigin: '50% 55%',
                         }}
                     />
                 )}
@@ -2311,7 +2762,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                         zIndex: STAGING_SHOT_3_4.sun.zIndex,
                         pointerEvents: 'none',
                         opacity: sunEntrance,
-                        transform: `translate(${sunTransX}px, ${sunTransY}px) scale(${sunScale * sunScaleTrans})`,
+                        transform: `translate3d(${sunTransX + pushRightX * 0.45}px, ${sunTransY}px, ${z3d(-95)}px) scale(${sunScale * sunScaleTrans})`,
                         transformOrigin: 'center center',
                     }}
                 >
@@ -2362,7 +2813,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             />
                         </div>
 
-                        {/* 😃 TRUNG TÂM: KHUÔN MẶT CỐ ĐỊNH (HOÀN TOÀN KHÔNG XOAY THEO CÁC VÒNG NGOÀI) */}
+                        {/* 😃 TRUNG TÂM: KHUÔN MẶT CỐ ĐỊNH (KÈM NHỊP JUMP-CUT PUNCH-IN KHI VÀO BULLET-TIME) */}
                         {smirkOpacity > 0 && (
                             <div
                                 style={{
@@ -2370,6 +2821,14 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                     inset: 0,
                                     opacity: smirkOpacity,
                                     pointerEvents: 'none',
+                                    transform: `scale(${
+                                        rawFrame >= 372 && rawFrame < 382
+                                            ? 1.18
+                                            : rawFrame >= 382 && rawFrame < 398
+                                              ? 1.34
+                                              : 1.0
+                                    })`,
+                                    transformOrigin: '35% 75%',
                                 }}
                             >
                                 <Img
@@ -2398,7 +2857,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                         height: 'auto',
                         zIndex: STAGING_SHOT_3_4.cloud1.zIndex,
                         pointerEvents: 'none',
-                        transform: `translate(${cloud1TransX}px, ${cloud1TransY}px)`,
+                        transform: `translate3d(${cloud1TransX + pushLeftX * 0.4}px, ${cloud1TransY}px, ${z3d(-70)}px)`,
                     }}
                 />
 
@@ -2413,7 +2872,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                         height: 'auto',
                         zIndex: STAGING_SHOT_3_4.cloud2.zIndex,
                         pointerEvents: 'none',
-                        transform: `translate(${cloud2TransX}px, ${cloud2TransY}px)`,
+                        transform: `translate3d(${cloud2TransX + pushLeftX * 0.25}px, ${cloud2TransY}px, ${z3d(-55)}px)`,
                     }}
                 />
 
@@ -2428,7 +2887,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
                         height: 'auto',
                         zIndex: STAGING_SHOT_3_4.cloud3.zIndex,
                         pointerEvents: 'none',
-                        transform: `translate(${cloud3TransX}px, ${cloud3TransY}px)`,
+                        transform: `translate3d(${cloud3TransX + pushRightX * 0.4}px, ${cloud3TransY}px, ${z3d(-60)}px)`,
+                        translate: '305.7px -82px'
                     }}
                 />
 
@@ -2444,7 +2904,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             height: 'auto',
                             zIndex: STAGING_SHOT_3_1.airplane.zIndex,
                             pointerEvents: 'none',
-                            transform: `translateY(${planeFloat}px) rotate(${planeRotate}deg)`,
+                            transform: `translate3d(0px, ${planeFloat}px, ${z3d(140)}px) rotate(${planeRotate}deg)`,
                             transformOrigin: 'center center',
                             filter: 'drop-shadow(0 15px 25px rgba(0, 0, 0, 0.12))',
                         }}
@@ -2467,7 +2927,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: 22,
                             pointerEvents: 'none',
                             opacity: quirkyPlaneOpacity,
-                            transform: `translate(${quirkyPlaneX}px, ${quirkyPlaneY}px) scale(${quirkyPlaneScaleX * quirkyPlaneScale}, ${quirkyPlaneScale}) rotate(${quirkyPlaneRotate}deg)`,
+                            transform: `translate3d(${quirkyPlaneX}px, ${quirkyPlaneY}px, ${z3d(110)}px) scale(${quirkyPlaneScaleX * quirkyPlaneScale}, ${quirkyPlaneScale}) rotate(${quirkyPlaneRotate}deg)`,
                             transformOrigin: 'center center',
                             filter: `drop-shadow(${quirkyPlaneShadow})`,
                             translate: '-245.5px -224.8px',
@@ -2488,11 +2948,91 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: 27, // Nằm trên cả cặp đôi (zIndex 25) để lốc xoáy thổi trực diện vào vali
                             pointerEvents: 'none',
                             opacity: vortexOpacity,
-                            transform: `scale(${vortexScale}) rotate(${vortexRotate}deg)`,
+                            transform: `translate3d(0px, 0px, ${z3d(135)}px) scale(${vortexScale}) rotate(${vortexRotate}deg)`,
                             transformOrigin: 'center center',
                             filter: 'drop-shadow(0 12px 20px rgba(15, 23, 42, 0.22))',
                         }}
                     />
+                )}
+
+                {/* 💥 6.65. SÓNG XUNG KÍCH NỔ VALI + VÒNG QUỸ ĐẠO BULLET-TIME FREEZE (CrashImpactReal + BulletTimeFreezeOrbit) */}
+                {rawFrame >= 359 && rawFrame <= 434 && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            left: '43.5%',
+                            top: '64.0%',
+                            width: 0,
+                            height: 0,
+                            zIndex: 29,
+                            pointerEvents: 'none',
+                            transform: `translate3d(0px, 0px, ${z3d(155)}px)`,
+                            transformStyle: 'preserve-3d',
+                        }}
+                    >
+                        {/* 2 Vòng sóng xung kích nổ bung ngay khi lốc xoáy chạm vali (F360 - F380) */}
+                        {rawFrame >= 360 &&
+                            rawFrame <= 380 &&
+                            [0, 3].map((delay, k) => {
+                                const p = scRamp(rawFrame, 360 + delay, 16, SC_EASE.snappy);
+                                const rad = scMix(60 * s, (k === 0 ? 780 : 540) * s, p);
+                                const op = (1 - p) * (k === 0 ? 0.9 : 0.65) * (rawFrame >= 360 + delay ? 1 : 0);
+                                return (
+                                    <div
+                                        key={`crash_ring_${k}`}
+                                        style={{
+                                            position: 'absolute',
+                                            left: -rad,
+                                            top: -rad * 0.55,
+                                            width: rad * 2,
+                                            height: rad * 1.1,
+                                            borderRadius: '50%',
+                                            border: `${(k === 0 ? 5 : 3) * s}px solid ${k === 0 ? '#38BDF8' : '#FBBF24'}`,
+                                            boxShadow: `0 0 ${28 * s}px ${k === 0 ? 'rgba(56, 189, 248, 0.75)' : 'rgba(251, 191, 36, 0.65)'}`,
+                                            opacity: op,
+                                        }}
+                                    />
+                                );
+                            })}
+
+                        {/* Vòng Halo 3D Bullet-Time & Tia Scanline quét qua đồ đạc đang đóng băng trên không (F382 - F428) */}
+                        {rawFrame >= 382 && rawFrame <= 428 && (() => {
+                            const btEnv =
+                                scRamp(rawFrame, 382, 8, SC_EASE.snappy) *
+                                (1 - scRamp(rawFrame, 418, 10, SC_EASE.smooth));
+                            const scanY = scMix(-360 * s, 160 * s, scRamp(rawFrame, 384, 34, SC_EASE.smooth));
+                            return (
+                                <>
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            left: -420 * s,
+                                            top: -210 * s,
+                                            width: 840 * s,
+                                            height: 420 * s,
+                                            borderRadius: '50%',
+                                            border: `${2.5 * s}px dashed rgba(56, 189, 248, ${(0.65 * btEnv).toFixed(3)})`,
+                                            boxShadow: `0 0 ${32 * s}px rgba(56, 189, 248, ${(0.35 * btEnv).toFixed(3)})`,
+                                            transform: `rotateX(68deg) rotateZ(${(rawFrame - 382) * 2.8}deg)`,
+                                        }}
+                                    />
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            left: -460 * s,
+                                            top: scanY,
+                                            width: 920 * s,
+                                            height: 3 * s,
+                                            background:
+                                                'linear-gradient(90deg, rgba(56,189,248,0) 0%, rgba(56,189,248,0.92) 50%, rgba(56,189,248,0) 100%)',
+                                            boxShadow: `0 0 ${18 * s}px rgba(56, 189, 248, 0.85)`,
+                                            opacity: btEnv,
+                                        }}
+                                    />
+                                </>
+                            );
+                        })()}
+                    </div>
                 )}
 
                 {/* 🌪️ 6.7. CƠN GIÓ "BỈ ỔI" LƯỚT QUANH FULL MÀN HÌNH (100% DYNAMIC VECTOR SVG STREAMERS) */}
@@ -2511,7 +3051,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: STAGING_SHOT_3_1.leftPodiumHills.zIndex,
                             pointerEvents: 'none',
                             opacity: leftPodiumSpring * oldDioramaFade,
-                            transform: `translate(${BASE_OFFSETS.leftPodiumHills.x + leftPodiumOffsetX}px, ${BASE_OFFSETS.leftPodiumHills.y}px)`,
+                            transform: `translate3d(${BASE_OFFSETS.leftPodiumHills.x + leftPodiumOffsetX + implode31P * 260 * s}px, ${BASE_OFFSETS.leftPodiumHills.y + implodeY}px, ${z3d(-40)}px) scale(${implodeScale}) rotateZ(${implodeRotZ}deg)`,
                             filter: 'drop-shadow(0 12px 18px rgba(15, 23, 42, 0.12))',
                         }}
                     />
@@ -2530,7 +3070,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: STAGING_SHOT_3_1.greenPalm.zIndex,
                             pointerEvents: 'none',
                             opacity: greenPalmSpring * oldDioramaFade,
-                            transform: `translate(${BASE_OFFSETS.greenPalm.x}px, ${BASE_OFFSETS.greenPalm.y}px) scale(${greenPalmScale}) rotate(${greenPalmSway}deg)`,
+                            transform: `translate3d(${BASE_OFFSETS.greenPalm.x + implode31P * 220 * s}px, ${BASE_OFFSETS.greenPalm.y + implodeY}px, ${z3d(-25)}px) scale(${greenPalmScale * implodeScale}) rotate(${greenPalmSway + implodeRotZ}deg)`,
                             transformOrigin: '25% 95%',
                             filter: 'drop-shadow(0 14px 22px rgba(15, 23, 42, 0.14))',
                         }}
@@ -2550,7 +3090,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: STAGING_SHOT_3_1.pinkPalm.zIndex,
                             pointerEvents: 'none',
                             opacity: pinkPalmSpring * oldDioramaFade,
-                            transform: `scale(${pinkPalmScale}) rotate(${pinkPalmSway}deg)`,
+                            transform: `translate3d(${-implode31P * 220 * s}px, ${implodeY}px, ${z3d(-30)}px) scale(${pinkPalmScale * implodeScale}) rotate(${pinkPalmSway - implodeRotZ}deg)`,
                             transformOrigin: '80% 95%',
                             filter: 'drop-shadow(0 12px 18px rgba(15, 23, 42, 0.12))',
                         }}
@@ -2570,7 +3110,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: STAGING_SHOT_3_1.rightPodiumStairs.zIndex,
                             pointerEvents: 'none',
                             opacity: rightPodiumSpring * oldDioramaFade,
-                            transform: `translateX(${rightPodiumOffsetX}px)`,
+                            transform: `translate3d(${rightPodiumOffsetX - implode31P * 260 * s}px, ${implodeY}px, ${z3d(-20)}px) scale(${implodeScale}) rotateZ(${-implodeRotZ}deg)`,
                             filter: 'drop-shadow(0 14px 20px rgba(15, 23, 42, 0.13))',
                         }}
                     />
@@ -2589,7 +3129,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: STAGING_SHOT_3_1.pinkArcBird.zIndex,
                             pointerEvents: 'none',
                             opacity: pinkArcSpring * oldDioramaFade,
-                            transform: `translate(${BASE_OFFSETS.pinkArcBird.x}px, ${BASE_OFFSETS.pinkArcBird.y}px) scale(${pinkArcSpring})`,
+                            transform: `translate3d(${BASE_OFFSETS.pinkArcBird.x - implode31P * 200 * s}px, ${BASE_OFFSETS.pinkArcBird.y + implodeY}px, ${z3d(-15)}px) scale(${pinkArcSpring * implodeScale})`,
                             filter: 'drop-shadow(0 8px 14px rgba(15, 23, 42, 0.14))',
                         }}
                     />
@@ -2608,7 +3148,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: STAGING_SHOT_3_1.bluePodiumCarpet.zIndex,
                             pointerEvents: 'none',
                             opacity: carpetSpring * oldDioramaFade,
-                            transform: `translate(${BASE_OFFSETS.bluePodiumCarpet.x}px, ${BASE_OFFSETS.bluePodiumCarpet.y}px) scale(${carpetScale})`,
+                            transform: `translate3d(${BASE_OFFSETS.bluePodiumCarpet.x}px, ${BASE_OFFSETS.bluePodiumCarpet.y + implodeY * 0.5}px, ${z3d(20)}px) scale(${carpetScale * implodeScale}) rotateZ(${implodeRotZ}deg)`,
                             transformOrigin: 'center center',
                             filter: 'drop-shadow(0 3px 3px rgba(15, 23, 42, 0.40)) drop-shadow(0 6px 12px rgba(15, 23, 42, 0.22))',
                         }}
@@ -2628,7 +3168,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: STAGING_SHOT_3_1.leftDune.zIndex,
                             pointerEvents: 'none',
                             opacity: leftDuneSpring * oldDioramaFade,
-                            transform: `translate(${BASE_OFFSETS.leftDune.x}px, ${BASE_OFFSETS.leftDune.y + leftDuneRise}px)`,
+                            transform: `translate3d(${BASE_OFFSETS.leftDune.x + implode31P * 180 * s}px, ${BASE_OFFSETS.leftDune.y + leftDuneRise}px, ${z3d(95)}px) scale(${implodeScale})`,
                             filter: 'drop-shadow(0 14px 22px rgba(15, 23, 42, 0.12))',
                         }}
                     />
@@ -2647,7 +3187,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: STAGING_SHOT_3_1.rightDune.zIndex,
                             pointerEvents: 'none',
                             opacity: rightDuneSpring * oldDioramaFade,
-                            transform: `translate(${BASE_OFFSETS.rightDune.x}px, ${BASE_OFFSETS.rightDune.y + rightDuneRise}px)`,
+                            transform: `translate3d(${BASE_OFFSETS.rightDune.x - implode31P * 180 * s}px, ${BASE_OFFSETS.rightDune.y + rightDuneRise}px, ${z3d(95)}px) scale(${implodeScale})`,
                             filter: 'drop-shadow(0 14px 22px rgba(15, 23, 42, 0.12))',
                         }}
                     />
@@ -2665,7 +3205,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: 24, // Nằm ngay dưới couple (zIndex 25) và trên mặt thảm (zIndex 15)
                             pointerEvents: 'none',
                             opacity: coupleEntrance * shockedCoupleFade,
-                            transform: `translate(${BASE_OFFSETS.couple.x + coupleOffsetX}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + glideFloat + idleBreathing}px) scale(${coupleScale}) rotate(${subtleSway}deg)`,
+                            transform: `translate3d(${BASE_OFFSETS.couple.x + coupleOffsetX}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + glideFloat + idleBreathing}px, ${z3d(55)}px) scale(${coupleScale * implodeScale}) rotate(${subtleSway}deg)`,
                             transformOrigin: 'center bottom',
                         }}
                     >
@@ -2713,7 +3253,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: 24,
                             pointerEvents: 'none',
                             opacity: coupleEntrance * shockedCoupleFade,
-                            transform: `translate(${BASE_OFFSETS.couple.x + coupleOffsetX + shockShiver}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + shockJumpY + shockBreath}px) scale(${coupleScale})`,
+                            transform: `translate3d(${BASE_OFFSETS.couple.x + coupleOffsetX + shockShiver}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + shockJumpY + shockBreath}px, ${z3d(55)}px) scale(${coupleScale * implodeScale})`,
                             transformOrigin: 'center bottom',
                         }}
                     >
@@ -2792,9 +3332,10 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             pointerEvents: 'none',
                             opacity: coupleEntrance * shockedCoupleFade,
                             transform: !isShocked
-                                ? `translate(${BASE_OFFSETS.couple.x + coupleOffsetX}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + glideFloat + idleBreathing}px) scale(${coupleScale}) rotate(${subtleSway}deg)`
-                                : `translate(${BASE_OFFSETS.couple.x + coupleOffsetX + shockShiver}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + shockJumpY + shockBreath}px) scale(${coupleScale})`,
+                                ? `translate3d(${BASE_OFFSETS.couple.x + coupleOffsetX}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + glideFloat + idleBreathing}px, ${z3d(60)}px) scale(${coupleScale * implodeScale}) rotate(${subtleSway}deg)`
+                                : `translate3d(${BASE_OFFSETS.couple.x + coupleOffsetX + shockShiver}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + shockJumpY + shockBreath}px, ${z3d(60)}px) scale(${coupleScale * implodeScale}) rotateZ(${implodeRotZ}deg)`,
                             transformOrigin: 'center bottom',
+                            transformStyle: 'preserve-3d',
                             filter: 'drop-shadow(0 4px 6px rgba(15, 23, 42, 0.45)) drop-shadow(-4px 16px 24px rgba(15, 23, 42, 0.30)) drop-shadow(-8px 32px 48px rgba(15, 23, 42, 0.22))',
                             translate: '83.5px -16.5px',
                         }}
@@ -2817,7 +3358,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                     left: '39.92%',
                                     top: '17.20%',
                                     width: '19.15%',
-                                    transform: `translate(-50%, -50%) translateY(${hatFlyY}px) rotate(${hatFlyTilt}deg) scale(${hatFlyScale})`,
+                                    transform: `translate(-50%, -50%) translate3d(0px, ${hatFlyY}px, ${z3d(125)}px) rotate(${hatFlyTilt}deg) scale(${hatFlyScale})`,
                                     transformOrigin: 'center center',
                                     filter: 'drop-shadow(0 10px 20px rgba(15, 23, 42, 0.35))',
                                     opacity: hatFlyOpacity,
@@ -2844,7 +3385,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                     left: '60.42%',
                                     top: '13.25%',
                                     width: '17.92%',
-                                    transform: `translate(-50%, -50%) translateY(${guyHatFlyY}px) rotate(${guyHatFlyTilt}deg) scale(${guyHatFlyScale})`,
+                                    transform: `translate(-50%, -50%) translate3d(0px, ${guyHatFlyY}px, ${z3d(145)}px) rotate(${guyHatFlyTilt}deg) scale(${guyHatFlyScale})`,
                                     transformOrigin: 'center center',
                                     filter: 'drop-shadow(0 10px 20px rgba(15, 23, 42, 0.35))',
                                     opacity: guyHatFlyOpacity,
@@ -2876,7 +3417,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             aspectRatio: '2400 / 1340',
                             zIndex: 26, // Nằm trên couple (zIndex 25)
                             pointerEvents: 'none',
-                            transform: `translate(${BASE_OFFSETS.couple.x + coupleOffsetX + shockShiver}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + shockJumpY + shockBreath}px) scale(${coupleScale})`,
+                            transform: `translate3d(${BASE_OFFSETS.couple.x + coupleOffsetX + shockShiver}px, ${BASE_OFFSETS.couple.y + coupleOffsetY + shockJumpY + shockBreath}px, ${z3d(135)}px) scale(${coupleScale})`,
                             transformOrigin: 'center bottom',
                             transformStyle: 'preserve-3d',
                             translate: '83.5px -16.5px',
@@ -3106,7 +3647,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: STAGING_SHOT_3_1.beachChair.zIndex,
                             pointerEvents: 'none',
                             opacity: chairSpring * oldDioramaFade,
-                            transform: `translate(${BASE_OFFSETS.beachChair.x}px, ${BASE_OFFSETS.beachChair.y + chairDrop}px)`,
+                            transform: `translate3d(${BASE_OFFSETS.beachChair.x - implode31P * 140 * s}px, ${BASE_OFFSETS.beachChair.y + chairDrop + implodeY * 0.5}px, ${z3d(85)}px) scale(${implodeScale}) rotateZ(${-implodeRotZ}deg)`,
                             filter: 'drop-shadow(-3px 5px 7px rgba(15, 23, 42, 0.45)) drop-shadow(-6px 18px 25px rgba(15, 23, 42, 0.28))',
                             translate: '44.7px 15.9px',
                         }}
@@ -3125,7 +3666,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: isDuckSwirled && frame < 416 ? 31 : STAGING_SHOT_3_1.rubberDuck.zIndex,
                             pointerEvents: 'none',
                             opacity: duckSpring * oldDioramaFade,
-                            transform: `translate3d(${BASE_OFFSETS.rubberDuck.x + duckFlightX}px, ${BASE_OFFSETS.rubberDuck.y + duckDrop + duckFlightY + duckAlignOffsetY}px, ${duckFlightZ}px) rotate(${duckRotation}deg)`,
+                            transform: `translate3d(${BASE_OFFSETS.rubberDuck.x + duckFlightX}px, ${BASE_OFFSETS.rubberDuck.y + duckDrop + duckFlightY + duckAlignOffsetY}px, ${duckFlightZ + z3d(115)}px) scale(${implodeScale}) rotate(${duckRotation}deg)`,
                             transformOrigin: 'center center',
                         }}
                     >
@@ -3211,7 +3752,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             pointerEvents: 'none',
                             filter: 'drop-shadow(0 12px 25px rgba(15, 23, 42, 0.08))',
                             translate: '-469.9px -230.3px',
-                            transform: `translateX(${islandSlideX}px)`,
+                            transform: `translate3d(${islandSlideX}px, 0px, ${z3d(-55)}px) rotate(${pushLeftRot * 0.55}deg)`,
+                            transformOrigin: '50% 80%',
                             opacity: islandOpacity,
                         }}
                     />
@@ -3231,34 +3773,111 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             pointerEvents: 'none',
                             filter: 'drop-shadow(0 8px 20px rgba(14, 165, 233, 0.12))',
                             translate: '-385.2px -551px',
-                            transform: `translateY(${seaWaterRiseY + seaWaterWave}px)`,
+                            transform: `translate3d(0px, ${seaWaterRiseY + seaWaterWave}px, ${z3d(-80)}px)`,
                             opacity: seaWaterOpacity,
                         }}
                     />
                 )}
 
-                {/* 💫 20. SÓNG XUNG KÍCH HÀO QUANG HỒNG (PULSE GLOW WAVE) KHI KHIÊN TIẾP ĐẤT */}
-                {isShieldPulseActive && (
+                {/* 💫 20. HỆ THỐNG NỔ SÓNG XUNG KÍCH & 18 MẢNH ĐA GIÁC "IMPACT-BURST-KIT" KHI KHIÊN ĐẬP SẬP (F504 - F555) */}
+                {rawFrame >= 504 && rawFrame <= 555 && (
                     <div
                         style={{
                             position: 'absolute',
                             left: '46.6%',
-                            top: '68.5%',
-                            width: '32%',
-                            height: '9%',
-                            borderRadius: '50%',
-                            border: `${4 * s}px solid #E11D48`,
-                            boxShadow: `0 0 ${25 * s}px #E11D48, inset 0 0 ${15 * s}px #E11D48`,
-                            transform: `translate(-50%, -50%) scale(${pulseScale})`,
-                            opacity: pulseOpacity,
-                            zIndex: 9,
+                            top: '58.5%',
+                            width: 0,
+                            height: 0,
+                            zIndex: 14,
                             pointerEvents: 'none',
-                            filter: `blur(${2 * s}px)`,
+                            transform: `translate3d(0px, 0px, ${z3d(72)}px)`,
                         }}
-                    />
+                    >
+                        {/* Nhịp chớp nhân trắng-hồng thu hút ánh nhìn ngay điểm giao thoa (F504 - F514, CardFlockTumble.tsx) */}
+                        {rawFrame >= 504 && rawFrame <= 515 && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    left: -650 * s,
+                                    top: -650 * s,
+                                    width: 1300 * s,
+                                    height: 1300 * s,
+                                    borderRadius: '50%',
+                                    background:
+                                        'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(237,3,124,0.75) 32%, rgba(237,3,124,0) 70%)',
+                                    transform: `scale(${scMix(0.3, 1.45, scRamp(rawFrame, 504, 11, SC_EASE.snappy))})`,
+                                    opacity:
+                                        rawFrame < 511
+                                            ? scRamp(rawFrame, 504, 6)
+                                            : 1 - scRamp(rawFrame, 511, 4),
+                                    mixBlendMode: 'screen',
+                                }}
+                            />
+                        )}
+
+                        {/* 2 Vòng sóng xung kích đồng tâm (Dual Shockwave Rings - ImpactBurstKit.tsx) */}
+                        {isShieldPulseActive &&
+                            [0, 4].map((d, k) => {
+                                const p = scRamp(rawFrame, HIT_34 + d, 32, SC_EASE.snappy);
+                                const radW = scMix(120 * s, (k === 0 ? 1480 : 1080) * s, p);
+                                const radH = radW * 0.32;
+                                const op = (1 - p) * (k === 0 ? 0.92 : 0.65) * (rawFrame >= HIT_34 + d ? 1 : 0);
+                                return (
+                                    <div
+                                        key={`shield_ring_${k}`}
+                                        style={{
+                                            position: 'absolute',
+                                            left: -radW / 2,
+                                            top: -radH / 2,
+                                            width: radW,
+                                            height: radH,
+                                            borderRadius: '50%',
+                                            border: `${(k === 0 ? 5 : 3) * s}px solid ${k === 0 ? '#E11D48' : '#FBBF24'}`,
+                                            boxShadow: `0 0 ${28 * s}px ${k === 0 ? '#E11D48' : '#FBBF24'}, inset 0 0 ${16 * s}px ${k === 0 ? '#E11D48' : '#FBBF24'}`,
+                                            opacity: op,
+                                            filter: `blur(${1.5 * s}px)`,
+                                        }}
+                                    />
+                                );
+                            })}
+
+                        {/* 18 Mảnh đa giác năng lượng bắn tỏa tròn từ tâm cú đập (Polygon Shards - ImpactBurstKit.tsx) */}
+                        {rawFrame >= HIT_34 && rawFrame <= HIT_34 + 28 && (
+                            <svg
+                                width={1600 * s}
+                                height={1200 * s}
+                                style={{
+                                    position: 'absolute',
+                                    left: -800 * s,
+                                    top: -680 * s,
+                                    overflow: 'visible',
+                                }}
+                            >
+                                {IMPACT_SHARDS_34.map((sh, idx) => {
+                                    const p = scRamp(rawFrame, HIT_34 + (idx % 3), 22, SC_EASE.snappy);
+                                    const r = scMix(sh.r0 * s, sh.r1 * s, p);
+                                    const len = sh.len * s * (1 - p * 0.65);
+                                    const w = sh.w * s * (1 - p * 0.45);
+                                    const cx = 800 * s + Math.cos(sh.a) * r;
+                                    const cy = 620 * s + Math.sin(sh.a) * r * 0.68;
+                                    const deg = (sh.a * 180) / Math.PI;
+                                    const op = (1 - p) * (rawFrame >= HIT_34 + (idx % 3) ? 0.92 : 0);
+                                    return (
+                                        <polygon
+                                            key={`shard_${idx}`}
+                                            points={`${-len * 0.5},0 0,${-w * 0.5} ${len * 0.5},0 0,${w * 0.5}`}
+                                            transform={`translate(${cx.toFixed(1)} ${cy.toFixed(1)}) rotate(${deg.toFixed(1)})`}
+                                            fill={sh.isGold ? '#FBBF24' : '#E11D48'}
+                                            opacity={op}
+                                        />
+                                    );
+                                })}
+                            </svg>
+                        )}
+                    </div>
                 )}
 
-                {/* 🛡️ 21. KHUNG KHIÊN HỒNG NEON TRUNG TÂM */}
+                {/* 🛡️ 21. KHUNG KHIÊN HỒNG NEON TRUNG TÂM (ĐẬP SẬP IMPACT-BURST-KIT TỪ SÁT ỐNG KÍNH) */}
                 {shieldOpacity > 0.001 && (
                     <Img
                         src={staticFile(STAGING_SHOT_3_4.centralArch.src)}
@@ -3270,9 +3889,10 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             height: 'auto',
                             zIndex: STAGING_SHOT_3_4.centralArch.zIndex,
                             pointerEvents: 'none',
-                            filter: 'drop-shadow(0 18px 45px rgba(225, 29, 72, 0.18)) drop-shadow(0 8px 20px rgba(15, 23, 42, 0.10))',
+                            filter: `${shieldDofBlur > 0.2 ? `blur(${shieldDofBlur.toFixed(1)}px) ` : ''}drop-shadow(0 18px 45px rgba(225, 29, 72, 0.18)) drop-shadow(0 8px 20px rgba(15, 23, 42, 0.10))`,
                             translate: '55.9px -6.1px',
-                            transform: `translateY(${shieldDropY}px)`,
+                            transform: `translate3d(0px, ${shieldDropY}px, ${z3d(65)}px) scale(${shieldSlamScaleX}, ${shieldSlamScaleY})`,
+                            transformOrigin: '50% 88%',
                             opacity: shieldOpacity,
                         }}
                     />
@@ -3290,7 +3910,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             flexDirection: 'column',
                             gap: 4 * s,
                             pointerEvents: 'none',
-                            transform: `translateY(${archTextY}px)`,
+                            transform: `translate3d(0px, ${archTextY}px, ${z3d(55)}px)`,
                             opacity: archTextOpacity,
                         }}
                     >
@@ -3333,7 +3953,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             pointerEvents: 'none',
                             filter: 'drop-shadow(0 14px 30px rgba(225, 29, 72, 0.28))',
                             translate: '43.6px -1px',
-                            transform: `scale(${badgeScale})`,
+                            transform: `translate3d(${pushRightX * 0.55}px, 0px, ${z3d(95)}px) scale(${badgeScale}) rotate(${pushRightRot * 0.85}deg)`,
                             transformOrigin: 'center center',
                             opacity: badgeOpacity,
                         }}
@@ -3351,7 +3971,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: 8, // Nằm trên nước biển (6), đảo dừa (7) và dưới khung khiên (10)
                             pointerEvents: 'none',
                             translate: '-27.3px -248.6px',
-                            transform: `scale(${sandRugScale})`,
+                            transform: `translate3d(0px, 0px, ${z3d(20)}px) scale(${sandRugScale})`,
                             transformOrigin: '50% 50%',
                             opacity: sandRugOpacity,
                         }}
@@ -3455,14 +4075,14 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             pointerEvents: 'none',
                             filter: 'drop-shadow(0 4px 10px rgba(15, 23, 42, 0.14)) drop-shadow(0 10px 22px rgba(14, 165, 233, 0.22))',
                             translate: '154.6px -94.1px',
-                            transform: `scale(${duckPuddleScale})`,
+                            transform: `translate3d(${pushRightX * 0.85}px, 0px, ${z3d(65)}px) scale(${duckPuddleScale})`,
                             transformOrigin: 'center center',
                             opacity: duckPuddleOpacity,
                         }}
                     />
                 )}
 
-                {/* 🪑 26. GHẾ NGHỈ BÃI BIỂN SỌC HỒNG TRẮNG (BÓNG CHÂN TIẾP ĐẤT & BÓNG GẦM GHẾ) */}
+                {/* 🪑 26. GHẾ NGHỈ BÃI BIỂN SỌC HỒNG TRẮNG (BÓNG CHÂN TIẾP ĐẤT & BÓNG GẦM GHẾ + WAVEFRONT PUSH) */}
                 {pinkChairOpacity > 0.001 && (
                     <div
                         style={{
@@ -3474,7 +4094,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             pointerEvents: 'none',
                             translate: '-46.2px -189.1px',
                             scale: 1.022,
-                            transform: `translateY(${pinkChairDropY}px)`,
+                            transform: `translate3d(${pushLeftX}px, ${pinkChairDropY}px, ${z3d(90)}px) rotate(${pushLeftRot}deg)`,
+                            transformOrigin: '50% 85%',
                             opacity: pinkChairOpacity,
                         }}
                     >
@@ -3505,7 +4126,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                     </div>
                 )}
 
-                {/* 🐥 27. CHÚ VỊT VÀNG PHAO BƠI SỌC HỒNG TRẮNG (BÓNG TIẾP XÚC MẶT NƯỚC) */}
+                {/* 🐥 27. CHÚ VỊT VÀNG PHAO BƠI SỌC HỒNG TRẮNG (BÓNG TIẾP XÚC MẶT NƯỚC + WAVEFRONT PUSH) */}
                 {duckOpacity34 > 0.001 && (
                     <div
                         style={{
@@ -3517,7 +4138,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             pointerEvents: 'none',
                             translate: '143.9px -107.8px',
                             scale: 0.958,
-                            transform: `translateY(${duckDropY34 + duckBob34}px)`,
+                            transform: `translate3d(${pushRightX}px, ${duckDropY34 + duckBob34}px, ${z3d(105)}px) rotate(${pushRightRot * 1.15}deg)`,
+                            transformOrigin: '50% 85%',
                             opacity: duckOpacity34,
                         }}
                     >
@@ -3549,7 +4171,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                     </div>
                 )}
 
-                {/* 🧳 28. CHIẾC VALI HỒNG ĐỨNG CẠNH CHÂN BẠN NAM (BÓNG TIẾP ĐẤT BÁNH XE & ĐÁY VALI) */}
+                {/* 🧳 28. CHIẾC VALI HỒNG ĐỨNG CẠNH CHÂN BẠN NAM (BÓNG TIẾP ĐẤT BÁNH XE & ĐÁY VALI + WAVEFRONT PUSH) */}
                 {pinkSuitcaseOpacity > 0.001 && (
                     <div
                         style={{
@@ -3560,7 +4182,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: STAGING_SHOT_3_4.pinkSuitcase.zIndex,
                             pointerEvents: 'none',
                             translate: '72.6px -54.2px',
-                            transform: `translateY(${pinkSuitcaseDropY}px)`,
+                            transform: `translate3d(${pushLeftX * 0.55}px, ${pinkSuitcaseDropY}px, ${z3d(95)}px) rotate(${pushLeftRot * 0.65}deg)`,
+                            transformOrigin: '50% 88%',
                             opacity: pinkSuitcaseOpacity,
                         }}
                     >
@@ -3592,7 +4215,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                     </div>
                 )}
 
-                {/* 🙋‍♂️ 29. BẠN NAM GIƠ VÉ MÁY BAY, ĐEO MÁY ẢNH & KÍNH RÂM (BÓNG XIÊN TRỤC Z & BÓNG ÔM ĐẾ GIÀY) */}
+                {/* 🙋‍♂️ 29. BẠN NAM GIƠ VÉ MÁY BAY, ĐEO MÁY ẢNH & KÍNH RÂM (ĐẬP SẬP IMPACT-BURST-KIT + SQUASH & REBOUND) */}
                 {heroCoupleOpacity > 0.001 && (
                     <div
                         style={{
@@ -3603,7 +4226,9 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: STAGING_SHOT_3_4.boyHero.zIndex,
                             pointerEvents: 'none',
                             translate: '79.1px -39.8px',
-                            transform: `translateY(${heroCoupleDropY + heroIdleBreath}px)`,
+                            transform: `translate3d(0px, ${heroCoupleDropY + heroIdleBreath}px, ${z3d(80)}px) scale(${heroSlamScaleX}, ${heroSlamScaleY})`,
+                            transformOrigin: '50% 92%',
+                            filter: shieldDofBlur > 0.2 ? `blur(${(shieldDofBlur * 0.85).toFixed(1)}px)` : undefined,
                             opacity: heroCoupleOpacity,
                         }}
                     >
@@ -3652,7 +4277,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                     </div>
                 )}
 
-                {/* 🙋‍♀️ 30. BẠN NỮ TAY GIỮ NÓN CÓI NƠ HỒNG, TÚI XÁCH HỒNG (BÓNG TIẾP ĐẤT ĐÔI GIÀY) */}
+                {/* 🙋‍♀️ 30. BẠN NỮ TAY GIỮ NÓN CÓI NƠ HỒNG, TÚI XÁCH HỒNG (ĐẬP SẬP IMPACT-BURST-KIT + SQUASH & REBOUND) */}
                 {heroCoupleOpacity > 0.001 && (
                     <div
                         style={{
@@ -3663,7 +4288,9 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             zIndex: STAGING_SHOT_3_4.girlHero.zIndex,
                             pointerEvents: 'none',
                             translate: '90.8px -68.5px',
-                            transform: `translateY(${heroCoupleDropY + heroGirlIdleBreath}px)`,
+                            transform: `translate3d(0px, ${heroCoupleDropY + heroGirlIdleBreath}px, ${z3d(78)}px) scale(${heroSlamScaleX}, ${heroSlamScaleY})`,
+                            transformOrigin: '50% 92%',
+                            filter: shieldDofBlur > 0.2 ? `blur(${(shieldDofBlur * 0.85).toFixed(1)}px)` : undefined,
                             opacity: heroCoupleOpacity,
                         }}
                     >
@@ -3726,14 +4353,14 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             pointerEvents: 'none',
                             filter: 'drop-shadow(0 4px 12px rgba(225, 29, 72, 0.25))',
                             translate: '58.4px -136.1px',
-                            transform: `scale(${arrowScale})`,
+                            transform: `translate3d(0px, 0px, ${z3d(110)}px) scale(${arrowScale})`,
                             transformOrigin: 'left center',
                             opacity: arrowOpacity,
                         }}
                     />
                 )}
 
-                {/* ✍️ 32. TIÊU ĐỀ CHÍNH BÊN TRÁI: Sẵn sàng / cho hành trình */}
+                {/* ✍️ 32. TIÊU ĐỀ CHÍNH BÊN TRÁI: Sẵn sàng / cho hành trình (KANADA 3D SNAP) */}
                 {headingOpacity > 0.001 && (
                     <div
                         style={{
@@ -3744,7 +4371,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             gap: 6 * s,
-                            transform: `translateX(${headingX}px)`,
+                            transform: `perspective(${600 * s}px) translate3d(${headingX}px, 0px, ${z3d(115)}px) rotateY(${headingRotY}deg) rotateZ(${headingRotZ}deg) scale(${headingScale})`,
+                            transformOrigin: 'left center',
                             opacity: headingOpacity,
                         }}
                     >
@@ -3774,31 +4402,113 @@ export const Scene3_TravelAdventure: React.FC = () => {
                     </div>
                 )}
 
-                {/* 📱 33. SMARTPHONE MOCKUP ỨNG DỤNG TỐP BẢO HIỂM (BÊN PHẢI) */}
+                {/* ⚡ 32.5. HIỆU ỨNG VỆT XÉ GIÓ & 36 TIA FOCUS ANIME CHO CÚ VẨY MẮT CÁ SMARTPHONE (KanadaPerspectiveSnap.tsx, F620 - F652) */}
+                {rawFrame >= 620 && rawFrame <= 654 && (
+                    <div
+                        style={{
+                            position: 'absolute',
+                            inset: 0,
+                            zIndex: STAGING_SHOT_3_4.smartphone.zIndex - 1,
+                            pointerEvents: 'none',
+                        }}
+                    >
+                        {/* 7 Vệt tốc độ xé gió ngang (Speed Streaks: F620 - F638) */}
+                        {rawFrame <= 638 &&
+                            KANADA_STREAKS.map((st, idx) => {
+                                const u = scRamp(rawFrame, 620 + st.delay, st.dur, SC_EASE.snappy);
+                                const xPct = scMix(110, 62, u);
+                                const op = Math.sin(u * Math.PI) * 0.78;
+                                if (op <= 0.01) return null;
+                                return (
+                                    <div
+                                        key={`streak_${idx}`}
+                                        style={{
+                                            position: 'absolute',
+                                            left: `${xPct}%`,
+                                            top: `${st.y}%`,
+                                            width: `${(st.x1 - st.x0) * 0.28}%`,
+                                            height: st.h * s,
+                                            borderRadius: st.h * s,
+                                            background:
+                                                idx % 2 === 0
+                                                    ? 'linear-gradient(90deg, rgba(225,29,72,0.88), rgba(225,29,72,0))'
+                                                    : 'linear-gradient(90deg, rgba(251,191,36,0.85), rgba(251,191,36,0))',
+                                            opacity: op,
+                                        }}
+                                    />
+                                );
+                            })}
+
+                        {/* 36 Tia Focus Anime bung quanh tâm Smartphone ngay khoảnh khắc SNAP_35 = 638 (F636 - F652) */}
+                        {rawFrame >= 636 && rawFrame <= 652 && (() => {
+                            const fEnv =
+                                scRamp(rawFrame, 636, 3, SC_EASE.snappy) *
+                                (1 - scRamp(rawFrame, 640, 12, SC_EASE.smooth));
+                            const cx = width * 0.79;
+                            const cy = height * 0.54;
+                            const outer = 1100 * s;
+                            return (
+                                <svg
+                                    width={width}
+                                    height={height}
+                                    style={{ position: 'absolute', inset: 0, opacity: fEnv * 0.65 }}
+                                >
+                                    {KANADA_FOCUS_RAYS.map((ray, rIdx) => {
+                                        const rIn = ray.inner * s;
+                                        const x0 = cx + Math.cos(ray.a) * rIn;
+                                        const y0 = cy + Math.sin(ray.a) * rIn;
+                                        const x1 = cx + Math.cos(ray.a - ray.w) * outer;
+                                        const y1 = cy + Math.sin(ray.a - ray.w) * outer;
+                                        const x2 = cx + Math.cos(ray.a + ray.w) * outer;
+                                        const y2 = cy + Math.sin(ray.a + ray.w) * outer;
+                                        return (
+                                            <polygon
+                                                key={`focus_${rIdx}`}
+                                                points={`${x0.toFixed(1)},${y0.toFixed(1)} ${x1.toFixed(1)},${y1.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}`}
+                                                fill={rIdx % 3 === 0 ? '#FBBF24' : '#E11D48'}
+                                            />
+                                        );
+                                    })}
+                                </svg>
+                            );
+                        })()}
+                    </div>
+                )}
+
+                {/* 📱 33. SMARTPHONE MOCKUP ỨNG DỤNG TỐP BẢO HIỂM (KANADA PERSPECTIVE SNAP + RADIAL RIPPLE UI) */}
                 {phoneOpacity > 0.001 && (
                     <div
                         style={{
                             position: 'absolute',
-                            left: STAGING_SHOT_3_4.smartphone.left,
-                            top: STAGING_SHOT_3_4.smartphone.top,
-                            width: STAGING_SHOT_3_4.smartphone.width,
-                            aspectRatio: '1 / 1.76',
+                            inset: 0,
                             zIndex: STAGING_SHOT_3_4.smartphone.zIndex,
                             pointerEvents: 'none',
-                            backgroundColor: '#FFFFFF',
-                            borderRadius: 44 * s,
-                            border: `${10 * s}px solid #FFFFFF`,
-                            boxShadow: `0 ${30 * s}px ${70 * s}px -${15 * s}px rgba(15, 23, 42, 0.25), 0 0 0 ${1.5 * s}px rgba(226, 232, 240, 0.85)`,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            overflow: 'hidden',
-                            padding: `${24 * s}px ${20 * s}px`,
-                            boxSizing: 'border-box',
-                            gap: 16 * s,
-                            transform: `translateX(${phoneSlideX}px)`,
-                            opacity: phoneOpacity,
+                            transform: `translateZ(${(rawFrame >= 620 && rawFrame <= 655 ? 240 * s : 0) + z3d(145)}px)`,
                         }}
                     >
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: STAGING_SHOT_3_4.smartphone.left,
+                                top: STAGING_SHOT_3_4.smartphone.top,
+                                width: STAGING_SHOT_3_4.smartphone.width,
+                                aspectRatio: '1 / 1.76',
+                                pointerEvents: 'none',
+                                backgroundColor: '#FFFFFF',
+                                borderRadius: 44 * s,
+                                border: `${10 * s}px solid #FFFFFF`,
+                                boxShadow: `0 ${30 * s}px ${70 * s}px -${15 * s}px rgba(15, 23, 42, 0.25), 0 0 0 ${1.5 * s}px rgba(226, 232, 240, 0.85)`,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                overflow: 'hidden',
+                                padding: `${24 * s}px ${20 * s}px`,
+                                boxSizing: 'border-box',
+                                gap: 16 * s,
+                                transform: `perspective(${scMix(260 * s, 1800 * s, phoneMoveP)}px) translate3d(${phoneSlideX}px, ${phoneSlideY}px, 0px) rotate3d(0.45, -1, 0.12, ${phoneTwistDeg}deg) rotateY(${phoneSnapRotY}deg) rotateZ(${phoneSnapRotZ}deg) scale(${phoneKanadaScale})`,
+                                transformOrigin: '50% 50%',
+                                opacity: phoneOpacity,
+                            }}
+                        >
                         {/* Header thanh điều hướng: Logo + Menu */}
                         <div
                             style={{
@@ -3832,7 +4542,7 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* Card sản phẩm nổi bật: Bảo hiểm Du lịch */}
+                        {/* Card sản phẩm nổi bật: Bảo hiểm Du lịch (Radial Ripple Entrance) */}
                         <div
                             style={{
                                 backgroundColor: '#FFFFFF',
@@ -3842,6 +4552,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                 position: 'relative',
                                 height: '43%',
                                 overflow: 'hidden',
+                                transform: `scale(${interpolate(phoneCard1Spring, [0, 1], [0.86, 1.0])})`,
+                                opacity: interpolate(phoneCard1Spring, [0, 0.25, 1], [0, 1, 1]),
                             }}
                         >
                             {/* Minh họa gói du lịch: đóng vai trò như background bao trùm toàn bộ cụm card trên */}
@@ -3909,6 +4621,8 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                 padding: `${16 * s}px ${16 * s}px`,
                                 height: '26%',
                                 justifyContent: 'flex-start',
+                                transform: `scale(${interpolate(phoneCard2Spring, [0, 1], [0.88, 1.0])})`,
+                                opacity: interpolate(phoneCard2Spring, [0, 0.25, 1], [0, 1, 1]),
                             }}
                         >
                             {/* Thanh hồng placeholder */}
@@ -3957,9 +4671,10 @@ export const Scene3_TravelAdventure: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* Nút CTA lớn nổi bật: CHỌN GÓI (kèm hiệu ứng nhịp đập & lóa sáng click) */}
+                        {/* Nút CTA lớn nổi bật: CHỌN GÓI (kèm hiệu ứng nhịp đập & sóng Radial Ripple) */}
                         <div
                             style={{
+                                position: 'relative',
                                 marginTop: 'auto',
                                 backgroundColor: '#E11D48',
                                 borderRadius: 14 * s,
@@ -3970,17 +4685,45 @@ export const Scene3_TravelAdventure: React.FC = () => {
                                 fontWeight: 900,
                                 letterSpacing: 1.2 * s,
                                 boxShadow: `0 ${6 * s}px ${20 * s + ctaGlow}px rgba(225, 29, 72, ${0.35 + ctaBump * 2})`,
-                                transform: `scale(${1 + ctaBump})`,
-                                transition: 'box-shadow 0.15s ease',
+                                transform: `scale(${interpolate(phoneCtaEntranceSpring, [0, 1], [0.85, 1.0]) * (1 + ctaBump)})`,
+                                opacity: interpolate(phoneCtaEntranceSpring, [0, 0.25, 1], [0, 1, 1]),
                                 cursor: 'pointer',
                                 textTransform: 'uppercase',
                             }}
                         >
+                            {isCtaPulsing && (
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        inset: -6 * s,
+                                        borderRadius: 18 * s,
+                                        border: `${2.5 * s}px solid #E11D48`,
+                                        transform: `scale(${scMix(1.0, 1.38, ctaPulseP)}, ${scMix(1.0, 1.85, ctaPulseP)})`,
+                                        opacity: (1 - ctaPulseP) * 0.85,
+                                        pointerEvents: 'none',
+                                    }}
+                                />
+                            )}
                             CHỌN GÓI
                         </div>
                     </div>
+                </div>
                 )}
             </div>
+
+            {/* 🚪 LỚP ÁNH SÁNG PORTAL-WIPE KẾT NỐI MƯỢT MÀ SANG CẢNH 4 (F1182 - F1200, PortalWipeV2.tsx) */}
+            {rawFrame >= 1182 && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: `radial-gradient(circle at 75% 55%, #FFFFFF 0%, ${colors.brandPinkSoft} 45%, ${colors.bgLight} 100%)`,
+                        opacity: scRamp(rawFrame, 1182, 18, SC_EASE.smooth),
+                        zIndex: 9999,
+                        pointerEvents: 'none',
+                    }}
+                />
+            )}
         </div>
     );
 };
