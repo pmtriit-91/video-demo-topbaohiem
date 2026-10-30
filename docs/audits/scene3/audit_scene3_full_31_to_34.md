@@ -1,10 +1,11 @@
 # BẢNG AUDIT TOÀN DIỆN CẢNH 3: TRAVEL ADVENTURE (SHOT 3.1 ➔ SHOT 3.4 / 3.5)
 
 > **Dự án:** Video quảng cáo hệ sinh thái công nghệ TOPbaohiem & InsureGO CMS  
-> **Cấu hình:** Remotion 4K / 2K / 1080p @ 60 FPS · Thời lượng: 20.0s (1200 Frames)  
+> **Cấu hình:** Remotion 4K / 2K / 1080p @ 60 FPS · Thời lượng mục tiêu tối ưu: 14.0s (840 Frames = 12s nội dung + 2s kết cảnh)  
 > **File chính:** `src/components/scenes/v2/Scene3_TravelAdventure.tsx`  
-> **Branch Git:** `v2-canva` · Commit mới nhất: `57b79c0`  
-> **Design gốc Canva:** Master Design `DAHXeqlNPGA` · Cảnh 3 Subproject `DAHZE9aKYm8` · Ảnh chuẩn: `slide4_travel.png`
+> **Branch Git:** `v2-canva` · Commit mới nhất: `7364971` *(Model 4 Argon — Nâng cấp 5 Hồi `video-shotcraft`)*  
+> **Design gốc Canva:** Master Design `DAHXeqlNPGA` · Cảnh 3 Subproject `DAHZE9aKYm8` · Ảnh chuẩn: `slide4_travel.png`  
+> **📌 Tài liệu Audit Nhịp độ (12s+2s) & Kế hoạch Nối tiếp Đa nhóm Bảo hiểm mới nhất:** Xem chi tiết tại [`audit_scene3_pacing_and_category_relay_plan.md`](file:///Users/phamminhtri/Desktop/project/quancao-topbaohiem/docs/audits/scene3/audit_scene3_pacing_and_category_relay_plan.md)
 
 ---
 

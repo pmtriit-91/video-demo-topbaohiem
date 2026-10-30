@@ -7,7 +7,8 @@
 > - Bức ảnh thiết kế hoàn chỉnh gốc: `public/assets/canva_v2/slide4_travel.png`  
 > - Canva Master Storyboard: Design ID `DAHXeqlNPGA` (Trang 1: Kịch bản thuyết minh; Trang 4: Slide gốc; Trang 8: Bộ ảnh 3D Paper-Cut đồng bộ nhân vật)  
 > - Canva Sub-project Cảnh 3 bóc tách: Design ID `DAHZE9aKYm8` ([Link Edit](https://www.canva.com/d/XFmoOFdSRQueILy))  
-> **Trạng thái:** Đã thống nhất phương án dung hợp hoàn mỹ giữa Kịch bản chuyển động & Thiết kế Full gốc.
+> **Trạng thái:** Đã hoàn thiện nâng cấp 5 Hồi `video-shotcraft` (Commit `7364971` bởi Model 4 Argon).  
+> **📌 Cập nhật mới nhất (30/10/2026):** Toàn bộ phân tích tối ưu nhịp thời gian Cảnh 3 (`12s + 2s = 14s / 840 frames`) và kịch bản nối tiếp liên hoàn sang các nhóm Bảo hiểm (Ô tô/Xe máy ➔ Sức khỏe ➔ Cháy nổ) đã được lập hồ sơ chi tiết tại [`docs/audits/scene3/audit_scene3_pacing_and_category_relay_plan.md`](file:///Users/phamminhtri/Desktop/project/quancao-topbaohiem/docs/audits/scene3/audit_scene3_pacing_and_category_relay_plan.md).
 
 ---
 
